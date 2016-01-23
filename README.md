@@ -1,3 +1,3 @@
-Щоб згенерити проект для Екліпсу то забилдати war-фал треба використати команди
-mvn eclipse:clean eclipse:eclipse
+Щоб згенерити проект для Екліпсу та забилдати war-фал треба використати команди
+mvn eclipse:clean eclipse:eclipse а після
 mvn package
