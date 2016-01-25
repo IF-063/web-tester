@@ -1,0 +1,41 @@
+package com.softserve.webtester.controller;
+
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
+
+@Controller
+public class HomeController {
+
+    @RequestMapping(value = "/login", method = RequestMethod.GET)
+    public ModelAndView loginPage(@RequestParam(value = "error", required = false) String error,
+	    @RequestParam(value = "logout", required = false) String logout) {
+	ModelAndView model = new ModelAndView("login");
+	if (error != null) {
+	    model.addObject("error", "Invalid username and password!");
+	}
+	if (logout != null) {
+	    model.addObject("msg", "You've been logged out successfully.");
+	}
+	return model;
+    }
+
+    @RequestMapping(value = { "/", "/home" }, method = RequestMethod.GET)
+    public ModelAndView home() {
+	String username = SecurityContextHolder.getContext().getAuthentication().getName();
+	return new ModelAndView("home", "username", username);
+    }
+
+//    @RequestMapping(value = "/logout", method = RequestMethod.GET)
+//    public String logoutPage(HttpServletRequest request, HttpServletResponse response) {
+//	Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+//	if (auth != null) {
+//	    new SecurityContextLogoutHandler().logout(request, response, auth);
+//	}
+//	return "redirect:/login?logout";
+//    }
+
+}
