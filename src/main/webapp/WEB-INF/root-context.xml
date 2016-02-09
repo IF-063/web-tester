@@ -8,8 +8,7 @@
 		http://www.springframework.org/schema/context/spring-context-4.2.xsd">
 
 	<context:annotation-config />
-  
-	<context:component-scan base-package="com.softserve.webtester.mapper" />
+
 	<context:component-scan base-package="com.softserve.webtester.service" />
 
 </beans>
