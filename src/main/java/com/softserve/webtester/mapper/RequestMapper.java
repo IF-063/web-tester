@@ -133,5 +133,5 @@ public interface RequestMapper {
     
     @Delete("DELETE FROM RequestCollection_Request WHERE requestCollectionId = #{id}")
     int deleteByRequestCollectionId(int id);
-
+    
 }

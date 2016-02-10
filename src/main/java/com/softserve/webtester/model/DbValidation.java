@@ -18,5 +18,5 @@ public @Data class DbValidation implements Serializable {
     private String sqlQuery;
     private String expectedValue;
     private Request request;
-   
+    
 }

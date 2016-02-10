@@ -22,7 +22,7 @@ import com.softserve.webtester.model.Request;
  * logging.
  * 
  * @author Taras Oglabyak
- * @version 1.0
+ * @version 1.1
  */
 @Service
 @Transactional

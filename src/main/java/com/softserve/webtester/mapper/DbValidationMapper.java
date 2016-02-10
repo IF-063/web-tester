@@ -106,5 +106,5 @@ public interface DbValidationMapper {
      */
     @Delete("DELETE FROM DbValidation WHERE requestId = #{id}")
     int deleteByRequestId(int id);
-
+    
 }

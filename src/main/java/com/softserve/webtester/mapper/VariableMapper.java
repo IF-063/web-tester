@@ -117,5 +117,5 @@ public interface VariableMapper {
      */
     @Delete("DELETE FROM Variable WHERE requestId = #{id}")
     int deleteByRequestId(int id);
-
+    
 }

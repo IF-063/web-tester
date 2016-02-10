@@ -30,5 +30,5 @@ public @Data class Request implements Serializable {
     private int timeout;
     private Set<Variable> variables;
     private Set<DbValidation> dbValidations;
-
+    
 }

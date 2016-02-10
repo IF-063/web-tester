@@ -22,5 +22,5 @@ public @Data class Variable implements Serializable {
     private VariableDataType dataType;
     private int length;
     private Request request;
-
+    
 }

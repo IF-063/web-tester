@@ -104,5 +104,5 @@ public interface HeaderMapper {
      */
     @Delete("DELETE FROM Header WHERE requestId = #{id}")
     int deleteByRequestId(int id);
-
+    
 }
