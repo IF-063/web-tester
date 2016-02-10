@@ -163,7 +163,7 @@ public class RequestService {
      */
     public int delete(int id) {
 	try {
-	    return requestMapper.detele(id);
+	    return requestMapper.delete(id);
 	} catch (DataAccessException e) {
 	    logger.error("Unable to delete request instance, request id: " + id, e);
 	    throw e;

@@ -129,7 +129,7 @@ public interface RequestMapper {
      * @throws DataAccessException
      */
     @Delete("DELETE FROM Request WHERE id = #{id}")
-    int detele(int id);
+    int delete(int id);
     
     @Delete("DELETE FROM RequestCollection_Request WHERE requestCollectionId = #{id}")
     int deleteByRequestCollectionId(int id);
