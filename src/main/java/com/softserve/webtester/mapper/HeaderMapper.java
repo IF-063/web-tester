@@ -55,11 +55,11 @@ public interface HeaderMapper {
      * @throws DataAccessException
      */
     @Select("SELECT id, name, value FROM Header WHERE id = #{id}")
-    @Results({ @Result(id = true, property = "id", column = "id", jdbcType = JdbcType.BIGINT),
+    @Results({ @Result(id = true, property = "id", column = "id", jdbcType = JdbcType.INTEGER),
 	       @Result(property = "name", column = "name", jdbcType = JdbcType.VARCHAR),
 	       @Result(property = "value", column = "value", jdbcType = JdbcType.VARCHAR)
     })
-    Header load(long id);
+    Header load(int id);
     
     /**
      * Loads all {@link Header} instances for the Request from the database.
@@ -69,11 +69,11 @@ public interface HeaderMapper {
      * @throws DataAccessException
      */
     @Select("SELECT id, name, value FROM Header WHERE requestId = #{id}")
-    @Results({ @Result(id = true, property = "id", column = "id", jdbcType = JdbcType.BIGINT),
+    @Results({ @Result(id = true, property = "id", column = "id", jdbcType = JdbcType.INTEGER),
 	       @Result(property = "name", column = "name", jdbcType = JdbcType.VARCHAR),
 	       @Result(property = "value", column = "value", jdbcType = JdbcType.VARCHAR)
     })
-    LinkedHashSet<Header> loadByRequestId(long id);
+    LinkedHashSet<Header> loadByRequestId(int id);
 
     /**
      * Updates {@link Header} instance in the database.
@@ -93,7 +93,7 @@ public interface HeaderMapper {
      * @throws DataAccessException
      */
     @Delete("DELETE FROM Header WHERE id = #{id}")
-    int delete(long id);
+    int delete(int id);
     
     /**
      * Deletes {@link Header} instances from the database.
@@ -103,6 +103,6 @@ public interface HeaderMapper {
      * @throws DataAccessException
      */
     @Delete("DELETE FROM Header WHERE requestId = #{id}")
-    int deleteByRequestId(long id);
+    int deleteByRequestId(int id);
 
 }

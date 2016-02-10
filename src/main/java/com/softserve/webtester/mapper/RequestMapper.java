@@ -53,7 +53,7 @@ public interface RequestMapper {
      */
     @Select("SELECT id, name, description, requestMethod, applicationId, serviceId, endpoint, requestBody, "
 	    + "responseType, expectedResponse, timeout FROM Request WHERE id = #{id}")
-    @Results({ @Result(id = true, property = "id", column = "id", jdbcType = JdbcType.BIGINT),
+    @Results({ @Result(id = true, property = "id", column = "id", jdbcType = JdbcType.INTEGER),
 	       @Result(property = "name", column = "name", jdbcType = JdbcType.VARCHAR),
 	       @Result(property = "description", column = "description", jdbcType = JdbcType.VARCHAR),
 	       @Result(property = "requestMethod", column = "requestMethod", typeHandler = RequestMethodHandler.class),
@@ -75,7 +75,7 @@ public interface RequestMapper {
 	       @Result(property = "dbValidations", column = "id",
 	               many = @Many(select = "com.softserve.webtester.mapper.DbValidationMapper.loadByRequestId")),
     })
-    Request load(long id);
+    Request load(int id);
     
     /**
      * Loads all {@link Request} instances from the database.<br>
@@ -85,7 +85,7 @@ public interface RequestMapper {
      * @throws DataAccessException
      */
     @Select("SELECT id, name, applicationId, serviceId, endpoint FROM Request")
-    @Results({ @Result(id = true, property = "id", column = "id", jdbcType = JdbcType.BIGINT),
+    @Results({ @Result(id = true, property = "id", column = "id", jdbcType = JdbcType.INTEGER),
 	       @Result(property = "name", column = "name", jdbcType = JdbcType.VARCHAR),
 	       @Result(property = "application", column = "applicationId", 
 	       	       one = @One(select = "com.softserve.webtester.mapper.ApplicationMapper.load")),
@@ -97,7 +97,7 @@ public interface RequestMapper {
     
     @Select("SELECT r.id, r.name, r.applicationId, r.serviceId, r.endpoint FROM Request r "
 	    + "INNER JOIN RequestCollection_Request cr ON r.id = cr.requestId WHERE cr.requestCollectionId = #{id}")
-    @Results({ @Result(id = true, property = "id", column = "id", jdbcType = JdbcType.BIGINT),
+    @Results({ @Result(id = true, property = "id", column = "id", jdbcType = JdbcType.INTEGER),
 	       @Result(property = "name", column = "name", jdbcType = JdbcType.VARCHAR),
 	       @Result(property = "application", column = "applicationId", 
 	       	       one = @One(select = "com.softserve.webtester.mapper.ApplicationMapper.load")),
@@ -105,7 +105,7 @@ public interface RequestMapper {
 	               one = @One(select = "com.softserve.webtester.mapper.ServiceMapper.load")),
 	       @Result(property = "endpoint", column = "endpoint", jdbcType = JdbcType.VARCHAR),
     })
-    LinkedHashSet<Request> loadByRequestCollectionId(long id);
+    LinkedHashSet<Request> loadByRequestCollectionId(int id);
     
     /**
      * Updates {@link Request} instances in the database.
@@ -119,7 +119,7 @@ public interface RequestMapper {
 	    + "serviceId = #{service.id}, endpoint = #{endpoint}, requestBody = #{requestBody}, " 
 	    + "responseType = #{responseType}, expectedResponse = #{expectedResponse}, timeout = #{timeout} "
 	    + "WHERE id = #{id}")
-    long update(Request request);
+    int update(Request request);
     
     /**
      * Deletes {@link Request} instance from the database.
@@ -129,9 +129,9 @@ public interface RequestMapper {
      * @throws DataAccessException
      */
     @Delete("DELETE FROM Request WHERE id = #{id}")
-    int detele(long id);
+    int detele(int id);
     
     @Delete("DELETE FROM RequestCollection_Request WHERE requestCollectionId = #{id}")
-    int deleteByRequestCollectionId(long id);
+    int deleteByRequestCollectionId(int id);
 
 }

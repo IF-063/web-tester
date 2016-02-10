@@ -58,7 +58,7 @@ public interface VariableMapper {
      * @throws DataAccessException
      */
     @Select("SELECT id, name, value, isSql, isRandom, dataType, length FROM Variable WHERE id = #{id}")
-    @Results({ @Result(id = true, property = "id", column = "id", jdbcType = JdbcType.BIGINT),
+    @Results({ @Result(id = true, property = "id", column = "id", jdbcType = JdbcType.INTEGER),
 	       @Result(property = "name", column = "name", jdbcType = JdbcType.VARCHAR),
 	       @Result(property = "value", column = "value", jdbcType = JdbcType.LONGVARCHAR),
 	       @Result(property = "isSql", column = "isSql", jdbcType = JdbcType.BIT),
@@ -66,7 +66,7 @@ public interface VariableMapper {
 	       @Result(property = "dataType", column = "dataType", typeHandler = VariableDataTypeHandler.class),
 	       @Result(property = "length", column = "length", jdbcType = JdbcType.INTEGER),
     })
-    Variable load(long id);
+    Variable load(int id);
     
     /**
      * Loads all {@link Variable} instances for the Request from the database.
@@ -76,7 +76,7 @@ public interface VariableMapper {
      * @throws DataAccessException
      */
     @Select("SELECT id, name, value, isSql, isRandom, dataType, length FROM Variable WHERE requestId = #{id}")
-    @Results({ @Result(id = true, property = "id", column = "id", jdbcType = JdbcType.BIGINT),
+    @Results({ @Result(id = true, property = "id", column = "id", jdbcType = JdbcType.INTEGER),
 	       @Result(property = "name", column = "name", jdbcType = JdbcType.VARCHAR),
 	       @Result(property = "value", column = "value", jdbcType = JdbcType.LONGVARCHAR),
 	       @Result(property = "isSql", column = "isSql", jdbcType = JdbcType.BIT),
@@ -84,7 +84,7 @@ public interface VariableMapper {
 	       @Result(property = "dataType", column = "dataType", typeHandler = VariableDataTypeHandler.class),
 	       @Result(property = "length", column = "length", jdbcType = JdbcType.INTEGER),
     })
-    LinkedHashSet<Variable> loadByRequestId(long id);
+    LinkedHashSet<Variable> loadByRequestId(int id);
     
     /**
      * Updates {@link Variable} instance in the database.
@@ -106,7 +106,7 @@ public interface VariableMapper {
      * @throws DataAccessException
      */
     @Delete("DELETE FROM Variable WHERE id = #{id}")
-    int delete(long id);
+    int delete(int id);
     
     /**
      * Deletes {@link Variable} instances from the database.
@@ -116,6 +116,6 @@ public interface VariableMapper {
      * @throws DataAccessException
      */
     @Delete("DELETE FROM Variable WHERE requestId = #{id}")
-    int deleteByRequestId(long id);
+    int deleteByRequestId(int id);
 
 }

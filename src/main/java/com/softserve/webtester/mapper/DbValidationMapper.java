@@ -56,11 +56,11 @@ public interface DbValidationMapper {
      * @throws DataAccessException
      */
     @Select("SELECT id, sqlQuery, expectedValue FROM DbValidation WHERE id = #{id}")
-    @Results({ @Result(id = true, property = "id", column = "id", jdbcType = JdbcType.BIGINT),
+    @Results({ @Result(id = true, property = "id", column = "id", jdbcType = JdbcType.INTEGER),
 	       @Result(property = "sqlQuery", column = "sqlQuery", jdbcType = JdbcType.LONGVARCHAR),
 	       @Result(property = "expectedValue", column = "expectedValue", jdbcType = JdbcType.VARCHAR)
     })
-    DbValidation load(long id);
+    DbValidation load(int id);
 
     /**
      * Loads all {@link DbValidation} instances for the Request from the database.
@@ -70,11 +70,11 @@ public interface DbValidationMapper {
      * @throws DataAccessException
      */
     @Select("SELECT id, sqlQuery, expectedValue FROM DbValidation WHERE requestId = #{id}")
-    @Results({ @Result(id = true, property = "id", column = "id", jdbcType = JdbcType.BIGINT),
+    @Results({ @Result(id = true, property = "id", column = "id", jdbcType = JdbcType.INTEGER),
 	       @Result(property = "sqlQuery", column = "sqlQuery", jdbcType = JdbcType.LONGVARCHAR),
 	       @Result(property = "expectedValue", column = "expectedValue", jdbcType = JdbcType.VARCHAR)
     })
-    LinkedHashSet<DbValidation> loadByRequestId(long id);
+    LinkedHashSet<DbValidation> loadByRequestId(int id);
 
     /**
      * Updates {@link DbValidation} instance in the database.
@@ -95,7 +95,7 @@ public interface DbValidationMapper {
      * @throws DataAccessException
      */
     @Delete("DELETE FROM DbValidation WHERE id = #{id}")
-    int delete(long id);
+    int delete(int id);
 
     /**
      * Deletes {@link DbValidation} instances from the database.
@@ -105,6 +105,6 @@ public interface DbValidationMapper {
      * @throws DataAccessException
      */
     @Delete("DELETE FROM DbValidation WHERE requestId = #{id}")
-    int deleteByRequestId(long id);
+    int deleteByRequestId(int id);
 
 }

@@ -122,7 +122,7 @@ public class RequestService {
      */
     public long update(Request request) {
 	try {
-	    long id = request.getId();
+	    int id = request.getId();
 
 	    // Update request instance in Request table*/
 	    requestMapper.update(request);
@@ -161,7 +161,7 @@ public class RequestService {
      * @return the number of rows affected by the statement
      * @throws DataAccessException
      */
-    public int delete(long id) {
+    public int delete(int id) {
 	try {
 	    return requestMapper.detele(id);
 	} catch (DataAccessException e) {
