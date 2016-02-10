@@ -2,6 +2,12 @@ package com.softserve.webtester.model;
 
 import java.io.Serializable;
 
+/**
+ * The Variable class represents {@code Variable} entity stored in the database.
+ * 
+ * @author Taras Oglabyak
+ * @version 1.0
+ */
 public class Variable implements Serializable {
 
     private static final long serialVersionUID = -7548591892971626622L;

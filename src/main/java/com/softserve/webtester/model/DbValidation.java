@@ -2,6 +2,12 @@ package com.softserve.webtester.model;
 
 import java.io.Serializable;
 
+/**
+ * The DbValidation class represents {@code DbValidation} entity stored in the database.
+ * 
+ * @author Taras Oglabyak
+ * @version 1.0
+ */
 public class DbValidation implements Serializable {
 
     private static final long serialVersionUID = 381183695698451969L;
@@ -11,7 +17,8 @@ public class DbValidation implements Serializable {
     private String expectedValue;
     private Request request;
 
-    public DbValidation() { }
+    public DbValidation() {
+    }
 
     public DbValidation(String sqlQuery, String expectedValue, Request request) {
 	this.sqlQuery = sqlQuery;

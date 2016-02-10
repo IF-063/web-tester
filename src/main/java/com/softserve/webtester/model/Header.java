@@ -2,6 +2,12 @@ package com.softserve.webtester.model;
 
 import java.io.Serializable;
 
+/**
+ * The Header class represents {@code Header} entity stored in the database.
+ * 
+ * @author Taras Oglabyak
+ * @version 1.0
+ */
 public class Header implements Serializable {
 
     private static final long serialVersionUID = 8014208566637870078L;

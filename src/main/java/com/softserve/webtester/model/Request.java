@@ -3,6 +3,12 @@ package com.softserve.webtester.model;
 import java.io.Serializable;
 import java.util.Set;
 
+/**
+ * The Request class represents {@code Request} entity stored in the database.
+ * 
+ * @author Taras Oglabyak
+ * @version 1.0
+ */
 public class Request implements Serializable {
 
     private static final long serialVersionUID = -6950350266768777152L;
