@@ -17,8 +17,7 @@ public class DbValidation implements Serializable {
     private String expectedValue;
     private Request request;
 
-    public DbValidation() {
-    }
+    public DbValidation() { }
 
     public DbValidation(String sqlQuery, String expectedValue, Request request) {
 	this.sqlQuery = sqlQuery;

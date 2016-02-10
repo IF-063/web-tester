@@ -119,7 +119,7 @@ public interface RequestMapper {
 	    + "serviceId = #{service.id}, endpoint = #{endpoint}, requestBody = #{requestBody}, " 
 	    + "responseType = #{responseType}, expectedResponse = #{expectedResponse}, timeout = #{timeout} "
 	    + "WHERE id = #{id}")
-    int update(Request request);
+    long update(Request request);
     
     /**
      * Deletes {@link Request} instance from the database.
