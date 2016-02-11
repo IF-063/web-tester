@@ -3,13 +3,15 @@ package com.softserve.webtester.model;
 import java.io.Serializable;
 
 /**
- * The Application class represents {@code Label} entity stored in the database.
+ * The Application class represents {@code Application} entity stored in the database.
  *
  * @author Roman Zolotar
  * @version 1.0
  */
 
 public class Application implements Serializable {
+	
+	private static final long serialVersionUID = -6038553268823619415L;
 	
 	private int id;
 	private String name;
