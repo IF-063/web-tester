@@ -22,13 +22,13 @@ import com.softserve.webtester.model.Request;
  * logging.
  * 
  * @author Taras Oglabyak
- * @version 1.1
+ * @version 1.2
  */
 @Service
 @Transactional
 public class RequestService {
     
-    private static final Logger logger = Logger.getLogger(RequestService.class);
+    private static final Logger LOGGER = Logger.getLogger(RequestService.class);
     
     @Autowired
     private RequestMapper requestMapper;
@@ -61,22 +61,11 @@ public class RequestService {
 	    long id = request.getId();
 
 	    // Save all dbValidations, variables, headers and labels for the request instance to the database
-	    if (!request.getDbValidations().isEmpty()) {
-		dbValidationMapper.saveByRequest(request);
-	    }
-	    if (!request.getVariables().isEmpty()) {
-		variableMapper.saveByRequest(request);
-	    }
-	    if (!request.getHeaders().isEmpty()) {
-		headerMapper.saveByRequest(request);
-	    }
-	    if (!request.getLabels().isEmpty()) {
-		labelMapper.saveByRequest(request);
-	    }
-	    logger.info("Successfully saved request instance in the database, request id: " + id);
+	    saveRequestComponents(request);
+	    LOGGER.info("Successfully saved request instance in the database, request id: " + id);
 	    return id;
 	} catch (DataAccessException e) {
-	    logger.error("Unable to save request instance ", e);
+	    LOGGER.error("Unable to save request instance, request id: " + request.getId(), e);
 	    throw e;
 	}
     }
@@ -92,7 +81,7 @@ public class RequestService {
 	try {
 	    return requestMapper.load(id);
 	} catch (DataAccessException e) {
-	    logger.error("Unable to load request instance ", e);
+	    LOGGER.error("Unable to load request instance, request id: " + id, e);
 	    throw e;
 	}
     }
@@ -107,7 +96,7 @@ public class RequestService {
 	try {
 	    return requestMapper.loadAll();
 	} catch (DataAccessException e) {
-	    logger.error("Unable to load request instances ", e);
+	    LOGGER.error("Unable to load request instances", e);
 	    throw e;
 	}
     }
@@ -124,7 +113,7 @@ public class RequestService {
 	try {
 	    int id = request.getId();
 
-	    // Update request instance in Request table*/
+	    // Update request instance in Request table
 	    requestMapper.update(request);
 
 	    // Delete all dbValidations, variables, headers and labels for the request instance in the database
@@ -134,22 +123,11 @@ public class RequestService {
 	    labelMapper.deleteByRequestId(id);
 
 	    // Save all dbValidations, variables, headers and labels for the request instance to the database
-	    if (!request.getDbValidations().isEmpty()) {
-		dbValidationMapper.saveByRequest(request);
-	    }
-	    if (!request.getVariables().isEmpty()) {
-		variableMapper.saveByRequest(request);
-	    }
-	    if (!request.getHeaders().isEmpty()) {
-		headerMapper.saveByRequest(request);
-	    }
-	    if (!request.getLabels().isEmpty()) {
-		labelMapper.saveByRequest(request);
-	    }
-	    logger.info("Successfully updated request instance in the database, request id: " + id);
+	    saveRequestComponents(request);
+	    LOGGER.info("Successfully updated request instance in the database, request id: " + id);
 	    return id;
 	} catch (DataAccessException e) {
-	    logger.error("Unable to update request instance, request id: " + request.getId(), e);
+	    LOGGER.error("Unable to update request instance, request id: " + request.getId(), e);
 	    throw e;
 	}
     }
@@ -165,8 +143,29 @@ public class RequestService {
 	try {
 	    return requestMapper.delete(id);
 	} catch (DataAccessException e) {
-	    logger.error("Unable to delete request instance, request id: " + id, e);
+	    LOGGER.error("Unable to delete request instance, request id: " + id, e);
 	    throw e;
+	}
+    }
+    
+    /**
+     * Invoke this method to save all dbValidations, variables, headers and labels for the request instance to the
+     * database
+     */
+    // TODO Taras O.
+    // @Transactional(propagation=Propagation.MANDATORY)
+    private void saveRequestComponents(Request request) {
+	if (!request.getDbValidations().isEmpty()) {
+	    dbValidationMapper.saveByRequest(request);
+	}
+	if (!request.getVariables().isEmpty()) {
+	    variableMapper.saveByRequest(request);
+	}
+	if (!request.getHeaders().isEmpty()) {
+	    headerMapper.saveByRequest(request);
+	}
+	if (!request.getLabels().isEmpty()) {
+	    labelMapper.saveByRequest(request);
 	}
     }
 }

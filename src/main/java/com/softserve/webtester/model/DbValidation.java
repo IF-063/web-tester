@@ -10,7 +10,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
  * The DbValidation class represents {@code DbValidation} entity stored in the database.
  * 
  * @author Taras Oglabyak
- * @version 3.0
+ * @version 3.1
  */
 public class DbValidation implements Serializable {
 
@@ -57,12 +57,7 @@ public class DbValidation implements Serializable {
 
     @Override
     public int hashCode() {
-	return new HashCodeBuilder()
-	    .append(id)
-	    .append(sqlQuery)
-	    .append(expectedValue)
-	    .append(request)
-	    .toHashCode();
+	return HashCodeBuilder.reflectionHashCode(this, true);
     }
 
     @Override
@@ -79,21 +74,11 @@ public class DbValidation implements Serializable {
 	
 	DbValidation other = (DbValidation) obj;
 	
-	return new EqualsBuilder()
-	    .append(id, other.id)
-	    .append(sqlQuery, other.sqlQuery)
-	    .append(expectedValue, other.expectedValue)
-	    .append(request, other.request)
-	    .isEquals();
+	return EqualsBuilder.reflectionEquals(this, other, true);
     }
     
     @Override
     public String toString() {
-	return new ToStringBuilder(this)
-	    .append("id", id)
-	    .append("sqlQuery", sqlQuery)
-	    .append("expectedValue", expectedValue)
-	    .append("request", request)
-	    .toString();
+	return ToStringBuilder.reflectionToString(this);
     }
 }
