@@ -53,12 +53,12 @@ public class RequestService {
      * @throws DuplicateKeyException if the request with the name exists in the database.
      * @throws DataAccessException
      */
-    public long save(Request request) {
+    public int save(Request request) {
 	try {
 
 	    // Save request instance to Request table
 	    requestMapper.save(request);
-	    long id = request.getId();
+	    int id = request.getId();
 
 	    // Save all dbValidations, variables, headers and labels for the request instance to the database
 	    saveRequestComponents(request);
@@ -71,10 +71,10 @@ public class RequestService {
     }
 
     /**
-     * Loads {@link Request} object with headers, dbValidations, labels and variables.
+     * Loads {@link Request} instance with headers, dbValidations, labels and variables.
      * 
-     * @param id identifier of Request object
-     * @return {@link Request} object
+     * @param id identifier of Request instance
+     * @return {@link Request} instance
      * @throws DataAccessException
      */
     public Request load(int id) {
@@ -87,9 +87,9 @@ public class RequestService {
     }
 
     /**
-     * Loads all stored {@link Request} objects with their main information.
+     * Loads all stored {@link Request} instances with their main information.
      * 
-     * @return Set of {@link Request} objects
+     * @return Set of {@link Request} instances
      * @throws DataAccessException
      */
     public Set<Request> loadAll() {
@@ -102,14 +102,14 @@ public class RequestService {
     }
 
     /**
-     * Updates {@link Request} object should be updated in the database.
+     * Updates {@link Request} instance should be updated in the database.
      * 
-     * @param request {@link Request} object to be saved
+     * @param request {@link Request} instance to be saved
      * @return the number of rows affected by the statement
      * @throws DuplicateKeyException if the request with the name exists in the database.
      * @throws DataAccessException
      */
-    public long update(Request request) {
+    public int update(Request request) {
 	try {
 	    int id = request.getId();
 
@@ -133,7 +133,7 @@ public class RequestService {
     }
 
     /**
-     * Deletes {@link Request} object from the database.
+     * Deletes {@link Request} instance from the database.
      * 
      * @param id identifier of request to delete
      * @return the number of rows affected by the statement
@@ -152,8 +152,6 @@ public class RequestService {
      * Invoke this method to save all dbValidations, variables, headers and labels for the request instance to the
      * database
      */
-    // TODO Taras O.
-    // @Transactional(propagation=Propagation.MANDATORY)
     private void saveRequestComponents(Request request) {
 	if (!request.getDbValidations().isEmpty()) {
 	    dbValidationMapper.saveByRequest(request);

@@ -3,6 +3,7 @@ package com.softserve.webtester.controller;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
@@ -12,8 +13,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.softserve.webtester.model.User;
+import com.softserve.webtester.service.UserService;
+
 @Controller
-public class HomeController {
+public class LoginLogoutController {
+    
+    @Autowired
+    private UserService userService;
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public ModelAndView loginPage(@RequestParam(value = "error", required = false) String error,
@@ -30,8 +37,12 @@ public class HomeController {
 
     @RequestMapping(value = { "/", "/home" }, method = RequestMethod.GET)
     public ModelAndView home() {
+	ModelAndView model = new ModelAndView("home");
 	String username = SecurityContextHolder.getContext().getAuthentication().getName();
-	return new ModelAndView("home", "username", username);
+	User user = userService.load(username);
+	model.addObject("username", username);
+	model.addObject("user", user);
+	return model;
     }
 
     @RequestMapping(value = "/logout", method = RequestMethod.GET)
