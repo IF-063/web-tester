@@ -3,23 +3,19 @@ package com.softserve.webtester.model;
 import java.io.Serializable;
 import java.util.Set;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+
 public class RequestCollection implements Serializable{
+    
+   
+    private static final long serialVersionUID = -8452554592409888993L;
     
     private int id;
     private String name;
     private String description;
     private Set<Request> requests;
-	
-    public RequestCollection(){
-    }
-
-    public RequestCollection(int id, String name, String description, Set<Request> requests) {
-	super();
-	this.id = id;
-	this.name = name;
-	this.description = description;
-	this.requests = requests;
-    }
 
     public int getId() {
         return id;
@@ -55,48 +51,29 @@ public class RequestCollection implements Serializable{
 
     @Override
     public int hashCode() {
-	final int prime = 31;
-	int result = 1;
-	result = prime * result + ((description == null) ? 0 : description.hashCode());
-	result = prime * result + id;
-	result = prime * result + ((name == null) ? 0 : name.hashCode());
-	result = prime * result + ((requests == null) ? 0 : requests.hashCode());
-	return result;
+	return HashCodeBuilder.reflectionHashCode(this, true);
     }
 
     @Override
     public boolean equals(Object obj) {
-	if (this == obj)
+	if (this == obj){
 	    return true;
-	if (obj == null)
+	} 
+	if (obj == null){
 	    return false;
-	if (getClass() != obj.getClass())
+	}
+	
+	if (getClass() != obj.getClass()){
 	    return false;
+	} 
 	RequestCollection other = (RequestCollection) obj;
-	if (description == null) {
-	    if (other.description != null)
-		return false;
-	} else if (!description.equals(other.description))
-	    return false;
-	if (id != other.id)
-	    return false;
-	if (name == null) {
-	    if (other.name != null)
-		return false;
-	} else if (!name.equals(other.name))
-	    return false;
-	if (requests == null) {
-	    if (other.requests != null)
-		return false;
-	} else if (!requests.equals(other.requests))
-	    return false;
-	return true;
+	
+	return EqualsBuilder.reflectionEquals(this, other, true);
     }
 
     @Override
     public String toString() {
-	return "RequestCollection [id=" + id + ", name=" + name + ", description=" + description + ", requests="
-		+ requests + "]";
+	return ToStringBuilder.reflectionToString(this);
     }
 		
     
