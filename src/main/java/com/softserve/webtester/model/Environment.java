@@ -2,36 +2,71 @@ package com.softserve.webtester.model;
 
 import java.io.Serializable;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
+
+/**
+ * POJO class represents Environment object which stores 
+ * database connection properties for request run.
+ *
+ */
 public class Environment implements Serializable {
 
 	private static final long serialVersionUID = -8149079996207423153L;
-
+	/**
+	 * Auto generated unique primary key
+	 */
 	private int id;
+	
+	/**
+	 * Unique name of environment entity
+	 */
 	private String name;
+	
+	/**
+	 * Address of the host which will be tested
+	 */
 	private String baseUrl;
+	
+	/**
+	 * Address of the server with database to perform queries
+	 * for variables and db validation.
+	 */
 	private String dbUrl;
+	
+	/**
+	 * Port of the database
+	 */
 	private String dbPort;
+	
+	/**
+	 * Name of the database to which the connection is established
+	 */
 	private String dbName;
+	
+	/**
+	 * Username to perform login to the database
+	 */
 	private String dbUsername;
+	
+	/**
+	 * Password for the specified username
+	 */
 	private String dbPassword;
+	
+	/**
+	 * Value which will be used to multiply response time of the each request
+	 */
 	private float timeMultiplier;
+	
+	/**
+	 * Flag which will show that environment entity is deleted
+	 */
 	private boolean deleted;
 
-	public Environment() {
-	}
-
-	public Environment(String name, String baseUrl, String dbUrl, String dbPort, String dbName, String dbUsername,
-			String dbPassword, float timeMultiplier, boolean deleted) {
-		this.name = name;
-		this.baseUrl = baseUrl;
-		this.dbUrl = dbUrl;
-		this.dbPort = dbPort;
-		this.dbName = dbName;
-		this.dbUsername = dbUsername;
-		this.dbPassword = dbPassword;
-		this.timeMultiplier = timeMultiplier;
-		this.deleted = deleted;
-	}
+	public Environment() { }
 
 	public int getId() {
 		return id;
@@ -115,87 +150,23 @@ public class Environment implements Serializable {
 
 	@Override
 	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((baseUrl == null) ? 0 : baseUrl.hashCode());
-		result = prime * result + ((dbName == null) ? 0 : dbName.hashCode());
-		result = prime * result + ((dbPassword == null) ? 0 : dbPassword.hashCode());
-		result = prime * result + ((dbPort == null) ? 0 : dbPort.hashCode());
-		result = prime * result + ((dbUrl == null) ? 0 : dbUrl.hashCode());
-		result = prime * result + ((dbUsername == null) ? 0 : dbUsername.hashCode());
-		result = prime * result + (deleted ? 1231 : 1237);
-		result = prime * result + id;
-		result = prime * result + ((name == null) ? 0 : name.hashCode());
-		result = prime * result + Float.floatToIntBits(timeMultiplier);
-		return result;
+		return HashCodeBuilder.reflectionHashCode(this, true);
 	}
 
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj)
+		if (obj == this)
 			return true;
 		if (obj == null)
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
 		Environment other = (Environment) obj;
-		if (baseUrl == null) {
-			if (other.baseUrl != null)
-				return false;
-		} else if (!baseUrl.equals(other.baseUrl))
-			return false;
-		if (dbName == null) {
-			if (other.dbName != null)
-				return false;
-		} else if (!dbName.equals(other.dbName))
-			return false;
-		if (dbPassword == null) {
-			if (other.dbPassword != null)
-				return false;
-		} else if (!dbPassword.equals(other.dbPassword))
-			return false;
-		if (dbPort == null) {
-			if (other.dbPort != null)
-				return false;
-		} else if (!dbPort.equals(other.dbPort))
-			return false;
-		if (dbUrl == null) {
-			if (other.dbUrl != null)
-				return false;
-		} else if (!dbUrl.equals(other.dbUrl))
-			return false;
-		if (dbUsername == null) {
-			if (other.dbUsername != null)
-				return false;
-		} else if (!dbUsername.equals(other.dbUsername))
-			return false;
-		if (deleted != other.deleted)
-			return false;
-		if (id != other.id)
-			return false;
-		if (name == null) {
-			if (other.name != null)
-				return false;
-		} else if (!name.equals(other.name))
-			return false;
-		if (Float.floatToIntBits(timeMultiplier) != Float.floatToIntBits(other.timeMultiplier))
-			return false;
-		return true;
+		return EqualsBuilder.reflectionEquals(this, other, true);		
 	}
 
 	@Override
 	public String toString() {
-		StringBuilder builder = new StringBuilder();
-		builder.append("Environment [id=").append(id);
-		builder.append(", name=").append(name);
-		builder.append(", baseUrl=").append(baseUrl);
-		builder.append(", dbUrl=").append(dbUrl);
-		builder.append(", dbPort=").append(dbPort);
-		builder.append(", dbName=").append(dbName);
-		builder.append(", dbUsername=").append(dbUsername);
-		builder.append(", dbPassword=").append(dbPassword);
-		builder.append(", timeMultiplier=").append(timeMultiplier);
-		builder.append(", deleted=").append(deleted).append("]");
-		return builder.toString();
+		return ToStringBuilder.reflectionToString(this, ToStringStyle.SHORT_PREFIX_STYLE);
 	}
 }

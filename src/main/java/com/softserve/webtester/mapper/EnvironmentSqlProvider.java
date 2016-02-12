@@ -1,12 +1,22 @@
 package com.softserve.webtester.mapper;
 
 import org.apache.ibatis.jdbc.SQL;
-import static org.apache.ibatis.jdbc.SqlBuilder.*;
 
+/**
+ * 
+ * Provides Database SQL queries for CRUD operations for Environment object
+ *
+ */
 public class EnvironmentSqlProvider {
 
+	/**
+	 * Database table which stores Environment entity
+	 */
 	private static final String TABLE_NAME = "Environment";
 
+	/**
+	 * @return SQL insert query for saving Environment instance to database
+	 */
 	public String insertSql() {
 		return new SQL() {
 			{
@@ -18,6 +28,9 @@ public class EnvironmentSqlProvider {
 		}.toString();
 	}
 
+	/**
+	 * @return SQL query for selecting Environment entity, which has not been marked as "deleted" 
+	 */
 	public String selectSql() {
 		return new SQL() {
 			{
@@ -30,6 +43,9 @@ public class EnvironmentSqlProvider {
 		}.toString();
 	}
 
+	/**
+	 * @return SQL query for selecting all Environment entities, which have not been marked as "deleted"
+	 */
 	public String selectAllSql() {
 		return new SQL() {
 			{
@@ -41,6 +57,9 @@ public class EnvironmentSqlProvider {
 		}.toString();
 	}
 
+	/**
+	 * @return SQL query for updating entity in database
+	 */
 	public String updateSql() {
 		return new SQL() {{
 		    UPDATE (TABLE_NAME);
@@ -52,6 +71,9 @@ public class EnvironmentSqlProvider {
 		  }}.toString();
 	}
 	
+	/**
+	 * @return SQL query for marking as "deleted" entity from database
+	 */
 	public String deleteSql() {
 		return new SQL() {{
 		    UPDATE (TABLE_NAME);
