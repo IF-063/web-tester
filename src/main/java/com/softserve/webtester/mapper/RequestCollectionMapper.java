@@ -12,7 +12,7 @@ public interface RequestCollectionMapper {
 	
     @Insert("INSERT INTO RequestCollection (name, description) VALUES (#{name}, #{description})")  
     @Options(useGeneratedKeys = true, keyProperty = "id")
-    int save(RequestCollection RequestCollection);
+    int save(RequestCollection requestCollection);
 	
     @Select("SELECT * FROM RequestCollection")
     @Results({	@Result(property = "id", column = "ID", jdbcType = JdbcType.INTEGER),

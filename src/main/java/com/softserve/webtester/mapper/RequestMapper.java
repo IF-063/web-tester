@@ -41,8 +41,8 @@ public interface RequestMapper {
 
     @Insert("<script>INSERT INTO RequestCollection_Request(requestCollectionId, requestId) VALUES "
 	    + "<foreach collection='requests' item='request' separator=','> "
-	    + "(#{id}, #{reques.id}) </foreach></script>")
-    int saveByCollection(RequestCollection collecion); 
+	    + "(#{id}, #{request.id}) </foreach></script>")
+    int saveByCollection(RequestCollection requestCollection); 
 
     /**
      * Loads {@link Request} instance from database by its identifier.
