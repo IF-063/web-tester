@@ -41,7 +41,7 @@ public interface UserMapper {
      * @throws DataAccessException
      */
     @Update("UPDATE User SET username = #{username}, password = #{password}, firstName = #{firstName}, "
-    	    + "lastName = #{lastName} WHERE username = #{user.username}")
+    	    + "lastName = #{lastName} WHERE username = #{username}")
     int update(User user);
     
 }
