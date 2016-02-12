@@ -1,8 +1,9 @@
 package com.softserve.webtester.mapper;
 
-import java.util.LinkedHashSet;
+import java.util.Set;
 
 import org.apache.ibatis.annotations.*;
+import org.springframework.stereotype.Repository;
 
 import com.softserve.webtester.model.Application;
 
@@ -13,6 +14,7 @@ import com.softserve.webtester.model.Application;
  * @version 1.1
  */
 
+@Repository
 public interface ApplicationMapper {
 	final String loadAll = "SELECT * FROM Application";
 	final String load = "SELECT * FROM Application WHERE ID = #{id}";
@@ -26,7 +28,7 @@ public interface ApplicationMapper {
 						@Result(property = "description", column = "DESCRIPTION"),
 						@Result(property = "deleted", column = "DELETED") })
 
-	LinkedHashSet<Application> loadAll();
+	Set<Application> loadAll();
 
 	@Select(load)
 	@Results(value = { 	@Result(property = "id", column = "ID"), 
@@ -34,7 +36,7 @@ public interface ApplicationMapper {
 						@Result(property = "description", column = "DESCRIPTION"),
 						@Result(property = "deleted", column = "DELETED") })
 
-	Application getById(int id);
+	Application load(int id);
 
 	@Update(update)
 	void update(Application application);

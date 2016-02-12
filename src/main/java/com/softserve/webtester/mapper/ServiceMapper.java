@@ -1,10 +1,12 @@
 package com.softserve.webtester.mapper;
 
-import java.util.LinkedHashSet;
+import java.util.Set;
 
 import org.apache.ibatis.annotations.*;
+import org.springframework.stereotype.Repository;
 
 import com.softserve.webtester.model.Service;
+
 
 /**
  * ServiceMapper is MyBatis mapper interface for CRUD operations.
@@ -12,10 +14,11 @@ import com.softserve.webtester.model.Service;
  * @version 1.1
  */
 
+@Repository
 public interface ServiceMapper {
 	final String loadAll = "SELECT * FROM Application";
 	final String load = "SELECT * FROM Application WHERE ID = #{id}";
-	final String delete = "DELETE from Application WHERE ID = #{id}";
+	final String deleteById = "DELETE from Application WHERE ID = #{id}";
 	final String insert = "INSERT INTO Application (NAME, DESCRIPTION, DELETED) VALUES (#{name}, #{description}, #{deleted})";
 	final String update = "UPDATE Application SET DELETED = #{deleted}, NAME = #{name}, DESCRIPTION = #{description} WHERE ID = #{id}";
 
@@ -25,7 +28,7 @@ public interface ServiceMapper {
 						@Result(property = "description", column = "DESCRIPTION"),
 						@Result(property = "deleted", column = "DELETED") })
 
-	LinkedHashSet<Service> loadAll();
+	Set<Service> loadAll();
 
 	@Select(load)
 	@Results(value = { 	@Result(property = "id", column = "ID"), 
@@ -38,7 +41,7 @@ public interface ServiceMapper {
 	@Update(update)
 	void update(Service service);
 
-	@Delete(delete)
+	@Delete(deleteById)
 	void delete(int id);
 
 	@Insert(insert)
