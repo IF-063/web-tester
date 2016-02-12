@@ -1,8 +1,18 @@
 package com.softserve.webtester.model;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+
+/**
+ * EnvironmentHistory class representing a database object.
+ *
+ * @author Viktor Syomka
+ */
+
 public class EnvironmentHistory {
 
-    private long id;
+    private int id;
     private ResultHistory resultHistory;
     private String name;
     private String baseURL;
@@ -11,7 +21,7 @@ public class EnvironmentHistory {
     private String dbName;
     private Environment environment;
 
-    public EnvironmentHistory(long id, ResultHistory resultHistory, String name, String baseURL, String dbURL,
+    public EnvironmentHistory(int id, ResultHistory resultHistory, String name, String baseURL, String dbURL,
                               String dbPort, String dbName, Environment environment) {
         this.id = id;
         this.resultHistory = resultHistory;
@@ -31,7 +41,7 @@ public class EnvironmentHistory {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -93,47 +103,28 @@ public class EnvironmentHistory {
 
     @Override
     public String toString() {
-        return "EnvironmentHistory{" +
-                "id=" + id +
-                ", resultHistory=" + resultHistory +
-                ", name='" + name + '\'' +
-                ", baseURL='" + baseURL + '\'' +
-                ", dbURL='" + dbURL + '\'' +
-                ", dbPort='" + dbPort + '\'' +
-                ", dbName='" + dbName + '\'' +
-                ", environment=" + environment +
-                '}';
+        return ToStringBuilder.reflectionToString(this);
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        EnvironmentHistory that = (EnvironmentHistory) o;
-
-        if (id != that.id) return false;
-        if (resultHistory != null ? !resultHistory.equals(that.resultHistory) : that.resultHistory != null)
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
             return false;
-        if (name != null ? !name.equals(that.name) : that.name != null) return false;
-        if (baseURL != null ? !baseURL.equals(that.baseURL) : that.baseURL != null) return false;
-        if (dbURL != null ? !dbURL.equals(that.dbURL) : that.dbURL != null) return false;
-        if (dbPort != null ? !dbPort.equals(that.dbPort) : that.dbPort != null) return false;
-        if (dbName != null ? !dbName.equals(that.dbName) : that.dbName != null) return false;
-        return !(environment != null ? !environment.equals(that.environment) : that.environment != null);
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
 
+        Request other = (Request) obj;
+
+        return EqualsBuilder.reflectionEquals(this, other, true);
     }
 
     @Override
     public int hashCode() {
-        int result = (int) (id ^ (id >>> 32));
-        result = 31 * result + (resultHistory != null ? resultHistory.hashCode() : 0);
-        result = 31 * result + (name != null ? name.hashCode() : 0);
-        result = 31 * result + (baseURL != null ? baseURL.hashCode() : 0);
-        result = 31 * result + (dbURL != null ? dbURL.hashCode() : 0);
-        result = 31 * result + (dbPort != null ? dbPort.hashCode() : 0);
-        result = 31 * result + (dbName != null ? dbName.hashCode() : 0);
-        result = 31 * result + (environment != null ? environment.hashCode() : 0);
-        return result;
+        return HashCodeBuilder.reflectionHashCode(this, true);
     }
 }

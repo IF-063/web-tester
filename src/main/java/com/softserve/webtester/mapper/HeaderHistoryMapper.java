@@ -6,10 +6,9 @@ import org.apache.ibatis.type.JdbcType;
 import org.springframework.stereotype.Repository;
 
 import java.util.LinkedHashSet;
-import java.util.List;
 
 /**
- * MyBatis HeaderHistoryMapper mapper for performing CRUD operations on HeaderHistory database instance.
+ * MyBatis HeaderMapper mapper for performing CRUD operation on HeaderHistory database instance.
  *
  */
 
@@ -47,6 +46,6 @@ public interface HeaderHistoryMapper {
     @Delete("DELETE FROM HeaderHistory WHERE id = #{id}")
     int delete(int id);
 
-    @Delete("DELETE FROM HeaderHistory WHERE resultHistory = #{id}")
+    @Delete("DELETE FROM HeaderHistory WHERE resultHistoryId = #{id}")
     int deleteByResultHistoryId(int id);
 }
