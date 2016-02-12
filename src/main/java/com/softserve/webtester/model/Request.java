@@ -6,12 +6,13 @@ import java.util.Set;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 
 /**
  * The Request class represents {@code Request} entity stored in the database.
  * 
  * @author Taras Oglabyak
- * @version 3.0
+ * @version 3.2
  */
 public class Request implements Serializable {
 
@@ -155,26 +156,9 @@ public class Request implements Serializable {
 	this.dbValidations = dbValidations;
     }
     
-
     @Override
     public int hashCode() {
-	return new HashCodeBuilder()
-	    .append(id)
-	    .append(name)
-	    .append(description)
-	    .append(requestMethod)
-	    .append(application)
-	    .append(service)
-	    .append(labels)
-	    .append(endpoint)
-	    .append(headers)
-	    .append(requestBody)
-	    .append(responseType)
-	    .append(expectedResponse)
-	    .append(timeout)
-	    .append(variables)
-	    .append(dbValidations)
- 	    .toHashCode();
+	return HashCodeBuilder.reflectionHashCode(this, true);
     }
 
     @Override
@@ -191,43 +175,11 @@ public class Request implements Serializable {
 	
 	Request other = (Request) obj;
 	
-	return new EqualsBuilder()
-	    .append(id, other.id)
-	    .append(name, other.name)
-	    .append(description, other.description)
-	    .append(requestMethod, other.requestMethod)
-	    .append(application, other.application)
-	    .append(service, other.service)
-	    .append(labels, other.labels)
-	    .append(endpoint, other.endpoint)
-	    .append(headers, other.headers)
-	    .append(requestBody, other.requestBody)
-	    .append(responseType, other.responseType)
-	    .append(expectedResponse, other.expectedResponse)
-	    .append(timeout, other.timeout)
-	    .append(variables, other.variables)
-	    .append(dbValidations, other.dbValidations)
-	    .isEquals();
+	return EqualsBuilder.reflectionEquals(this, other, true);
     }
     
     @Override
     public String toString() {
-	return new ToStringBuilder(this)
-	    .append("id", id)
-	    .append("name", name)
-	    .append("description", description)
-	    .append("requestMethod", requestMethod)
-	    .append("application", application)
-	    .append("service", service)
-	    .append("labels", labels)
-	    .append("endpoint", endpoint)
-	    .append("headers", headers)
-	    .append("requestBody", requestBody)
-	    .append("responseType", responseType)
-	    .append("expectedResponse", expectedResponse)
-	    .append("timeout", timeout)
-	    .append("variables", variables)
-	    .append("dbValidations", dbValidations)
-	    .toString();
+	return ToStringBuilder.reflectionToString(this, ToStringStyle.SHORT_PREFIX_STYLE);
     }
 }

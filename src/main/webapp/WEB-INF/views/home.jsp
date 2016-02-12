@@ -11,5 +11,6 @@
 <body>
 	<p><c:out value="Hello, ${username}!" /></p>
 	<p><a href="${pageContext.request.contextPath}/logout">Logout</a></p>
+	<p>${user}</p>
 </body>
 </html>

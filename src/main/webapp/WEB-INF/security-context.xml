@@ -21,16 +21,22 @@
 			always-use-default-target="true"
 			authentication-failure-url="/login?error" />
 <!-- 	  	<sec:logout logout-url="/logout" 
-			logout-success-url="/login?logout" />  -->
+			logout-success-url="/login?logout" />  
+-->
 		 <sec:csrf disabled="true" /> 
 	</sec:http>
 	
 	<sec:authentication-manager>
 		<sec:authentication-provider>
-			<sec:user-service>
-				<sec:user name="taras" authorities="ROLE_MANAGER" password="1234" />
-			</sec:user-service>
+			<sec:jdbc-user-service data-source-ref="dataSource" 
+				users-by-username-query="SELECT username, password, 1 FROM User WHERE username = ?"
+				authorities-by-username-query="SELECT username, role FROM User WHERE username = ?" />
 		</sec:authentication-provider>
 	</sec:authentication-manager>
+	
+<!-- 	<sec:authentication-manager alias="authenticationManager">
+        <sec:authentication-provider user-service-ref="userService" />
+    </sec:authentication-manager> 
+-->
 
 </beans>

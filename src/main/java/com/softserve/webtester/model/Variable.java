@@ -5,12 +5,13 @@ import java.io.Serializable;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 
 /**
  * The Variable class represents {@code Variable} entity stored in the database.
  * 
  * @author Taras Oglabyak
- * @version 3.0
+ * @version 3.2
  */
 public class Variable implements Serializable {
 
@@ -91,19 +92,9 @@ public class Variable implements Serializable {
 	this.request = request;
     }
     
-   
     @Override
     public int hashCode() {
-	return new HashCodeBuilder()
-	    .append(id)
-	    .append(name)
-	    .append(value)
-	    .append(isSql)
-	    .append(isRandom)
-	    .append(dataType)
-	    .append(length)
-	    .append(request)
-	    .toHashCode();
+	return HashCodeBuilder.reflectionHashCode(this, true);
     }
 
     @Override
@@ -120,29 +111,11 @@ public class Variable implements Serializable {
 	
 	Variable other = (Variable) obj;
 	
-	return new EqualsBuilder()
-	    .append(id, other.id)
-	    .append(name, other.name)
-	    .append(value, other.value)
-	    .append(isSql, other.isSql)
-	    .append(isRandom, other.isRandom)
-	    .append(dataType, other.dataType)
-	    .append(length, other.length)
-	    .append(request, other.request)
-	    .isEquals();
+	return EqualsBuilder.reflectionEquals(this, other, true);
     }
     
     @Override
     public String toString() {
-	return new ToStringBuilder(this)
-	    .append("id", id)
-	    .append("name", name)
-	    .append("value", value)
-	    .append("isSql", isSql)
-	    .append("isRandom", isRandom)
-	    .append("dataType", dataType)
-	    .append("length", length)
-	    .append("request", request)
-	    .toString();
+	return ToStringBuilder.reflectionToString(this, ToStringStyle.SHORT_PREFIX_STYLE);
     }
 }

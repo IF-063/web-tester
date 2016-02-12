@@ -14,7 +14,7 @@ public interface RequestCollectionMapper {
     @Options(useGeneratedKeys = true, keyProperty = "id")
     int save(RequestCollection RequestCollection);
 	
-    @Select("SELECT*FROM RequestCollection")
+    @Select("SELECT * FROM RequestCollection")
     @Results({	@Result(property = "id", column = "ID", jdbcType = JdbcType.INTEGER),
 		@Result(property = "name", column = "name", jdbcType = JdbcType.VARCHAR),
 		@Result(property = "description", column = "description", jdbcType = JdbcType.VARCHAR)			
