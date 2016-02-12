@@ -1,5 +1,17 @@
 package com.softserve.webtester.model;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
+
+/**
+ * The AbstractDomain abstract class represents {@code AbstractDomain} entity stored in the database.
+ *
+ * @author Anton Mykytiuk
+ * @version 1.1
+ */
+
 public class AbstractDomain {
 
     protected int id;
@@ -47,4 +59,24 @@ public class AbstractDomain {
         this.deleted = deleted;
     }
 
+    @Override
+    public String toString() {
+        return ToStringBuilder.reflectionToString(this, ToStringStyle.SHORT_PREFIX_STYLE);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+
+        if (o == null || getClass() != o.getClass()) return false;
+
+        AbstractDomain that = (AbstractDomain) o;
+
+        return EqualsBuilder.reflectionEquals(this, that, true);
+    }
+
+    @Override
+    public int hashCode() {
+        return HashCodeBuilder.reflectionHashCode(this, true);
+    }
 }
