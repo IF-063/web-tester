@@ -6,7 +6,7 @@ import java.io.Serializable;
  * The Application class represents {@code Application} entity stored in the database.
  *
  * @author Roman Zolotar
- * @version 1.0
+ * @version 1.1
  */
 
 public class Application implements Serializable {
@@ -16,7 +16,7 @@ public class Application implements Serializable {
 	private int id;
 	private String name;
 	private String description;
-	private byte deleted;
+	private boolean deleted;
 	
 	public Application() {
 	}
@@ -45,11 +45,11 @@ public class Application implements Serializable {
 		this.description = description;
 	}
 
-	public byte getDeleted() {
+	public boolean getDeleted() {
 		return deleted;
 	}
 
-	public void setDeleted(byte deleted) {
+	public void setDeleted(boolean deleted) {
 		this.deleted = deleted;
 	}
 

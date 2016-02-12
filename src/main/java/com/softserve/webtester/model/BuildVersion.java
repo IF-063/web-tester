@@ -3,7 +3,7 @@ package com.softserve.webtester.model;
 import java.io.Serializable;
 
 /**
- * The Label class represents {@code BuilVersion} entity stored in the database.
+ * The BuildVersion class represents {@code BuilVersion} entity stored in the database.
  *
  * @author Anton Mykytiuk
  * @version 1.0
