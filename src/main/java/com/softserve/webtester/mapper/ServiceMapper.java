@@ -46,5 +46,5 @@ public interface ServiceMapper {
 
 	@Insert(insert)
 	@Options(useGeneratedKeys = true, keyProperty = "id")
-	void insert(Service service);
+	void save(Service service);
 }

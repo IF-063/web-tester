@@ -1,18 +1,16 @@
 package com.softserve.webtester.service;
 
-import java.util.LinkedHashSet;
 import java.util.Set;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
-import org.springframework.dao.DuplicateKeyException;
-import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.softserve.webtester.mapper.ApplicationMapper;
 import com.softserve.webtester.mapper.ServiceMapper;
 import com.softserve.webtester.model.Application;
+import com.softserve.webtester.model.Service;
 
 /**
  * MetaDataService class implements CRUD operation on {@link Applications} &
@@ -24,7 +22,7 @@ import com.softserve.webtester.model.Application;
  * @version 1.0
  */
 
-@Service
+@org.springframework.stereotype.Service
 @Transactional
 public class MetaDataService {
 
@@ -38,7 +36,7 @@ public class MetaDataService {
 
 	// TODO Anton Mykytiuk add Labels and BuildVersion mappers
 
-	public Set<Application> appLoadAll(String loadAll) {
+	public Set<Application> applicationLoadAll(String loadAll) {
 		try {
 			return applicationMapper.loadAll();
 		} catch (DataAccessException e) {
@@ -47,7 +45,7 @@ public class MetaDataService {
 		}
 	}
 
-	public Application appLoad(int id) {
+	public Application applicationLoad(int id) {
 		try {
 			return applicationMapper.load(id);
 		} catch (DataAccessException e) {
@@ -56,7 +54,7 @@ public class MetaDataService {
 		}
 	}
 
-	public void appUpdate(Application application) {
+	public void applicationUpdate(Application application) {
 		try {
 			applicationMapper.update(application);
 		} catch (DataAccessException e) {
@@ -65,7 +63,7 @@ public class MetaDataService {
 		}
 	}
 
-	public void appDeleteById(int id) {
+	public void applicationDelete(int id) {
 		try {
 			applicationMapper.delete(id);
 		} catch (DataAccessException e) {
@@ -74,16 +72,16 @@ public class MetaDataService {
 		}
 	}
 
-	public void appInsert(Application application) {
+	public void applicationSave(Application application) {
 		try {
-			applicationMapper.insert(application);
+			applicationMapper.save(application);
 		} catch (DataAccessException e) {
 			LOGGER.error("Unable to delete requested instance", e);
 			throw e;
 		}
 	}
 
-	public Set<com.softserve.webtester.model.Service> servLoadAll(String loadAll) {
+	public Set<Service> serviceLoadAll(String loadAll) {
 		try {
 			return serviceMapper.loadAll();
 		} catch (DataAccessException e) {
@@ -92,7 +90,7 @@ public class MetaDataService {
 		}
 	}
 
-	public com.softserve.webtester.model.Service servLoad(int id) {
+	public Service serviceLoad(int id) {
 		try {
 			return serviceMapper.load(id);
 		} catch (DataAccessException e) {
@@ -101,7 +99,7 @@ public class MetaDataService {
 		}
 	}
 
-	public void servUpdate(com.softserve.webtester.model.Service service) {
+	public void serviceUpdate(Service service) {
 		try {
 			serviceMapper.update(service);
 		} catch (DataAccessException e) {
@@ -110,7 +108,7 @@ public class MetaDataService {
 		}
 	}
 
-	public void sevDeleteById(int id) {
+	public void serviceDelete(int id) {
 		try {
 			serviceMapper.delete(id);
 		} catch (DataAccessException e) {
@@ -119,9 +117,9 @@ public class MetaDataService {
 		}
 	}
 
-	public void servInsert(com.softserve.webtester.model.Service service) {
+	public void serviceSave(Service service) {
 		try {
-			serviceMapper.insert(service);
+			serviceMapper.save(service);
 		} catch (DataAccessException e) {
 			LOGGER.error("Unable to delete requested instance", e);
 			throw e;

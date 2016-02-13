@@ -46,5 +46,5 @@ public interface ApplicationMapper {
 
 	@Insert(insert)
 	@Options(useGeneratedKeys = true, keyProperty = "id")
-	void insert(Application application);
+	void save(Application application);
 }
