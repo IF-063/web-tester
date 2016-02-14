@@ -6,7 +6,8 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
 /**
- * The AbstractDomain abstract class represents {@code AbstractDomain} entity stored in the database.
+ * The AbstractDomain abstract class represents {@code AbstractDomain} entity from which inherited
+ * classes like Aplication, Service, Label.
  *
  * @author Anton Mykytiuk
  * @version 1.1
@@ -21,7 +22,19 @@ public class AbstractDomain {
 
     public AbstractDomain() { }
 
-    public AbstractDomain(String name, String description, boolean deleted) {
+    public AbstractDomain(String name, String description) {
+        this.name = name;
+        this.description = description;
+    }
+
+    public AbstractDomain(int id, String name, String description) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+    }
+
+    public AbstractDomain(int id, String name, String description, boolean deleted) {
+        this.id = id;
         this.name = name;
         this.description = description;
         this.deleted = deleted;
@@ -66,13 +79,7 @@ public class AbstractDomain {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-
-        if (o == null || getClass() != o.getClass()) return false;
-
-        AbstractDomain that = (AbstractDomain) o;
-
-        return EqualsBuilder.reflectionEquals(this, that, true);
+        return EqualsBuilder.reflectionEquals(this, true);
     }
 
     @Override

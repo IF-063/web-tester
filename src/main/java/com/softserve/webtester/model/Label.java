@@ -27,6 +27,11 @@ public class Label implements Serializable {
         this.name = name;
     }
 
+    public Label(int id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
     public int getId() {
         return id;
     }
@@ -50,13 +55,7 @@ public class Label implements Serializable {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-
-        if (o == null || getClass() != o.getClass()) return false;
-
-        Label label = (Label) o;
-
-        return EqualsBuilder.reflectionEquals(this, label, true);
+        return EqualsBuilder.reflectionEquals(this, true);
     }
 
     @Override

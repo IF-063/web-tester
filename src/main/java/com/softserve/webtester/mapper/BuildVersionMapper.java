@@ -2,48 +2,76 @@ package com.softserve.webtester.mapper;
 
 import com.softserve.webtester.model.BuildVersion;
 import org.apache.ibatis.annotations.*;
+import org.apache.ibatis.type.JdbcType;
 import org.springframework.stereotype.Repository;
+import org.springframework.dao.DataAccessException;
 
 import java.util.LinkedHashSet;
 
 @Repository
 public interface BuildVersionMapper {
 
-    final String INSERT = "INSERT INTO buildversion (name, description) VALUES (#{name}, #{description})";
-    final String SELECT_BY_ID = "SELECT id, name, description FROM buildversion WHERE id = #{id} AND deleted = 0";
-    final String SELECT_ALL = "SELECT id, name, description from buildversion WHERE deleted = 0";
-    final String UPDATE = "UPDATE buildversion SET name = #{name}, description = #{description}, deleted = #{deleted}" +
-            " WHERE id = #{id}";
-    final String DELETE = "UPDATE buildversion SET deleted = 1 WHERE id = #{id}";
-    final String HARD_DELETE = "DELETE FROM buildversion WHERE id = #{id}";
-
-    @Insert(INSERT)
+    /**
+     * Saves {@link BuildVersion} instance to database
+     * @param buildVersion
+     * @return number of rows affected by the statement
+     * @throws DataAccessException
+     */
+    @Insert("INSERT INTO Buildversion (name, description) VALUES (#{name}, #{description})")
     @Options(useGeneratedKeys = true, keyProperty = "id")
-    void save(BuildVersion buildVersion);
+    int saveBuildVersion(BuildVersion buildVersion);
 
-    @Select(SELECT_BY_ID)
-    @Results(value = {
-            @Result(property = "id", column = "id"),
-            @Result(property = "name", column = "name"),
-            @Result(property = "description", column = "description")
+    /**
+     * Loads {@link BuildVersion} instance from database by its identifier
+     * @param id
+     * @return BuildVersion instance
+     * @throws DataAccessException
+     */
+    @Select("SELECT id, name, description FROM Buildversion WHERE id = #{id} AND deleted = 0")
+    @Results({ @Result(property = "id", column = "id", jdbcType = JdbcType.INTEGER),
+            @Result(property = "name", column = "name", jdbcType = JdbcType.VARCHAR),
+            @Result(property = "description", column = "description", jdbcType = JdbcType.VARCHAR)
     })
-    BuildVersion loadById(int id);
+    BuildVersion loadBuildVersionById(int id);
 
-    @Select(SELECT_ALL)
-    @Results(value = {
-            @Result(property = "id", column = "id"),
-            @Result(property = "name", column = "name"),
-            @Result(property = "description", column = "description")
+    /**
+     * Loads all {@link BuildVersion} instances from the database which aren't marked as "deleted"
+     * @return Set of BuildVersion instaces
+     * @throws DataAccessException
+     */
+    @Select("SELECT id, name, description from Buildversion WHERE deleted = 0")
+    @Results({ @Result(property = "id", column = "id", jdbcType = JdbcType.INTEGER),
+            @Result(property = "name", column = "name", jdbcType = JdbcType.VARCHAR),
+            @Result(property = "description", column = "description", jdbcType = JdbcType.VARCHAR)
     })
-    LinkedHashSet<BuildVersion> loadAll();
+    LinkedHashSet<BuildVersion> loadAllBuildVersions();
 
-    @Update(UPDATE)
-    void update(BuildVersion buildVersion);
+    /**
+     * Updates {@link BuildVersion} instance in the database
+     * @param buildVersion
+     * @return number of rows affected by the statement
+     * @throws DataAccessException
+     */
+    @Update("UPDATE Buildversion SET name = #{name}, description = #{description}, " +
+            "deleted = #{deleted} WHERE id = #{id}")
+    int updateBuildVersion(BuildVersion buildVersion);
 
-    @Update(DELETE)
-    void delete(int id);
+    /**
+     * Deletes (Soft Delete) {@link BuildVersion} instance from the database by id
+     * @param id
+     * @return number of rows affected by the statement
+     * @throws DataAccessException
+     */
+    @Update("UPDATE Buildversion SET deleted = 1 WHERE id = #{id}")
+    int deleteBuildVersion(int id);
 
-    @Delete(HARD_DELETE)
-    void hardDelete(int id);
+    /**
+     * Deletes {@link BuildVersion} instance from the database by id. This method will not be used
+     * @param id
+     * @return number of rows affected by the statement
+     * @throws DataAccessException
+     */
+    @Delete("DELETE FROM Buildversion WHERE id = #{id}")
+    int hardDeleteBuildVersion(int id);
 
 }

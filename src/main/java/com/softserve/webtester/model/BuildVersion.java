@@ -15,7 +15,15 @@ public class BuildVersion extends AbstractDomain implements Serializable {
 
     public BuildVersion() { }
 
-    public BuildVersion(String name, String description, boolean deleted) {
-        super(name, description, deleted);
+    public BuildVersion(String name, String description) {
+        super(name, description);
+    }
+
+    public BuildVersion(int id, String name, String description) {
+        super(id, name, description);
+    }
+
+    public BuildVersion(int id, String name, String description, boolean deleted) {
+        super(id, name, description, deleted);
     }
 }
