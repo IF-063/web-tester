@@ -1,6 +1,5 @@
 package com.softserve.webtester.service;
 
-import java.util.LinkedHashSet;
 import java.util.Set;
 
 
@@ -132,7 +131,7 @@ public class MetaDataService {
 		try {
 			servMapper.save(service);
 		} catch (DataAccessException e) {
-			LOGGER.error("Unable to create line in Application table: ", e);
+			LOGGER.error("Unable to create line in Service table: ", e);
 			throw e;
 		}
 	}
