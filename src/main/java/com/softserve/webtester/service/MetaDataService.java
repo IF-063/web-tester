@@ -10,8 +10,8 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.softserve.webtester.mapper.ApplicationMapper;
-import com.softserve.webtester.mapper.ServiceMapper;
+import com.softserve.webtester.mapper.AppMapper;
+import com.softserve.webtester.mapper.ServMapper;
 import com.softserve.webtester.model.Application;
 import com.softserve.webtester.model.Service;
 import com.softserve.webtester.mapper.BuildVersionMapper;
@@ -26,7 +26,7 @@ import com.softserve.webtester.model.Label;
  * with the database and log4j for logging.
  * 
  * @author Roman Zolotar
- * @version 1.0
+ * @version 1.1
  */
 
 @org.springframework.stereotype.Service
@@ -36,10 +36,10 @@ public class MetaDataService {
 	private static final Logger LOGGER = Logger.getLogger(MetaDataService.class);
 
 	@Autowired
-	private ApplicationMapper applicationMapper;
+	private AppMapper appMapper;
 
 	@Autowired
-	private ServiceMapper serviceMapper;
+	private ServMapper servMapper;
 
 	@Autowired
     private BuildVersionMapper buildVersionMapper;
@@ -47,90 +47,90 @@ public class MetaDataService {
     @Autowired
     private LabelMapper labelMapper;
 
-	public Set<Application> applicationLoadAll(String loadAll) {
+	public Set<Application> appLoadAll() {
 		try {
-			return applicationMapper.loadAll();
+			return appMapper.loadAll();
+		} catch (DataAccessException e) {
+			LOGGER.error("Unable to read Application table: ", e);
+			throw e;
+		}
+	}
+
+	public Application appLoad(int id) {
+		try {
+			return appMapper.load(id);
+		} catch (DataAccessException e) {
+			LOGGER.error("Unable to read line from Application table with next id: " + id, e);
+			throw e;
+		}
+	}
+
+	public void appUpdate(Application application, int id) {
+		try {
+			appMapper.update(application);
+		} catch (DataAccessException e) {
+			LOGGER.error("Unable to update line in Application table with next id: " + id, e);
+			throw e;
+		}
+	}
+
+	public void appDelete(int id) {
+		try {
+			appMapper.delete(id);
+		} catch (DataAccessException e) {
+			LOGGER.error("Unable to delete line from Application table with next id: " + id, e);
+			throw e;
+		}
+	}
+
+	public void appSave(Application application) {
+		try {
+			appMapper.save(application);
+		} catch (DataAccessException e) {
+			LOGGER.error("Unable to create line in Application table with next id", e);
+			throw e;
+		}
+	}
+
+	public Set<Service> servLoadAll(String loadAll) {
+		try {
+			return servMapper.loadAll();
 		} catch (DataAccessException e) {
 			LOGGER.error("Unable to read requested instances: " + e);
 			throw e;
 		}
 	}
 
-	public Application applicationLoad(int id) {
+	public Service servLoad(int id) {
 		try {
-			return applicationMapper.load(id);
+			return servMapper.load(id);
 		} catch (DataAccessException e) {
 			LOGGER.error("Unable to read requested instance, request id: " + id, e);
 			throw e;
 		}
 	}
 
-	public void applicationUpdate(Application application) {
+	public void servUpdate(Service service) {
 		try {
-			applicationMapper.update(application);
+			servMapper.update(service);
 		} catch (DataAccessException e) {
 			LOGGER.error("Unable to update requested instance", e);
 			throw e;
 		}
 	}
 
-	public void applicationDelete(int id) {
+	public void servDelete(int id) {
 		try {
-			applicationMapper.delete(id);
+			servMapper.delete(id);
 		} catch (DataAccessException e) {
 			LOGGER.error("Unable to delete requested instance", e);
 			throw e;
 		}
 	}
 
-	public void applicationSave(Application application) {
+	public void servSave(Service service) {
 		try {
-			applicationMapper.save(application);
-		} catch (DataAccessException e) {
-			LOGGER.error("Unable to delete requested instance", e);
-			throw e;
-		}
-	}
-
-	public Set<Service> serviceLoadAll(String loadAll) {
-		try {
-			return serviceMapper.loadAll();
-		} catch (DataAccessException e) {
-			LOGGER.error("Unable to read requested instances: " + e);
-			throw e;
-		}
-	}
-
-	public Service serviceLoad(int id) {
-		try {
-			return serviceMapper.load(id);
-		} catch (DataAccessException e) {
-			LOGGER.error("Unable to read requested instance, request id: " + id, e);
-			throw e;
-		}
-	}
-
-	public void serviceUpdate(Service service) {
-		try {
-			serviceMapper.update(service);
-		} catch (DataAccessException e) {
-			LOGGER.error("Unable to update requested instance", e);
-			throw e;
-		}
-	}
-
-	public void serviceDelete(int id) {
-		try {
-			serviceMapper.delete(id);
-		} catch (DataAccessException e) {
-			LOGGER.error("Unable to delete requested instance", e);
-			throw e;
-		}
-	}
-
-	public void serviceSave(Service service) {
-		try {
-			serviceMapper.save(service);
+			servMapper.save(service);
 		} catch (DataAccessException e) {
 			LOGGER.error("Unable to delete requested instance", e);
 			throw e;

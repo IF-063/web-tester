@@ -11,18 +11,18 @@ import com.softserve.webtester.model.Application;
 /**
  * ApplicationMapper is MyBatis mapper interface for CRUD operations.
  * @author Roman Zolotar
- * @version 1.1
+ * @version 1.2
  */
 
 @Repository
-public interface ApplicationMapper {
-	final String loadAll = "SELECT * FROM Application";
-	final String load = "SELECT * FROM Application WHERE ID = #{id}";
-	final String deleteById = "DELETE from Application WHERE ID = #{id}";
-	final String insert = "INSERT INTO Application (NAME, DESCRIPTION, DELETED) VALUES (#{name}, #{description}, #{deleted})";
-	final String update = "UPDATE Application SET DELETED = #{deleted}, NAME = #{name}, DESCRIPTION = #{description} WHERE ID = #{id}";
+public interface AppMapper {
+	final String LOAD_ALL = "SELECT * FROM Application";
+	final String LOAD = "SELECT * FROM Application WHERE ID = #{id}";
+	final String DELETE_BY_ID = "DELETE from Application WHERE ID = #{id}";
+	final String INSERT = "INSERT INTO Application (NAME, DESCRIPTION, DELETED) VALUES (#{name}, #{description}, #{deleted})";
+	final String UPDATE = "UPDATE Application SET DELETED = #{deleted}, NAME = #{name}, DESCRIPTION = #{description} WHERE ID = #{id}";
 
-	@Select(loadAll)
+	@Select(LOAD_ALL)
 	@Results(value = { 	@Result(property = "id", column = "ID"), 
 						@Result(property = "name", column = "NAME"),
 						@Result(property = "description", column = "DESCRIPTION"),
@@ -30,7 +30,7 @@ public interface ApplicationMapper {
 
 	Set<Application> loadAll();
 
-	@Select(load)
+	@Select(LOAD)
 	@Results(value = { 	@Result(property = "id", column = "ID"), 
 						@Result(property = "name", column = "NAME"),
 						@Result(property = "description", column = "DESCRIPTION"),
@@ -38,13 +38,13 @@ public interface ApplicationMapper {
 
 	Application load(int id);
 
-	@Update(update)
+	@Update(UPDATE)
 	void update(Application application);
 
-	@Delete(deleteById)
+	@Delete(DELETE_BY_ID)
 	void delete(int id);
 
-	@Insert(insert)
+	@Insert(INSERT)
 	@Options(useGeneratedKeys = true, keyProperty = "id")
 	void save(Application application);
 }

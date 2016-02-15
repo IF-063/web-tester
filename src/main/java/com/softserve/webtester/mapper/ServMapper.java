@@ -15,14 +15,14 @@ import com.softserve.webtester.model.Service;
  */
 
 @Repository
-public interface ServiceMapper {
-	final String loadAll = "SELECT * FROM Application";
-	final String load = "SELECT * FROM Application WHERE ID = #{id}";
-	final String deleteById = "DELETE from Application WHERE ID = #{id}";
-	final String insert = "INSERT INTO Application (NAME, DESCRIPTION, DELETED) VALUES (#{name}, #{description}, #{deleted})";
-	final String update = "UPDATE Application SET DELETED = #{deleted}, NAME = #{name}, DESCRIPTION = #{description} WHERE ID = #{id}";
+public interface ServMapper {
+	final String LOAD_ALL = "SELECT * FROM Application";
+	final String LOAD = "SELECT * FROM Application WHERE ID = #{id}";
+	final String DELETE_BY_ID = "DELETE from Application WHERE ID = #{id}";
+	final String INSERT = "INSERT INTO Application (NAME, DESCRIPTION, DELETED) VALUES (#{name}, #{description}, #{deleted})";
+	final String UPDATE = "UPDATE Application SET DELETED = #{deleted}, NAME = #{name}, DESCRIPTION = #{description} WHERE ID = #{id}";
 
-	@Select(loadAll)
+	@Select(LOAD_ALL)
 	@Results(value = { 	@Result(property = "id", column = "ID"), 
 						@Result(property = "name", column = "NAME"),
 						@Result(property = "description", column = "DESCRIPTION"),
@@ -30,7 +30,7 @@ public interface ServiceMapper {
 
 	Set<Service> loadAll();
 
-	@Select(load)
+	@Select(LOAD)
 	@Results(value = { 	@Result(property = "id", column = "ID"), 
 						@Result(property = "name", column = "NAME"),
 						@Result(property = "description", column = "DESCRIPTION"),
@@ -38,13 +38,13 @@ public interface ServiceMapper {
 
 	Service load(int id);
 
-	@Update(update)
+	@Update(UPDATE)
 	void update(Service service);
 
-	@Delete(deleteById)
+	@Delete(DELETE_BY_ID)
 	void delete(int id);
 
-	@Insert(insert)
+	@Insert(INSERT)
 	@Options(useGeneratedKeys = true, keyProperty = "id")
 	void save(Service service);
 }
