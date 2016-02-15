@@ -155,14 +155,7 @@ public class Environment implements Serializable {
 
 	@Override
 	public boolean equals(Object obj) {
-		if (obj == this)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Environment other = (Environment) obj;
-		return EqualsBuilder.reflectionEquals(this, other, true);		
+		return EqualsBuilder.reflectionEquals(this, obj);		
 	}
 
 	@Override
