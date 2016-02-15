@@ -87,7 +87,7 @@ public class MetaDataService {
 		try {
 			appMapper.save(application);
 		} catch (DataAccessException e) {
-			LOGGER.error("Unable to create line in Application table with next id", e);
+			LOGGER.error("Unable to create line in Application table with next id: ", e);
 			throw e;
 		}
 	}
@@ -96,7 +96,7 @@ public class MetaDataService {
 		try {
 			return servMapper.loadAll();
 		} catch (DataAccessException e) {
-			LOGGER.error("Unable to read requested instances: " + e);
+			LOGGER.error("Unable to read Service table: ", e);
 			throw e;
 		}
 	}
@@ -105,16 +105,16 @@ public class MetaDataService {
 		try {
 			return servMapper.load(id);
 		} catch (DataAccessException e) {
-			LOGGER.error("Unable to read requested instance, request id: " + id, e);
+			LOGGER.error("Unable to read line from Service table with next id: " + id, e);
 			throw e;
 		}
 	}
 
-	public void servUpdate(Service service) {
+	public void servUpdate(Service service, int id) {
 		try {
 			servMapper.update(service);
 		} catch (DataAccessException e) {
-			LOGGER.error("Unable to update requested instance", e);
+			LOGGER.error("Unable to update line in Service table with next id: " + id, e);
 			throw e;
 		}
 	}
@@ -123,7 +123,7 @@ public class MetaDataService {
 		try {
 			servMapper.delete(id);
 		} catch (DataAccessException e) {
-			LOGGER.error("Unable to delete requested instance", e);
+			LOGGER.error("Unable to delete line from Service table with next id: " + id, e);
 			throw e;
 		}
 	}
@@ -132,7 +132,7 @@ public class MetaDataService {
 		try {
 			servMapper.save(service);
 		} catch (DataAccessException e) {
-			LOGGER.error("Unable to delete requested instance", e);
+			LOGGER.error("Unable to create line in Application table: ", e);
 			throw e;
 		}
 	}
