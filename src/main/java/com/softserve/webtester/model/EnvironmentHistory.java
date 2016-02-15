@@ -4,13 +4,17 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
+import java.io.Serializable;
+
 /**
  * EnvironmentHistory class representing a database object.
  *
  * @author Viktor Syomka
  */
 
-public class EnvironmentHistory {
+public class EnvironmentHistory implements Serializable {
+
+    private static final long serialVersionUID = -3838842881636539961L;
 
     private int id;
     private ResultHistory resultHistory;
@@ -108,19 +112,7 @@ public class EnvironmentHistory {
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-
-        Request other = (Request) obj;
-
-        return EqualsBuilder.reflectionEquals(this, other, true);
+        return EqualsBuilder.reflectionEquals(this, obj);
     }
 
     @Override

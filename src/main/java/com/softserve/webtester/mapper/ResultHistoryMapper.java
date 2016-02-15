@@ -61,7 +61,40 @@ public interface ResultHistoryMapper {
     })
     ResultHistory load(int id);
 
-    @Select("SELECT id, status, applicationId, serviceId, requestId, requestName, requestDescription, url," +
+    @Select("SELECT id, status, applicationId, serviceId, requestName, message, requestDescription, timeStart " +
+            "FROM ResultHistory")
+    @Results({
+            @Result(id = true, property = "id", column = "id", jdbcType = JdbcType.INTEGER),
+            @Result(property = "status", column = "status", jdbcType = JdbcType.VARCHAR),
+            @Result(property = "application", column = "applicationId",
+                    one = @One(select = "com.softserve.webtester.mapper.ApplicationMapper.load")),
+            @Result(property = "service", column = "serviceId",
+                    one = @One(select = "com.softserve.webtester.mapper.ServiceMapper.load")),
+            @Result(property = "requestName", column = "requestName", jdbcType = JdbcType.VARCHAR),
+            @Result(property = "message", column = "message", jdbcType = JdbcType.LONGVARCHAR),
+            @Result(property = "requestDescription", column = "requestDescription", jdbcType = JdbcType.VARCHAR),
+            @Result(property = "timeStart", column = "timeStart", jdbcType = JdbcType.VARCHAR)
+    })
+    LinkedHashSet<ResultHistory> loadAll();
+
+    @Delete("DELETE FROM ResultHistory WHERE id = #{id}")
+    int detele(int id);
+}
+
+
+/*
+@Update("UPDATE ResultHistory SET status = #{status}, applicationId = #{application.id}, serviceId = #{service.id}, " +
+            "requestId = #{request.id}, requestName = #{requestName}, requestDescription = #{requestDescription}, " +
+            "url = #{url}, expectedResponseType = #{expectedResponseType}, requestBody = #{requestBody}, " +
+            "statusLine = #{statusLine}, timeStart = #{timeStart}, expectedResponseTime = #{expectedResponseTime} " +
+            "responseTime = #{responseTime}, expectedResponse = #{expectedResponse}, actualResponse = #{actualResponse} " +
+            "message = #{message}, runId = #{runId}, requestCollectionId = #{requestCollection.id}, " +
+            "buildVersionId = #{buildVersion.id} WHERE id = #{id}")
+
+    int update(ResultHistory resultHistory);
+
+
+@Select("SELECT id, status, applicationId, serviceId, requestId, requestName, requestDescription, url," +
             "expectedResponseType, requestBody, statusLine, timeStart, expectedResponseTime, responseTime," +
             "expectedResponse, actualResponse, message, runId, requestCollectionId, buildVersionId " +
             "FROM ResultHistory")
@@ -99,18 +132,5 @@ public interface ResultHistoryMapper {
                     many = @Many(select = "com.softserve.webtester.mapper.DbValidationHistory.loadByResultHistoryId"))
     })
     LinkedHashSet<ResultHistory> loadAll();
-
-    @Update("UPDATE ResultHistory SET status = #{status}, applicationId = #{application.id}, serviceId = #{service.id}, " +
-            "requestId = #{request.id}, requestName = #{requestName}, requestDescription = #{requestDescription}, " +
-            "url = #{url}, expectedResponseType = #{expectedResponseType}, requestBody = #{requestBody}, " +
-            "statusLine = #{statusLine}, timeStart = #{timeStart}, expectedResponseTime = #{expectedResponseTime} " +
-            "responseTime = #{responseTime}, expectedResponse = #{expectedResponse}, actualResponse = #{actualResponse} " +
-            "message = #{message}, runId = #{runId}, requestCollectionId = #{requestCollection.id}, " +
-            "buildVersionId = #{buildVersion.id} WHERE id = #{id}")
-
-    int update(ResultHistory resultHistory);
-
-    @Delete("DELETE FROM ResultHistory WHERE id = #{id}")
-    int detele(int id);
-}
+ */
 
