@@ -2,6 +2,7 @@ package com.softserve.webtester.controller;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -18,13 +19,13 @@ import com.softserve.webtester.service.UserService;
 
 @Controller
 public class LoginLogoutController {
-    
+
     @Autowired
     private UserService userService;
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public ModelAndView loginPage(@RequestParam(value = "error", required = false) String error,
-	    @RequestParam(value = "logout", required = false) String logout) {
+	    			  @RequestParam(value = "logout", required = false) String logout) {
 	ModelAndView model = new ModelAndView("login");
 	if (error != null) {
 	    model.addObject("error", "Invalid username and password!");
@@ -36,12 +37,12 @@ public class LoginLogoutController {
     }
 
     @RequestMapping(value = { "/", "/home" }, method = RequestMethod.GET)
-    public ModelAndView home() {
+    public ModelAndView home(HttpSession session) {
 	ModelAndView model = new ModelAndView("home");
-	String username = SecurityContextHolder.getContext().getAuthentication().getName();
-	User user = userService.load(username);
-	model.addObject("username", username);
+	String userId = SecurityContextHolder.getContext().getAuthentication().getName();
+	User user = userService.load(userId);
 	model.addObject("user", user);
+	model.addObject("userId", userId);
 	return model;
     }
 
@@ -53,5 +54,4 @@ public class LoginLogoutController {
 	}
 	return "redirect:/login?logout";
     }
-
 }

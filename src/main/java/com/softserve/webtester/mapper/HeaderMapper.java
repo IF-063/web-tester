@@ -1,6 +1,6 @@
 package com.softserve.webtester.mapper;
 
-import java.util.LinkedHashSet;
+import java.util.List;
 
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
@@ -65,7 +65,7 @@ public interface HeaderMapper {
      * Loads all {@link Header} instances for the Request from the database.
      * 
      * @param id identifier of {@link Request} instance, whose headers should be loaded
-     * @return Set of Header instances
+     * @return List of Header instances
      * @throws DataAccessException
      */
     @Select("SELECT id, name, value FROM Header WHERE requestId = #{id}")
@@ -73,7 +73,7 @@ public interface HeaderMapper {
 	       @Result(property = "name", column = "name", jdbcType = JdbcType.VARCHAR),
 	       @Result(property = "value", column = "value", jdbcType = JdbcType.VARCHAR)
     })
-    LinkedHashSet<Header> loadByRequestId(int id);
+    List<Header> loadByRequestId(int id);
 
     /**
      * Updates {@link Header} instance in the database.

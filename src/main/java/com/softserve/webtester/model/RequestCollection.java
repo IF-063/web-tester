@@ -1,7 +1,7 @@
 package com.softserve.webtester.model;
 
 import java.io.Serializable;
-import java.util.Set;
+import java.util.List;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
@@ -15,7 +15,8 @@ public class RequestCollection implements Serializable{
     private int id;
     private String name;
     private String description;
-    private Set<Request> requests;
+    private List<Request> requests;
+    private List<Label> labels;
 
     public int getId() {
         return id;
@@ -41,17 +42,25 @@ public class RequestCollection implements Serializable{
         this.description = description;
     }
 
-    public Set<Request> getRequests() {
+    public List<Request> getRequests() {
         return requests;
     }
 
-    public void setRequests(Set<Request> requests) {
+    public void setRequests(List<Request> requests) {
         this.requests = requests;
     }
 
     @Override
     public int hashCode() {
 	return HashCodeBuilder.reflectionHashCode(this, true);
+    }
+    
+    public List<Label> getLabels() {
+        return labels;
+    }
+
+    public void setLabels(List<Label> labels) {
+        this.labels = labels;
     }
 
     @Override

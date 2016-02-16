@@ -30,16 +30,16 @@ public class UserService /*implements UserDetailsService */{
     /**
      * Loads {@link User} instance from the database.
      * 
-     * @param username username of User instance
+     * @param userId identifier of User instance
      * @return {@link User} instance
      * @throws DataAccessException
      */
     // TODO Taras O. throw UsernameNotFoundException if the username hasn't been found?
-    public User load(String username) {
+    public User load(String userId) {
 	try {
-	   return userMapper.load(username);
+	   return userMapper.load(userId);
 	} catch (DataAccessException e) {
-	    LOGGER.error("User not found, username: " + username, e);
+	    LOGGER.error("User not found, userId: " + userId, e);
 	    throw e;
 	}
     }
