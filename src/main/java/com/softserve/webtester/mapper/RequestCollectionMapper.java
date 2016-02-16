@@ -23,7 +23,7 @@ public interface RequestCollectionMapper {
     })
     List<RequestCollection> loadAll();
 	
-    @Select("SELECT*FROM RequestCollection WHERE id = #{id}")
+    @Select("SELECT * FROM RequestCollection WHERE id = #{id}")
     @Results({	@Result(property = "id", column = "id", jdbcType = JdbcType.INTEGER),
 		@Result(property = "name", column = "name", jdbcType = JdbcType.VARCHAR),
 		@Result(property = "description", column = "description", jdbcType = JdbcType.VARCHAR),

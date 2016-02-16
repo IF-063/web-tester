@@ -88,10 +88,10 @@ public interface LabelMapper {
     int saveByRequest(Request request);
     
     /**
-     * Saves records to {@code Request_Label} junction table in the database by the Request.<br>
-     * Using SQL batch insert this method saves all RequestId - LabelId relations in the database.
+     * Saves records to {@code RequestCollection_Label} junction table in the database by the Request.<br>
+     * Using SQL batch insert this method saves all RequestCollectionId - LabelId relations in the database.
      * 
-     * @param request {@link Request} instance, whose dbValidations should be saved
+     * @param request {@link RequestCollection} instance, whose dbValidations should be saved
      * @return number of rows affected by the statement
      * @throws DataAccessException
      */
@@ -122,7 +122,7 @@ public interface LabelMapper {
      * @throws DataAccessException
      */
     @Select("SELECT l.id, l.name FROM Label l INNER JOIN RequestCollection_Label rcl ON rcl.labelId = l.id "
-    	    + "WHERE rl.requestCollectionId = #{id}")
+    	    + "WHERE rcl.requestCollectionId = #{id}")
     @Results({ @Result(id = true, property = "id", column = "id", jdbcType = JdbcType.INTEGER),
 	       @Result(property = "name", column = "name", jdbcType = JdbcType.VARCHAR)
     })
