@@ -1,10 +1,10 @@
 package com.softserve.webtester.mapper;
 
-import java.util.LinkedHashSet;
+
+import java.util.List;
 import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
 import org.apache.ibatis.type.JdbcType;
-import com.softserve.webtester.model.Request;
 import com.softserve.webtester.model.RequestCollection;
 
 @Repository
@@ -17,15 +17,19 @@ public interface RequestCollectionMapper {
     @Select("SELECT * FROM RequestCollection")
     @Results({	@Result(property = "id", column = "ID", jdbcType = JdbcType.INTEGER),
 		@Result(property = "name", column = "name", jdbcType = JdbcType.VARCHAR),
-		@Result(property = "description", column = "description", jdbcType = JdbcType.VARCHAR)			
+		@Result(property = "description", column = "description", jdbcType = JdbcType.VARCHAR),
+		@Result(property = "labels", column ="id",
+		        many = @Many(select = "com.softserve.webtester.mapper.LabelMapper.loadByRequestCollectionId"))
     })
-    LinkedHashSet<RequestCollection> loadAll();
+    List<RequestCollection> loadAll();
 	
     @Select("SELECT*FROM RequestCollection WHERE id = #{id}")
     @Results({	@Result(property = "id", column = "id", jdbcType = JdbcType.INTEGER),
 		@Result(property = "name", column = "name", jdbcType = JdbcType.VARCHAR),
 		@Result(property = "description", column = "description", jdbcType = JdbcType.VARCHAR),
-		@Result(property = "requests", column ="id", javaType = LinkedHashSet.class,
+		@Result(property = "labels", column ="id",
+		        many = @Many(select = "com.softserve.webtester.mapper.LabelMapper.loadByRequestCollectionId")),
+		@Result(property = "requests", column ="id",
 			many = @Many(select = "com.softserve.webtester.mapper.RequestMapper.loadByRequestCollectionId"))           
     })
     RequestCollection load(int id);
