@@ -1,6 +1,6 @@
 package com.softserve.webtester.mapper;
 
-import java.util.LinkedHashSet;
+import java.util.List;
 
 import org.apache.ibatis.annotations.*;
 import org.apache.ibatis.type.JdbcType;
@@ -46,7 +46,7 @@ public interface LabelMapper {
             @Result(property = "id", column = "id", jdbcType = JdbcType.INTEGER),
             @Result(property = "name", column = "name", jdbcType = JdbcType.VARCHAR)
     })
-    LinkedHashSet<Label> loadAllLabels();
+    List<Label> loadAllLabels();
 
     /**
      * Updates {@link Label} instance in the database. This method will not be used
@@ -92,7 +92,7 @@ public interface LabelMapper {
     @Results({ @Result(id = true, property = "id", column = "id", jdbcType = JdbcType.INTEGER),
 	       @Result(property = "name", column = "name", jdbcType = JdbcType.VARCHAR)
     })
-    LinkedHashSet<Label> loadByRequestId(int id);
+    List<Label> loadByRequestId(int id);
     
     /**
      * Deletes all RequestId - LabelId relations from {@code Request_Label} junction table in the database for the
