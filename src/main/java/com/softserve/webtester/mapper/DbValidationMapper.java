@@ -1,6 +1,6 @@
 package com.softserve.webtester.mapper;
 
-import java.util.LinkedHashSet;
+import java.util.List;
 
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
@@ -66,7 +66,7 @@ public interface DbValidationMapper {
      * Loads all {@link DbValidation} instances for the Request from the database.
      * 
      * @param id identifier of {@link Request} instance, whose dbValidations should be loaded
-     * @return Set of DbValidation instances
+     * @return List of DbValidation instances
      * @throws DataAccessException
      */
     @Select("SELECT id, sqlQuery, expectedValue FROM DbValidation WHERE requestId = #{id}")
@@ -74,7 +74,7 @@ public interface DbValidationMapper {
 	       @Result(property = "sqlQuery", column = "sqlQuery", jdbcType = JdbcType.LONGVARCHAR),
 	       @Result(property = "expectedValue", column = "expectedValue", jdbcType = JdbcType.VARCHAR)
     })
-    LinkedHashSet<DbValidation> loadByRequestId(int id);
+    List<DbValidation> loadByRequestId(int id);
 
     /**
      * Updates {@link DbValidation} instance in the database.

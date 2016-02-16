@@ -1,6 +1,6 @@
 package com.softserve.webtester.mapper;
 
-import java.util.LinkedHashSet;
+import java.util.List;
 
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
@@ -72,7 +72,7 @@ public interface VariableMapper {
      * Loads all {@link Variable} instances for the Request from the database.
      * 
      * @param id identifier of {@link Request} instance, whose variables should be loaded
-     * @return Set of Variable instances
+     * @return List of Variable instances
      * @throws DataAccessException
      */
     @Select("SELECT id, name, value, isSql, isRandom, dataType, length FROM Variable WHERE requestId = #{id}")
@@ -84,7 +84,7 @@ public interface VariableMapper {
 	       @Result(property = "dataType", column = "dataType", typeHandler = VariableDataTypeHandler.class),
 	       @Result(property = "length", column = "length", jdbcType = JdbcType.INTEGER),
     })
-    LinkedHashSet<Variable> loadByRequestId(int id);
+    List<Variable> loadByRequestId(int id);
     
     /**
      * Updates {@link Variable} instance in the database.

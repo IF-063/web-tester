@@ -1,8 +1,14 @@
 package com.softserve.webtester.mapper;
 
-import java.util.LinkedHashSet;
+import java.util.List;
 
-import org.apache.ibatis.annotations.*;
+import org.apache.ibatis.annotations.Delete;
+import org.apache.ibatis.annotations.Insert;
+import org.apache.ibatis.annotations.Options;
+import org.apache.ibatis.annotations.Result;
+import org.apache.ibatis.annotations.Results;
+import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 import org.apache.ibatis.type.JdbcType;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Repository;
@@ -38,7 +44,7 @@ public interface LabelMapper {
 
     /**
      * Loads all {@link Label} instances from the database
-     * @return Set of Label instaces
+     * @return List of Label instaces
      * @throws DataAccessException
      */
     @Select("SELECT * from Label")
@@ -46,7 +52,7 @@ public interface LabelMapper {
             @Result(property = "id", column = "id", jdbcType = JdbcType.INTEGER),
             @Result(property = "name", column = "name", jdbcType = JdbcType.VARCHAR)
     })
-    LinkedHashSet<Label> loadAllLabels();
+    List<Label> loadAllLabels();
 
     /**
      * Updates {@link Label} instance in the database. This method will not be used
@@ -84,7 +90,7 @@ public interface LabelMapper {
      * Loads all {@link Label} instances for the Request from the database.
      * 
      * @param id identifier of {@link Request} instance, whose labels should be loaded
-     * @return Set of Label instances
+     * @return List of Label instances
      * @throws DataAccessException
      */
     @Select("SELECT l.id, l.name FROM Label l INNER JOIN Request_Label rl ON rl.labelId = l.id "
@@ -92,7 +98,7 @@ public interface LabelMapper {
     @Results({ @Result(id = true, property = "id", column = "id", jdbcType = JdbcType.INTEGER),
 	       @Result(property = "name", column = "name", jdbcType = JdbcType.VARCHAR)
     })
-    LinkedHashSet<Label> loadByRequestId(int id);
+    List<Label> loadByRequestId(int id);
     
     /**
      * Deletes all RequestId - LabelId relations from {@code Request_Label} junction table in the database for the

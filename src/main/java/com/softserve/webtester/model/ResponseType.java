@@ -4,7 +4,7 @@ package com.softserve.webtester.model;
  * Enumeration of the expected response types can be returned by the {@link Request}.
  * 
  * @author Taras Oglabyak
- * @version 1.0
+ * @version 1.1
  */
 public enum ResponseType {
 
@@ -16,8 +16,7 @@ public enum ResponseType {
 	this.textValue = textValue;
     }
 
-    public String textValue() {
+    public String getTextValue() {
 	return textValue;
     }
-
 }

@@ -1,6 +1,6 @@
 package com.softserve.webtester.service;
 
-import java.util.Set;
+import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -89,10 +89,10 @@ public class RequestService {
     /**
      * Loads all stored {@link Request} instances with their main information.
      * 
-     * @return Set of {@link Request} instances
+     * @return List of {@link Request} instances
      * @throws DataAccessException
      */
-    public Set<Request> loadAll() {
+    public List<Request> loadAll() {
 	try {
 	    return requestMapper.loadAll();
 	} catch (DataAccessException e) {

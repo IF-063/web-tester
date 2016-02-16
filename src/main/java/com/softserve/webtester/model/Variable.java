@@ -11,7 +11,7 @@ import org.apache.commons.lang3.builder.ToStringStyle;
  * The Variable class represents {@code Variable} entity stored in the database.
  * 
  * @author Taras Oglabyak
- * @version 3.2
+ * @version 3.3
  */
 public class Variable implements Serializable {
 
@@ -99,19 +99,7 @@ public class Variable implements Serializable {
 
     @Override
     public boolean equals(Object obj) {
-	if (this == obj) {
-	    return true;
-	}
-	if (obj == null) {
-	    return false;
-	}
-	if (getClass() != obj.getClass()) {
-	    return false;
-	}
-	
-	Variable other = (Variable) obj;
-	
-	return EqualsBuilder.reflectionEquals(this, other, true);
+	return EqualsBuilder.reflectionEquals(this, obj);
     }
     
     @Override

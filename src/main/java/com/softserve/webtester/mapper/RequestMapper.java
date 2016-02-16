@@ -1,6 +1,6 @@
 package com.softserve.webtester.mapper;
 
-import java.util.LinkedHashSet;
+import java.util.List;
 
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
@@ -81,7 +81,7 @@ public interface RequestMapper {
      * Loads all {@link Request} instances from the database.<br>
      * This method loads only main information about request instance.
      * 
-     * @return Set of Request instances
+     * @return List of Request instances
      * @throws DataAccessException
      */
     @Select("SELECT id, name, applicationId, serviceId, endpoint FROM Request")
@@ -93,7 +93,7 @@ public interface RequestMapper {
 	               one = @One(select = "com.softserve.webtester.mapper.ServiceMapper.load")),
 	       @Result(property = "endpoint", column = "endpoint", jdbcType = JdbcType.VARCHAR),
     })
-    LinkedHashSet<Request> loadAll();
+    List<Request> loadAll();
     
     @Select("SELECT r.id, r.name, r.applicationId, r.serviceId, r.endpoint FROM Request r "
 	    + "INNER JOIN RequestCollection_Request cr ON r.id = cr.requestId WHERE cr.requestCollectionId = #{id}")
@@ -105,7 +105,7 @@ public interface RequestMapper {
 	               one = @One(select = "com.softserve.webtester.mapper.ServiceMapper.load")),
 	       @Result(property = "endpoint", column = "endpoint", jdbcType = JdbcType.VARCHAR),
     })
-    LinkedHashSet<Request> loadByRequestCollectionId(int id);
+    List<Request> loadByRequestCollectionId(int id);
     
     /**
      * Updates {@link Request} instances in the database.

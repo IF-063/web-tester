@@ -2,25 +2,35 @@ package com.softserve.webtester.model;
 
 import java.io.Serializable;
 
+import javax.validation.constraints.Size;
+
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
+import org.hibernate.validator.constraints.NotBlank;
 
 /**
  * The User class represents {@code User} entity stored in the database.
  * 
  * @author Taras Oglabyak
- * @version 1.0
+ * @version 1.2
  */
 public class User implements Serializable{
 
     private static final long serialVersionUID = 5801084059340063607L;
     
     private int id;
+    
+    @NotBlank(message="username can't be empty")
     private String username;
+    
+    @NotBlank(message="password can't be empty")
+    @Size(min=4, max=32)
     private String password;
+    
     private String firstName;
+    
     private String lastName;
     // private Role role;
 
@@ -81,19 +91,7 @@ public class User implements Serializable{
 
     @Override
     public boolean equals(Object obj) {
-	if (this == obj) {
-	    return true;
-	}
-	if (obj == null) {
-	    return false;
-	}
-	if (getClass() != obj.getClass()) {
-	    return false;
-	}
-
-	User other = (User) obj;
-
-	return EqualsBuilder.reflectionEquals(this, other, true);
+	return EqualsBuilder.reflectionEquals(this, obj);
     }
 
     @Override

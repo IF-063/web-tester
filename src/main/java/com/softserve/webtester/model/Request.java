@@ -1,7 +1,7 @@
 package com.softserve.webtester.model;
 
 import java.io.Serializable;
-import java.util.Set;
+import java.util.List;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
@@ -12,11 +12,11 @@ import org.apache.commons.lang3.builder.ToStringStyle;
  * The Request class represents {@code Request} entity stored in the database.
  * 
  * @author Taras Oglabyak
- * @version 3.2
+ * @version 3.4
  */
 public class Request implements Serializable {
 
-    private static final long serialVersionUID = -8857729780657681509L;
+    private static final long serialVersionUID = 1620123091542829027L;
     
     private int id;
     private String name;
@@ -24,15 +24,15 @@ public class Request implements Serializable {
     private RequestMethod requestMethod;
     private Application application;
     private Service service;
-    private Set<Label> labels;
+    private List<Label> labels;
     private String endpoint;
-    private Set<Header> headers;
+    private List<Header> headers;
     private String requestBody;
     private ResponseType responseType;
     private String expectedResponse;
     private int timeout;
-    private Set<Variable> variables;
-    private Set<DbValidation> dbValidations;
+    private List<Variable> variables;
+    private List<DbValidation> dbValidations;
     
     public Request() { }
 
@@ -84,11 +84,11 @@ public class Request implements Serializable {
 	this.service = service;
     }
 
-    public Set<Label> getLabels() {
+    public List<Label> getLabels() {
 	return labels;
     }
 
-    public void setLabels(Set<Label> labels) {
+    public void setLabels(List<Label> labels) {
 	this.labels = labels;
     }
 
@@ -100,11 +100,11 @@ public class Request implements Serializable {
 	this.endpoint = endpoint;
     }
 
-    public Set<Header> getHeaders() {
+    public List<Header> getHeaders() {
 	return headers;
     }
 
-    public void setHeaders(Set<Header> headers) {
+    public void setHeaders(List<Header> headers) {
 	this.headers = headers;
     }
 
@@ -140,19 +140,19 @@ public class Request implements Serializable {
 	this.timeout = timeout;
     }
 
-    public Set<Variable> getVariables() {
+    public List<Variable> getVariables() {
 	return variables;
     }
 
-    public void setVariables(Set<Variable> variables) {
+    public void setVariables(List<Variable> variables) {
 	this.variables = variables;
     }
 
-    public Set<DbValidation> getDbValidations() {
+    public List<DbValidation> getDbValidations() {
 	return dbValidations;
     }
 
-    public void setDbValidations(Set<DbValidation> dbValidations) {
+    public void setDbValidations(List<DbValidation> dbValidations) {
 	this.dbValidations = dbValidations;
     }
     
@@ -163,19 +163,7 @@ public class Request implements Serializable {
 
     @Override
     public boolean equals(Object obj) {
-	if (this == obj) {
-	    return true;
-	}
-	if (obj == null) {
-	    return false;
-	}
-	if (getClass() != obj.getClass()) {
-	    return false;
-	}
-	
-	Request other = (Request) obj;
-	
-	return EqualsBuilder.reflectionEquals(this, other, true);
+	return EqualsBuilder.reflectionEquals(this, obj);
     }
     
     @Override
