@@ -6,7 +6,7 @@ import org.apache.ibatis.type.JdbcType;
 import org.springframework.stereotype.Repository;
 import org.springframework.dao.DataAccessException;
 
-import java.util.List;
+import java.util.LinkedHashSet;
 
 @Repository
 public interface BuildVersionMapper {
@@ -44,7 +44,7 @@ public interface BuildVersionMapper {
             @Result(property = "name", column = "name", jdbcType = JdbcType.VARCHAR),
             @Result(property = "description", column = "description", jdbcType = JdbcType.VARCHAR)
     })
-    List<BuildVersion> loadAllBuildVersions();
+    LinkedHashSet<BuildVersion> loadAllBuildVersions();
 
     /**
      * Updates {@link BuildVersion} instance in the database

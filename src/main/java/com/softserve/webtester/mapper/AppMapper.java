@@ -1,6 +1,6 @@
 package com.softserve.webtester.mapper;
 
-import java.util.List;
+import java.util.Set;
 
 import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
@@ -28,7 +28,7 @@ public interface AppMapper {
 						@Result(property = "description", column = "DESCRIPTION"),
 						@Result(property = "deleted", column = "DELETED") })
 
-	List<Application> loadAll();
+	Set<Application> loadAll();
 
 	@Select(LOAD)
 	@Results(value = { 	@Result(property = "id", column = "ID"), 

@@ -113,8 +113,6 @@ public interface LabelMapper {
 	       @Result(property = "name", column = "name", jdbcType = JdbcType.VARCHAR)
     })
     List<Label> loadByRequestId(int id);
-<<<<<<< HEAD
-=======
     
     /**
      * Loads all {@link Label} instances for the RequestCollection from the database.
@@ -129,7 +127,6 @@ public interface LabelMapper {
 	       @Result(property = "name", column = "name", jdbcType = JdbcType.VARCHAR)
     })
     List<Label> loadByRequestCollectionId(int id);
->>>>>>> cf088f20fd63e6e00cd49cb83e09aa6f58a5efa3
     
     /**
      * Deletes all RequestId - LabelId relations from {@code Request_Label} junction table in the database for the

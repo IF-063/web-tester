@@ -1,6 +1,6 @@
 package com.softserve.webtester.service;
 
-import java.util.List;
+import java.util.Set;
 
 
 import org.apache.log4j.Logger;
@@ -46,7 +46,7 @@ public class MetaDataService {
     @Autowired
     private LabelMapper labelMapper;
 
-	public List<Application> appLoadAll() {
+	public Set<Application> appLoadAll() {
 		try {
 			return appMapper.loadAll();
 		} catch (DataAccessException e) {
@@ -91,7 +91,7 @@ public class MetaDataService {
 		}
 	}
 
-	public List<Service> servLoadAll() {
+	public Set<Service> servLoadAll(String loadAll) {
 		try {
 			return servMapper.loadAll();
 		} catch (DataAccessException e) {
@@ -177,7 +177,7 @@ public class MetaDataService {
      * @return Set of {@link BuildVersion} instances
      * @throws DataAccessException
      */
-    List<BuildVersion> loadAllBuildVersions() {
+    Set<BuildVersion> loadAllBuildVersions() {
         try {
             return buildVersionMapper.loadAllBuildVersions();
         } catch (DataAccessException e) {
@@ -261,7 +261,7 @@ public class MetaDataService {
      * @return Set of {@link Label} instances
      * @throws DataAccessException
      */
-    List<Label> loadAllLabels() {
+    Set<Label> loadAllLabels() {
         try {
             return labelMapper.loadAllLabels();
         } catch (DataAccessException e) {
