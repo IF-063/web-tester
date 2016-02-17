@@ -1,26 +1,26 @@
 package com.softserve.webtester.mapper;
 
-import java.util.Set;
+import java.util.List;
 
 import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
 
-import com.softserve.webtester.model.Application;
+import com.softserve.webtester.model.Service;
 
 
 /**
- * ApplicationMapper is MyBatis mapper interface for CRUD operations.
+ * ServiceMapper is MyBatis mapper interface for CRUD operations.
  * @author Roman Zolotar
- * @version 1.2
+ * @version 1.1
  */
 
 @Repository
-public interface AppMapper {
-	final String LOAD_ALL = "SELECT * FROM Application";
-	final String LOAD = "SELECT * FROM Application WHERE ID = #{id}";
-	final String DELETE_BY_ID = "DELETE from Application WHERE ID = #{id}";
-	final String INSERT = "INSERT INTO Application (NAME, DESCRIPTION, DELETED) VALUES (#{name}, #{description}, #{deleted})";
-	final String UPDATE = "UPDATE Application SET DELETED = #{deleted}, NAME = #{name}, DESCRIPTION = #{description} WHERE ID = #{id}";
+public interface ServiceMapper {
+	final String LOAD_ALL = "SELECT * FROM Service";
+	final String LOAD = "SELECT * FROM Service WHERE ID = #{id}";
+	final String DELETE_BY_ID = "DELETE from Service WHERE ID = #{id}";
+	final String INSERT = "INSERT INTO Service (NAME, DESCRIPTION, DELETED) VALUES (#{name}, #{description}, #{deleted})";
+	final String UPDATE = "UPDATE Service SET DELETED = #{deleted}, NAME = #{name}, DESCRIPTION = #{description} WHERE ID = #{id}";
 
 	@Select(LOAD_ALL)
 	@Results(value = { 	@Result(property = "id", column = "ID"), 
@@ -28,7 +28,7 @@ public interface AppMapper {
 						@Result(property = "description", column = "DESCRIPTION"),
 						@Result(property = "deleted", column = "DELETED") })
 
-	Set<Application> loadAll();
+	List<Service> loadAll();
 
 	@Select(LOAD)
 	@Results(value = { 	@Result(property = "id", column = "ID"), 
@@ -36,15 +36,15 @@ public interface AppMapper {
 						@Result(property = "description", column = "DESCRIPTION"),
 						@Result(property = "deleted", column = "DELETED") })
 
-	Application load(int id);
+	Service load(int id);
 
 	@Update(UPDATE)
-	void update(Application application);
+	void update(Service service);
 
 	@Delete(DELETE_BY_ID)
 	void delete(int id);
 
 	@Insert(INSERT)
 	@Options(useGeneratedKeys = true, keyProperty = "id")
-	void save(Application application);
+	void save(Service service);
 }

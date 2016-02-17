@@ -1,6 +1,6 @@
 package com.softserve.webtester.service;
 
-import java.util.Set;
+import java.util.List;
 
 
 import org.apache.log4j.Logger;
@@ -9,8 +9,8 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.softserve.webtester.mapper.AppMapper;
-import com.softserve.webtester.mapper.ServMapper;
+import com.softserve.webtester.mapper.ApplicationMapper;
+import com.softserve.webtester.mapper.ServiceMapper;
 import com.softserve.webtester.model.Application;
 import com.softserve.webtester.model.Service;
 import com.softserve.webtester.mapper.BuildVersionMapper;
@@ -35,10 +35,10 @@ public class MetaDataService {
 	private static final Logger LOGGER = Logger.getLogger(MetaDataService.class);
 
 	@Autowired
-	private AppMapper appMapper;
+	private ApplicationMapper applicationMapper;
 
 	@Autowired
-	private ServMapper servMapper;
+	private ServiceMapper serviceMapper;
 
 	@Autowired
     private BuildVersionMapper buildVersionMapper;
@@ -46,9 +46,9 @@ public class MetaDataService {
     @Autowired
     private LabelMapper labelMapper;
 
-	public Set<Application> appLoadAll() {
+	public List<Application> appLoadAll() {
 		try {
-			return appMapper.loadAll();
+			return applicationMapper.loadAll();
 		} catch (DataAccessException e) {
 			LOGGER.error("Unable to read Application table: ", e);
 			throw e;
@@ -57,7 +57,7 @@ public class MetaDataService {
 
 	public Application appLoad(int id) {
 		try {
-			return appMapper.load(id);
+			return applicationMapper.load(id);
 		} catch (DataAccessException e) {
 			LOGGER.error("Unable to read line from Application table with next id: " + id, e);
 			throw e;
@@ -66,7 +66,7 @@ public class MetaDataService {
 
 	public void appUpdate(Application application, int id) {
 		try {
-			appMapper.update(application);
+			applicationMapper.update(application);
 		} catch (DataAccessException e) {
 			LOGGER.error("Unable to update line in Application table with next id: " + id, e);
 			throw e;
@@ -75,7 +75,7 @@ public class MetaDataService {
 
 	public void appDelete(int id) {
 		try {
-			appMapper.delete(id);
+			applicationMapper.delete(id);
 		} catch (DataAccessException e) {
 			LOGGER.error("Unable to delete line from Application table with next id: " + id, e);
 			throw e;
@@ -84,16 +84,16 @@ public class MetaDataService {
 
 	public void appSave(Application application) {
 		try {
-			appMapper.save(application);
+			applicationMapper.save(application);
 		} catch (DataAccessException e) {
 			LOGGER.error("Unable to create line in Application table with next id: ", e);
 			throw e;
 		}
 	}
 
-	public Set<Service> servLoadAll(String loadAll) {
+	public List<Service> servLoadAll(String loadAll) {
 		try {
-			return servMapper.loadAll();
+			return serviceMapper.loadAll();
 		} catch (DataAccessException e) {
 			LOGGER.error("Unable to read Service table: ", e);
 			throw e;
@@ -102,25 +102,25 @@ public class MetaDataService {
 
 	public Service servLoad(int id) {
 		try {
-			return servMapper.load(id);
+			return serviceMapper.load(id);
 		} catch (DataAccessException e) {
 			LOGGER.error("Unable to read line from Service table with next id: " + id, e);
 			throw e;
 		}
 	}
 
-	public void servUpdate(Service service, int id) {
+	public void servUpdate(Service service) {
 		try {
-			servMapper.update(service);
+			serviceMapper.update(service);
 		} catch (DataAccessException e) {
-			LOGGER.error("Unable to update line in Service table with next id: " + id, e);
+			LOGGER.error("Unable to update line in Service table with next id: " + service.getId(), e);
 			throw e;
 		}
 	}
 
 	public void servDelete(int id) {
 		try {
-			servMapper.delete(id);
+			serviceMapper.delete(id);
 		} catch (DataAccessException e) {
 			LOGGER.error("Unable to delete line from Service table with next id: " + id, e);
 			throw e;
@@ -129,7 +129,7 @@ public class MetaDataService {
 
 	public void servSave(Service service) {
 		try {
-			servMapper.save(service);
+			serviceMapper.save(service);
 		} catch (DataAccessException e) {
 			LOGGER.error("Unable to create line in Service table: ", e);
 			throw e;
@@ -177,7 +177,7 @@ public class MetaDataService {
      * @return Set of {@link BuildVersion} instances
      * @throws DataAccessException
      */
-    Set<BuildVersion> loadAllBuildVersions() {
+    List<BuildVersion> loadAllBuildVersions() {
         try {
             return buildVersionMapper.loadAllBuildVersions();
         } catch (DataAccessException e) {
@@ -261,7 +261,7 @@ public class MetaDataService {
      * @return Set of {@link Label} instances
      * @throws DataAccessException
      */
-    Set<Label> loadAllLabels() {
+    List<Label> loadAllLabels() {
         try {
             return labelMapper.loadAllLabels();
         } catch (DataAccessException e) {
