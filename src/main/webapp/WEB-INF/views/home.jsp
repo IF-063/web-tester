@@ -9,8 +9,10 @@
 	<title>home.jsp</title>
 </head>
 <body>
-	<p><c:out value="Hello, ${username}!" /></p>
+	<p><c:out value="Hello, ${user.firstName} ${user.lastName}!" /></p>
 	<p><a href="${pageContext.request.contextPath}/logout">Logout</a></p>
-	<p>${user}</p>
+	<p>${user}
+		<a href=<c:url value="/account" />>Edit</a>
+	</p>
 </body>
 </html>
