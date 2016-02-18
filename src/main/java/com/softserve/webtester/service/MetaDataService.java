@@ -19,12 +19,12 @@ import com.softserve.webtester.model.BuildVersion;
 import com.softserve.webtester.model.Label;
 
 /**
- * MetaDataService class implements CRUD operation on {@link Application} &
- * {@link Service} instance in the database.<br>
+ * MetaDataService class implements CRUD operation on {@link Application},
+ * {@link Service}, {@link BuildVersion} and {@link Label} instances in the database.
  * The service uses Spring DataSourceTransactionManager for managing transaction
  * with the database and log4j for logging.
  * 
- * @author Roman Zolotar
+ * @author Roman Zolotar, Anton Mykytiuk
  * @version 1.1
  */
 
@@ -45,8 +45,16 @@ public class MetaDataService {
 
     @Autowired
     private LabelMapper labelMapper;
+    
+    										//APPLICATION
+    
+    /**
+     * Loads all {@link Application} instances from database
+     * @return List of {@link Application} instances
+     * @throws DataAccessException
+     */
 
-	public List<Application> appLoadAll() {
+	public List<Application> applicationLoadAll() {
 		try {
 			return applicationMapper.loadAll();
 		} catch (DataAccessException e) {
@@ -55,7 +63,14 @@ public class MetaDataService {
 		}
 	}
 
-	public Application appLoad(int id) {
+	/**
+     * Loads {@link Application} instance from database
+     * @param id
+     * @return id of Loaded Application
+     * @throws DataAccessException
+     */
+	
+	public Application applicationLoad(int id) {
 		try {
 			return applicationMapper.load(id);
 		} catch (DataAccessException e) {
@@ -64,16 +79,28 @@ public class MetaDataService {
 		}
 	}
 
-	public void appUpdate(Application application, int id) {
+	/**
+     * Updates {@link Application} instance in database
+     * @param application object
+     * @throws DataAccessException
+     */
+	
+	public void applicationUpdate(Application application) {
 		try {
 			applicationMapper.update(application);
 		} catch (DataAccessException e) {
-			LOGGER.error("Unable to update line in Application table with next id: " + id, e);
+			LOGGER.error("Unable to update line in Application table with next id: " + application.getId(), e);
 			throw e;
 		}
 	}
+	
+	/**
+     * Deletes {@link Application} instance from database
+     * @param id
+     * @throws DataAccessException
+     */
 
-	public void appDelete(int id) {
+	public void applicationDelete(int id) {
 		try {
 			applicationMapper.delete(id);
 		} catch (DataAccessException e) {
@@ -81,8 +108,14 @@ public class MetaDataService {
 			throw e;
 		}
 	}
+	
+	/**
+     * Saves {@link Application} instance in database
+     * @param application object
+     * @throws DataAccessException
+     */
 
-	public void appSave(Application application) {
+	public void applicationSave(Application application) {
 		try {
 			applicationMapper.save(application);
 		} catch (DataAccessException e) {
@@ -90,8 +123,16 @@ public class MetaDataService {
 			throw e;
 		}
 	}
+	
+											//SERVICE
+	
+	/**
+     * Loads all {@link Service} instances from database
+     * @return List of {@link Service} instances
+     * @throws DataAccessException
+     */
 
-	public List<Service> servLoadAll(String loadAll) {
+	public List<Service> serviceLoadAll() {
 		try {
 			return serviceMapper.loadAll();
 		} catch (DataAccessException e) {
@@ -99,8 +140,15 @@ public class MetaDataService {
 			throw e;
 		}
 	}
+	
+	/**
+     * Loads {@link Service} instance from database
+     * @param id
+     * @return id of Loaded Service
+     * @throws DataAccessException
+     */
 
-	public Service servLoad(int id) {
+	public Service serviceLoad(int id) {
 		try {
 			return serviceMapper.load(id);
 		} catch (DataAccessException e) {
@@ -108,8 +156,14 @@ public class MetaDataService {
 			throw e;
 		}
 	}
+	
+	/**
+     * Updates {@link Service} instance in database
+     * @param service object
+     * @throws DataAccessException
+     */
 
-	public void servUpdate(Service service) {
+	public void serviceUpdate(Service service) {
 		try {
 			serviceMapper.update(service);
 		} catch (DataAccessException e) {
@@ -117,8 +171,14 @@ public class MetaDataService {
 			throw e;
 		}
 	}
+	
+	/**
+     * Deletes {@link Service} instance from database
+     * @param id
+     * @throws DataAccessException
+     */
 
-	public void servDelete(int id) {
+	public void serviceDelete(int id) {
 		try {
 			serviceMapper.delete(id);
 		} catch (DataAccessException e) {
@@ -126,8 +186,14 @@ public class MetaDataService {
 			throw e;
 		}
 	}
+	
+	/**
+     * Saves {@link Service} instance in database
+     * @param service object
+     * @throws DataAccessException
+     */
 
-	public void servSave(Service service) {
+	public void serviceSave(Service service) {
 		try {
 			serviceMapper.save(service);
 		} catch (DataAccessException e) {

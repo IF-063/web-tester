@@ -9,7 +9,7 @@ import com.softserve.webtester.model.Service;
 
 
 /**
- * ServiceMapper is MyBatis mapper interface for CRUD operations.
+ * ServiceMapper is MyBatis mapper interface for {@link Service} CRUD operations.
  * @author Roman Zolotar
  * @version 1.1
  */

@@ -9,7 +9,7 @@ import com.softserve.webtester.model.Application;
 
 
 /**
- * ApplicationMapper is MyBatis mapper interface for CRUD operations.
+ * ApplicationMapper is MyBatis mapper interface for {@link Application} CRUD operations.
  * @author Roman Zolotar
  * @version 1.2
  */
