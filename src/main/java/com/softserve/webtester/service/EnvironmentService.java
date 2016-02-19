@@ -1,6 +1,6 @@
 package com.softserve.webtester.service;
 
-import java.util.Set;
+import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,7 +41,7 @@ public class EnvironmentService {
 	 * @see EnvironmentMapper#loadAll() method
 	 * @throws DataAccessException
 	 */
-	public Set<Environment> loadAll() {
+	public List<Environment> loadAll() {
 		try {
 			return environmentMapper.loadAll();
 		} catch (DataAccessException e) {

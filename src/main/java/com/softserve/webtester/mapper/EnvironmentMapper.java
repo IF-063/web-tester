@@ -1,6 +1,6 @@
 package com.softserve.webtester.mapper;
 
-import java.util.LinkedHashSet;
+import java.util.List;
 
 import org.apache.ibatis.annotations.InsertProvider;
 import org.apache.ibatis.annotations.Options;
@@ -71,7 +71,7 @@ public interface EnvironmentMapper {
 		@Result(property = "timeMultiplier", column = "timeMultiplier", jdbcType = JdbcType.DOUBLE),
 		@Result(property = "deleted", column = "deleted", jdbcType = JdbcType.BIT)
 	})	
-	LinkedHashSet<Environment> loadAll();
+	List<Environment> loadAll();
 	
 	/**
 	 * Updates Environment instance in the database.
