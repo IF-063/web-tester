@@ -7,6 +7,12 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
+/**
+ * The Request—ollection class represents {@code RequestCollection} entity stored in the database.
+ * 
+ * @author Yura Lubinec
+ * @version 1.0
+ */
 public class RequestCollection implements Serializable{
     
    
@@ -84,6 +90,5 @@ public class RequestCollection implements Serializable{
     public String toString() {
 	return ToStringBuilder.reflectionToString(this);
     }
-		
-    
+		 
 }
