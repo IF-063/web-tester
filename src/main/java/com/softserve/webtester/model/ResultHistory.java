@@ -1,12 +1,14 @@
 package com.softserve.webtester.model;
 
-import javafx.application.Application;
+import java.io.Serializable;
+import java.util.Set;
+
+import javax.xml.ws.Service;
+
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
-import javax.xml.ws.Service;
-import java.io.Serializable;
-import java.util.Set;
+
 
 /**
  * ResultHistory class representing a database object.
