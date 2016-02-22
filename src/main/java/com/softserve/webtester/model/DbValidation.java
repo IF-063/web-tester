@@ -6,19 +6,24 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
+import org.hibernate.validator.constraints.NotBlank;
 
 /**
  * The DbValidation class represents {@code DbValidation} entity stored in the database.
  * 
  * @author Taras Oglabyak
- * @version 3.3
+ * @version 3.4
  */
 public class DbValidation implements Serializable {
 
     private static final long serialVersionUID = 185946295991598992L;
     
     private int id;
+    
+    @NotBlank(message="dbValidation sqlQuery may not be empty")
     private String sqlQuery;
+    
+    @NotBlank(message="dbValidation expectedValue may not be empty")
     private String expectedValue;
     private Request request;
 

@@ -2,7 +2,6 @@ package com.softserve.webtester.service;
 
 import java.util.List;
 
-
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -10,13 +9,13 @@ import org.springframework.dao.DuplicateKeyException;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.softserve.webtester.mapper.ApplicationMapper;
-import com.softserve.webtester.mapper.ServiceMapper;
-import com.softserve.webtester.model.Application;
-import com.softserve.webtester.model.Service;
 import com.softserve.webtester.mapper.BuildVersionMapper;
 import com.softserve.webtester.mapper.LabelMapper;
+import com.softserve.webtester.mapper.ServiceMapper;
+import com.softserve.webtester.model.Application;
 import com.softserve.webtester.model.BuildVersion;
 import com.softserve.webtester.model.Label;
+import com.softserve.webtester.model.Service;
 
 /**
  * MetaDataService class implements CRUD operation on {@link Application},
@@ -327,7 +326,7 @@ public class MetaDataService {
      * @return Set of {@link Label} instances
      * @throws DataAccessException
      */
-    List<Label> loadAllLabels() {
+   public List<Label> loadAllLabels() {
         try {
             return labelMapper.loadAllLabels();
         } catch (DataAccessException e) {
@@ -342,7 +341,7 @@ public class MetaDataService {
      * @return the number of rows affected by the statement
      * @throws DataAccessException
      */
-    int deleteLabel(int id) {
+   public int deleteLabel(int id) {
         try {
             return labelMapper.deleteLabel(id);
         } catch (DataAccessException e) {

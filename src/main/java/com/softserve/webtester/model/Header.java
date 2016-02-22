@@ -6,19 +6,24 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
+import org.hibernate.validator.constraints.NotBlank;
 
 /**
  * The Header class represents {@code Header} entity stored in the database.
  * 
  * @author Taras Oglabyak
- * @version 3.3
+ * @version 3.4
  */
 public class Header implements Serializable {
     
     private static final long serialVersionUID = 2373605339528716565L;
     
     private int id;
+    
+    @NotBlank(message="header name may not be empty")
     private String name;
+    
+    @NotBlank(message="header value may not be empty")
     private String value;
     private Request request;
     

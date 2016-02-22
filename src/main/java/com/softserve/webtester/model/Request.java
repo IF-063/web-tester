@@ -3,35 +3,59 @@ package com.softserve.webtester.model;
 import java.io.Serializable;
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
+import org.hibernate.validator.constraints.NotBlank;
 
 /**
  * The Request class represents {@code Request} entity stored in the database.
  * 
  * @author Taras Oglabyak
- * @version 3.4
+ * @version 3.5
  */
 public class Request implements Serializable {
 
     private static final long serialVersionUID = 1620123091542829027L;
     
     private int id;
+    
+    @NotBlank(message="request name may not be empty")
     private String name;
+    
+    @NotBlank(message="request description may not be empty")
     private String description;
+    
     private RequestMethod requestMethod;
+    
+    @Valid
     private Application application;
+    
+    @Valid
     private Service service;
+    
+    @Valid
     private List<Label> labels;
+    
+    @NotBlank(message="endpoint may not be empty")
     private String endpoint;
+    
+    @Valid
     private List<Header> headers;
     private String requestBody;
     private ResponseType responseType;
+    
+    @NotBlank(message="expected response endpoint may not be empty")
     private String expectedResponse;
     private int timeout;
+    
+    @Valid
     private List<Variable> variables;
+    
+    @Valid
     private List<DbValidation> dbValidations;
     
     public Request() { }

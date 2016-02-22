@@ -14,7 +14,11 @@ import com.softserve.webtester.mapper.HeaderMapper;
 import com.softserve.webtester.mapper.LabelMapper;
 import com.softserve.webtester.mapper.RequestMapper;
 import com.softserve.webtester.mapper.VariableMapper;
+import com.softserve.webtester.model.DbValidation;
+import com.softserve.webtester.model.Header;
+import com.softserve.webtester.model.Label;
 import com.softserve.webtester.model.Request;
+import com.softserve.webtester.model.Variable;
 
 /**
  * RequestService class implements CRUD operation on {@link Request} instance in the database.<br>
@@ -149,20 +153,47 @@ public class RequestService {
     }
     
     /**
+     * Deletes {@link Request} instances from the database.
+     * 
+     * @param requestIdArray identifiers of request to delete
+     * @throws DataAccessException
+     */
+    public void delete(int[] requestIdArray) {
+	try {
+	    requestMapper.deleteRequests(requestIdArray);
+	} catch (DataAccessException e) {
+	    LOGGER.error("Unable to delete request instances, requests id: " + requestIdArray, e);
+	    throw e;
+	}
+    }
+    
+    /**
      * Invoke this method to save all dbValidations, variables, headers and labels for the request instance to the
      * database
      */
     private void saveRequestComponents(Request request) {
-	if (!request.getDbValidations().isEmpty()) {
-	    dbValidationMapper.saveByRequest(request);
+	List<DbValidation> dbValidations = request.getDbValidations();
+	if (dbValidations!=null && !dbValidations.isEmpty()) {
+	   boolean b = dbValidations.removeIf(element -> element.getSqlQuery()==null || element.getSqlQuery().isEmpty());
+	   System.out.println("dbv: "  + b);
+	   dbValidationMapper.saveByRequest(request);
 	}
-	if (!request.getVariables().isEmpty()) {
+	List<Variable> variables = request.getVariables();
+	if (request.getVariables()!=null && !request.getVariables().isEmpty()) {
+	    boolean b = variables.removeIf(element -> element.getName()==null || element.getName().isEmpty());
+	    System.out.println("var: "  + b);
 	    variableMapper.saveByRequest(request);
 	}
-	if (!request.getHeaders().isEmpty()) {
+	List<Header> headers = request.getHeaders();
+	if (request.getHeaders()!=null && !request.getHeaders().isEmpty()) {
+	    boolean b = headers.removeIf(element -> element.getName()==null || element.getName().isEmpty());
+	    System.out.println("hea: "  + b);
 	    headerMapper.saveByRequest(request);
 	}
-	if (!request.getLabels().isEmpty()) {
+	List<Label> labels = request.getLabels();
+	if (request.getLabels()!=null && !request.getLabels().isEmpty()) {
+	    boolean b = labels.removeIf(element -> element.getName()==null || element.getName().isEmpty());
+	    System.out.println("lab: "  + b);
 	    labelMapper.saveByRequest(request);
 	}
     }

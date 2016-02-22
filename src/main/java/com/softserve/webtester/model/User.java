@@ -14,7 +14,7 @@ import org.hibernate.validator.constraints.NotBlank;
  * The User class represents {@code User} entity stored in the database.
  * 
  * @author Taras Oglabyak
- * @version 1.2
+ * @version 1.3
  */
 public class User implements Serializable{
 
@@ -22,10 +22,9 @@ public class User implements Serializable{
     
     private int id;
     
-    @NotBlank(message="username can't be empty")
+    @NotBlank(message="email may not be empty")
     private String username;
     
-    @NotBlank(message="password can't be empty")
     @Size(min=4, max=32)
     private String password;
     

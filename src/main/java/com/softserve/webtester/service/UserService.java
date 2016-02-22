@@ -60,35 +60,32 @@ public class UserService /*implements UserDetailsService */{
 	    throw e;
 	}
     }
-    
-/*    
-    @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-	com.softserve.webtester.model.User u;
-	try {
-	    u = userMapper.loadUserByUsername(username);
-	    if (u == null)
-		throw new UsernameNotFoundException("Username not found");
-
-	} catch (DataAccessException e) {
-	    throw new UsernameNotFoundException("Database error");
-	}
-	return convertUserToUserDetails(u);
-    }
-
-    private User convertUserToUserDetails(com.softserve.webtester.model.User userEntity) {
-	String username = userEntity.getUsername();
-	String password = userEntity.getPassword();
-	boolean enabled = true;
-	boolean accountNonExpired = true;
-	boolean credentialsNonExpired = true;
-	boolean accountNonLocked = true;
-	List<GrantedAuthority> authList = new ArrayList<GrantedAuthority>(1);
-	authList.add(new SimpleGrantedAuthority(userEntity.getRole().name()));
-	User user = new User(username, password, enabled, accountNonExpired, credentialsNonExpired,
-			     accountNonLocked, authList);
-	return user;
-    }
-*/
-
+        
+//    @Override
+//    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+//	com.softserve.webtester.model.User u;
+//	try {
+//	    u = userMapper.loadUserByUsername(username);
+//	    if (u == null)
+//		throw new UsernameNotFoundException("Username not found");
+//
+//	} catch (DataAccessException e) {
+//	    throw new UsernameNotFoundException("Database error");
+//	}
+//	return convertUserToUserDetails(u);
+//    }
+//
+//    private User convertUserToUserDetails(com.softserve.webtester.model.User userEntity) {
+//	String username = userEntity.getUsername();
+//	String password = userEntity.getPassword();
+//	boolean enabled = true;
+//	boolean accountNonExpired = true;
+//	boolean credentialsNonExpired = true;
+//	boolean accountNonLocked = true;
+//	List<GrantedAuthority> authList = new ArrayList<GrantedAuthority>(1);
+//	authList.add(new SimpleGrantedAuthority(userEntity.getRole().name()));
+//	User user = new User(username, password, enabled, accountNonExpired, credentialsNonExpired,
+//			     accountNonLocked, authList);
+//	return user;
+//    }
 }

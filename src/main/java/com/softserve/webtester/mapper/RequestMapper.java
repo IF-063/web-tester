@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Many;
 import org.apache.ibatis.annotations.One;
 import org.apache.ibatis.annotations.Options;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Result;
 import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.Select;
@@ -133,5 +134,16 @@ public interface RequestMapper {
     
     @Delete("DELETE FROM RequestCollection_Request WHERE requestCollectionId = #{id}")
     int deleteByRequestCollectionId(int id);
+    
+    /**
+     * Deletes {@link Request} instances from the database.
+     * 
+     * @param requestIdArray identifiers of Request instances should be deleted
+     * @throws DataAccessException
+     */
+    @Select("<script>DELETE FROM Request WHERE id IN "
+	    + "<foreach item='item' index='index' collection='list' open='(' separator=',' close=')'>"
+	    + "#{item}</foreach></script>") 
+    void deleteRequests(@Param("list") int[] requestIdArray);
     
 }

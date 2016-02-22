@@ -6,24 +6,29 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
+import org.hibernate.validator.constraints.NotBlank;
 
 /**
  * The Variable class represents {@code Variable} entity stored in the database.
  * 
  * @author Taras Oglabyak
- * @version 3.3
+ * @version 3.5
  */
 public class Variable implements Serializable {
 
     private static final long serialVersionUID = 636905701061698929L;
     
     private int id;
+    
+    @NotBlank(message="variable name may not be empty")
     private String name;
+    
+    @NotBlank(message="variable value may not be empty")
     private String value;
     private boolean isSql;
     private boolean isRandom;
     private VariableDataType dataType;
-    private int length;
+    private Integer length;
     private Request request;
     
     public Variable() { }
@@ -51,20 +56,20 @@ public class Variable implements Serializable {
     public void setValue(String value) {
 	this.value = value;
     }
-
-    public boolean isSql() {
+    
+    public boolean isIsSql() {
 	return isSql;
     }
 
-    public void setSql(boolean isSql) {
+    public void setIsSql(boolean isSql) {
 	this.isSql = isSql;
     }
 
-    public boolean isRandom() {
+    public boolean isIsRandom() {
 	return isRandom;
     }
 
-    public void setRandom(boolean isRandom) {
+    public void setIsRandom(boolean isRandom) {
 	this.isRandom = isRandom;
     }
 
@@ -76,11 +81,11 @@ public class Variable implements Serializable {
 	this.dataType = dataType;
     }
 
-    public int getLength() {
+    public Integer getLength() {
 	return length;
     }
 
-    public void setLength(int length) {
+    public void setLength(Integer length) {
 	this.length = length;
     }
 
