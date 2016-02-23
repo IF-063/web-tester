@@ -2,6 +2,7 @@ package com.softserve.webtester.mapper;
 
 import java.util.List;
 
+import com.softserve.webtester.model.ResultHistory;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Options;
@@ -86,6 +87,20 @@ public interface LabelMapper {
 	    + "<foreach collection='labels' item='label' separator=','> "
 	    + "(#{id}, #{label.id}) </foreach></script>")
     int saveByRequest(Request request);
+
+    /**
+     * Saves records to {@code ResultHistory_Label} junction table in the database by the Request.<br>
+     * Using SQL batch insert this method saves all ResultHistoryId - LabelId relations in the database.
+     *
+     * @param request {@link Request} instance, whose dbValidations should be saved
+     * @return number of rows affected by the statement
+     * @throws DataAccessException
+     */
+
+    @Insert("<script>INSERT INTO ResultHistory_Label(resultHistoryId, labelId) VALUES "
+            + "<foreach collection='labels' item='label' separator=','> "
+            + "(#{id}, #{label.id}) </foreach></script>")
+    int saveByResultHistory(ResultHistory resultHistory);
     
     /**
      * Saves records to {@code RequestCollection_Label} junction table in the database by the Request.<br>

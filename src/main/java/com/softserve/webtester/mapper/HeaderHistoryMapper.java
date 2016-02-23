@@ -5,11 +5,10 @@ import org.apache.ibatis.annotations.*;
 import org.apache.ibatis.type.JdbcType;
 import org.springframework.stereotype.Repository;
 
-import java.util.LinkedHashSet;
+import java.util.List;
 
 /**
  * MyBatis HeaderMapper mapper for performing CRUD operation on HeaderHistory database instance.
- *
  */
 
 @Repository
@@ -37,7 +36,7 @@ public interface HeaderHistoryMapper {
             @Result(property = "name", column = "name", jdbcType = JdbcType.VARCHAR),
             @Result(property = "value", column = "value", jdbcType = JdbcType.VARCHAR)
     })
-    LinkedHashSet<HeaderHistory> loadByResultHistoryId(int id);
+    List<HeaderHistory> loadByResultHistoryId(int id);
 
     @Update("UPDATE HeaderHistory SET name = #{name}, value = #{value}, "
             + "resultHistoryId = #{resultHistory.id} WHERE id = #{id}")

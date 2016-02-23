@@ -1,18 +1,14 @@
 package com.softserve.webtester.model;
 
 import java.io.Serializable;
-import java.util.Set;
-
+import java.util.List;
 import javax.xml.ws.Service;
-
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
-
 /**
  * ResultHistory class representing a database object.
- *
  * @author Viktor Syomka
  */
 
@@ -40,20 +36,19 @@ public class ResultHistory implements Serializable {
     private int runId;
     private RequestCollection requestCollection;
     private BuildVersion buildVersion;
-    private Set<Label> labels;
-    private Set<HeaderHistory> headerHistories;
-    private Set<DBValidationHistory> dbValidationHistories;
+    private List<Label> labels;
+    private List<HeaderHistory> headerHistories;
+    private List<DBValidationHistory> dbValidationHistories;
 
     public ResultHistory() {
-
     }
 
     public ResultHistory(int id, String status, Application application, Service service, Request request,
                          String requestName, String requestDescription, String url, ResponseType responseType,
                          String requestBody, String statusLine, String timeStart, int expectedResponseTime, int responseTime,
                          String expectedResponse, String actualResponse, String message, int runId,
-                         RequestCollection requestCollection, BuildVersion buildVersion, Set<Label> labels,
-                         Set<HeaderHistory> headerHistories, Set<DBValidationHistory> dbValidationHistories) {
+                         RequestCollection requestCollection, BuildVersion buildVersion, List<Label> labels,
+                         List<HeaderHistory> headerHistories, List<DBValidationHistory> dbValidationHistories) {
         this.id = id;
         this.status = status;
         this.application = application;
@@ -239,27 +234,27 @@ public class ResultHistory implements Serializable {
         this.buildVersion = buildVersion;
     }
 
-    public Set<Label> getLabels() {
+    public List<Label> getLabels() {
         return labels;
     }
 
-    public void setLabels(Set<Label> labels) {
+    public void setLabels(List<Label> labels) {
         this.labels = labels;
     }
 
-    public Set<HeaderHistory> getHeaderHistories() {
+    public List<HeaderHistory> getHeaderHistories() {
         return headerHistories;
     }
 
-    public void setHeaderHistories(Set<HeaderHistory> headerHistories) {
+    public void setHeaderHistories(List<HeaderHistory> headerHistories) {
         this.headerHistories = headerHistories;
     }
 
-    public Set<DBValidationHistory> getDbValidationHistories() {
+    public List<DBValidationHistory> getDbValidationHistories() {
         return dbValidationHistories;
     }
 
-    public void setDbValidationHistories(Set<DBValidationHistory> dbValidationHistories) {
+    public void setDbValidationHistories(List<DBValidationHistory> dbValidationHistories) {
         this.dbValidationHistories = dbValidationHistories;
     }
 

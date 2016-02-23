@@ -5,13 +5,10 @@ import org.apache.ibatis.annotations.*;
 import org.apache.ibatis.type.JdbcType;
 import org.springframework.stereotype.Repository;
 
-
-import java.util.LinkedHashSet;
 import java.util.List;
 
 /**
  * MyBatis DbValidationHistoryMapper mapper for performing CRUD operations on DbValidationHistory database instance.
- *
  */
 
 @Repository
@@ -41,7 +38,7 @@ public interface DbValidationHistoryMapper {
             @Result(property = "expectedValue", column = "expectedValue", jdbcType = JdbcType.VARCHAR),
             @Result(property = "actualValue", column = "actualValue", jdbcType = JdbcType.VARCHAR)
     })
-    LinkedHashSet<DBValidationHistory> loadByResultHistoryId(int id);
+    List<DBValidationHistory> loadByResultHistoryId(int id);
 
     @Update("UPDATE DBValidationHistory SET sqlQuery = #{sqlQuery}, expectedValue = #{expectedValue}, "
             + "actualValue = #{actualValue}, resultHistoryId = #{resultHistory.id} WHERE id = #{id}")

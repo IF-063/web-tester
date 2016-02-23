@@ -1,16 +1,14 @@
 package com.softserve.webtester.service;
 
 import com.softserve.webtester.mapper.*;
-import com.softserve.webtester.model.Request;
-import com.softserve.webtester.model.ResultHistory;
+import com.softserve.webtester.model.*;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.Set;
+import java.util.List;
 
 @Service
 @Transactional
@@ -32,8 +30,8 @@ public class ResultHistoryService {
 
     // Saving resultHistory instance in ResultHistory table
     public int save(ResultHistory resultHistory) {
-        try {
 
+        try {
             resultHistoryMapper.save(resultHistory);
             int id = resultHistory.getId();
             LOGGER.info("ResultHistory saved successfully, resultHistory details = " + resultHistory);
@@ -55,7 +53,8 @@ public class ResultHistoryService {
     }
 
     // Loading resultHistory instance from ResultHistory table
-    public Set<ResultHistory> loadAll() {
+    public List<ResultHistory> loadAll() {
+
         try {
             return resultHistoryMapper.loadAll();
         } catch (DataAccessException e) {
@@ -66,6 +65,7 @@ public class ResultHistoryService {
 
     // Deleting resultHistory instance from ResultHistory table
     public int delete(int id) {
+
         try {
             return resultHistoryMapper.detele(id);
         } catch (DataAccessException e) {
@@ -76,14 +76,20 @@ public class ResultHistoryService {
 
     // Saving DbValidationHistories, headerHistories and labels for the resultHistory instance to the database
     private void saveResultHistoryComponents(ResultHistory resultHistory) {
-        if (!resultHistory.getDbValidationHistories().isEmpty()) {
+
+        List<DBValidationHistory> dbValidationHistories = resultHistory.getDbValidationHistories();
+        if (dbValidationHistories!=null && !dbValidationHistories.isEmpty()) {
             dbValidationHistoryMapper.saveByResultHistory(resultHistory);
         }
-        if (!resultHistory.getHeaderHistories().isEmpty()) {
+
+        List<HeaderHistory> headerHistories = resultHistory.getHeaderHistories();
+        if (headerHistories!=null && !headerHistories.isEmpty()) {
             headerHistoryMapper.saveByResultHistory(resultHistory);
         }
-        if (!resultHistory.getLabels().isEmpty()) {
-            //labelMapper.saveByRequest(resultHistory);
+
+        List<Label> labels = resultHistory.getLabels();
+        if (labels!=null && !labels.isEmpty()) {
+            labelMapper.saveByResultHistory(resultHistory);
         }
     }
 }

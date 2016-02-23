@@ -5,6 +5,7 @@ import org.apache.ibatis.annotations.*;
 import org.apache.ibatis.type.JdbcType;
 import org.springframework.stereotype.Repository;
 import java.util.LinkedHashSet;
+import java.util.List;
 
 /**
  * MyBatis ResultHistoryMapper mapper for performing CRUD operations on ResultHistory database instance.
@@ -49,7 +50,7 @@ public interface ResultHistoryMapper {
             @Result(property = "message", column = "message", jdbcType = JdbcType.LONGVARCHAR),
             @Result(property = "runId", column = "runId", jdbcType = JdbcType.INTEGER),
             @Result(property = "buildVersion", column = "buildVersionId",
-                    one = @One(select = "com.softserve.webtester.mapper.BuildVersionMapper.load")),
+                    one = @One(select = "com.softserve.webtester.mapper.BuildVersionMapper.loadBuildVersionById")),
             @Result(property = "requestCollection", column = "requestCollectionId",
                     one = @One(select = "com.softserve.webtester.mapper.RequestCollectionIdMapper.load")),
             @Result(property = "labels", column ="id",
@@ -75,7 +76,7 @@ public interface ResultHistoryMapper {
             @Result(property = "requestDescription", column = "requestDescription", jdbcType = JdbcType.VARCHAR),
             @Result(property = "timeStart", column = "timeStart", jdbcType = JdbcType.VARCHAR)
     })
-    LinkedHashSet<ResultHistory> loadAll();
+    List<ResultHistory> loadAll();
 
     @Delete("DELETE FROM ResultHistory WHERE id = #{id}")
     int detele(int id);
