@@ -22,7 +22,7 @@ public class User implements Serializable{
     
     private int id;
     
-    @NotBlank(message="email may not be empty")
+    @NotBlank(message="email cannot be empty")
     private String username;
     
     @Size(min=4, max=32)

@@ -146,4 +146,13 @@ public interface RequestMapper {
 	    + "#{item}</foreach></script>") 
     void deleteRequests(@Param("list") int[] requestIdArray);
     
+    /**
+     * Checks the unique of request's name.
+     * 
+     * @param name name of {@link Request} should be checked
+     * @return true, if name is unique
+     */
+    @Select("SELECT IF(count(*) > 0, false, true) FROM Request WHERE name = #{name}")
+    boolean isRequestNameFree(String name);
+    
 }

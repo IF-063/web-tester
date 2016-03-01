@@ -13,7 +13,7 @@
 		http://www.springframework.org/schema/tx 
 		http://www.springframework.org/schema/tx/spring-tx-4.2.xsd">
 
-	<context:property-placeholder location="classpath:datasource.properties" />
+	<!-- <context:property-placeholder location="classpath:datasource.properties" /> -->
 
 	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
 		<property name="driverClassName" value="${jdbc.driverClassName}" />

@@ -1,9 +1,13 @@
 package com.softserve.webtester.service;
 
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
@@ -29,7 +33,6 @@ import com.softserve.webtester.model.Variable;
  * @version 1.2
  */
 @Service
-@Transactional
 public class RequestService {
     
     private static final Logger LOGGER = Logger.getLogger(RequestService.class);
@@ -48,6 +51,17 @@ public class RequestService {
 
     @Autowired
     private LabelMapper labelMapper;
+    
+    @Value("${request.timeout.default:25}")
+    private int defaultTimeout;
+    
+    @Autowired
+    @Qualifier("requestNameCountPattern")
+    private Pattern requestNameCountPattern;
+    
+    public int getDefaultTimeout() {
+        return defaultTimeout;
+    }
 
     /**
      * Saves {@link Request} instance to the database.
@@ -57,6 +71,7 @@ public class RequestService {
      * @throws DuplicateKeyException if the request with the name exists in the database.
      * @throws DataAccessException
      */
+    @Transactional
     public int save(Request request) {
 	try {
 
@@ -81,6 +96,7 @@ public class RequestService {
      * @return {@link Request} instance
      * @throws DataAccessException
      */
+    @Transactional
     public Request load(int id) {
 	try {
 	    return requestMapper.load(id);
@@ -96,6 +112,7 @@ public class RequestService {
      * @return List of {@link Request} instances
      * @throws DataAccessException
      */
+    @Transactional
     public List<Request> loadAll() {
 	try {
 	    return requestMapper.loadAll();
@@ -113,6 +130,7 @@ public class RequestService {
      * @throws DuplicateKeyException if the request with the name exists in the database.
      * @throws DataAccessException
      */
+    @Transactional
     public int update(Request request) {
 	try {
 	    int id = request.getId();
@@ -143,6 +161,7 @@ public class RequestService {
      * @return the number of rows affected by the statement
      * @throws DataAccessException
      */
+    @Transactional
     public int delete(int id) {
 	try {
 	    return requestMapper.delete(id);
@@ -158,6 +177,7 @@ public class RequestService {
      * @param requestIdArray identifiers of request to delete
      * @throws DataAccessException
      */
+    @Transactional
     public void delete(int[] requestIdArray) {
 	try {
 	    requestMapper.deleteRequests(requestIdArray);
@@ -168,32 +188,89 @@ public class RequestService {
     }
     
     /**
-     * Invoke this method to save all dbValidations, variables, headers and labels for the request instance to the
-     * database
+     * Checks the unique of request's name.
+     * 
+     * @param name name of {@link Request} should be checked
+     * @return true, if name is unique
+     * @throws DataAccessException
+     */
+    @Transactional
+    public boolean isRequestNameFree(String name) {
+	try {
+	    return requestMapper.isRequestNameFree(name);
+	} catch (DataAccessException e) {
+	    LOGGER.error("Unable to check request name, requests name: " + name, e);
+	    throw e;
+	}
+    }
+    
+    /**
+     * Creates duplicate existing {@link Request} 
+     * 
+     * @param fromId identifier of Request should be duplicated
+     * @return duplicate of existing Request instance
+     * @throws DataAccessException
+     */
+    @Transactional
+    public Request createDuplicate(int fromId) {
+	try {
+	    Request request = load(fromId);
+	    request.setId(0);
+	    request.getHeaders().forEach(i -> i.setId(0));
+	    request.getVariables().forEach(i -> i.setId(0));
+	    request.getDbValidations().forEach(i -> i.setId(0));
+	    request.setName(createDuplicateName(request.getName()));
+	    return request;
+	} catch (DataAccessException e) {
+	    LOGGER.error("Unable to duplicate the request, requests id: " + fromId, e);
+	    throw e;
+	}
+    }
+
+    
+    /**
+     * Generates unique name for {@link Request} instance
+     * 
+     * @param name name of existing Request should be duplicated
+     * @return geterated request name
+     */
+    private String createDuplicateName(String name) {
+	Matcher m = null;
+	while (!isRequestNameFree(name)) {
+	    int _position = name.lastIndexOf("_");
+	    if (_position == -1) {
+		name += "_1";
+	    } else {
+		m = requestNameCountPattern.matcher(name);
+		if (m.find()) {
+		    int curValue = Integer.parseInt(m.group().substring(1));
+		    name = name.substring(0, _position) + "_" + ++curValue;
+		} else {
+		    name += "_1";
+		}
+	    }
+	}
+	return name;
+    }
+    
+    /**
+     * Saves all dbValidations, variables, headers and labels for the request instance to the database.
      */
     private void saveRequestComponents(Request request) {
 	List<DbValidation> dbValidations = request.getDbValidations();
-	if (dbValidations!=null && !dbValidations.isEmpty()) {
-	   boolean b = dbValidations.removeIf(element -> element.getSqlQuery()==null || element.getSqlQuery().isEmpty());
-	   System.out.println("dbv: "  + b);
-	   dbValidationMapper.saveByRequest(request);
+	if (dbValidations != null && !dbValidations.isEmpty()) {
+	    dbValidationMapper.saveByRequest(request);
 	}
 	List<Variable> variables = request.getVariables();
-	if (request.getVariables()!=null && !request.getVariables().isEmpty()) {
-	    boolean b = variables.removeIf(element -> element.getName()==null || element.getName().isEmpty());
-	    System.out.println("var: "  + b);
+	if (variables!=null && !variables.isEmpty()) {
 	    variableMapper.saveByRequest(request);
 	}
 	List<Header> headers = request.getHeaders();
-	if (request.getHeaders()!=null && !request.getHeaders().isEmpty()) {
-	    boolean b = headers.removeIf(element -> element.getName()==null || element.getName().isEmpty());
-	    System.out.println("hea: "  + b);
+	if (headers!=null && !headers.isEmpty()) {
 	    headerMapper.saveByRequest(request);
 	}
 	List<Label> labels = request.getLabels();
-	if (request.getLabels()!=null && !request.getLabels().isEmpty()) {
-	    boolean b = labels.removeIf(element -> element.getName()==null || element.getName().isEmpty());
-	    System.out.println("lab: "  + b);
+	if (labels!=null && !labels.isEmpty()) {
 	    labelMapper.saveByRequest(request);
 	}
     }

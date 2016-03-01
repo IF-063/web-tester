@@ -1,0 +1,101 @@
+$(function() {
+
+  $('#requests #selectAll').click(function() {
+    $('#requests input[type="checkbox"][name="operateSelect"]').prop('checked', this.checked);
+  });
+
+  $(document).on('click', '.run', function() {
+    $('#requestsToSend').prop('value', [$(this).prop('id')]);
+    startTest();
+    return false;
+  });
+
+  $(document).on('click', '#runSelected', function() {
+    var selected = [];
+    $('#requests input:checked[name="operateSelect"]').each(function() {
+      selected.push($(this).prop('id'));
+    });
+    if (selected.length != 0) {
+      $('#requestsToSend').prop('value', selected);
+      startTest();
+    }
+    return false;
+  });
+
+  $(document).on('click', '#runAll', function() {
+    var selected = [];
+    $('#requests input:checkbox:not(:checked)[name="disableSelect"]').each(function() {
+      selected.push($(this).prop('id'));
+    });
+    if (selected.length != 0) {
+      $('#requestsToSend').prop('value', selected);
+      startTest();
+    }
+
+  });
+
+  function startTest() {
+    $('#environmentModal').modal('show');
+    return false;
+  }
+
+  $('#confirmEnvironmentModal').click(function(e) {
+    var envId = $('#environment').val();
+    sendTestData(envId);
+    return false;
+  });
+
+  function sendTestData(envId) {
+    $.ajax({
+      type: 'POST',
+      url: '/web-tester/tests/requests/run',
+      data: {
+        environmentId: envId,
+        requestIdArray: $('#requestsToSend').val().split(',')
+      },
+      success: function(data, textStatus, jqXHR) {
+        alert(data);
+      },
+      error: function(jqXHR) {
+        alert(0);
+      },
+    });
+  }
+
+  $(document).on('click', '.removeInstance', function() {
+    if (confirm('Do you really want to delete the request?')) {
+      deleteRequests([$(this).prop('id')]);
+    }
+    return false;
+  });
+
+  $(document).on('click', '#deleteSelected', function() {
+    var selected = [];
+    $('#requests input:checked[name="operateSelect"]').each(function() {
+      selected.push($(this).prop('id'));
+    });
+    if (selected.length != 0 && confirm('Do you really want to delete the requests?')) {
+      deleteRequests(selected);
+    }
+    return false;
+  });
+
+  function deleteRequests(input) {
+    $.ajax({
+      type: 'DELETE',
+      url: '/web-tester/tests/requests',
+      contentType: 'application/json',
+      data: JSON.stringify(input),
+      success: function(data, textStatus, jqXHR) {
+        for (var i = 0; i < input.length; i++) {
+          $('#requests input[type="checkbox"][id=' + input[i] + ']').parents('tr').remove();
+        }
+        alert('code: ' + jqXHR.status);
+      },
+      error: function(jqXHR) {
+        alert('oyva.. code: ' + jqXHR.status);
+      },
+    });
+  };
+
+});

@@ -15,9 +15,6 @@
   <!-- Custom CSS -->
   <link href=<c:url value="/resources/dist/css/sb-admin-2.css" /> rel="stylesheet">
 
-  <!-- Custom Fonts -->
-  <link href=<c:url value="/resources/bower_components/font-awesome/css/font-awesome.min.css" /> rel="stylesheet">
-
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
   <!--[if lt IE 9]>
@@ -78,43 +75,5 @@
       </form:form>
     </div>
   </div>
-
-
-  <!-- jQuery -->
-  <script src=<c:url value="/resources/bower_components/jquery/dist/jquery.min.js" /> ></script>
-
-  <!-- Bootstrap Core JavaScript -->
-  <script src=<c:url value="/resources/bower_components/bootstrap/dist/js/bootstrap.min.js" /> ></script>
-
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.14.0/jquery.validate.min.js"></script>
-
-  <!-- 	<script type="text/javascript">
-	$(document).ready(
-		    function() {
-
-		        $('#formm').validate({
-		            rules: {
-		                username: {
-		                    required: true,
-		                    email: true
-		                },
-		                password: {
-		                    minlength: 4,
-		                    required: true
-		                }
-		            },
-		            highlight: function(element) {
-		                $(element).closest('.form-group').removeClass(
-		                    'success').addClass('error');
-		            },
-		            success: function(element) {
-		                element.text('OK!').addClass('valid').closest(
-		                        '.form-group').removeClass('error')
-		                    .addClass('success');
-		            }
-		        });
-		    });
-	</script> -->
-
 </body>
 </html>

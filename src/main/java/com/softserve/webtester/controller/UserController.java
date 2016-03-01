@@ -20,7 +20,7 @@ import com.softserve.webtester.service.UserService;
  * can access this page.
  * 
  * @author Taras Oglabyak
- * @version 1.2
+ * @version 1.3
  */
 @Controller
 @RequestMapping("/account")
@@ -29,14 +29,6 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-//    @Autowired
-//    @Qualifier("applicationAuthenticationManager")
-//    private AuthenticationManager authenticationManager;
-//    
-//    @Autowired
-//    @Qualifier("sessionRegistry")
-//    private SessionRegistry sessionRegistry;
-
     /**
      * Retrieves user-account page. 
      * 
@@ -44,11 +36,12 @@ public class UserController {
      * @return ModelAndView instance with 'account' view
      */
     @RequestMapping(method = RequestMethod.GET)
-    public ModelAndView getUserAccountPage(@RequestParam(value = "success", required = false) String success) {
+    public ModelAndView getUserAccountPage(@RequestParam(value = "success", required = false) boolean success) {
 	ModelAndView modelAndView = new ModelAndView("account");
-	if (success != null) {
+	if (success) {
 	    modelAndView.addObject("success", "Account has been successfully updated!");
 	}
+	System.out.println(success);
 	String userId = SecurityContextHolder.getContext().getAuthentication().getName();
 	User user = userService.load(userId);
 	modelAndView.addObject("user", user);
@@ -73,31 +66,6 @@ public class UserController {
 	String currentUsername = currentAuthentication.getName();
 	user.setId(Integer.parseInt(currentUsername));
 	userService.update(user);
-/*
-	if (!currentUsername.equals(user.getUsername())) {
-	   // new SecurityContextLogoutHandler().logout(request, response, currentAuthentication);
-	    
-	    Object currentPrincipal = currentAuthentication.getPrincipal();
-	    List<SessionInformation> userSessions = sessionRegistry.getAllSessions(currentPrincipal, false);
-	    String currentSessionId = request.getSession().getId();
-	    System.out.println("currentSessionId: "+currentSessionId);
-	    System.out.println("All:");
-	    userSessions.forEach(usession -> System.out.println(usession.getSessionId()));
-	    for (SessionInformation userSession : userSessions) {
-		if (!currentSessionId.equals(userSession.getSessionId())) {
-		    System.out.println("DELETED: "+userSession.getSessionId());
-		    userSession.expireNow();
-		}
-	    }
-	            
-	    UsernamePasswordAuthenticationToken authRequest = new UsernamePasswordAuthenticationToken(
-		user.getUsername(), user.getPassword());
-	    Authentication authentication = authenticationManager.authenticate(authRequest);
-	    SecurityContext securityContext = SecurityContextHolder.getContext();
-	    securityContext.setAuthentication(authentication);
-	    HttpSession session = request.getSession(true);
-	    session.setAttribute("SPRING_SECURITY_CONTEXT", securityContext);
-	}*/
-	return "redirect:/account?success";
+	return "redirect:/account?success=true";
     }
 }

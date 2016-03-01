@@ -8,6 +8,13 @@ import org.springframework.stereotype.Component;
 import com.softserve.webtester.model.Service;
 import com.softserve.webtester.service.MetaDataService;
 
+/**
+ * Implementation of PropertyEditorSupport for binding spring form attribute with service field in {@link Request}
+ * class.
+ * 
+ * @author Taras Oglabyak
+ *
+ */
 @Component
 public class ServiceEditor extends PropertyEditorSupport {
 

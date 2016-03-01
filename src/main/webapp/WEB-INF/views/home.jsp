@@ -18,7 +18,7 @@
     <a href="${pageContext.request.contextPath}/logout">Logout</a>
   </p>
   <p>${user}
-    <a href="<c:url value=" /account " />">Edit</a>
+    <a href=<c:url value="/account" />>Edit</a>
   </p>
   <p>
     <a href=<c:url value="/tests/requests" />>/tests/requests</a>
