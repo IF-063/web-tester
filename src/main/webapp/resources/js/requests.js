@@ -1,5 +1,14 @@
 $(function() {
+	
+	
+  $('#resetFilters').click(function(){
+	window.location.href=url.split('?')[0];
+  });
 
+  $('#applicationFilter, #serviceFilter, #labelFilter').select2({
+	theme: 'bootstrap'
+  });
+ 
   $('#requests #selectAll').click(function() {
     $('#requests input[type="checkbox"][name="operateSelect"]').prop('checked', this.checked);
   });

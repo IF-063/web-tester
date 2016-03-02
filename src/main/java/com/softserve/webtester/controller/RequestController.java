@@ -48,10 +48,6 @@ public class RequestController {
 //    public void initBinder(WebDataBinder binder) {
 //	 binder.setValidator(requestNameUniqueValidator);
 //    }
-    @RequestMapping(value = "/e", method = RequestMethod.GET)
-    public void testError(){
-	throw new RuntimeException();
-    }
 
     /**
      * Retrieves page with all existing requests. 
@@ -59,10 +55,19 @@ public class RequestController {
      * @return ModelAndView instance with 'requests' view
      */
     @RequestMapping(method = RequestMethod.GET)
-    public ModelAndView getRequestsPage() {
+    public ModelAndView getRequestsPage(
+	    @RequestParam(value = "applicationFilter", required = false) int[] applicationFilter,
+	    @RequestParam(value = "serviceFilter", required = false) int[] serviceFilter,
+	    @RequestParam(value = "labelFilter", required = false) int[] labelFilter) {
 	ModelAndView modelAndView = new ModelAndView("request/requests");
+//	modelAndView.addObject("applicationFilter", applicationFilter);
+//	modelAndView.addObject("serviceFilter", serviceFilter);
+//	modelAndView.addObject("labelFilter", labelFilter);
+	modelAndView.addObject("applications", metaDataService.applicationLoadAll());
+	modelAndView.addObject("services", metaDataService.serviceLoadAll());
+	modelAndView.addObject("labels", metaDataService.loadAllLabels());
 	modelAndView.addObject("environments", environmentService.loadAll());
-	modelAndView.addObject("requests", requestService.loadAll());
+	modelAndView.addObject("requests", requestService.loadAll(applicationFilter, serviceFilter, labelFilter));
 	return modelAndView;
     }
 
@@ -132,11 +137,6 @@ public class RequestController {
 	    return "request/requestCreateEdit";
 	}
 	System.out.println(request);
-	System.out.println("h: " + request.getHeaders());
-	System.out.println("l: " + request.getLabels());
-	System.out.println("v: " + request.getVariables());
-	System.out.println("db: " + request.getDbValidations());
-	System.out.println("--------------------------------------------");
 	requestService.save(request);
 	return "redirect:/tests/requests";
     }
@@ -173,7 +173,7 @@ public class RequestController {
 	    return "request/requestCreateEdit";
 	}
 	System.out.println("editing:" + id);
-	System.out.println(request.getVariables());
+	System.out.println(request);
 	requestService.update(request);
 	return "redirect:/tests/requests";
     }
@@ -209,7 +209,9 @@ public class RequestController {
     }
     
     @RequestMapping(value = "/create/isRequestNameFree", method = RequestMethod.GET)
-    public @ResponseBody String isRequestNameFree(@RequestParam("name") String name){
-	return String.format("{\"valid\": %b}", !"".equals(name) && requestService.isRequestNameFree(name));
+    public @ResponseBody String isRequestNameFree(@RequestParam("name") String name,
+	    @RequestParam(value = "exclusionName", required = false) String exclusionName){
+	return String.format("{\"valid\": %b}", !"".equals(name) 
+			     && requestService.isRequestNameFree(name,exclusionName));
     }
 }

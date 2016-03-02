@@ -1,5 +1,5 @@
 $(function() {
-	
+
   // enables tag autocomplete in 'labels' field
   $('.multipleSelect').select2({
     theme: 'bootstrap'
@@ -13,7 +13,7 @@ $(function() {
     setRequestBodyDisabled(this);
   });
 
-  //enables request body field
+  // enables request body field
   function setRequestBodyDisabled(requestMethod) {
     var enabled = requestMethod.value == 'POST' || requestMethod.value == 'PUT';
     $('#requestBody').prop('disabled', !enabled);
@@ -60,48 +60,42 @@ $(function() {
     });
   });
   
-  // handles adding new headers
-  $(document).on('click', '#addHeader', function() {
-	if (!restrictIfEmpty(this)){
-      var headerTableRow = $('#template').find('tr').eq(0).clone();
-      console.log(headerTableRow);
-      $('#headers').append(headerTableRow);
-      setVisibility($(this).closest('.elementContainer'));
-    }
-    return false;
-  });
-
-  //handles adding new variables
-  $(document).on('click', '#addVariable', function(e) {
-	if (!restrictIfEmpty(this)){
-      var variableTableRow = $('#template').find('tr').eq(1).clone();
-      variableTableRow.find('#\\.dataType').empty().append($('#variableDataTypesTemplate').find('select').clone());
-      $('#variables').append(variableTableRow);
-      setVisibility($(this).closest('.elementContainer'));
+  // add new row to header's, variable's or dbvalidation's tables
+  $(document).on('click', '.addButton', function() {
+    if (!restrictIfEmpty(this)){
+	  var row = $('#template').find('tr').eq($(this).prop('id')).clone();
+	  $(this).closest('.elementContainer').find('table').append(row);
+	  setVisibility($(this).closest('.elementContainer'));
 	}
     return false;
   });
 
-  //handles adding new dbValidations
-  $(document).on('click', '#addDbValidation', function() {
-	if (!restrictIfEmpty(this)){
-      var dbValidationTableRow = $('#template').find('tr').eq(2).clone();
-      $('#dbValidations').append(dbValidationTableRow);
-      setVisibility($(this).closest('.elementContainer'));
-	}
-    return false;
-  });
-  
+  // doesn't allow to add new row to header's, variable's or dbvalidation's tables in case of empty fields
   function restrictIfEmpty(button) {
 	var container = $(button).closest('.elementContainer');
 	var count = 0;
-	container.find(':input[required]:visible').each(function() {
+	container.find(':input[required]:visible:not(:disabled)').each(function() {
 	  if (!$.trim($(this).val())) {
 	    count++;
 	  }    
 	});
 	return count > 0;
   }
+  
+  // resets page to original state	
+  $('#reset').click(function(){
+	location.reload();
+	return false;
+  });
+  
+  // cleans all field
+  $('#clean').click(function(e){
+    $('.elementContainer').find($('.dataRow')).remove();
+    $('select :first-child').prop('selected','selected');//
+    $('.multipleSelect').select2('val', null);
+    $('input[type=text],textarea').val('');
+    return false;
+  });
 
 //      $('.isSql').click(function() {
 //    	var isSqlObj = $(this);
@@ -207,6 +201,7 @@ $(function() {
 //      });
 //  });
 
+  // submits form
   $('#validate').click(function() {
     normalizeLists();
     $('#requests').submit();
@@ -243,7 +238,6 @@ $(function() {
         currentTr.find($('td')).each(function() {
           var currentTd = $(this);
           var suffix = currentTd.prop('id');
-          console.log('suffix: ' + suffix);
           var children = currentTd.children();
           children.each(function() {
             var child = $(this);

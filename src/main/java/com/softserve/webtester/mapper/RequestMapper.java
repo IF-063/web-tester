@@ -85,7 +85,19 @@ public interface RequestMapper {
      * @return List of Request instances
      * @throws DataAccessException
      */
-    @Select("SELECT id, name, applicationId, serviceId, endpoint FROM Request")
+    @Select({ "<script>SELECT r.id, r.name, r.applicationId, r.serviceId, r.endpoint FROM Request r ",
+	      "<if test='labelFilter!=null'>LEFT JOIN Request_Label rl ON r.id=rl.requestId </if>", 
+	      "WHERE id > 0",
+	      "<if test='applicationFilter!=null'> AND applicationId IN",
+	      "<foreach collection='applicationFilter' item='item' index='index' open='(' separator=',' close=')'>",
+	      "#{item}</foreach></if>",
+	      "<if test='servicenFilter!=null'> AND serviceId IN",
+	      "<foreach collection='servicenFilter' item='item' index='index' open='(' separator=',' close=')'>",
+	      "#{item}</foreach></if>",
+	      "<if test='labelFilter!=null'> AND rl.labelId IN",
+	      "<foreach collection='labelFilter' item='item' index='index' open='(' separator=',' close=')'>",
+	      "#{item}</foreach></if>",
+	      "</script>" })
     @Results({ @Result(id = true, property = "id", column = "id", jdbcType = JdbcType.INTEGER),
 	       @Result(property = "name", column = "name", jdbcType = JdbcType.VARCHAR),
 	       @Result(property = "application", column = "applicationId", 
@@ -94,7 +106,9 @@ public interface RequestMapper {
 	               one = @One(select = "com.softserve.webtester.mapper.ServiceMapper.load")),
 	       @Result(property = "endpoint", column = "endpoint", jdbcType = JdbcType.VARCHAR),
     })
-    List<Request> loadAll();
+    List<Request> loadAll(@Param(value = "applicationFilter") int[] applicationFilter,
+	    		  @Param(value = "servicenFilter") int[] servicenFilter,
+    			  @Param(value = "labelFilter") int[] labelFilter);   
     
     @Select("SELECT r.id, r.name, r.applicationId, r.serviceId, r.endpoint FROM Request r "
 	    + "INNER JOIN RequestCollection_Request cr ON r.id = cr.requestId WHERE cr.requestCollectionId = #{id}")
@@ -152,7 +166,8 @@ public interface RequestMapper {
      * @param name name of {@link Request} should be checked
      * @return true, if name is unique
      */
-    @Select("SELECT IF(count(*) > 0, false, true) FROM Request WHERE name = #{name}")
-    boolean isRequestNameFree(String name);
+    @Select("SELECT IF(count(*) > 0, false, true) FROM Request WHERE name = #{name}"
+	    + "<if test='exclutionName!=null'> AND name != #{exclusionName}</if>")
+    boolean isRequestNameFree(@Param("name") String name, @Param("exclusionName") String exclusionName);
     
 }

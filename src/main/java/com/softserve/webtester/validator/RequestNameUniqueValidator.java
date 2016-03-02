@@ -29,7 +29,7 @@ public class RequestNameUniqueValidator implements Validator {
     @Override
     public void validate(Object target, Errors errors) {
 	Request request = (Request) target;
-	if (!requestService.isRequestNameFree(request.getName())) {
+	if (!requestService.isRequestNameFree(request.getName(), null)) {
 	    errors.rejectValue("name", null, "name should be unique");
 	}
     }

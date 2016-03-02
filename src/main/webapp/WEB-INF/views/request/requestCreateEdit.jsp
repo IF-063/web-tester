@@ -34,16 +34,6 @@
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
 
-  <style type="text/css">
-    th {
-      text-align: center;
-    }
-    
-    .row {
-      margin: 3px;
-    }
-  </style>
-
 </head>
 
 <body>
@@ -131,7 +121,7 @@
                 required="required" />
             </div>
           </div>
-
+          
           <div class="form-group">
             <label class="col-md-4 control-label" for="labels">Labels</label>
             <div class="col-md-4">
@@ -144,8 +134,8 @@
             <div class="panel panel-default">
               <div class="panel-heading">
                 <label for="headers">Headers</label>
-                <button id="addHeader" class="btn btn-success addButton">Create</button>
-                <button class="btn btn-warning clearCollection">Delete all</button>
+                <button id="0" class="btn btn-default addButton">Create</button>
+                <button class="btn btn-link clearCollection">Delete all</button>
               </div>
               <div class="table-responsive">
                 <table class="table table-hover table-bordered table-condensed text-center panel-body" id="headers">
@@ -180,8 +170,8 @@
             <div class="panel panel-default">
               <div class="panel-heading">
                 <label for="variables">Variables</label>
-                <button id="addVariable" class="btn btn-success addButton">Create</button>
-                <button class="btn btn-warning clearCollection">Delete all</button>
+                <button id="1" class="btn btn-default addButton">Create</button>
+                <button class="btn btn-link clearCollection">Delete all</button>
               </div>
               <div class="table-responsive">
                 <table class="table table-hover table-bordered table-condensed text-center panel-body" id="variables">
@@ -222,7 +212,7 @@
                         </td>
                         <td id=".length">
                           <form:input path="variables[${status.index}].length" 
-                            class="form-control input-md enableIfRandom" placeholder="Length" />
+                            class="form-control input-md enableIfRandom" placeholder="Length" required="required" />
                         </td>
                         <td><a class="removeInstance" title="delete"><i class="fa fa-trash fa-2x"></i></a></td>
                       </tr>
@@ -237,8 +227,8 @@
             <div class="panel panel-default">
               <div class="panel-heading">
                 <label for="dbValidations">DbValidations</label>
-                <button id="addDbValidation" class="btn btn-success addButton">Create</button>
-                <button class="btn btn-warning clearCollection">Delete all</button>
+                <button id="2" class="btn btn-default addButton">Create</button>
+                <button class="btn btn-link clearCollection">Delete all</button>
               </div>
               <div class="table-responsive">
                 <table class="table table-hover table-bordered table-condensed text-center panel-body" 
@@ -271,10 +261,10 @@
           </div>
         </div>
         <div class="row">
-          <div class="form-active">
-            <div class="col-md-4">
-              <button id="validate" class="btn btn-lg btn-success btn-block" value="Save">Save</button>
-            </div>
+          <div class="btn-group btn-group-lg">
+            <button id="reset" class="btn btn-danger">Reset</button>
+            <button id="clean" class="btn btn-warning">Clean all</button>
+            <button id="validate" class="btn btn-success">Save</button>
           </div>
         </div>
       </fieldset>
@@ -283,13 +273,13 @@
   </div>
 
 
-  <div style="display:none" id="variableDataTypesTemplate">
+<%--   <div style="display:none" id="variableDataTypesTemplate">
     <select class="form-control enableIfRandom" disabled="disabled">
       <c:forEach items="${variableDataTypes}" var="vdt">
         <option value="${vdt}"><c:out value="${vdt}" /></option>
       </c:forEach>
     </select>
-  </div>
+  </div> --%>
 
 
   <!-- Template table -->
@@ -321,9 +311,15 @@
           <input class="isRandom" type="checkbox" value="true" /><input type="hidden" value="on" />
           <label class="control-label">Random</label>
         </td>
-        <td id=".dataType"> </td>
+        <td id=".dataType">
+        <select class="form-control enableIfRandom" disabled="disabled">
+      <c:forEach items="${variableDataTypes}" var="vdt">
+        <option value="${vdt}"><c:out value="${vdt}" /></option>
+      </c:forEach>
+    </select>
+         </td>
         <td id=".length">
-          <input placeholder="Length" class="form-control input-md enableIfRandom" type="text" />
+          <input placeholder="Length" class="form-control input-md enableIfRandom" type="text" required="required" />
         </td>
         <td><a class="removeInstance" title="delete"><i class="fa fa-trash fa-2x"></i></a></td>
       </tr>
@@ -348,7 +344,7 @@
 
   <script src=<c:url value="/resources/dist/js/select2.min.js" />></script>
   
-    <!-- Main page script -->
+  <!-- Main page script -->
   <script src=<c:url value="/resources/js/requestCreateEdit.js" />></script>
 
 </body>

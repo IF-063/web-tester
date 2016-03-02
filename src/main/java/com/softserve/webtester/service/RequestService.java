@@ -113,9 +113,9 @@ public class RequestService {
      * @throws DataAccessException
      */
     @Transactional
-    public List<Request> loadAll() {
+    public List<Request> loadAll(int[] applicationFilter, int[] servicenFilter, int[] labelFilter) {
 	try {
-	    return requestMapper.loadAll();
+	    return requestMapper.loadAll(applicationFilter, servicenFilter, labelFilter);
 	} catch (DataAccessException e) {
 	    LOGGER.error("Unable to load request instances", e);
 	    throw e;
@@ -195,9 +195,9 @@ public class RequestService {
      * @throws DataAccessException
      */
     @Transactional
-    public boolean isRequestNameFree(String name) {
+    public boolean isRequestNameFree(String name, String exclusionName) {
 	try {
-	    return requestMapper.isRequestNameFree(name);
+	    return requestMapper.isRequestNameFree(name, exclusionName);
 	} catch (DataAccessException e) {
 	    LOGGER.error("Unable to check request name, requests name: " + name, e);
 	    throw e;
@@ -236,7 +236,7 @@ public class RequestService {
      */
     private String createDuplicateName(String name) {
 	Matcher m = null;
-	while (!isRequestNameFree(name)) {
+	while (!isRequestNameFree(name, null)) {
 	    int _position = name.lastIndexOf("_");
 	    if (_position == -1) {
 		name += "_1";
