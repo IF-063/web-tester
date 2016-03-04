@@ -213,10 +213,11 @@ $(function() {
   });
   
   function isRequestNameFree() {
-	if ($('#name').length > 0) {
+	if ($('#name').val()) {
 	  $.ajax({
 	    type: 'GET',
-	    url: 'create/isRequestNameFree?name=' + $('#name').val(),
+	    url: 'create/isRequestNameFree',
+	    data: {name : $('#name').val(), exclusionId : $('#id').val()},
 	    success: function(data) {
 	      alert(data);
 	    },

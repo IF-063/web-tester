@@ -8,6 +8,7 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
+import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
 
 /**
@@ -22,16 +23,17 @@ public class User implements Serializable{
     
     private int id;
     
+    @Email
     @NotBlank(message="email cannot be empty")
     private String username;
     
+    @NotBlank(message="password cannot be empty")
     @Size(min=4, max=32)
     private String password;
     
     private String firstName;
     
     private String lastName;
-    // private Role role;
 
     public User() { }
 
@@ -74,15 +76,7 @@ public class User implements Serializable{
     public void setLastName(String lastName) {
 	this.lastName = lastName;
     }
-/*
-    public Role getRole() {
-        return role;
-    }
 
-    public void setRole(Role role) {
-        this.role = role;
-    }
-*/
     @Override
     public int hashCode() {
 	return HashCodeBuilder.reflectionHashCode(this, true);

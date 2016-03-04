@@ -1,11 +1,12 @@
 package com.softserve.webtester.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -14,6 +15,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.softserve.webtester.model.User;
 import com.softserve.webtester.service.UserService;
+import com.softserve.webtester.validator.UsernameUniqueValidator;
 
 /**
  * Handles and retrieves user-account page depending on the URI template. A user must be log-in first he 
@@ -28,6 +30,14 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+    
+    @Autowired
+    private UsernameUniqueValidator usernameUniqueValidator;
+    
+    @InitBinder("user")
+    public void initBinder(WebDataBinder binder) {
+	 binder.addValidators(usernameUniqueValidator);
+    }
 
     /**
      * Retrieves user-account page. 
@@ -41,7 +51,6 @@ public class UserController {
 	if (success) {
 	    modelAndView.addObject("success", "Account has been successfully updated!");
 	}
-	System.out.println(success);
 	String userId = SecurityContextHolder.getContext().getAuthentication().getName();
 	User user = userService.load(userId);
 	modelAndView.addObject("user", user);
@@ -59,12 +68,10 @@ public class UserController {
      */
     @RequestMapping(method = RequestMethod.POST)
     public String editAccount(@Validated @ModelAttribute("user") User user, BindingResult result) {
+	
 	if (result.hasErrors()) {
 	    return "account";
 	}
-	Authentication currentAuthentication = SecurityContextHolder.getContext().getAuthentication();
-	String currentUsername = currentAuthentication.getName();
-	user.setId(Integer.parseInt(currentUsername));
 	userService.update(user);
 	return "redirect:/account?success=true";
     }

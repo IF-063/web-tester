@@ -1,5 +1,6 @@
 package com.softserve.webtester.mapper;
 
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Result;
 import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.Select;
@@ -43,5 +44,15 @@ public interface UserMapper {
     @Update("UPDATE User SET username = #{username}, password = #{password}, firstName = #{firstName}, "
     	    + "lastName = #{lastName} WHERE id = #{id}")
     int update(User user);
+    
+    /**
+     * Checks the unique of user's username.
+     * 
+     * @param id id of {@link User} should be excluded
+     * @param username username of {@link User} should be checked
+     * @return true, if username is unique
+     */
+    @Select("SELECT IF(count(*) > 0, false, true) FROM User WHERE username = #{username} AND id != #{id}")
+    boolean isUserNameFree(@Param("id") int id, @Param("username") String username);
     
 }

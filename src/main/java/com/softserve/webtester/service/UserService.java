@@ -59,4 +59,22 @@ public class UserService {
 	    throw e;
 	}
     }
+    
+    /**
+     * Checks the unique of user's username.
+     * 
+     * @param id id of {@link User} should be excluded
+     * @param username username of {@link User} should be checked
+     * @return true, if username is unique
+     * @throws DataAccessException
+     */
+    @Transactional
+    public boolean isUsernameFree(int id, String username) {
+	try {
+	    return userMapper.isUserNameFree(id, username);
+	} catch (DataAccessException e) {
+	    LOGGER.error("Unable to check username, user id: " + id, e);
+	    throw e;
+	}
+    }
 }

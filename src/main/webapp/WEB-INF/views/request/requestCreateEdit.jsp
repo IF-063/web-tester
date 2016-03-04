@@ -19,7 +19,7 @@
   <link href=<c:url value="/resources/dist/css/sb-admin-2.css" /> rel="stylesheet">
 
   <!-- Custom Fonts -->
-  <link href=<c:url value="/resources/bower_components/font-awesome/css/font-awesome.min.css" /> rel="stylesheet" >
+  <link href=<c:url value="/resources/bower_components/font-awesome/css/font-awesome.min.css" /> rel="stylesheet">
 
   <link href=<c:url value="/resources/dist/css/select2.min.css" /> rel="stylesheet" />
 
@@ -39,7 +39,7 @@
 <body>
   <button id="buttton">check</button>
   <div class="container">
-
+<div class="row">
     <form:form action="" method="POST" commandName="request" class="form-horizontal" role="form">
       <fieldset>
         <legend>
@@ -47,7 +47,9 @@
         </legend>
         <div class="row">
           <form:errors path="*" />
-
+          
+          <form:hidden path="id" />
+          
           <div class="form-group">
             <form:label path="name" class="col-md-4 control-label">Name*</form:label>
             <div class="col-md-4">
@@ -269,7 +271,7 @@
         </div>
       </fieldset>
     </form:form>
-
+</div>
   </div>
 
 
@@ -345,7 +347,7 @@
   <script src=<c:url value="/resources/dist/js/select2.min.js" />></script>
   
   <!-- Main page script -->
-  <script src=<c:url value="/resources/js/requestCreateEdit.js" />></script>
+  <script src=<c:url value="/resources/js/request/requestCreateEdit.js" />></script>
 
 </body>
 

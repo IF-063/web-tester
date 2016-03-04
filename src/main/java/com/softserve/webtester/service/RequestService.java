@@ -30,7 +30,7 @@ import com.softserve.webtester.model.Variable;
  * logging.
  * 
  * @author Taras Oglabyak
- * @version 1.2
+ * @version 1.3
  */
 @Service
 public class RequestService {
@@ -54,6 +54,9 @@ public class RequestService {
     
     @Value("${request.timeout.default:25}")
     private int defaultTimeout;
+    
+    @Value("${request.name.duplicate.suffix:_duplicate}")
+    private String duplicateSuffix;
     
     @Autowired
     @Qualifier("requestNameCountPattern")
@@ -109,13 +112,18 @@ public class RequestService {
     /**
      * Loads all stored {@link Request} instances with their main information.
      * 
+     * @param requestNameFilter using for filtering instances, which name starts with the parameter
+     * @param applicationFilter using for filtering instances, which application's identifiers are in the array
+     * @param serviceFilter using for filtering instances, which service's identifiers are in the array
+     * @param labelFilter using for filtering instances, which label's identifiers are in the array
      * @return List of {@link Request} instances
      * @throws DataAccessException
      */
     @Transactional
-    public List<Request> loadAll(int[] applicationFilter, int[] servicenFilter, int[] labelFilter) {
+    public List<Request> loadAll(String requestNameFilter, int[] applicationFilter, int[] serviceFilter, 
+	    			 int[] labelFilter) {
 	try {
-	    return requestMapper.loadAll(applicationFilter, servicenFilter, labelFilter);
+	    return requestMapper.loadAll(requestNameFilter, applicationFilter, serviceFilter, labelFilter);
 	} catch (DataAccessException e) {
 	    LOGGER.error("Unable to load request instances", e);
 	    throw e;
@@ -123,7 +131,7 @@ public class RequestService {
     }
 
     /**
-     * Updates {@link Request} instance should be updated in the database.
+     * Updates {@link Request} instance in the database.
      * 
      * @param request {@link Request} instance to be saved
      * @return the number of rows affected by the statement
@@ -191,13 +199,14 @@ public class RequestService {
      * Checks the unique of request's name.
      * 
      * @param name name of {@link Request} should be checked
+     * @param exclusionId id of {@link Request} should be excluded
      * @return true, if name is unique
      * @throws DataAccessException
      */
     @Transactional
-    public boolean isRequestNameFree(String name, String exclusionName) {
+    public boolean isRequestNameFree(String name, int exclusionId) {
 	try {
-	    return requestMapper.isRequestNameFree(name, exclusionName);
+	    return requestMapper.isRequestNameFree(name, exclusionId);
 	} catch (DataAccessException e) {
 	    LOGGER.error("Unable to check request name, requests name: " + name, e);
 	    throw e;
@@ -219,24 +228,25 @@ public class RequestService {
 	    request.getHeaders().forEach(i -> i.setId(0));
 	    request.getVariables().forEach(i -> i.setId(0));
 	    request.getDbValidations().forEach(i -> i.setId(0));
-	    request.setName(createDuplicateName(request.getName()));
+	    request.setName(request.getName() + duplicateSuffix);
 	    return request;
 	} catch (DataAccessException e) {
 	    LOGGER.error("Unable to duplicate the request, requests id: " + fromId, e);
 	    throw e;
 	}
     }
-
-    
+  
     /**
-     * Generates unique name for {@link Request} instance
+     * Generates unique name for {@link Request} instance.
      * 
-     * @param name name of existing Request should be duplicated
-     * @return geterated request name
+     * @param request existing Request which name should be duplicated
+     * @return generated request name
      */
-    private String createDuplicateName(String name) {
+    @SuppressWarnings("unused")
+    private String createDuplicateName(Request request) {
+	String name = request.getName();
 	Matcher m = null;
-	while (!isRequestNameFree(name, null)) {
+	while (!isRequestNameFree(name, request.getId())) {
 	    int _position = name.lastIndexOf("_");
 	    if (_position == -1) {
 		name += "_1";

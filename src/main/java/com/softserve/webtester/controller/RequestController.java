@@ -10,6 +10,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -44,10 +46,10 @@ public class RequestController {
     @Autowired
     private RequestNameUniqueValidator requestNameUniqueValidator;
     
-//    @InitBinder("request")
-//    public void initBinder(WebDataBinder binder) {
-//	 binder.setValidator(requestNameUniqueValidator);
-//    }
+    @InitBinder("request")
+    public void initBinder(WebDataBinder binder) {
+	 binder.addValidators(requestNameUniqueValidator);
+    }
 
     /**
      * Retrieves page with all existing requests. 
@@ -56,10 +58,12 @@ public class RequestController {
      */
     @RequestMapping(method = RequestMethod.GET)
     public ModelAndView getRequestsPage(
+	    @RequestParam(value = "requestNameFilter", required = false) String requestNameFilter,
 	    @RequestParam(value = "applicationFilter", required = false) int[] applicationFilter,
 	    @RequestParam(value = "serviceFilter", required = false) int[] serviceFilter,
 	    @RequestParam(value = "labelFilter", required = false) int[] labelFilter) {
 	ModelAndView modelAndView = new ModelAndView("request/requests");
+//	modelAndView.addObject("requestNameFilter", requestNameFilter);
 //	modelAndView.addObject("applicationFilter", applicationFilter);
 //	modelAndView.addObject("serviceFilter", serviceFilter);
 //	modelAndView.addObject("labelFilter", labelFilter);
@@ -67,7 +71,8 @@ public class RequestController {
 	modelAndView.addObject("services", metaDataService.serviceLoadAll());
 	modelAndView.addObject("labels", metaDataService.loadAllLabels());
 	modelAndView.addObject("environments", environmentService.loadAll());
-	modelAndView.addObject("requests", requestService.loadAll(applicationFilter, serviceFilter, labelFilter));
+	modelAndView.addObject("requests", requestService.loadAll(requestNameFilter, applicationFilter, 
+			       serviceFilter, labelFilter));
 	return modelAndView;
     }
 
@@ -131,7 +136,6 @@ public class RequestController {
      */
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     public String confirmNewRequest(@Validated @ModelAttribute Request request, BindingResult result, ModelMap map) {
-	requestNameUniqueValidator.validate(request, result);
 	if (result.hasErrors()) {
 	    map.addAllAttributes(addMetaData());
 	    return "request/requestCreateEdit";
@@ -210,8 +214,8 @@ public class RequestController {
     
     @RequestMapping(value = "/create/isRequestNameFree", method = RequestMethod.GET)
     public @ResponseBody String isRequestNameFree(@RequestParam("name") String name,
-	    @RequestParam(value = "exclusionName", required = false) String exclusionName){
+	    @RequestParam(value = "exclusionId") int exclusionId){
 	return String.format("{\"valid\": %b}", !"".equals(name) 
-			     && requestService.isRequestNameFree(name,exclusionName));
+			     && requestService.isRequestNameFree(name, exclusionId));
     }
 }

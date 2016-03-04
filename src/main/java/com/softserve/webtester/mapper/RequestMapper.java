@@ -82,17 +82,22 @@ public interface RequestMapper {
      * Loads all {@link Request} instances from the database.<br>
      * This method loads only main information about request instance.
      * 
+     * @param requestNameFilter using for filtering instances, which name starts with the parameter
+     * @param applicationFilter using for filtering instances, which application identifier are in the array
+     * @param serviceFilter using for filtering instances, which service identifier are in the array
+     * @param labelFilter using for filtering instances, which labels identifier are in the array
      * @return List of Request instances
      * @throws DataAccessException
      */
     @Select({ "<script>SELECT r.id, r.name, r.applicationId, r.serviceId, r.endpoint FROM Request r ",
 	      "<if test='labelFilter!=null'>LEFT JOIN Request_Label rl ON r.id=rl.requestId </if>", 
 	      "WHERE id > 0",
+	      "<if test='requestNameFilter!=null'> AND r.name LIKE CONCAT(#{requestNameFilter},'%')</if>",
 	      "<if test='applicationFilter!=null'> AND applicationId IN",
 	      "<foreach collection='applicationFilter' item='item' index='index' open='(' separator=',' close=')'>",
 	      "#{item}</foreach></if>",
-	      "<if test='servicenFilter!=null'> AND serviceId IN",
-	      "<foreach collection='servicenFilter' item='item' index='index' open='(' separator=',' close=')'>",
+	      "<if test='serviceFilter!=null'> AND serviceId IN",
+	      "<foreach collection='serviceFilter' item='item' index='index' open='(' separator=',' close=')'>",
 	      "#{item}</foreach></if>",
 	      "<if test='labelFilter!=null'> AND rl.labelId IN",
 	      "<foreach collection='labelFilter' item='item' index='index' open='(' separator=',' close=')'>",
@@ -106,8 +111,9 @@ public interface RequestMapper {
 	               one = @One(select = "com.softserve.webtester.mapper.ServiceMapper.load")),
 	       @Result(property = "endpoint", column = "endpoint", jdbcType = JdbcType.VARCHAR),
     })
-    List<Request> loadAll(@Param(value = "applicationFilter") int[] applicationFilter,
-	    		  @Param(value = "servicenFilter") int[] servicenFilter,
+    List<Request> loadAll(@Param(value = "requestNameFilter") String requestNameFilter, 
+	    		  @Param(value = "applicationFilter") int[] applicationFilter,
+	    		  @Param(value = "serviceFilter") int[] serviceFilter,
     			  @Param(value = "labelFilter") int[] labelFilter);   
     
     @Select("SELECT r.id, r.name, r.applicationId, r.serviceId, r.endpoint FROM Request r "
@@ -164,10 +170,10 @@ public interface RequestMapper {
      * Checks the unique of request's name.
      * 
      * @param name name of {@link Request} should be checked
+     * @param exclusionId id of {@link Request} should be excluded
      * @return true, if name is unique
      */
-    @Select("SELECT IF(count(*) > 0, false, true) FROM Request WHERE name = #{name}"
-	    + "<if test='exclutionName!=null'> AND name != #{exclusionName}</if>")
-    boolean isRequestNameFree(@Param("name") String name, @Param("exclusionName") String exclusionName);
+    @Select("SELECT IF(count(*) > 0, false, true) FROM Request WHERE name = #{name} AND id != #{exclusionId}")
+    boolean isRequestNameFree(@Param("name") String name, @Param("exclusionId") int exclusionId);
     
 }

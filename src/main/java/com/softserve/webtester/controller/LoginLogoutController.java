@@ -40,7 +40,6 @@ public class LoginLogoutController {
 	if (logout) {
 	    model.addAttribute("msg", "You've been logged out successfully.");
 	}
-	System.out.println(logout);
 	return "login";
     }
 
