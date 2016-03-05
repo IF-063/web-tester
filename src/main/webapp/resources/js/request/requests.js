@@ -1,5 +1,34 @@
 $(function() {
-	
+
+  var filters = ['applicationFilter', 'serviceFilter', 'labelFilter'];
+  
+  for (i in filters) {
+	  setFilters(filters[i], getURLParameter(filters[i]));
+  }
+  
+  function setFilters(select, values) {
+	var values = getURLParameter(select);
+	$('#' + select + ' option').each(function () {
+	  if ($.inArray($(this).val(), values) != -1) {
+		$(this).prop('selected', true);
+	  };
+	}); 
+  }
+  
+  $('#requestNameFilter').val(getURLParameter('requestNameFilter')[0]);
+
+  function getURLParameter(sParam) {
+	var sPageURL = window.location.search.substring(1);
+	var sURLVariables = sPageURL.split('&');
+	var arr = [];
+	for (var i = 0; i < sURLVariables.length; i++) {
+	  var sParameterName = sURLVariables[i].split('=');
+	  if (sParameterName[0] == sParam) {
+		arr.push(sParameterName[1]);
+	  }
+	}
+	return arr;
+  }
 	
   $('#resetFilters').click(function(){
 	window.location.href=url.split('?')[0];

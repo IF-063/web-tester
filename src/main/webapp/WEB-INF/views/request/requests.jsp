@@ -52,7 +52,7 @@
                     <label for="applicationFilter">Applications filter</label>
                     <select id="applicationFilter" name="applicationFilter" 
                       class="form-control input-md select2-multiple" multiple="multiple" 
-                        data-placeholder="application filters">
+                      data-placeholder="application filters">
 				  <c:forEach items="${applications}" var="application">
 					<option value="${application.id}"><c:out value="${application.name}" /></option>
 				  </c:forEach>
@@ -172,7 +172,7 @@
       </div>
     </div>
   </div>
-
+ 
 
   <script src=<c:url value="/resources/bower_components/jquery/dist/jquery.min.js" />></script>
 
@@ -182,7 +182,7 @@
 
   <!-- Main page script -->
   <script src=<c:url value="/resources/js/request/requests.js" />></script>
-
+  
 </body>
 
 </html>

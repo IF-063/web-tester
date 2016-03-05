@@ -1,25 +1,32 @@
 package com.softserve.webtester.validator;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
+import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
 import com.softserve.webtester.model.Request;
+import com.softserve.webtester.model.Variable;
 import com.softserve.webtester.service.RequestService;
 
 /**
- * Implementation of {@link Validator} interface for checking the unique of {@link Request} instance's 
- * <code>name</code> property.
+ * Implementation of {@link Validator} interface for additional checking {@link Request} instance. Checks the unique 
+ * of request's parameter name and valiable's parameter <code>length</code>.
  * 
  * @author Taras Oglabyak
  *
  */
 @Component
-public class RequestNameUniqueValidator implements Validator {
+public class RequestValidator implements Validator {
 
     @Autowired
     private RequestService requestService;
+    
+    @Autowired
+    private VariableValidator variableValidator;
 
     @Override
     public boolean supports(Class<?> clazz) {
@@ -31,6 +38,18 @@ public class RequestNameUniqueValidator implements Validator {
 	Request request = (Request) target;
 	if (!requestService.isRequestNameFree(request.getName(), request.getId())) {
 	    errors.rejectValue("name", null, "name should be unique");
+	}
+
+	List<Variable> variables = request.getVariables();
+	if (variables != null && !variables.isEmpty()) {
+	    for (int i = 0; i < variables.size(); i++) {
+		try {
+		    errors.pushNestedPath("variables[" + i + "]");
+		    ValidationUtils.invokeValidator(variableValidator, variables.get(i), errors);
+		} finally {
+		    errors.popNestedPath();
+		}
+	    }
 	}
     }
 }

@@ -22,18 +22,29 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.softserve.webtester.editor.ApplicationEditor;
+import com.softserve.webtester.editor.ServiceEditor;
+import com.softserve.webtester.model.Application;
+import com.softserve.webtester.model.Environment;
 import com.softserve.webtester.model.Request;
 import com.softserve.webtester.model.ResponseType;
+import com.softserve.webtester.model.Service;
 import com.softserve.webtester.model.VariableDataType;
 import com.softserve.webtester.service.EnvironmentService;
 import com.softserve.webtester.service.MetaDataService;
 import com.softserve.webtester.service.RequestService;
-import com.softserve.webtester.validator.RequestNameUniqueValidator;
+import com.softserve.webtester.validator.RequestValidator;
 
+/**
+ * Handles and retrieves {@link Request} pages depending on the URI template. A user must be log-in first he 
+ * can access this page.
+ * 
+ * @author Taras Oglabyak
+ */
 @Controller
 @RequestMapping(value = "/tests/requests")
 public class RequestController {
-    // org.springframework.dao.DataIntegrityViolationException
+
     @Autowired
     private RequestService requestService;
 
@@ -42,19 +53,31 @@ public class RequestController {
     
     @Autowired
     private EnvironmentService environmentService;
+    
+    @Autowired
+    private ApplicationEditor applicationEditor;
 
     @Autowired
-    private RequestNameUniqueValidator requestNameUniqueValidator;
+    private ServiceEditor serviceEditor;
+   
+    @Autowired
+    private RequestValidator requestValidator;
     
     @InitBinder("request")
     public void initBinder(WebDataBinder binder) {
-	 binder.addValidators(requestNameUniqueValidator);
+	binder.registerCustomEditor(Application.class, applicationEditor);
+	binder.registerCustomEditor(Service.class, serviceEditor);
+	binder.addValidators(requestValidator);
     }
-
+    
     /**
      * Retrieves page with all existing requests. 
      * 
-     * @return ModelAndView instance with 'requests' view
+     * @param requestNameFilter using for filtering instances, which name starts with the parameter
+     * @param applicationFilter using for filtering instances, which application's identifiers are in the array
+     * @param serviceFilter using for filtering instances, which service's identifiers are in the array
+     * @param labelFilter using for filtering instances, which label's identifiers are in the array
+     * @return ModelAndView instance with 'requests' view and founded requests
      */
     @RequestMapping(method = RequestMethod.GET)
     public ModelAndView getRequestsPage(
@@ -63,10 +86,6 @@ public class RequestController {
 	    @RequestParam(value = "serviceFilter", required = false) int[] serviceFilter,
 	    @RequestParam(value = "labelFilter", required = false) int[] labelFilter) {
 	ModelAndView modelAndView = new ModelAndView("request/requests");
-//	modelAndView.addObject("requestNameFilter", requestNameFilter);
-//	modelAndView.addObject("applicationFilter", applicationFilter);
-//	modelAndView.addObject("serviceFilter", serviceFilter);
-//	modelAndView.addObject("labelFilter", labelFilter);
 	modelAndView.addObject("applications", metaDataService.applicationLoadAll());
 	modelAndView.addObject("services", metaDataService.serviceLoadAll());
 	modelAndView.addObject("labels", metaDataService.loadAllLabels());
@@ -74,17 +93,6 @@ public class RequestController {
 	modelAndView.addObject("requests", requestService.loadAll(requestNameFilter, applicationFilter, 
 			       serviceFilter, labelFilter));
 	return modelAndView;
-    }
-
-    /**
-     * Handles deleting requests. If success, returns 204 (NO_CONTENT) http status.
-     * 
-     * @param requestIdArray array of requests identifiers should be deleted
-     */
-    @RequestMapping(method = RequestMethod.DELETE, consumes = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteRequests(@RequestBody int[] requestIdArray) {
-	requestService.delete(requestIdArray);
     }
 
     /**
@@ -103,10 +111,13 @@ public class RequestController {
 	return map;
     }
 
+
     /**
-     * Retrieves create new request page.
+     * Retrieves page for creating new request with empty request instance or with duplicate of existing request 
+     * instance.
      * 
-     * @return ModelAndView instance with 'requestCreateEdit' view
+     * @param fromId identifier of existing {@link Request}
+     * @return ModelAndView instance with 'requestCreateEdit' view with request instance
      */
     @RequestMapping(value = "/create", method = RequestMethod.GET)
     public ModelAndView getCreateRequestPage(@RequestParam(value = "fromId", required = false) Integer fromId) {
@@ -148,6 +159,8 @@ public class RequestController {
     /**
      * Retrieves request edit page.
      * 
+     * @param id identifier of editing {@link Request} instance
+     * 
      * @return ModelAndView instance with 'requestCreateEdit' view
      */
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
@@ -165,9 +178,9 @@ public class RequestController {
      * 
      * @param id identifier of Request should be updated
      * @param request {@link Request} instance should be updated
-     * @param result
-     * @param map
-     * @return
+     * @param result {@link BindingResult} instance
+     * @param map {@link ModelMap} instance
+     * @return if success, redirects to requests main  page; in case of validation errors returns to editing page
      */
     @RequestMapping(value = "/{id}", method = RequestMethod.POST)
     public String confirmEditRequest(@PathVariable int id, @Validated @ModelAttribute Request request,
@@ -183,7 +196,7 @@ public class RequestController {
     }
 
     /**
-     * Handles request deleting. If success, returns 204 (NO_CONTENT) http status.
+     * Handles request deleting. If success, returns 204 (NO_CONTENT) HTTP status.
      * 
      * @param id identifier of {@link Request} should be updated
      */
@@ -192,26 +205,42 @@ public class RequestController {
     public void delete(@PathVariable int id) {
 	requestService.delete(id);
     }
+    
+    /**
+     * Handles deleting requests. If success, returns 204 (NO_CONTENT) HTTP status.
+     * 
+     * @param requestIdArray array of requests identifiers should be deleted
+     */
+    @RequestMapping(method = RequestMethod.DELETE, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteRequests(@RequestBody int[] requestIdArray) {
+	requestService.delete(requestIdArray);
+    }
 
-    // TODO Taras O. (if success - redirect to results page)
     /**
      * Handles requests run.
      * 
-     * @param environmentId
-     * @param requestIdArray
-     * @return
+     * @param environmentId identifier of {@link Environment} instance
+     * @param requestIdArray identifiers of {@link Request} instance
+     * @return redirects to results page
      */
     @RequestMapping(value = "/run", method = RequestMethod.POST)
-    //@ResponseStatus(HttpStatus.NO_CONTENT)
-    public @ResponseBody String runRequests(@RequestParam(value = "environmentId") int environmentId, 
+    public String runRequests(@RequestParam(value = "environmentId") int environmentId, 
 	    @RequestParam(value = "requestIdArray[]") int[] requestIdArray) { 
 	System.out.println("start at: " + new Date());
 	System.out.println("e: " + environmentId);
 	System.out.println("rqsts: " + Arrays.toString(requestIdArray));
 	System.out.println();
-	return "ok";
+	return "redirect:/";
     }
     
+    /**
+     * Checks the unique of {@link Request} instance's name.
+     * 
+     * @param name name property should be checked
+     * @param exclusionId identifier of {@link Request} instance should be excluded from checking
+     * @return JSON object with <code>valid</code> name and boolean value
+     */
     @RequestMapping(value = "/create/isRequestNameFree", method = RequestMethod.GET)
     public @ResponseBody String isRequestNameFree(@RequestParam("name") String name,
 	    @RequestParam(value = "exclusionId") int exclusionId){

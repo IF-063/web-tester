@@ -33,11 +33,12 @@
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
-
+    
 </head>
 
 <body>
   <button id="buttton">check</button>
+  <button id="vvv">vvv</button>
   <div class="container">
 <div class="row">
     <form:form action="" method="POST" commandName="request" class="form-horizontal" role="form">
@@ -46,7 +47,6 @@
           <c:out value="${pageTitle}" />
         </legend>
         <div class="row">
-          <form:errors path="*" />
           
           <form:hidden path="id" />
           
@@ -54,6 +54,7 @@
             <form:label path="name" class="col-md-4 control-label">Name*</form:label>
             <div class="col-md-4">
               <form:input path="name" class="form-control input-md" required="required" />
+              <form:errors path="name" cssClass="help-block with-errors" />
             </div>
           </div>
 
@@ -61,6 +62,7 @@
             <form:label path="description" class="col-md-4 control-label">Description*</form:label>
             <div class="col-md-4">
               <form:input path="description" class="form-control input-md" required="required" />
+              <form:errors path="description" cssClass="help-block with-errors" />
             </div>
           </div>
 
@@ -68,6 +70,7 @@
             <form:label path="requestMethod" class="col-md-4 control-label">Request Method*</form:label>
             <div class="col-md-4">
               <form:select path="requestMethod" class="form-control" items="${requestMethods}" required="required" />
+              <form:errors path="requestMethod" cssClass="help-block with-errors" />
             </div>
           </div>
 
@@ -76,6 +79,7 @@
             <div class="col-md-4">
               <form:select path="application" class="form-control" items="${applications}" itemValue="id" 
                 itemLabel="name" required="required" />
+              <form:errors path="application" cssClass="help-block with-errors" />
             </div>
           </div>
 
@@ -84,6 +88,7 @@
             <div class="col-md-4">
               <form:select path="service" class="form-control" items="${services}" itemValue="id" itemLabel="name" 
                 required="required" />
+              <form:errors path="service" cssClass="help-block with-errors" />
             </div>
           </div>
 
@@ -91,6 +96,7 @@
             <form:label path="endpoint" class="col-md-4 control-label">Endpoint*</form:label>
             <div class="col-md-4">
               <form:input path="endpoint" class="form-control input-md" required="required" />
+              <form:errors path="endpoint" cssClass="help-block with-errors" />
             </div>
           </div>
 
@@ -98,6 +104,7 @@
             <form:label path="requestBody" class="col-md-4 control-label">Request Body</form:label>
             <div class="col-md-4">
               <form:textarea path="requestBody" rows="5" class="form-control input-md" />
+              <form:errors path="requestBody" cssClass="help-block with-errors" />
             </div>
           </div>
 
@@ -106,6 +113,7 @@
             <div class="col-md-4">
               <form:select path="responseType" class="form-control" items="${responseTypes}" itemLabel="textValue" 
                 required="required" />
+              <form:errors path="responseType" cssClass="help-block with-errors" />
             </div>
           </div>
 
@@ -113,6 +121,7 @@
             <form:label path="expectedResponse" class="col-md-4 control-label">Expected Response*</form:label>
             <div class="col-md-4">
               <form:textarea path="expectedResponse" rows="5" class="form-control input-md" required="required" />
+              <form:errors path="expectedResponse" cssClass="help-block with-errors" />
             </div>
           </div>
 
@@ -120,7 +129,8 @@
             <form:label path="timeout" class="col-md-4 control-label">Timeout*</form:label>
             <div class="col-md-4">
               <form:input path="timeout" class="form-control input-md" placeholder="Value in seconds" 
-                required="required" />
+                required="required"/>
+                <form:errors path="timeout" cssClass="help-block with-errors" />
             </div>
           </div>
           
@@ -153,11 +163,14 @@
                       <tr class="dataRow">
                         <td id=".name">
                           <form:input type="text" path="headers[${status.index}].name" class="form-control input-md" 
-                          placeholder="Name" required="required" />
+                            placeholder="Name" required="required" />
+                            <form:errors path="headers[${status.index}].name" cssClass="help-block with-errors" />
+                   
                         </td>
                         <td id=".value">
                           <form:input type="text" path="headers[${status.index}].value" class="form-control input-md" 
                             placeholder="Value" required="required" />
+                            <form:errors path="headers[${status.index}].value" cssClass="help-block with-errors" />
                         </td>
                         <td><a class="removeInstance" title="delete"><i class="fa fa-trash fa-2x"></i></a></td>
                       </tr>
@@ -194,13 +207,15 @@
                         <td id=".name">
                           <form:input type="text" path="variables[${status.index}].name" 
                           class="form-control input-md" placeholder="Name" required="required" />
+                          <form:errors path="variables[${status.index}].name" cssClass="help-block with-errors" />
                         </td>
                         <td id=".value">
                           <form:input type="text" path="variables[${status.index}].value" 
                             class="form-control input-md" placeholder="Value" required="required" />
+                            <form:errors path="variables[${status.index}].value" cssClass="help-block with-errors" />
                         </td>
                         <td id=".isSql">
-                          <form:checkbox path="variables[${status.index}].isSql" />
+                          <form:checkbox path="variables[${status.index}].isSql" class="isSql" />
                           <form:label path="variables[${status.index}].isSql" class="control-label">Sql</form:label>
                         </td>
                         <td id=".isRandom">
@@ -215,6 +230,7 @@
                         <td id=".length">
                           <form:input path="variables[${status.index}].length" 
                             class="form-control input-md enableIfRandom" placeholder="Length" required="required" />
+                            <form:errors path="variables[${status.index}].length" cssClass="help-block with-errors" />
                         </td>
                         <td><a class="removeInstance" title="delete"><i class="fa fa-trash fa-2x"></i></a></td>
                       </tr>
@@ -248,10 +264,12 @@
                         <td id=".sqlQuery">
                           <form:input type="text" path="dbValidations[${status.index}].sqlQuery" 
                             class="form-control input-md" placeholder="SQL query" required="required" />
+                            <form:errors path="dbValidations[${status.index}].sqlQuery" cssClass="help-block with-errors" />
                         </td>
                         <td id=".expectedValue">
                           <form:input type="text" path="dbValidations[${status.index}].expectedValue" 
                             class="form-control input-md" placeholder="Expected value" required="required" />
+                            <form:errors path="dbValidations[${status.index}].expectedValue" cssClass="help-block with-errors" />
                         </td>
                         <td><a class="removeInstance" title="delete"><i class="fa fa-trash fa-2x"></i></a></td>
                       </tr>
@@ -274,26 +292,16 @@
 </div>
   </div>
 
-
-<%--   <div style="display:none" id="variableDataTypesTemplate">
-    <select class="form-control enableIfRandom" disabled="disabled">
-      <c:forEach items="${variableDataTypes}" var="vdt">
-        <option value="${vdt}"><c:out value="${vdt}" /></option>
-      </c:forEach>
-    </select>
-  </div> --%>
-
-
   <!-- Template table -->
   <div id="template" style="display: none">
     <table>
 
       <!-- Row for Header template -->
       <tr class="dataRow">
-        <td id=".name"><input placeholder="Name" type="text" class="form-control input-md" 
-          required="required" /></td>
+        <td id=".name"><input placeholder="Name" type="text" class="form-control input-md"
+          required="required"/></td>
         <td id=".value"><input placeholder="Value" type="text" class="form-control input-md" 
-          required="required" /></td>
+           required="required"/></td>
         <td> <a class="removeInstance" title="delete"><i class="fa fa-trash fa-2x"></i></a> </td>
       </tr>
 
@@ -306,7 +314,7 @@
           <input placeholder="Value" type="text" class="form-control input-md" required="required" />
         </td>
         <td id=".isSql">
-          <input type="checkbox" value="true" /><input type="hidden" value="on" />
+          <input type="checkbox" class="isSql" value="true" /><input type="hidden" value="on" />
           <label class="control-label">Sql</label>
         </td>
         <td id=".isRandom">
@@ -329,9 +337,9 @@
       <!-- Row for DbValidation template -->
       <tr class="dataRow">
         <td id=".sqlQuery"> <input placeholder="SQL query" type="text" class="form-control input-md" 
-          required="required" /> </td>
+          required="required"/> </td>
         <td id=".expectedValue"> <input placeholder="Expected value" type="text" class="form-control input-md" 
-          required="required" /> </td>
+          required="required"/> </td>
         <td> <a class="removeInstance" title="delete"><i class="fa fa-trash fa-2x"></i></a> </td>
       </tr>
     </table>

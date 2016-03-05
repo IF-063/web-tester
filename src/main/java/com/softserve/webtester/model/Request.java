@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 
 import javax.validation.Valid;
+import javax.validation.constraints.Min;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
@@ -15,7 +16,7 @@ import org.hibernate.validator.constraints.NotBlank;
  * The Request class represents {@code Request} entity stored in the database.
  * 
  * @author Taras Oglabyak
- * @version 3.5
+ * @version 3.6
  */
 public class Request implements Serializable {
 
@@ -50,6 +51,8 @@ public class Request implements Serializable {
     
     @NotBlank(message="Expected response endpoint cannot be empty")
     private String expectedResponse;
+    
+    @Min(1)
     private int timeout;
     
     @Valid

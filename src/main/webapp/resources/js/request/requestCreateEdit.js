@@ -5,7 +5,7 @@ $(function() {
     theme: 'bootstrap'
   });
 
-  //enables request body field on start
+  // enables request body field on start
   setRequestBodyDisabled(document.getElementById('requestMethod'));
 
   // enables request body field depending on request method change
@@ -47,18 +47,32 @@ $(function() {
 
   // sets elements enabled in variables table  
   $('input:checkbox:not(:checked)[class=isRandom]').each(function() {
-    $(this).closest('tr').find('.enableIfRandom').each(function() {
-      $(this).prop('disabled', 1);
-    });
+	setDisableIfRandom(this, 1);
+  });
+  
+  // changes elements enabled depending on state of isSql checkbox 
+  $(document).on('change', '.isSql', function() {
+	if ($(this).is(':checked')) {
+	  var isRandomCheckbox = $(this).closest('tr').find('.isRandom');
+	  isRandomCheckbox.prop('checked', 0);
+	  setDisableIfRandom(isRandomCheckbox);
+	}
   });
 
   // changes elements enabled depending on state of isRandom checkbox 
   $(document).on('change', '.isRandom', function() {
-    var obj = $(this);
-    obj.closest('tr').find('.enableIfRandom').each(function() {
-      $(this).prop('disabled', !obj.prop('checked'));
-    });
+	$(this).closest('tr').find('.isSql').prop('checked', 0);
+	setDisableIfRandom(this);
   });
+  
+  // sets  elements enabled depending on state of isRandom checkbox or inputState variable
+  function setDisableIfRandom(isRandomCheckbox, inputState) {
+	var obj = $(isRandomCheckbox);
+	var state = inputState? inputState : !obj.prop('checked');
+	obj.closest('tr').find('.enableIfRandom').each(function() {
+	  $(this).prop('disabled', state);
+	});
+  }
   
   // add new row to header's, variable's or dbvalidation's tables
   $(document).on('click', '.addButton', function() {
@@ -112,13 +126,28 @@ $(function() {
 //    	});
 //      });
 
-//   $('#request').bootstrapValidator({
+//   var validator = $('#request')
+//   .on('init.field.bv', function(e, data) {
+//
+//	   $('#request input, #request checkbox, #request textarea, #request select')
+//	   .filter('[required]:visible:not(:disabled)').each(function() {
+//		   console.log(this);
+//		   $('#request').bootstrapValidator('addField', $(this));
+//		 
+//		}); 
+//   })
+//   
+//   
+//  .bootstrapValidator({
 //        message: 'This value is not valid',
+//        excluded: [':disabled', ':hidden', ':not(:visible)'],
 //        feedbackIcons: {
 //          valid: 'glyphicon glyphicon-ok',
 //          invalid: 'glyphicon glyphicon-remove',
 //          validating: 'glyphicon glyphicon-refresh'
 //        },
+     //   container: 'tooltip',
+    //    container: 'popover',
 //  	  rules : {
 //  		"headers*" : {
 //  		  required : true
@@ -136,6 +165,7 @@ $(function() {
 //              remote: {
 //              	url: 'create/isRequestNameFree',
 //              	type: 'GET',
+//              	data: {name : $('#name').val(), exclusionId : $('#id').val()},
 //              	delay: 1000,
 //              	message: 'Request with same name already exists'
 //              },
@@ -181,15 +211,34 @@ $(function() {
 //              	value: 1
 //              }
 //            }
-//          },
+//          },   
+//          
+//       
 //        }
-//      }).on('success.form.bv', function(e) {
+//      });
+//   
+//
+//   
+//   validator.on('success.form.bv', function(e) {
 //       // e.preventDefault();
 //        var form = $(e.target),
 //        bv = form.data('bootstrapValidator');
 //        normalizeLists();
 //        bv.defaultSubmit();
 //      });
+//   
+//   
+//   $(document).on('click', '#vvv', function() {
+//	  
+//	   $('#request input, #request checkbox, #request textarea, #request select')
+//	   .filter('[required]:visible:not(:disabled)').each(function() {
+//		   console.log(this);
+//		   $('#request').bootstrapValidator('addField', $(this));
+//		 
+//		});
+//		return false;
+//	  });
+
 
 //  $('#validate').click(function() {
 //  	$('#request').bootstrapValidator().on('success.form.bv', function(e) {
