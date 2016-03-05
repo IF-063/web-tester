@@ -109,6 +109,25 @@ public class MetaDataService {
 	}
 	
 	/**
+     * Performs soft-delete {@link Application} instance
+     * @param id
+     * @throws DataAccessException
+     */
+	
+	public void applicationSoftDelete(int id) {
+		try {
+			Application application = applicationMapper.load(id);
+			if (application != null) {
+				application.setDeleted(true);
+				applicationMapper.update(application);
+			}
+		} catch (DataAccessException e) {
+			LOGGER.error("Unable to delete line from Application table with next id: " + id, e);
+			throw e;
+		}
+	}
+	
+	/**
      * Saves {@link Application} instance in database
      * @param application object
      * @throws DataAccessException

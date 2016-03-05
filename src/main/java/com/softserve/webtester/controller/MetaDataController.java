@@ -21,14 +21,9 @@ public class MetaDataController {
     @Autowired
     private UserService userService;
 
-    @RequestMapping(method = RequestMethod.GET)
-    public ModelAndView getMetaDataPage() {
-	ModelAndView modelAndView = new ModelAndView("metadata");
-
-	String authenticationName = SecurityContextHolder.getContext().getAuthentication().getName();
-	User user = userService.load(authenticationName);
-	
-	modelAndView.addObject("user", "Roman_Zolotar");
-	return modelAndView;
+    @RequestMapping(value = "/metadata", method = RequestMethod.GET)
+	public ModelAndView getMetadataPage() {
+		ModelAndView modelAndView = new ModelAndView("metadata");
+		return modelAndView;
     }
 }
