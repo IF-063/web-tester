@@ -10,11 +10,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Requests</title>
 
-  <!-- Bootstrap Core CSS -->
   <link href=<c:url value="/resources/bower_components/bootstrap/dist/css/bootstrap.min.css" /> rel="stylesheet">
 
-  <!-- Custom CSS -->
-  <link href=<c:url value="/resources/dist/css/sb-admin-2.css" /> rel="stylesheet">
+  <link href=<c:url value="/resources/dist/css/sb-admin-2.css" /> rel="stylesheet" />
 
   <link href=<c:url value="/resources/dist/css/select2.min.css" /> rel="stylesheet" />
 
@@ -38,53 +36,57 @@
       <div class="col-md-12">
         <div class="panel panel-default">
           <div class="panel-heading">
-            <!-- <label for="requestsTable">Requests</label> -->
-            <div class="row">
-              <form>
-                <fieldset>
-                  <!-- <legend>Filters</legend> -->
+            <form >
+              <fieldset>
+                <!--  <legend>Filters</legend> -->
+
                   <div class="col-md-2">
-                    <label for="requestNameFilter">Request name filter</label>
-                    <input type="text" id="requestNameFilter" name="requestNameFilter" class="form-control input-md" 
+                    <label for="requestNameFilter" class="control-label">Request name</label>
+                    <input type="text" id="requestNameFilter" name="requestNameFilter" class="form-control" 
                       placeholder="name starts with" />
                   </div>
+
                   <div class="col-md-2">
-                    <label for="applicationFilter">Applications filter</label>
-                    <select id="applicationFilter" name="applicationFilter" 
-                      class="form-control input-md select2-multiple" multiple="multiple" 
-                      data-placeholder="application filters">
-				  <c:forEach items="${applications}" var="application">
-					<option value="${application.id}"><c:out value="${application.name}" /></option>
-				  </c:forEach>
-			    </select>
+                    <label for="applicationFilter" class="control-label">Applications</label>
+                    <select id="applicationFilter" name="applicationFilter" class="form-control select2-multiple" 
+                      multiple="multiple" data-placeholder="applications">
+				      <c:forEach items="${applications}" var="application">
+					    <option value="${application.id}"><c:out value="${application.name}" /></option>
+				      </c:forEach>
+			        </select>
                   </div>
+
                   <div class="col-md-2">
-                    <label for="serviceFilter">Service filter</label>
-                    <select id="serviceFilter" name="serviceFilter" class="form-control input-md select2-multiple" 
-                      multiple="multiple" data-placeholder="service filters">
-                    <c:forEach items="${services}" var="service">
-                      <option value="${service.id}"><c:out value="${service.name}" /></option>
-                    </c:forEach>
-                  </select>
+                    <label for="serviceFilter" class="control-label">Service</label>
+                    <select id="serviceFilter" name="serviceFilter" class="form-control select2-multiple" 
+                      multiple="multiple" data-placeholder="services">
+                      <c:forEach items="${services}" var="service">
+                        <option value="${service.id}"><c:out value="${service.name}" /></option>
+                      </c:forEach>
+                    </select>
                   </div>
+
                   <div class="col-md-2">
-                    <label for="labelFilter">Label filter</label>
-                    <select id="labelFilter" name="labelFilter" class="form-control input-md select2-multiple" 
-                      multiple="multiple" data-placeholder="label filters">
-                    <c:forEach items="${labels}" var="label">
-                      <option value="${label.id}"><c:out value="${label.name}" /></option>
-                    </c:forEach>
-                  </select>
+                    <label for="labelFilter" class="control-label">Labels</label>
+                    <select id="labelFilter" name="labelFilter" class="form-control select2-multiple" 
+                      multiple="multiple" data-placeholder="labels">
+                      <c:forEach items="${labels}" var="label">
+                        <option value="${label.id}"><c:out value="${label.name}" /></option>
+                      </c:forEach>
+                    </select>
                   </div>
+                 
                   <div class="col-md-4">
-                    <label>actions</label>
+                    <label>Actions</label>
                     <div>
                       <a href=<c:url value="/tests/requests/" /> class="btn btn-default">Reset</a>
                       <input type="submit" class="btn btn-success" value="Filter" /></div>
                   </div>
-                </fieldset>
-              </form>
-            </div>
+
+              </fieldset>
+
+            </form>
+           <h4>Requests</h4>
             <div class="row">
               <div class="col-md-12">
                 <a href=<c:url value="/tests/requests/create" /> class="btn btn-success">Create</a>
@@ -172,8 +174,10 @@
       </div>
     </div>
   </div>
- 
-  <script>var contextPath = "${pageContext.request.contextPath}"</script>
+
+  <script>
+    var contextPath = "${pageContext.request.contextPath}"
+  </script>
 
   <script src=<c:url value="/resources/bower_components/jquery/dist/jquery.min.js" />></script>
 
@@ -183,7 +187,7 @@
 
   <!-- Main page script -->
   <script src=<c:url value="/resources/js/request/requests.js" />></script>
-  
+
 </body>
 
 </html>

@@ -23,7 +23,7 @@ $(function() {
 
   // gets value of filter processing from URL
   function getURLParameter(sParam) {
-	var sPageURL = window.location.search.substring(1);
+	var sPageURL = decodeURIComponent(window.location.search.substring(1));
 	var sURLVariables = sPageURL.split('&');
 	var arr = [];
 	for (var i = 0; i < sURLVariables.length; i++) {
@@ -42,7 +42,8 @@ $(function() {
 
   // enables tag autocomplete in filtering fields
   $('#applicationFilter, #serviceFilter, #labelFilter').select2({
-	theme: 'bootstrap'
+	theme: 'bootstrap',
+    width: '100%'
   });
  
   // selects all request on page

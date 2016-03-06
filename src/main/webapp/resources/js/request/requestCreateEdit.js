@@ -2,7 +2,8 @@ $(function() {
 
   // enables tag autocomplete in 'labels' field
   $('.multipleSelect').select2({
-    theme: 'bootstrap'
+    theme: 'bootstrap',
+    width: '100%'
   });
 
   // enables request body field on start
@@ -126,15 +127,16 @@ $(function() {
           invalid: 'glyphicon glyphicon-remove',
           validating: 'glyphicon glyphicon-refresh'
         },
+        submitButtons: 'button[id="validate"]',
         container: 'tooltip',
-  	  rules : {
-  		"headers*" : {
-  		  required : true
-  		},
-  		"dbValidations*" : {
-  		  required : true
-  		},	
-  	  },
+//  	  rules : {
+//  		"headers*" : {
+//  		  required : true
+//  		},
+//  		"dbValidations*" : {
+//  		  required : true
+//  		},	
+//  	  },
         fields: {
           name: {
             validators: {
@@ -203,16 +205,16 @@ $(function() {
       });
 //   
 //   
-//   $(document).on('click', '#vvv', function() {
-//	  
-//	   $('#request input, #request checkbox, #request textarea, #request select')
-//	   .filter('[required]:visible:not(:disabled)').each(function() {
-//		   console.log(this);
-//		   $('#request').bootstrapValidator('addField', $(this));
-//		 
-//		});
-//		return false;
-//	  });
+   $(document).on('click', '#vvv', function() {
+	  
+	   $('#request input, #request checkbox, #request textarea, #request select')
+	   .filter('[required]:visible:not(:disabled)').each(function() {
+		   console.log(this);
+		   $('#request').bootstrapValidator('addField', $(this));
+		 
+		});
+		return false;
+	  });
 
 
 //  $('#validate').click(function() {
