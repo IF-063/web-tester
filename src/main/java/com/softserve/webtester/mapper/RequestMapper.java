@@ -159,12 +159,13 @@ public interface RequestMapper {
      * Deletes {@link Request} instances from the database.
      * 
      * @param requestIdArray identifiers of Request instances should be deleted
+     * @return number of rows affected by the statement
      * @throws DataAccessException
      */
-    @Select("<script>DELETE FROM Request WHERE id IN "
+    @Delete("<script>DELETE FROM Request WHERE id IN "
 	    + "<foreach item='item' index='index' collection='list' open='(' separator=',' close=')'>"
 	    + "#{item}</foreach></script>") 
-    void deleteRequests(@Param("list") int[] requestIdArray);
+    int deleteRequests(@Param("list") int[] requestIdArray);
     
     /**
      * Checks the unique of request's name.

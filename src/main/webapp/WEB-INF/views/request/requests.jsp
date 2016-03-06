@@ -173,6 +173,7 @@
     </div>
   </div>
  
+  <script>var contextPath = "${pageContext.request.contextPath}"</script>
 
   <script src=<c:url value="/resources/bower_components/jquery/dist/jquery.min.js" />></script>
 

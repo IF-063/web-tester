@@ -217,21 +217,22 @@ public class RequestController {
 	requestService.delete(requestIdArray);
     }
 
+    // TODO Taras O. redirect to request run results
     /**
      * Handles requests run.
      * 
      * @param environmentId identifier of {@link Environment} instance
      * @param requestIdArray identifiers of {@link Request} instance
-     * @return redirects to results page
+     * @return identifier of requests run
      */
     @RequestMapping(value = "/run", method = RequestMethod.POST)
-    public String runRequests(@RequestParam(value = "environmentId") int environmentId, 
+    public @ResponseBody int runRequests(@RequestParam(value = "environmentId") int environmentId, 
 	    @RequestParam(value = "requestIdArray[]") int[] requestIdArray) { 
 	System.out.println("start at: " + new Date());
 	System.out.println("e: " + environmentId);
 	System.out.println("rqsts: " + Arrays.toString(requestIdArray));
 	System.out.println();
-	return "redirect:/";
+	return 1;
     }
     
     /**

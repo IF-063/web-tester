@@ -129,7 +129,7 @@
             <form:label path="timeout" class="col-md-4 control-label">Timeout*</form:label>
             <div class="col-md-4">
               <form:input path="timeout" class="form-control input-md" placeholder="Value in seconds" 
-                required="required"/>
+                required="required" />
                 <form:errors path="timeout" cssClass="help-block with-errors" />
             </div>
           </div>
@@ -299,9 +299,9 @@
       <!-- Row for Header template -->
       <tr class="dataRow">
         <td id=".name"><input placeholder="Name" type="text" class="form-control input-md"
-          required="required"/></td>
+          required="required" /></td>
         <td id=".value"><input placeholder="Value" type="text" class="form-control input-md" 
-           required="required"/></td>
+           required="required" /></td>
         <td> <a class="removeInstance" title="delete"><i class="fa fa-trash fa-2x"></i></a> </td>
       </tr>
 
@@ -337,9 +337,9 @@
       <!-- Row for DbValidation template -->
       <tr class="dataRow">
         <td id=".sqlQuery"> <input placeholder="SQL query" type="text" class="form-control input-md" 
-          required="required"/> </td>
+          required="required" /> </td>
         <td id=".expectedValue"> <input placeholder="Expected value" type="text" class="form-control input-md" 
-          required="required"/> </td>
+          required="required" /> </td>
         <td> <a class="removeInstance" title="delete"><i class="fa fa-trash fa-2x"></i></a> </td>
       </tr>
     </table>

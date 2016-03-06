@@ -183,12 +183,13 @@ public class RequestService {
      * Deletes {@link Request} instances from the database.
      * 
      * @param requestIdArray identifiers of request to delete
+     * @return number of rows affected by the statement
      * @throws DataAccessException
      */
     @Transactional
-    public void delete(int[] requestIdArray) {
+    public int delete(int[] requestIdArray) {
 	try {
-	    requestMapper.deleteRequests(requestIdArray);
+	   return requestMapper.deleteRequests(requestIdArray);
 	} catch (DataAccessException e) {
 	    LOGGER.error("Unable to delete request instances, requests id: " + requestIdArray, e);
 	    throw e;

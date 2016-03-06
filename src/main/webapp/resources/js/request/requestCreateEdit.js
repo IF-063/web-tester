@@ -110,122 +110,97 @@ $(function() {
     $('input[type=text],textarea').val('');
     return false;
   });
+  
+  // submits form
+//  $('#validate').click(function() {
+//    normalizeLists();
+//    $('#requests').submit();
+//  });
 
-//      $('.isSql').click(function() {
-//    	var isSqlObj = $(this);
-//    	isSqlObj.closest('tr').find('.disableIfSql').each(function () {
-//    	  $(this).prop('checked', 0);
-//    	  $(this).prop('disabled', isSqlObj.prop('checked'));
-//    	});
-//      });
-//      
-//      $('input:checked[class=isSql]').each(function () {
-//    	$(this).closest('tr').find('.disableIfSql').each(function () {
-//    	  $(this).prop('checked', 0);
-//    	  $(this).prop('disabled', 1);
-//    	});
-//      });
-
-//   var validator = $('#request')
-//   .on('init.field.bv', function(e, data) {
-//
-//	   $('#request input, #request checkbox, #request textarea, #request select')
-//	   .filter('[required]:visible:not(:disabled)').each(function() {
-//		   console.log(this);
-//		   $('#request').bootstrapValidator('addField', $(this));
-//		 
-//		}); 
-//   })
-//   
-//   
-//  .bootstrapValidator({
-//        message: 'This value is not valid',
-//        excluded: [':disabled', ':hidden', ':not(:visible)'],
-//        feedbackIcons: {
-//          valid: 'glyphicon glyphicon-ok',
-//          invalid: 'glyphicon glyphicon-remove',
-//          validating: 'glyphicon glyphicon-refresh'
-//        },
-     //   container: 'tooltip',
-    //    container: 'popover',
-//  	  rules : {
-//  		"headers*" : {
-//  		  required : true
-//  		},
-//  		"dbValidations*" : {
-//  		  required : true
-//  		},	
-//  	  },
-//        fields: {
-//          name: {
-//            validators: {
-//              notEmpty: {
-//              	message: 'Request name cannot be empty'
-//              },
-//              remote: {
-//              	url: 'create/isRequestNameFree',
-//              	type: 'GET',
-//              	data: {name : $('#name').val(), exclusionId : $('#id').val()},
-//              	delay: 1000,
-//              	message: 'Request with same name already exists'
-//              },
-//            }
-//          },
-//          description: {
-//            validators: {
-//              notEmpty: {
-//              	message: 'Description cannot be empty'
-//              }
-//            }
-//          },
-//          requestMethod: {
-//            validators: {
-//              notEmpty: { }
-//            }
-//          },
-//          application: {
-//            validators: {
-//              notEmpty: { }
-//            }
-//          },
-//          service: {
-//            validators: {
-//              notEmpty: { }
-//            }
-//          },
-//          endpoint: {
-//            validators: {
-//              notEmpty: { }
-//            }
-//          },
-//          responseType: {
-//            validators: {
-//              notEmpty: { }
-//            }
-//          },
-//          timeout: {
-//            validators: {
-//              notEmpty: {},
-//              integer: {},
-//              greaterThan: {
-//              	value: 1
-//              }
-//            }
-//          },   
-//          
-//       
-//        }
-//      });
-//   
-//
-//   
-//   validator.on('success.form.bv', function(e) {
-//       // e.preventDefault();
-//        var form = $(e.target),
-//        bv = form.data('bootstrapValidator');
-//        normalizeLists();
-//        bv.defaultSubmit();
-//      });
+   var validator = $('#request')
+  .bootstrapValidator({
+        message: 'This value is not valid',
+        excluded: [':disabled', ':hidden', ':not(:visible)'],
+        feedbackIcons: {
+          valid: 'glyphicon glyphicon-ok',
+          invalid: 'glyphicon glyphicon-remove',
+          validating: 'glyphicon glyphicon-refresh'
+        },
+        container: 'tooltip',
+  	  rules : {
+  		"headers*" : {
+  		  required : true
+  		},
+  		"dbValidations*" : {
+  		  required : true
+  		},	
+  	  },
+        fields: {
+          name: {
+            validators: {
+              notEmpty: {
+              	message: 'Request name cannot be empty'
+              },
+              remote: {
+              	url: 'create/isRequestNameFree',
+              	type: 'GET',
+              	data: {name : $('#name').val(), exclusionId : $('#id').val()},
+              	delay: 1000,
+              	message: 'Request with same name already exists'
+              },
+            }
+          },
+          description: {
+            validators: {
+              notEmpty: {
+              	message: 'Description cannot be empty'
+              }
+            }
+          },
+          requestMethod: {
+            validators: {
+              notEmpty: { }
+            }
+          },
+          application: {
+            validators: {
+              notEmpty: { }
+            }
+          },
+          service: {
+            validators: {
+              notEmpty: { }
+            }
+          },
+          endpoint: {
+            validators: {
+              notEmpty: { }
+            }
+          },
+          responseType: {
+            validators: {
+              notEmpty: { }
+            }
+          },
+          timeout: {
+            validators: {
+              notEmpty: {},
+              integer: {},
+              greaterThan: {
+              	value: 1
+              }
+            }
+          },   
+          
+       
+        }
+      }).on('success.form.bv', function(e) {
+       // e.preventDefault();
+        var form = $(e.target),
+        bv = form.data('bootstrapValidator');
+        normalizeLists();
+        bv.defaultSubmit();
+      });
 //   
 //   
 //   $(document).on('click', '#vvv', function() {
@@ -250,11 +225,7 @@ $(function() {
 //      });
 //  });
 
-  // submits form
-  $('#validate').click(function() {
-    normalizeLists();
-    $('#requests').submit();
-  });
+
   
   $(document).on('click', '#buttton', function() {
 	isRequestNameFree();
