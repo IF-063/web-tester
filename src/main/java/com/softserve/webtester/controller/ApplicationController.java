@@ -16,6 +16,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import com.softserve.webtester.model.Application;
 import com.softserve.webtester.service.MetaDataService;
 
+/**
+ * ApplicationController class represents {@code Application} MVC Controller
+ *
+ * @author Roman Zolotar
+ * @version 1.0
+ */
+
 @Controller
 @RequestMapping(value = "/application")
 public class ApplicationController {

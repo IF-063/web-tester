@@ -24,7 +24,7 @@ import com.softserve.webtester.model.Service;
  * with the database and log4j for logging.
  * 
  * @author Roman Zolotar, Anton Mykytiuk
- * @version 1.1
+ * @version 1.2
  */
 
 @org.springframework.stereotype.Service
@@ -109,7 +109,7 @@ public class MetaDataService {
 	}
 	
 	/**
-     * Performs soft-delete {@link Application} instance
+     * Provides soft-delete {@link Application} instance
      * @param id
      * @throws DataAccessException
      */
@@ -199,6 +199,25 @@ public class MetaDataService {
 	public void serviceDelete(int id) {
 		try {
 			serviceMapper.delete(id);
+		} catch (DataAccessException e) {
+			LOGGER.error("Unable to delete line from Service table with next id: " + id, e);
+			throw e;
+		}
+	}
+	
+	/**
+     * Provides Soft-delete {@link Service} instance
+     * @param id
+     * @throws DataAccessException
+     */
+	
+	public void serviceSoftDelete(int id) {
+		try {
+			Service service = serviceMapper.load(id);
+			if (service != null) {
+				service.setDeleted(true);
+				serviceMapper.update(service);
+			}
 		} catch (DataAccessException e) {
 			LOGGER.error("Unable to delete line from Service table with next id: " + id, e);
 			throw e;

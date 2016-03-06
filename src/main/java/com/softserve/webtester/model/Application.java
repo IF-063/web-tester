@@ -16,7 +16,7 @@ import org.hibernate.validator.constraints.NotEmpty;
  * database.
  *
  * @author Roman Zolotar
- * @version 1.1
+ * @version 1.2
  */
 
 public class Application implements Serializable {
