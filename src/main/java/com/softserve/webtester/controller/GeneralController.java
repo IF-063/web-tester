@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.InitBinder;
 
 import com.softserve.webtester.editor.LabelEditor;
+import com.softserve.webtester.editor.RequestEditor;
 
 /**
  * ControllerAdvice class defines objects binding in all Controller's RequestMapping methods.
@@ -23,10 +24,14 @@ public class GeneralController {
 
     @Autowired
     private LabelEditor labelEditor;
+    
+    @Autowired
+    private RequestEditor requestEditor;
 
     @InitBinder
     public void initBinder(WebDataBinder binder) {
 	binder.registerCustomEditor(List.class, "labels", labelEditor);
+	binder.registerCustomEditor(List.class, "requests", requestEditor);
 	binder.registerCustomEditor(String.class, new StringTrimmerEditor(" \t\r\n\f", true));
     }
     
