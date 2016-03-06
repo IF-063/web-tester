@@ -1,7 +1,7 @@
 $(function() {
 
-  $('#collectionList #selectAll').click(function() {
-    $('#collectionList input[type="checkbox"][name="operateSelect"]').prop('checked', this.checked);
+  $('#selectAll').click(function() {
+    $('input[type="checkbox"][name="operateSelect"]').prop('checked', this.checked);
   });
 
   $(document).on('click', '.removeInstance', function() {
@@ -16,7 +16,7 @@ $(function() {
     $('#collectionList input:checked[name="operateSelect"]').each(function() {
       selected.push($(this).prop('id'));
     });
-    if (selected.length != 0 && confirm('Do you really want to delete the requests?')) {
+    if (selected.length != 0 && confirm('Do you really want to delete the requestCollections?')) {
       deleteRequests(selected);
     }
     return false;
@@ -30,7 +30,7 @@ $(function() {
       data: JSON.stringify(input),
       success: function(data, textStatus, jqXHR) {
         for (var i = 0; i < input.length; i++) {
-          $('#collectionList input[type="checkbox"][id=' + input[i] + ']').parents('tr').remove();
+          $('#requestCollectionsTable input[type="checkbox"][id=' + input[i] + ']').parents('tr').remove();
         }
         alert('code: ' + jqXHR.status);
       },
