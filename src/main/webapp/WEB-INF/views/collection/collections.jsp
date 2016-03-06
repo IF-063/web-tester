@@ -8,7 +8,7 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Requests</title>
+  <title>Collections</title>
 
   <!-- Bootstrap Core CSS -->
   <link href=<c:url value="/resources/bower_components/bootstrap/dist/css/bootstrap.min.css" /> rel="stylesheet">
@@ -67,7 +67,7 @@
               </tr>
             </thead>
             <tbody>
-              <c:forEach items="${сollectionsList}" var="requestCollection">
+              <c:forEach items="${collectionList}" var="requestCollection">
                 <tr id="requestRow">
                   <td>
                     <input id="${requestCollection.id}" type="checkbox" name="operateSelect">

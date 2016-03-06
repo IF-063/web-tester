@@ -53,7 +53,7 @@ public class RequestCollectionController {
     public ModelAndView getAllRequestCollection(){
 		ModelAndView model = new ModelAndView("collection/collections");
 		model.addObject("pageTitle", "Collections");
-		model.addObject("ñollectionsList", requestCollectionService.loadAll());
+		model.addObject("collectionList", requestCollectionService.loadAll());
 		return model;
 	}
     
@@ -66,7 +66,7 @@ public class RequestCollectionController {
      */
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public ModelAndView getRequestCollection(@PathVariable int id){
-		ModelAndView model = new ModelAndView("collection/collectionEdit");
+		ModelAndView model = new ModelAndView("collection/collectionCreateEdit");
 		model.addAllObjects(addLabels());
 		model.addAllObjects(addRequests());
 		model.addObject("pageTitle", "Edit RequestCollection");
@@ -89,7 +89,7 @@ public class RequestCollectionController {
     if (result.hasErrors()) {
         map.addAllAttributes(addLabels());
         map.addAllAttributes(addRequests());
-        return "collection/collectionEdit";
+        return "collection/collectionCreateEdit";
     }
 		requestCollectionService.update(requestCollection);
 		return "redirect:/tests/collections";
@@ -101,7 +101,7 @@ public class RequestCollectionController {
      */
     @RequestMapping(value = "/newCollection", method = RequestMethod.GET)
     public ModelAndView getEmptyFormForRequestCollection(){
-		ModelAndView model = new ModelAndView("collection/collectionCreate");
+		ModelAndView model = new ModelAndView("collection/collectionCreateEdit");
 		model.addAllObjects(addLabels());
 		model.addAllObjects(addRequests());
 		model.addObject("pageTitle", "Create New Request Collection");
@@ -122,7 +122,7 @@ public class RequestCollectionController {
 		if (result.hasErrors()) {
 		    map.addAllAttributes(addLabels());
 		    map.addAllAttributes(addRequests());
-		    return "collection/collectionCreate";
+		    return "collection/collectionCreateEdit";
 		}
 		requestCollectionService.save(requestCollection);
 		return "redirect:/tests/collections";
