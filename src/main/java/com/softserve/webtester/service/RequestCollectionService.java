@@ -23,7 +23,6 @@ import com.softserve.webtester.model.RequestCollection;
  * @version 1.0
  */
 @Service
-@Transactional
 public class RequestCollectionService {
     
     private static final Logger LOGGER = Logger.getLogger(RequestCollectionService.class);
@@ -45,17 +44,18 @@ public class RequestCollectionService {
      * @throws DuplicateKeyException if the request with the name exists in the database.
      * @throws DataAccessException
      */
+    @Transactional
     public int save(RequestCollection requestCollection){
-	try {
-	    requestCollectionMapper.save(requestCollection);
-	    int id = requestCollection.getId();
-	    saveRequestsToCollection(requestCollection);
-	    saveLabelsToCollection(requestCollection);
-	    return id;
-	} catch (DataAccessException e){
-	    LOGGER.error("Unable to save RequestCollection instance"+ requestCollection.getId(), e);
-	    throw e;
-	}
+		try {
+		    requestCollectionMapper.save(requestCollection);
+		    int id = requestCollection.getId();
+		    saveRequestsToCollection(requestCollection);
+		    saveLabelsToCollection(requestCollection);
+		    return id;
+		} catch (DataAccessException e){
+		    LOGGER.error("Unable to save RequestCollection instance"+ requestCollection.getId(), e);
+		    throw e;
+		}
     }    
     
     /**
@@ -64,13 +64,14 @@ public class RequestCollectionService {
      * @return List of {@link RequestCollection} instances
      * @throws DataAccessException
      */
+    @Transactional
     public List<RequestCollection> loadAll(){
-	try {
-	    return requestCollectionMapper.loadAll();
-	} catch (DataAccessException e) {
-	    LOGGER.error("Unable to load RequestCollections",e);
-	    throw e;
-	}
+		try {
+		    return requestCollectionMapper.loadAll();
+		} catch (DataAccessException e) {
+		    LOGGER.error("Unable to load RequestCollections",e);
+		    throw e;
+		}
     }
     
     /**
@@ -81,12 +82,12 @@ public class RequestCollectionService {
      * @throws DataAccessException
      */
     public RequestCollection load(int id){
-	try {
-	    return requestCollectionMapper.load(id);
-	} catch (DataAccessException e) {
-	    LOGGER.error("Unable to load RequestCollection,RequestCollection id:" + id,e);
-	    throw e;
-	}
+		try {
+		    return requestCollectionMapper.load(id);
+		} catch (DataAccessException e) {
+		    LOGGER.error("Unable to load RequestCollection,RequestCollection id:" + id,e);
+		    throw e;
+		}
     }
     
     /**
@@ -97,19 +98,20 @@ public class RequestCollectionService {
      * @throws DuplicateKeyException if the request with the name exists in the database.
      * @throws DataAccessException
      */
+    @Transactional
     public int update(RequestCollection requestCollection){ 
-	try {
-	    requestCollectionMapper.update(requestCollection);
-	    int id = requestCollection.getId();
-	    deleteRequestFromCollectionId(id);
-	    labelMapper.deleteByRequestCollectionId(id);
-	    saveRequestsToCollection(requestCollection);
-	    saveLabelsToCollection(requestCollection);
-	    return id;
-	} catch (DataAccessException e) {
-	    LOGGER.error("Unable to update RequestCollection id:" + requestCollection.getId(), e);
-	    throw e;
-	}
+		try {
+		    requestCollectionMapper.update(requestCollection);
+		    int id = requestCollection.getId();
+		    deleteRequestFromCollectionId(id);
+		    labelMapper.deleteByRequestCollectionId(id);
+		    saveRequestsToCollection(requestCollection);
+		    saveLabelsToCollection(requestCollection);
+		    return id;
+		} catch (DataAccessException e) {
+		    LOGGER.error("Unable to update RequestCollection id:" + requestCollection.getId(), e);
+		    throw e;
+		}
     }
     
     /**
@@ -119,13 +121,30 @@ public class RequestCollectionService {
      * @return the number of rows affected by the statement
      * @throws DataAccessException
      */
-    public int detele(int id){
-	try {
-	    return requestCollectionMapper.detele(id);
-	} catch (DataAccessException e){
-	    LOGGER.error("Unable to delete RequestCollection id:" + id, e);
-	    throw e;
-	}    
+    @Transactional
+    public int delete(int id){
+		try {
+		    return requestCollectionMapper.detele(id);
+		} catch (DataAccessException e){
+		    LOGGER.error("Unable to delete RequestCollection id:" + id, e);
+		    throw e;
+		}    
+    }
+    
+    /**
+     * Deletes {@link Request} instances from the database.
+     * 
+     * @param requestCollectionIdArray identifiers of requestCollection to delete
+     * @throws DataAccessException
+     */
+    @Transactional
+    public void delete(int [] requestCollectionIdArray){
+		try {
+			requestCollectionMapper.deleteRequestCollections(requestCollectionIdArray);
+		} catch (DataAccessException e){
+		    LOGGER.error("Unable to delete RequestCollection id:" + requestCollectionIdArray, e);
+		    throw e;
+		}    
     }
     
     /**
@@ -136,40 +155,40 @@ public class RequestCollectionService {
      * @throws DataAccessException
      */
     public int deleteFromCollection(int rId, int rcId){
-	try {
-	    return requestCollectionMapper.deleteFromCollection(rId, rcId);
-	} catch (DataAccessException e) {
-	    LOGGER.error("Unable to delete request from RequestCollection, Request id:" + rId + ", RequestCollection id:" + rcId, e);
-	    throw e;
-	}
-    }
+		try {
+		    return requestCollectionMapper.deleteFromCollection(rId, rcId);
+		} catch (DataAccessException e) {
+		    LOGGER.error("Unable to delete request from RequestCollection, Request id:" + rId + ", RequestCollection id:" + rcId, e);
+		    throw e;
+		}
+    }   
     
     /**
      * Invoke this method to save requests for the RequestCollection instance to the
      * database
-     */
+     */  
     private void saveRequestsToCollection(RequestCollection requestCollection){
-	try {
-	    requestMapper.saveByCollection(requestCollection);
-	} catch (DataAccessException e) {
-	    LOGGER.error("Unable to add request to RequestCollection", e);
-	    throw e;
-	}
-    }
+		try {
+		    requestMapper.saveByCollection(requestCollection);
+		} catch (DataAccessException e) {
+		    LOGGER.error("Unable to add request to RequestCollection", e);
+		    throw e;
+		}
+	    }
     
     /**
      * Invoke this method to save labels for the RequestCollection instance to the
      * database
      */
     private void saveLabelsToCollection(RequestCollection requestCollection){
-	try {
-	    if (!requestCollection.getLabels().isEmpty()) {
-		labelMapper.saveByRequestCollection(requestCollection);
-	    }
-	} catch (DataAccessException e) {
-	    LOGGER.error("Unable to add label to RequestCollection", e);
-	    throw e;
-	}
+		try {
+		    if (!requestCollection.getLabels().isEmpty()) {
+			labelMapper.saveByRequestCollection(requestCollection);
+		    }
+		} catch (DataAccessException e) {
+		    LOGGER.error("Unable to add label to RequestCollection", e);
+		    throw e;
+		}
     }
     
     /**
@@ -177,12 +196,12 @@ public class RequestCollectionService {
      * database
      */
     private void deleteRequestFromCollectionId(int id){
-	try {
-	    requestMapper.deleteByRequestCollectionId(id);
-	} catch (DataAccessException e) {
-	    LOGGER.error("Unable to delete requests from RequestCollection,RequestCollection id: "+id, e);
-	    throw e;
-	}
+		try {
+		    requestMapper.deleteByRequestCollectionId(id);
+		} catch (DataAccessException e) {
+		    LOGGER.error("Unable to delete requests from RequestCollection,RequestCollection id: "+id, e);
+		    throw e;
+		}
     }
     
     

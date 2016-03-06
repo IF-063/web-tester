@@ -111,7 +111,7 @@
 	
 	
    <!-- Main page script -->
-  <script src=<c:url value="/resources/js/collection/collectionCreate.js" />></script>
+  <script src=<c:url value="/resources/js/collection/collectionCreateEdit.js" />></script>
   
 
 </body>

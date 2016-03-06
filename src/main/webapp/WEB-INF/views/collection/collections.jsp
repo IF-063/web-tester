@@ -58,8 +58,7 @@
                 <th><input id="selectAll" type="checkbox" title="Select all"></th>
                 <th>Name</th>
                 <th>Description</th>
-                <th>Labels</th>
-                
+                <th>Labels</th>               
                 <th>See results</th>
                 <th>Modify</th>
                 <th>Duplicate</th>
@@ -71,7 +70,7 @@
               <c:forEach items="${сollectionsList}" var="requestCollection">
                 <tr id="requestRow">
                   <td>
-                    <input id=<c:out value="${requestCollection.id}" /> type="checkbox" name="operateSelect">
+                    <input id="${requestCollection.id}" type="checkbox" name="operateSelect">
                   </td>
                   <td><a href=<c:url value="/tests/collections/${requestCollection.id}" />>
                   	${requestCollection.name}
@@ -88,8 +87,8 @@
                       </a>
                   </td>
                   <td><a><i class="fa fa-copy fa-lg"></i></a></td>
-                  <td><input id=<c:out value="${requestCollection.id}" /> type="checkbox" name="disableSelect"></td>
-                  <td id="deleteRequestCollection"> <a href="#"><i class="fa fa-trash fa-lg"></i></a></td>
+                  <td><input id=<c:out value="${requestCollection.id}" /> type="checkbox" name="disableSelect"></td>           
+                  <td><a id="${requestCollection.id}" class="removeInstance"><i class="fa fa-trash fa-lg"></i></a></td>
                 </tr>
               </c:forEach>
             </tbody>
@@ -106,7 +105,8 @@
   <!-- Bootstrap Core JavaScript -->
   <script src=<c:url value="/resources/bower_components/bootstrap/dist/js/bootstrap.min.js" />></script>
   
-  <script src=<c:url value="roources/dist/js/jquery.multi-select.js"/>></script>
+  <!-- Main page script -->
+  <script src=<c:url value="/resources/js/collection/collections.js" />></script>
 
   
 </body>

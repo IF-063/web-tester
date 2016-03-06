@@ -67,7 +67,7 @@ public interface RequestCollectionMapper {
      * @return number of rows affected by the statement
      * @throws DataAccessException
      */    
-    @Update("UPDATE RequestCollection SET name = #{name}, description = #{description}, WHERE id = #{id}")
+    @Update("UPDATE RequestCollection SET name = #{name}, description = #{description} WHERE id = #{id}")
     int update(RequestCollection requestCollection);
     
     /**
@@ -81,6 +81,17 @@ public interface RequestCollectionMapper {
     int detele(int id);
     
     /**
+     * Deletes {@link RequestCollection} instance from the database.
+     * 
+     * @param requestCollectionIdArray identifier of RequestCollection instances should be deleted
+     * @throws DataAccessException
+     */
+    @Delete("<script>DELETE FROM RequestCollection WHERE id IN "
+    	    + "<foreach item='item' index='index' collection='list' open='(' separator=',' close=')'>"
+    	    + "#{item}</foreach></script>") 
+    void deleteRequestCollections(@Param("list") int[] requestCollectionIdArray);
+    
+    /**
      * Deletes {@link RequestCollection_Request} instance from the database.
      * 
      * @param rId, rcId identifiers of RequestCollection_Request instance should be deleted
@@ -89,4 +100,6 @@ public interface RequestCollectionMapper {
      */
     @Delete("DELETE FROM RequestCollection_Request WHERE requestId = #{rId} and requestCollectionId = #{rcId}")
     int deleteFromCollection(int rId, int rcId);
+    
+    
 }
