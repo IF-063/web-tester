@@ -34,8 +34,6 @@
 </head>
 
 <body>
-  <button id="buttton">check</button>
-  <button id="vvv">vvv</button>
   <div class="container">
     <div class="row">
       <form:form action="" method="POST" commandName="request" class="form-horizontal" role="form">

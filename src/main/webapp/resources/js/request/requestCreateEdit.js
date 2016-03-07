@@ -30,7 +30,14 @@ $(function() {
   // deletes row from headers, variables or dbvalidations table
   $(document).on('click', '.removeInstance', function() {
     var container = $(this).closest('.elementContainer');
-    $(this).parents('.dataRow').remove();
+    var row = $(this).parents('.dataRow');
+
+    row.find('input[type="text"]:not(:disabled)').each(function() {
+      console.log('d', this);
+      $('#request').bootstrapValidator('removeField', $(this));
+    });
+
+    row.remove();
     setVisibility(container);
     return false;
   });
@@ -48,214 +55,182 @@ $(function() {
 
   // sets elements enabled in variables table  
   $('input:checkbox:not(:checked)[class=isRandom]').each(function() {
-	setDisableIfRandom(this, 1);
+    setDisableIfRandom(this, 1);
   });
-  
+
   // changes elements enabled depending on state of isSql checkbox 
   $(document).on('change', '.isSql', function() {
-	if ($(this).is(':checked')) {
-	  var isRandomCheckbox = $(this).closest('tr').find('.isRandom');
-	  isRandomCheckbox.prop('checked', 0);
-	  setDisableIfRandom(isRandomCheckbox);
-	}
+    if ($(this).is(':checked')) {
+      var isRandomCheckbox = $(this).closest('tr').find('.isRandom');
+      isRandomCheckbox.prop('checked', 0);
+      setDisableIfRandom(isRandomCheckbox);
+    }
   });
 
   // changes elements enabled depending on state of isRandom checkbox 
   $(document).on('change', '.isRandom', function() {
-	$(this).closest('tr').find('.isSql').prop('checked', 0);
-	setDisableIfRandom(this);
+    $(this).closest('tr').find('.isSql').prop('checked', 0);
+    setDisableIfRandom(this);
   });
-  
+
   // sets  elements enabled depending on state of isRandom checkbox or inputState variable
   function setDisableIfRandom(isRandomCheckbox, inputState) {
-	var obj = $(isRandomCheckbox);
-	var state = inputState? inputState : !obj.prop('checked');
-	obj.closest('tr').find('.enableIfRandom').each(function() {
-	  $(this).prop('disabled', state);
-	});
+    var obj = $(isRandomCheckbox);
+    var state = inputState ? inputState : !obj.prop('checked');
+    obj.closest('tr').find('.enableIfRandom').each(function() {
+      if (!inputState && $(this).prop("type") == "text") {
+        console.log(state ? 'd' : 'a', this);
+        $('#request').bootstrapValidator(state ? 'removeField' : 'addField', $(this));
+      }
+      $(this).prop('disabled', state);
+    });
   }
-  
+
   // add new row to header's, variable's or dbvalidation's tables
-  $(document).on('click', '.addButton', function() {
-    if (!restrictIfEmpty(this)){
-	  var row = $('#template').find('tr').eq($(this).prop('id')).clone();
-	  $(this).closest('.elementContainer').find('table').append(row);
-	  setVisibility($(this).closest('.elementContainer'));
-	}
+  $(document).on('click', '.addButton', function(e) {
+    e.preventDefault();
+    if (!restrictIfEmpty(this)) {
+      var row = $('#template').find('tr').eq($(this).prop('id')).clone();
+      $(this).closest('.elementContainer').find('table').append(row);
+
+      row.find('input[type="text"]:not(:disabled)').each(function() {
+        console.log('a', this);
+        $('#request').bootstrapValidator('addField', $(this));
+      });
+
+      setVisibility($(this).closest('.elementContainer'));
+    }
     return false;
   });
 
   // doesn't allow to add new row to header's, variable's or dbvalidation's tables in case of empty fields
   function restrictIfEmpty(button) {
-	var container = $(button).closest('.elementContainer');
-	var count = 0;
-	container.find(':input[required]:visible:not(:disabled)').each(function() {
-	  if (!$.trim($(this).val())) {
-	    count++;
-	  }    
-	});
-	return count > 0;
+    var container = $(button).closest('.elementContainer');
+    var count = 0;
+    container.find(':input[required]:visible:not(:disabled)').each(function() {
+      if (!$.trim($(this).val())) {
+        count++;
+      }
+    });
+    return count > 0;
   }
-  
+
   // resets page to original state	
-  $('#reset').click(function(){
-	location.reload();
-	return false;
+  $('#reset').click(function() {
+    location.reload();
+    return false;
   });
-  
+
   // cleans all field
-  $('#clean').click(function(e){
+  $('#clean').click(function(e) {
     $('.elementContainer').find($('.dataRow')).remove();
-    $('select :first-child').prop('selected','selected');//
+    $('select :first-child').prop('selected', 'selected'); //
     $('.multipleSelect').select2('val', null);
     $('input[type=text],textarea').val('');
     return false;
   });
-  
-  // submits form
-//  $('#validate').click(function() {
-//    normalizeLists();
-//    $('#requests').submit();
-//  });
 
-   var validator = $('#request')
-  .bootstrapValidator({
-        message: 'This value is not valid',
-        excluded: [':disabled', ':hidden', ':not(:visible)'],
-        feedbackIcons: {
-          valid: 'glyphicon glyphicon-ok',
-          invalid: 'glyphicon glyphicon-remove',
-          validating: 'glyphicon glyphicon-refresh'
-        },
-        submitButtons: 'button[id="validate"]',
-        container: 'tooltip',
-//  	  rules : {
-//  		"headers*" : {
-//  		  required : true
-//  		},
-//  		"dbValidations*" : {
-//  		  required : true
-//  		},	
-//  	  },
-        fields: {
-          name: {
-            validators: {
-              notEmpty: {
-              	message: 'Request name cannot be empty'
-              },
-              remote: {
-              	url: 'create/isRequestNameFree',
-              	type: 'GET',
-              	data: {name : $('#name').val(), exclusionId : $('#id').val()},
-              	delay: 1000,
-              	message: 'Request with same name already exists'
-              },
-            }
-          },
-          description: {
-            validators: {
-              notEmpty: {
-              	message: 'Description cannot be empty'
-              }
-            }
-          },
-          requestMethod: {
-            validators: {
-              notEmpty: { }
-            }
-          },
-          application: {
-            validators: {
-              notEmpty: { }
-            }
-          },
-          service: {
-            validators: {
-              notEmpty: { }
-            }
-          },
-          endpoint: {
-            validators: {
-              notEmpty: { }
-            }
-          },
-          responseType: {
-            validators: {
-              notEmpty: { }
-            }
-          },
-          timeout: {
-            validators: {
-              notEmpty: {},
-              integer: {},
-              greaterThan: {
-              	value: 1
-              }
-            }
-          },   
-          
-          'headers*': {
-              validators: {
-                notEmpty: {message: 'HN cannot be empty' }
-              }
+//   manual submits form without bootstrap validaion
+//    $('#validate').click(function() {
+//      normalizeLists();
+//      $('#requests').submit();
+//    });
+
+  var validator = $('#request')
+    .bootstrapValidator({
+      message: 'This value is not valid',
+      excluded: [':disabled', ':hidden', ':not(:visible)'],
+      feedbackIcons: {
+        valid: 'glyphicon glyphicon-ok',
+        invalid: 'glyphicon glyphicon-remove',
+        validating: 'glyphicon glyphicon-refresh'
+      },
+      submitButtons: 'button[id="validate"]',
+      container: 'tooltip',
+      fields: {
+        name: {
+          validators: {
+            notEmpty: {
+              message: 'Request name cannot be empty'
             },
-          
-       
-        }
-      }).on('success.form.bv', function(e) {
-       // e.preventDefault();
-        var form = $(e.target),
+            remote: {
+              url: 'create/isRequestNameFree',
+              type: 'GET',
+              data: {
+                name: $('#name').val(),
+                exclusionId: $('#id').val()
+              },
+              delay: 1000,
+              message: 'Request with same name already exists'
+            },
+          }
+        },
+        description: {
+          validators: {
+            notEmpty: {
+              message: 'Description cannot be empty'
+            }
+          }
+        },
+        requestMethod: {
+          validators: {
+            notEmpty: {}
+          }
+        },
+        application: {
+          validators: {
+            notEmpty: {}
+          }
+        },
+        service: {
+          validators: {
+            notEmpty: {}
+          }
+        },
+        endpoint: {
+          validators: {
+            notEmpty: {}
+          }
+        },
+        responseType: {
+          validators: {
+            notEmpty: {}
+          }
+        },
+        timeout: {
+          validators: {
+            notEmpty: {},
+            integer: {},
+            greaterThan: {
+              value: 1
+            }
+          }
+        },
+      }
+    }).on('success.form.bv', function(e) {
+      // e.preventDefault();
+      var form = $(e.target),
         bv = form.data('bootstrapValidator');
-        normalizeLists();
-        bv.defaultSubmit();
-      });
-//   
-//   
-   $(document).on('click', '#vvv', function() {
-	  
-	   $('#request input, #request checkbox, #request textarea, #request select')
-	   .filter('[required]:visible:not(:disabled)').each(function() {
-		   console.log(this);
-		   $('#request').bootstrapValidator('addField', $(this));
-		 
-		});
-		return false;
-	  });
+      normalizeLists();
+      bv.defaultSubmit();
+    });
 
+//    function isRequestNameFree() {
+//  	if ($('#name').val()) {
+//  	  $.ajax({
+//  	    type: 'GET',
+//  	    url: 'create/isRequestNameFree',
+//  	    data: {name : $('#name').val(), exclusionId : $('#id').val()},
+//  	    success: function(data) {
+//  	      alert(data);
+//  	    },
+//  	    error: function() {
+//  	      alert(0);
+//  	    },
+//  	  });
+//  	}
+//    }
 
-//  $('#validate').click(function() {
-//  	$('#request').bootstrapValidator().on('success.form.bv', function(e) {
-//        e.preventDefault();
-//        var form = $(e.target),
-//        bv = form.data('bootstrapValidator');
-//        normalizeLists();
-//        bv.defaultSubmit();
-//      });
-//  });
-
-
-  
-  $(document).on('click', '#buttton', function() {
-	isRequestNameFree();
-	return false;
-  });
-  
-  function isRequestNameFree() {
-	if ($('#name').val()) {
-	  $.ajax({
-	    type: 'GET',
-	    url: 'create/isRequestNameFree',
-	    data: {name : $('#name').val(), exclusionId : $('#id').val()},
-	    success: function(data) {
-	      alert(data);
-	    },
-	    error: function() {
-	      alert(0);
-	    },
-	  });
-	}
-  }
-  
   // sets indexes in headers, variables or dbvalidations lists
   // should be invoked BEFORE FORM SUBMITING
   function normalizeLists() {
