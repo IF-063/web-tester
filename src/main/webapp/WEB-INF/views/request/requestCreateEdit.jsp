@@ -150,7 +150,7 @@
                     <button class="btn btn-link clearCollection">Delete all</button>
                   </div>
                   <div class="table-responsive">
-                    <table class="table table-hover table-bordered table-condensed text-center panel-body" 
+                    <table class="table table-hover table-bordered table-condensed text-center" 
                       id="headers">
                       <thead>
                         <tr>

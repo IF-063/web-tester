@@ -68,7 +68,6 @@ public class UserController {
      */
     @RequestMapping(method = RequestMethod.POST)
     public String editAccount(@Validated @ModelAttribute("user") User user, BindingResult result) {
-	
 	if (result.hasErrors()) {
 	    return "account";
 	}

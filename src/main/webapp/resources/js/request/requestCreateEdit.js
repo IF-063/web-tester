@@ -194,6 +194,12 @@ $(function() {
             }
           },   
           
+          'headers*': {
+              validators: {
+                notEmpty: {message: 'HN cannot be empty' }
+              }
+            },
+          
        
         }
       }).on('success.form.bv', function(e) {

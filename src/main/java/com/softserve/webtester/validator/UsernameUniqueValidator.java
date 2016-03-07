@@ -34,7 +34,6 @@ public class UsernameUniqueValidator implements Validator {
 	Authentication currentAuthentication = SecurityContextHolder.getContext().getAuthentication();
 	String currentUsername = currentAuthentication.getName();
 	user.setId(Integer.parseInt(currentUsername));
-	System.out.println(user);
 	if (!userService.isUsernameFree(user.getId(), user.getUsername())) {
 	    errors.rejectValue("username", null, "username should be unique");
 	}

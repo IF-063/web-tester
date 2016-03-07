@@ -168,8 +168,7 @@ public class RequestController {
 	ModelAndView modelAndView = new ModelAndView("request/requestCreateEdit");
 	modelAndView.addObject("pageTitle", "Edit request");
 	modelAndView.addAllObjects(addMetaData());
-	Request request = requestService.load(id);
-	modelAndView.addObject("request", request);
+	modelAndView.addObject("request", requestService.load(id));
 	return modelAndView;
     }
 

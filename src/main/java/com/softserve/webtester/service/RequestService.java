@@ -13,6 +13,7 @@ import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.softserve.webtester.exception.ResourceNotFoundException;
 import com.softserve.webtester.mapper.DbValidationMapper;
 import com.softserve.webtester.mapper.HeaderMapper;
 import com.softserve.webtester.mapper.LabelMapper;
@@ -30,7 +31,7 @@ import com.softserve.webtester.model.Variable;
  * logging.
  * 
  * @author Taras Oglabyak
- * @version 1.3
+ * @version 1.4
  */
 @Service
 public class RequestService {
@@ -97,12 +98,19 @@ public class RequestService {
      * 
      * @param id identifier of Request instance
      * @return {@link Request} instance
+     * @throws ResourceNotFoundException if Request instance is null
      * @throws DataAccessException
      */
     @Transactional
     public Request load(int id) {
 	try {
-	    return requestMapper.load(id);
+	    Request request = requestMapper.load(id);
+	    if (request == null)
+		throw new ResourceNotFoundException("Request not found, id: " + id);
+	    return request;
+	} catch (ResourceNotFoundException e) {
+	    LOGGER.error("Request not found, id: " + id, e);
+	    throw e;
 	} catch (DataAccessException e) {
 	    LOGGER.error("Unable to load request instance, request id: " + id, e);
 	    throw e;
