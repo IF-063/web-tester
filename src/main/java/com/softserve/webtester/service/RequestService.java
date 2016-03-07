@@ -13,6 +13,7 @@ import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.softserve.webtester.dto.RequestFilterDTO;
 import com.softserve.webtester.exception.ResourceNotFoundException;
 import com.softserve.webtester.mapper.DbValidationMapper;
 import com.softserve.webtester.mapper.HeaderMapper;
@@ -120,16 +121,16 @@ public class RequestService {
     /**
      * Loads all stored {@link Request} instances with their main information.
      * 
-     * @param requestNameFilter using for filtering instances, which name starts with the parameter
-     * @param applicationFilter using for filtering instances, which application's identifiers are in the array
-     * @param serviceFilter using for filtering instances, which service's identifiers are in the array
-     * @param labelFilter using for filtering instances, which label's identifiers are in the array
+     * @param requestFilterDTO DTO object using for filtering {@link Request} instances
      * @return List of {@link Request} instances
      * @throws DataAccessException
      */
     @Transactional
-    public List<Request> loadAll(String requestNameFilter, int[] applicationFilter, int[] serviceFilter, 
-	    			 int[] labelFilter) {
+    public List<Request> loadAll(RequestFilterDTO requestFilterDTO) {
+	String requestNameFilter = requestFilterDTO.getRequestNameFilter();
+	int[] applicationFilter = requestFilterDTO.getApplicationFilter();
+	int[] serviceFilter = requestFilterDTO.getServiceFilter();
+	int[] labelFilter = requestFilterDTO.getLabelFilter();
 	try {
 	    return requestMapper.loadAll(requestNameFilter, applicationFilter, serviceFilter, labelFilter);
 	} catch (DataAccessException e) {

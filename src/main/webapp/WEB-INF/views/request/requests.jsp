@@ -36,56 +36,45 @@
       <div class="col-md-12">
         <div class="panel panel-default">
           <div class="panel-heading">
-            <form >
+            <form:form modelAttribute="requestFilterDTO" method="GET">
               <fieldset>
                 <!--  <legend>Filters</legend> -->
 
                   <div class="col-md-2">
                     <label for="requestNameFilter" class="control-label">Request name</label>
-                    <input type="text" id="requestNameFilter" name="requestNameFilter" class="form-control" 
+                    <form:input type="text" path="requestNameFilter" class="form-control" 
                       placeholder="name starts with" />
                   </div>
 
                   <div class="col-md-2">
                     <label for="applicationFilter" class="control-label">Applications</label>
-                    <select id="applicationFilter" name="applicationFilter" class="form-control select2-multiple" 
-                      multiple="multiple" data-placeholder="applications">
-				      <c:forEach items="${applications}" var="application">
-					    <option value="${application.id}"><c:out value="${application.name}" /></option>
-				      </c:forEach>
-			        </select>
+                    <form:select path="applicationFilter" items="${applications}" class="form-control select2-multiple" 
+                      multiple="multiple" data-placeholder="applications" itemLabel="name" itemValue="id" />
                   </div>
 
                   <div class="col-md-2">
                     <label for="serviceFilter" class="control-label">Service</label>
-                    <select id="serviceFilter" name="serviceFilter" class="form-control select2-multiple" 
-                      multiple="multiple" data-placeholder="services">
-                      <c:forEach items="${services}" var="service">
-                        <option value="${service.id}"><c:out value="${service.name}" /></option>
-                      </c:forEach>
-                    </select>
+                     <form:select path="serviceFilter" items="${services}" class="form-control select2-multiple" 
+                      multiple="multiple" data-placeholder="services" itemLabel="name" itemValue="id" />
                   </div>
 
                   <div class="col-md-2">
                     <label for="labelFilter" class="control-label">Labels</label>
-                    <select id="labelFilter" name="labelFilter" class="form-control select2-multiple" 
-                      multiple="multiple" data-placeholder="labels">
-                      <c:forEach items="${labels}" var="label">
-                        <option value="${label.id}"><c:out value="${label.name}" /></option>
-                      </c:forEach>
-                    </select>
+                    <form:select path="labelFilter" items="${labels}" class="form-control select2-multiple" 
+                      multiple="multiple" data-placeholder="labels" itemLabel="name" itemValue="id" />
                   </div>
                  
                   <div class="col-md-4">
                     <label>Actions</label>
                     <div>
                       <a href=<c:url value="/tests/requests/" /> class="btn btn-default">Reset</a>
-                      <input type="submit" class="btn btn-success" value="Filter" /></div>
+                      <input type="submit" class="btn btn-success" value="Filter" />
+                    </div>
                   </div>
 
               </fieldset>
 
-            </form>
+            </form:form>
            <h4>Requests</h4>
             <div class="row">
               <div class="col-md-12">

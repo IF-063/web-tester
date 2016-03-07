@@ -1,45 +1,5 @@
 $(function() {
 
-  // request's filters name array
-  var filters = ['applicationFilter', 'serviceFilter', 'labelFilter'];
-  
-  // sets filter values after filter processing
-  for (i in filters) {
-	  setFilters(filters[i], getURLParameter(filters[i]));
-  }
-  
-  // sets values of request's filters field
-  function setFilters(select, values) {
-	var values = getURLParameter(select);
-	$('#' + select + ' option').each(function () {
-	  if ($.inArray($(this).val(), values) != -1) {
-		$(this).prop('selected', true);
-	  };
-	}); 
-  }
-  
-  // sets value of requestNameFilter field
-  $('#requestNameFilter').val(getURLParameter('requestNameFilter')[0]);
-
-  // gets value of filter processing from URL
-  function getURLParameter(sParam) {
-	var sPageURL = decodeURIComponent(window.location.search.substring(1));
-	var sURLVariables = sPageURL.split('&');
-	var arr = [];
-	for (var i = 0; i < sURLVariables.length; i++) {
-	  var sParameterName = sURLVariables[i].split('=');
-	  if (sParameterName[0] == sParam) {
-		arr.push(sParameterName[1]);
-	  }
-	}
-	return arr;
-  }
-
-  // resets all filters
-  $('#resetFilters').click(function(){
-	window.location.href=url.split('?')[0];
-  });
-
   // enables tag autocomplete in filtering fields
   $('#applicationFilter, #serviceFilter, #labelFilter').select2({
 	theme: 'bootstrap',
@@ -61,7 +21,7 @@ $(function() {
     return false;
   });
 
-  // 
+  // performs run of selected requests on page
   $(document).on('click', '#runSelected', function() {;
     requestsToSend = [];
     $('#requests input:checked[name="operateSelect"]').each(function() {

@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.softserve.webtester.dto.RequestFilterDTO;
 import com.softserve.webtester.editor.ApplicationEditor;
 import com.softserve.webtester.editor.ServiceEditor;
 import com.softserve.webtester.model.Application;
@@ -71,32 +72,24 @@ public class RequestController {
     }
     
     /**
-     * Retrieves page with all existing requests. 
+     * Retrieves page with existing requests. 
      * 
-     * @param requestNameFilter using for filtering instances, which name starts with the parameter
-     * @param applicationFilter using for filtering instances, which application's identifiers are in the array
-     * @param serviceFilter using for filtering instances, which service's identifiers are in the array
-     * @param labelFilter using for filtering instances, which label's identifiers are in the array
-     * @return ModelAndView instance with 'requests' view and founded requests
+     * @param requestFilterDTO DTO object using for filtering {@link Request} instances.
+     * @return ModelAndView instance with 'requests' view and filtered requests
      */
     @RequestMapping(method = RequestMethod.GET)
-    public ModelAndView getRequestsPage(
-	    @RequestParam(value = "requestNameFilter", required = false) String requestNameFilter,
-	    @RequestParam(value = "applicationFilter", required = false) int[] applicationFilter,
-	    @RequestParam(value = "serviceFilter", required = false) int[] serviceFilter,
-	    @RequestParam(value = "labelFilter", required = false) int[] labelFilter) {
+    public ModelAndView getRequestsPage(@ModelAttribute RequestFilterDTO requestFilterDTO) {
 	ModelAndView modelAndView = new ModelAndView("request/requests");
 	modelAndView.addObject("applications", metaDataService.applicationLoadAll());
 	modelAndView.addObject("services", metaDataService.serviceLoadAll());
 	modelAndView.addObject("labels", metaDataService.loadAllLabels());
 	modelAndView.addObject("environments", environmentService.loadAll());
-	modelAndView.addObject("requests", requestService.loadAll(requestNameFilter, applicationFilter, 
-			       serviceFilter, labelFilter));
+	modelAndView.addObject("requests", requestService.loadAll(requestFilterDTO));
 	return modelAndView;
     }
 
     /**
-     * Creates ModelMap container with metadata lists. 
+     * Creates ModelMap container with metadata lists.
      * 
      * @return {@link ModelMap} instance
      */

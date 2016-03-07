@@ -90,16 +90,17 @@ public interface RequestMapper {
      * @throws DataAccessException
      */
     @Select({ "<script>SELECT r.id, r.name, r.applicationId, r.serviceId, r.endpoint FROM Request r ",
-	      "<if test='labelFilter!=null'>LEFT JOIN Request_Label rl ON r.id=rl.requestId </if>", 
+	      "<if test='labelFilter!=null and labelFilter.length>0'>LEFT JOIN Request_Label rl ON r.id=rl.requestId ",
+	      "</if>", 
 	      "WHERE id > 0",
 	      "<if test='requestNameFilter!=null'> AND r.name LIKE CONCAT(#{requestNameFilter},'%')</if>",
-	      "<if test='applicationFilter!=null'> AND applicationId IN",
+	      "<if test='applicationFilter!=null and applicationFilter.length>0'> AND applicationId IN",
 	      "<foreach collection='applicationFilter' item='item' index='index' open='(' separator=',' close=')'>",
 	      "#{item}</foreach></if>",
-	      "<if test='serviceFilter!=null'> AND serviceId IN",
+	      "<if test='serviceFilter!=null and serviceFilter.length>0'> AND serviceId IN",
 	      "<foreach collection='serviceFilter' item='item' index='index' open='(' separator=',' close=')'>",
 	      "#{item}</foreach></if>",
-	      "<if test='labelFilter!=null'> AND rl.labelId IN",
+	      "<if test='labelFilter!=null and labelFilter.length>0'> AND rl.labelId IN",
 	      "<foreach collection='labelFilter' item='item' index='index' open='(' separator=',' close=')'>",
 	      "#{item}</foreach></if>",
 	      "</script>" })

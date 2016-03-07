@@ -12,13 +12,10 @@
     <c:out value="${pageTitle}" />
   </title>
 
-  <!-- Bootstrap Core CSS -->
   <link href=<c:url value="/resources/bower_components/bootstrap/dist/css/bootstrap.min.css" /> rel="stylesheet">
 
-  <!-- Custom CSS -->
   <link href=<c:url value="/resources/dist/css/sb-admin-2.css" /> rel="stylesheet">
 
-  <!-- Custom Fonts -->
   <link href=<c:url value="/resources/bower_components/font-awesome/css/font-awesome.min.css" /> rel="stylesheet">
 
   <link href=<c:url value="/resources/dist/css/select2.min.css" /> rel="stylesheet" />
@@ -150,7 +147,7 @@
                     <button class="btn btn-link clearCollection">Delete all</button>
                   </div>
                   <div class="table-responsive">
-                    <table class="table table-hover table-bordered table-condensed text-center" 
+                    <table class="table table-hover table-bordered table-condensed text-center panel-body" 
                       id="headers">
                       <thead>
                         <tr>
