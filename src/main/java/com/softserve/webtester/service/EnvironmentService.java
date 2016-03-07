@@ -1,10 +1,17 @@
 package com.softserve.webtester.service;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -90,5 +97,62 @@ public class EnvironmentService {
 			LOGGER.error("Unable to delete environment instance, id " + environment.getId(), e);
 			throw e;
 		}
-	}	
+	}
+	
+	public Connection  getConnection(Environment environment) throws Exception{
+		
+		String JDBC_DRIVER = "com.mysql.jdbc.Driver";  
+		String DB_URL = "jdbc:mysql://" + environment.getDbUrl() + "/" + environment.getDbName();
+		
+		String USER = environment.getDbUsername();
+		String PASS = environment.getDbPassword();
+		 
+		Connection connection = null;
+		 
+		try {
+			Class.forName(JDBC_DRIVER);
+			connection = DriverManager.getConnection(DB_URL,USER,PASS);
+		} catch (SQLException se) {
+			throw se;			
+		} catch (Exception e) {
+			throw e;
+		}
+		
+		DriverManagerDataSource dataSource = new DriverManagerDataSource();
+		/*dataSource.setDriverClassName("com.mysql.jdbc.Driver");
+		dataSource.setUrl("jdbc:mysql://sql4.freemysqlhosting.net:3306/sql4101108");
+		dataSource.setUsername("sql4101108");
+		dataSource.setPassword("amuCx6E29c");
+		dataSource.setDriverClassName("com.mysql.jdbc.Driver");
+		dataSource.setUrl("jdbc:mysql://localhost:3306/sakila");
+		dataSource.setUsername("roo");
+		dataSource.setPassword("MySQL");*/
+		return connection;
+	}
+	
+	public String checkConnection(Environment environment) throws Exception{
+		Connection connection = null;
+		Statement statement = null;
+		String sql = "Select 1 from dual";
+		String result = null;
+		try {
+			connection = getConnection(environment);
+			statement = connection.createStatement();
+			
+			ResultSet rs = statement.executeQuery(sql);
+			while (rs.next()){
+				result = rs.getString("1");
+			}
+		} catch (SQLException e) {
+			throw e;
+		} finally {
+			if (statement != null) {
+				statement.close();
+			}
+			if (connection != null) {
+				connection.close();
+			}
+		}		
+		return result;		
+	}
 }
