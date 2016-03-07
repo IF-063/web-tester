@@ -59,8 +59,7 @@
                 <th>Name</th>
                 <th>Description</th>
                 <th>Labels</th>               
-                <th>See results</th>
-                <th>Modify</th>
+                <th>See results</th>                
                 <th>Duplicate</th>
                 <th>Disable</th>
                 <th>Delete</th>
@@ -81,12 +80,10 @@
                   <td>
                     <c:forEach items="${requestCollection.labels}" var="label">${label.name}, </c:forEach>
                   </td>                 
-                  <td><a href=<c:url value="/results/requestCollections/${requestCollection.id}" />>results</a></td>
-                  <td><a href=<c:url value="/test/requestsCollection/${requestCollection.id}" />>
-                    <i class="fa fa-edit fa-lg"></i>
-                      </a>
-                  </td>
-                  <td><a><i class="fa fa-copy fa-lg"></i></a></td>
+                  <td><a href=<c:url value="/results/requestCollections/${requestCollection.id}" />>results</a></td>                
+                  <td><a href=<c:url value="/tests/collections/newCollection?fromId=${requestCollection.id}" />>
+                      <i class="fa fa-copy fa-lg"></i></a>
+                    </td>
                   <td><input id=<c:out value="${requestCollection.id}" /> type="checkbox" name="disableSelect"></td>           
                   <td><a id="${requestCollection.id}" class="removeInstance"><i class="fa fa-trash fa-lg"></i></a></td>
                 </tr>

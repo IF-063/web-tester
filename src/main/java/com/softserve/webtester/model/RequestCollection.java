@@ -3,9 +3,13 @@ package com.softserve.webtester.model;
 import java.io.Serializable;
 import java.util.List;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.hibernate.validator.constraints.NotBlank;
 
 /**
  * The Request—ollection class represents {@code RequestCollection} entity stored in the database.
@@ -19,9 +23,18 @@ public class RequestCollection implements Serializable{
     private static final long serialVersionUID = -8452554592409888993L;
     
     private int id;
+    
+    @NotBlank(message="RequestCollection name cannot be empty")
     private String name;
+    
+    @NotBlank(message="RequestCollection description cannot be empty")
     private String description;
+    
+    @Valid
+    @NotNull
     private List<Request> requests;
+    
+    @Valid
     private List<Label> labels;
 
     public int getId() {

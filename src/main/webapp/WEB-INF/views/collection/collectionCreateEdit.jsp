@@ -56,12 +56,13 @@
           <c:out value="${pageTitle}" />
         </legend>
         <div class="row">
-          <form:errors path="*" />
+<!--           <form:errors path="*" /> -->
 
           <div class="form-group">
             <form:label path="name" class="col-md-4 control-label">Name*</form:label>
             <div class="col-md-4">
               <form:input path="name" class="form-control input-md" required="required" />
+              <form:errors path="name" cssClass="help-block with-errors" />
             </div>
           </div>
 
@@ -69,6 +70,7 @@
             <form:label path="description" class="col-md-4 control-label">Description*</form:label>
             <div class="col-md-4">
               <form:input path="description" class="form-control input-md" required="required" />
+              <form:errors path="description" cssClass="help-block with-errors" />
             </div>
           </div>  
           
@@ -77,6 +79,7 @@
             <div class="col-md-4">
               <form:select path="labels" class="form-control input-md select2-multiple multipleSelect" 
                 multiple="multiple" items="${labels}" itemValue="id" itemLabel="name" />
+             <form:errors path="labels" cssClass="help-block with-errors" />
             </div>
           </div>
           
@@ -85,6 +88,7 @@
             <div class="col-md-4">
               <form:select path="requests" 
                multiple="multiple" items="${requests}" itemValue="id" itemLabel="name" id="requests"/>
+              <form:errors path="requests" cssClass="help-block with-errors" /> 
             </div>
           </div>
                           

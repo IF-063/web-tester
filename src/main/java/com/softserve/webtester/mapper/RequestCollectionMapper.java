@@ -98,8 +98,11 @@ public interface RequestCollectionMapper {
      * @return number of rows affected by the statement
      * @throws DataAccessException
      */
-    @Delete("DELETE FROM RequestCollection_Request WHERE requestId = #{rId} and requestCollectionId = #{rcId}")
-    int deleteFromCollection(int rId, int rcId);
+//    @Delete("DELETE FROM RequestCollection_Request WHERE requestId = #{rId} and requestCollectionId = #{rcId}")
+//    int deleteFromCollection(int rId, int rcId);
+//    
+    @Select("SELECT IF(count(*) > 0, false, true) FROM RequestCollection WHERE name = #{name} AND id != #{exclusionId}")
+    boolean isRequestCollectionNameFree(@Param("name") String name, @Param("exclusionId") int exclusionId);
     
     
 }

@@ -13,11 +13,11 @@ $(function() {
 
   $(document).on('click', '#deleteSelected', function() {
     var selected = [];
-    $('#collectionList input:checked[name="operateSelect"]').each(function() {
+    $('#requestCollectionsTable input:checked[name="operateSelect"]').each(function() {
       selected.push($(this).prop('id'));
     });
     if (selected.length != 0 && confirm('Do you really want to delete the requestCollections?')) {
-      deleteRequests(selected);
+      deleteRequestCollections(selected);
     }
     return false;
   });

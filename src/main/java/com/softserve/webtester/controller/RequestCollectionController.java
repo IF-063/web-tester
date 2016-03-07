@@ -1,7 +1,6 @@
 package com.softserve.webtester.controller;
 
-import java.util.ArrayList;
-import java.util.List;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -10,21 +9,21 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.servlet.ModelAndView;
-
-import com.softserve.webtester.model.Request;
 import com.softserve.webtester.model.RequestCollection;
-import com.softserve.webtester.model.ResponseType;
-import com.softserve.webtester.model.VariableDataType;
 import com.softserve.webtester.service.MetaDataService;
 import com.softserve.webtester.service.RequestCollectionService;
 import com.softserve.webtester.service.RequestService;
+import com.softserve.webtester.validator.CollectionValidator;
 
 /**
  * Handles and retrieves {@link RequestCollection} pages depending on the URI template. A user must be log-in first he 
@@ -44,7 +43,15 @@ public class RequestCollectionController {
     
     @Autowired
     private MetaDataService metaDataService;
-        
+    
+    @Autowired
+    private CollectionValidator requestCollectionValidator;
+    
+    @InitBinder("requestCollection")
+    public void initBinder(WebDataBinder binder) {
+	binder.addValidators(requestCollectionValidator);
+    }
+   
     /**
      * Retrieves page with all existing requestCollections.     
      * @return ModelAndView instance with 'requestCollections' view and founded requestCollections
@@ -56,6 +63,49 @@ public class RequestCollectionController {
 		model.addObject("collectionList", requestCollectionService.loadAll());
 		return model;
 	}
+    
+    /**
+     * Retrieves page for creating new requestCollection with empty requestCollection or with duplicate of existing request 
+     * instance. 
+     * @param fromId identifier of existing {@link RequestCollection}   
+     * @return ModelAndView instance with 'collectionCreate' view with requestCollection instance
+     */
+    @RequestMapping(value = "/newCollection", method = RequestMethod.GET)
+    public ModelAndView getEmptyFormForRequestCollection(@RequestParam(value = "fromId", required = false) Integer id){
+		ModelAndView model = new ModelAndView("collection/collectionCreateEdit");
+		model.addAllObjects(addLabels());
+		model.addAllObjects(addRequests());
+		RequestCollection requestCollection = null;
+		if (id != null) {
+			model.addObject("pageTitle", "Dublicate requestCollection");
+		    requestCollection = requestCollectionService.createDuplicate(id);
+		}
+		else {
+			model.addObject("pageTitle", "Create New Request Collection");
+			requestCollection = new RequestCollection();
+		}		
+		model.addObject("requestCollection", requestCollection);
+		return model;
+    }
+    
+    /**
+     * Handles creating new request.
+     * 
+     * @param request {@link RequestCollection} instance should be saved
+     * @param result {@link BindingResult} validation handle object 
+     * @param map container with metadata lists
+     * @return if success, redirects to requestCollections main  page
+     */
+    @RequestMapping(value = "/newCollection", method = RequestMethod.POST)
+    public String saveRequestCollection(@Validated @ModelAttribute RequestCollection requestCollection, BindingResult result, ModelMap map){
+		if (result.hasErrors()) {
+		    map.addAllAttributes(addLabels());
+		    map.addAllAttributes(addRequests());
+		    return "collection/collectionCreateEdit";
+		}
+		requestCollectionService.save(requestCollection);
+		return "redirect:/tests/collections";
+    }
     
     /**
      * Retrieves requestCollection edit page.
@@ -84,7 +134,7 @@ public class RequestCollectionController {
      * @return if success, redirects to requestCollections main  page;
      */
     @RequestMapping(value = "/{id}", method = RequestMethod.POST)
-    public String EditRequestCollection(@PathVariable int id, @ModelAttribute RequestCollection requestCollection ,
+    public String EditRequestCollection(@PathVariable int id,@Validated @ModelAttribute RequestCollection requestCollection,
 		     BindingResult result, ModelMap map) {
     if (result.hasErrors()) {
         map.addAllAttributes(addLabels());
@@ -93,40 +143,7 @@ public class RequestCollectionController {
     }
 		requestCollectionService.update(requestCollection);
 		return "redirect:/tests/collections";
-    }
-    
-    /**
-     * Retrieves page for creating new requestCollection with empty requestCollection instance    
-     * @return ModelAndView instance with 'collectionCreate' view with request instance
-     */
-    @RequestMapping(value = "/newCollection", method = RequestMethod.GET)
-    public ModelAndView getEmptyFormForRequestCollection(){
-		ModelAndView model = new ModelAndView("collection/collectionCreateEdit");
-		model.addAllObjects(addLabels());
-		model.addAllObjects(addRequests());
-		model.addObject("pageTitle", "Create New Request Collection");
-		model.addObject("requestCollection", new RequestCollection());
-		return model;
-    }
-    
-    /**
-     * Handles creating new request.
-     * 
-     * @param request {@link RequestCollection} instance should be saved
-     * @param result {@link BindingResult} validation handle object 
-     * @param map container with metadata lists
-     * @return if success, redirects to requestCollections main  page
-     */
-    @RequestMapping(value = "/newCollection", method = RequestMethod.POST)
-    public String saveRequestCollection(@ModelAttribute RequestCollection requestCollection, BindingResult result, ModelMap map){
-		if (result.hasErrors()) {
-		    map.addAllAttributes(addLabels());
-		    map.addAllAttributes(addRequests());
-		    return "collection/collectionCreateEdit";
-		}
-		requestCollectionService.save(requestCollection);
-		return "redirect:/tests/collections";
-    }
+    } 
     
     /**
      * Handles requestCollection deleting. If success, returns 204 (NO_CONTENT) HTTP status.

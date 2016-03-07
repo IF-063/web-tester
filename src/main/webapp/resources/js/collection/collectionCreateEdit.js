@@ -7,4 +7,4 @@ $(function() {
   $('#requests').multiSelect({
 	  dblClick: true
   });
-});
+})    

@@ -2,8 +2,13 @@ package com.softserve.webtester.service;
 
 
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
@@ -11,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.softserve.webtester.mapper.LabelMapper;
 import com.softserve.webtester.mapper.RequestCollectionMapper;
 import com.softserve.webtester.mapper.RequestMapper;
+import com.softserve.webtester.model.Label;
 import com.softserve.webtester.model.Request;
 import com.softserve.webtester.model.RequestCollection;
 
@@ -35,6 +41,13 @@ public class RequestCollectionService {
     
     @Autowired
     private LabelMapper labelMapper;
+    
+    @Value("${request.name.duplicate.suffix:_duplicate}")
+    private String duplicateSuffix;
+    
+    @Autowired
+    @Qualifier("requestCollectionNameCountPattern")
+    private Pattern requestCollectionNameCountPattern;
     
     /**
      * Saves {@link RequestCollection} instance to the database.
@@ -154,14 +167,14 @@ public class RequestCollectionService {
      * @return the number of rows affected by the statement
      * @throws DataAccessException
      */
-    public int deleteFromCollection(int rId, int rcId){
-		try {
-		    return requestCollectionMapper.deleteFromCollection(rId, rcId);
-		} catch (DataAccessException e) {
-		    LOGGER.error("Unable to delete request from RequestCollection, Request id:" + rId + ", RequestCollection id:" + rcId, e);
-		    throw e;
-		}
-    }   
+//    public int deleteFromCollection(int rId, int rcId){
+//		try {
+//		    return requestCollectionMapper.deleteFromCollection(rId, rcId);
+//		} catch (DataAccessException e) {
+//		    LOGGER.error("Unable to delete request from RequestCollection, Request id:" + rId + ", RequestCollection id:" + rcId, e);
+//		    throw e;
+//		}
+//    }   
     
     /**
      * Invoke this method to save requests for the RequestCollection instance to the
@@ -169,7 +182,7 @@ public class RequestCollectionService {
      */  
     private void saveRequestsToCollection(RequestCollection requestCollection){
 		try {
-		    requestMapper.saveByCollection(requestCollection);
+			requestMapper.saveByCollection(requestCollection);
 		} catch (DataAccessException e) {
 		    LOGGER.error("Unable to add request to RequestCollection", e);
 		    throw e;
@@ -182,8 +195,9 @@ public class RequestCollectionService {
      */
     private void saveLabelsToCollection(RequestCollection requestCollection){
 		try {
-		    if (!requestCollection.getLabels().isEmpty()) {
-			labelMapper.saveByRequestCollection(requestCollection);
+			List <Label> labels = requestCollection.getLabels();
+		    if (labels!=null && !labels.isEmpty()){
+		    	labelMapper.saveByRequestCollection(requestCollection);
 		    }
 		} catch (DataAccessException e) {
 		    LOGGER.error("Unable to add label to RequestCollection", e);
@@ -204,8 +218,41 @@ public class RequestCollectionService {
 		}
     }
     
+    /**
+     * Checks the unique of requestCollection's name.
+     * 
+     * @param name of {@link RequestCollection} should be checked
+     * @param exclusionId id of {@link RequestCollection} should be excluded
+     * @return true, if name is unique
+     * @throws DataAccessException
+     */
+    @Transactional
+    public boolean isRequestCollectionNameFree(String name, int exclusionId) {
+		try {
+		    return requestCollectionMapper.isRequestCollectionNameFree(name, exclusionId);
+		} catch (DataAccessException e) {
+		    LOGGER.error("Unable to check request name, requests name: " + name, e);
+		    throw e;
+		}
+    }
     
-    
-    
-
+    /**
+     * Creates duplicate existing {@link RequestCollection} 
+     * 
+     * @param id identifier of RequestCollection should be duplicated
+     * @return duplicate of existing RequestCollection instance
+     * @throws DataAccessException
+     */
+    @Transactional
+    public RequestCollection createDuplicate(int id) {
+		try {
+		    RequestCollection requestCollection = load(id);
+		    requestCollection.setId(0);
+		    requestCollection.setName(requestCollection.getName() + duplicateSuffix);
+		    return requestCollection;
+		} catch (DataAccessException e) {
+		    LOGGER.error("Unable to duplicate the request, requests id: " + id, e);
+		    throw e;
+		}
+    }   
 }
