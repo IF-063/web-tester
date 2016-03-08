@@ -27,7 +27,8 @@
       <p>
         <span>Ohh.....</span>You Requested the page that is no longer There.
       </p>
-      <a href=<c:url value="/" />>Back To Home</a>
+      <a href="#" onclick="window.history.back();">Back</a>
+      <a href=<c:url value="/" />>Home</a>
     </div>
   </div>
 </body>
