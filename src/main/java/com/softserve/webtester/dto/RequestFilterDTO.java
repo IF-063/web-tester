@@ -5,10 +5,10 @@ import java.io.Serializable;
 /**
  * DTO class using for filtering {@link Request} instances.
  * 
- * @author Taras Iglabyak
+ * @author Taras Oglabyak
  *
  */
-public class RequestFilterDTO implements Serializable{
+public class RequestFilterDTO implements Serializable {
 
     private static final long serialVersionUID = 5474774865741817927L;
 
@@ -23,34 +23,34 @@ public class RequestFilterDTO implements Serializable{
     public RequestFilterDTO() { }
 
     public String getRequestNameFilter() {
-	return RequestNameFilter;
+        return RequestNameFilter;
     }
 
     public void setRequestNameFilter(String requestNameFilter) {
-	RequestNameFilter = requestNameFilter;
+        RequestNameFilter = requestNameFilter;
     }
 
     public int[] getApplicationFilter() {
-	return applicationFilter;
+        return applicationFilter;
     }
 
     public void setApplicationFilter(int[] applicationFilter) {
-	this.applicationFilter = applicationFilter;
+        this.applicationFilter = applicationFilter;
     }
 
     public int[] getServiceFilter() {
-	return serviceFilter;
+        return serviceFilter;
     }
 
     public void setServiceFilter(int[] serviceFilter) {
-	this.serviceFilter = serviceFilter;
+        this.serviceFilter = serviceFilter;
     }
 
     public int[] getLabelFilter() {
-	return labelFilter;
+        return labelFilter;
     }
 
     public void setLabelFilter(int[] labelFilter) {
-	this.labelFilter = labelFilter;
+        this.labelFilter = labelFilter;
     }
 }

@@ -23,7 +23,7 @@ public class ServiceEditor extends PropertyEditorSupport {
 
     @Override
     public void setAsText(String text) throws IllegalArgumentException {
-	Service instance = metaDataService.serviceLoad(Integer.parseInt(text));
-	this.setValue(instance);
+        Service instance = metaDataService.serviceLoad(Integer.parseInt(text));
+        this.setValue(instance);
     }
 }

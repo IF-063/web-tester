@@ -32,34 +32,33 @@ public class LoginLogoutController {
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public String loginPage(@RequestParam(value = "error", required = false) boolean error,
-	    		    @RequestParam(value = "logout", required = false) boolean logout,
-	    		    ModelMap model) {
-	if (error) {
-	    model.addAttribute("error", "Invalid username and password!");
-	}
-	if (logout) {
-	    model.addAttribute("msg", "You've been logged out successfully.");
-	}
-	return "login";
+            @RequestParam(value = "logout", required = false) boolean logout, ModelMap model) {
+        if (error) {
+            model.addAttribute("error", "Invalid username and password!");
+        }
+        if (logout) {
+            model.addAttribute("msg", "You've been logged out successfully.");
+        }
+        return "login";
     }
 
     @RequestMapping(value = { "/", "/home" }, method = RequestMethod.GET)
     public ModelAndView home(HttpSession session) {
-	ModelAndView model = new ModelAndView("home");
-	String userId = SecurityContextHolder.getContext().getAuthentication().getName();
-	User user = userService.load(userId);
-	model.addObject("user", user);
-	model.addObject("userId", userId);
-	return model;
+        ModelAndView model = new ModelAndView("home");
+        String userId = SecurityContextHolder.getContext().getAuthentication().getName();
+        User user = userService.load(userId);
+        model.addObject("user", user);
+        model.addObject("userId", userId);
+        return model;
     }
 
     // TODO Taras O. (maybe you should use spring security XML configuration)
     @RequestMapping(value = "/logout", method = RequestMethod.GET)
     public String logoutPage(HttpServletRequest request, HttpServletResponse response) {
-	Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-	if (auth != null) {
-	    new SecurityContextLogoutHandler().logout(request, response, auth);
-	}
-	return "redirect:/login?logout=true";
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth != null) {
+            new SecurityContextLogoutHandler().logout(request, response, auth);
+        }
+        return "redirect:/login?logout=true";
     }
 }

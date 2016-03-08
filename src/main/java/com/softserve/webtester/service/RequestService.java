@@ -36,9 +36,9 @@ import com.softserve.webtester.model.Variable;
  */
 @Service
 public class RequestService {
-    
+
     private static final Logger LOGGER = Logger.getLogger(RequestService.class);
-    
+
     @Autowired
     private RequestMapper requestMapper;
 
@@ -53,17 +53,17 @@ public class RequestService {
 
     @Autowired
     private LabelMapper labelMapper;
-    
+
     @Value("${request.timeout.default:25}")
     private int defaultTimeout;
-    
+
     @Value("${request.name.duplicate.suffix:_duplicate}")
     private String duplicateSuffix;
-    
+
     @Autowired
     @Qualifier("requestNameCountPattern")
     private Pattern requestNameCountPattern;
-    
+
     public int getDefaultTimeout() {
         return defaultTimeout;
     }
@@ -78,20 +78,20 @@ public class RequestService {
      */
     @Transactional
     public int save(Request request) {
-	try {
+        try {
 
-	    // Save request instance to Request table
-	    requestMapper.save(request);
-	    int id = request.getId();
+            // Save request instance to Request table
+            requestMapper.save(request);
+            int id = request.getId();
 
-	    // Save all dbValidations, variables, headers and labels for the request instance to the database
-	    saveRequestComponents(request);
-	    LOGGER.info("Successfully saved request instance in the database, request id: " + id);
-	    return id;
-	} catch (DataAccessException e) {
-	    LOGGER.error("Unable to save request instance, request id: " + request.getId(), e);
-	    throw e;
-	}
+            // Save all dbValidations, variables, headers and labels for the request instance to the database
+            saveRequestComponents(request);
+            LOGGER.info("Successfully saved request instance in the database, request id: " + id);
+            return id;
+        } catch (DataAccessException e) {
+            LOGGER.error("Unable to save request instance, request id: " + request.getId(), e);
+            throw e;
+        }
     }
 
     /**
@@ -104,18 +104,18 @@ public class RequestService {
      */
     @Transactional
     public Request load(int id) {
-	try {
-	    Request request = requestMapper.load(id);
-	    if (request == null)
-		throw new ResourceNotFoundException("Request not found, id: " + id);
-	    return request;
-	} catch (ResourceNotFoundException e) {
-	    LOGGER.error("Request not found, id: " + id, e);
-	    throw e;
-	} catch (DataAccessException e) {
-	    LOGGER.error("Unable to load request instance, request id: " + id, e);
-	    throw e;
-	}
+        try {
+            Request request = requestMapper.load(id);
+            if (request == null)
+                throw new ResourceNotFoundException("Request not found, id: " + id);
+            return request;
+        } catch (ResourceNotFoundException e) {
+            LOGGER.error("Request not found, id: " + id, e);
+            throw e;
+        } catch (DataAccessException e) {
+            LOGGER.error("Unable to load request instance, request id: " + id, e);
+            throw e;
+        }
     }
 
     /**
@@ -125,9 +125,9 @@ public class RequestService {
      * @throws DataAccessException
      */
     public List<Request> loadAll() {
-	return loadAll(null, null, null, null);
+        return loadAll(null, null, null, null);
     }
-    
+
     /**
      * Loads filtered {@link Request} instances with their main information.
      * 
@@ -136,13 +136,13 @@ public class RequestService {
      * @throws DataAccessException
      */
     public List<Request> loadAll(RequestFilterDTO requestFilterDTO) {
-	String requestNameFilter = requestFilterDTO.getRequestNameFilter();
-	int[] applicationFilter = requestFilterDTO.getApplicationFilter();
-	int[] serviceFilter = requestFilterDTO.getServiceFilter();
-	int[] labelFilter = requestFilterDTO.getLabelFilter();
+        String requestNameFilter = requestFilterDTO.getRequestNameFilter();
+        int[] applicationFilter = requestFilterDTO.getApplicationFilter();
+        int[] serviceFilter = requestFilterDTO.getServiceFilter();
+        int[] labelFilter = requestFilterDTO.getLabelFilter();
         return loadAll(requestNameFilter, applicationFilter, serviceFilter, labelFilter);
-    }    
-    
+    }
+
     /**
      * Loads filtered {@link Request} instances from the database.<br>
      * This method loads only main information about request instance.
@@ -155,15 +155,15 @@ public class RequestService {
      * @throws DataAccessException
      */
     @Transactional
-    public List<Request> loadAll(String requestNameFilter, int[] applicationFilter, 
-	    			  int[] serviceFilter, int[] labelFilter) {
-	try {
-	    return requestMapper.loadAll(requestNameFilter, applicationFilter, serviceFilter, labelFilter);
-	} catch (DataAccessException e) {
-	    LOGGER.error("Unable to load request instances", e);
-	    throw e;
-	}
-    }  
+    public List<Request> loadAll(String requestNameFilter, int[] applicationFilter, int[] serviceFilter,
+            int[] labelFilter) {
+        try {
+            return requestMapper.loadAll(requestNameFilter, applicationFilter, serviceFilter, labelFilter);
+        } catch (DataAccessException e) {
+            LOGGER.error("Unable to load request instances", e);
+            throw e;
+        }
+    }
 
     /**
      * Updates {@link Request} instance in the database.
@@ -175,26 +175,26 @@ public class RequestService {
      */
     @Transactional
     public int update(Request request) {
-	try {
-	    int id = request.getId();
+        try {
+            int id = request.getId();
 
-	    // Update request instance in Request table
-	    requestMapper.update(request);
+            // Update request instance in Request table
+            requestMapper.update(request);
 
-	    // Delete all dbValidations, variables, headers and labels for the request instance in the database
-	    dbValidationMapper.deleteByRequestId(id);
-	    variableMapper.deleteByRequestId(id);
-	    headerMapper.deleteByRequestId(id);
-	    labelMapper.deleteByRequestId(id);
+            // Delete all dbValidations, variables, headers and labels for the request instance in the database
+            dbValidationMapper.deleteByRequestId(id);
+            variableMapper.deleteByRequestId(id);
+            headerMapper.deleteByRequestId(id);
+            labelMapper.deleteByRequestId(id);
 
-	    // Save all dbValidations, variables, headers and labels for the request instance to the database
-	    saveRequestComponents(request);
-	    LOGGER.info("Successfully updated request instance in the database, request id: " + id);
-	    return id;
-	} catch (DataAccessException e) {
-	    LOGGER.error("Unable to update request instance, request id: " + request.getId(), e);
-	    throw e;
-	}
+            // Save all dbValidations, variables, headers and labels for the request instance to the database
+            saveRequestComponents(request);
+            LOGGER.info("Successfully updated request instance in the database, request id: " + id);
+            return id;
+        } catch (DataAccessException e) {
+            LOGGER.error("Unable to update request instance, request id: " + request.getId(), e);
+            throw e;
+        }
     }
 
     /**
@@ -206,14 +206,14 @@ public class RequestService {
      */
     @Transactional
     public int delete(int id) {
-	try {
-	    return requestMapper.delete(id);
-	} catch (DataAccessException e) {
-	    LOGGER.error("Unable to delete request instance, request id: " + id, e);
-	    throw e;
-	}
+        try {
+            return requestMapper.delete(id);
+        } catch (DataAccessException e) {
+            LOGGER.error("Unable to delete request instance, request id: " + id, e);
+            throw e;
+        }
     }
-    
+
     /**
      * Deletes {@link Request} instances from the database.
      * 
@@ -223,14 +223,14 @@ public class RequestService {
      */
     @Transactional
     public int delete(int[] requestIdArray) {
-	try {
-	   return requestMapper.deleteRequests(requestIdArray);
-	} catch (DataAccessException e) {
-	    LOGGER.error("Unable to delete request instances, requests id: " + requestIdArray, e);
-	    throw e;
-	}
+        try {
+            return requestMapper.deleteRequests(requestIdArray);
+        } catch (DataAccessException e) {
+            LOGGER.error("Unable to delete request instances, requests id: " + requestIdArray, e);
+            throw e;
+        }
     }
-    
+
     /**
      * Checks the unique of request's name.
      * 
@@ -241,16 +241,16 @@ public class RequestService {
      */
     @Transactional
     public boolean isRequestNameFree(String name, int exclusionId) {
-	try {
-	    return requestMapper.isRequestNameFree(name, exclusionId);
-	} catch (DataAccessException e) {
-	    LOGGER.error("Unable to check request name, requests name: " + name, e);
-	    throw e;
-	}
+        try {
+            return requestMapper.isRequestNameFree(name, exclusionId);
+        } catch (DataAccessException e) {
+            LOGGER.error("Unable to check request name, requests name: " + name, e);
+            throw e;
+        }
     }
-    
+
     /**
-     * Creates duplicate existing {@link Request} 
+     * Creates duplicate existing {@link Request}
      * 
      * @param fromId identifier of Request should be duplicated
      * @return duplicate of existing Request instance
@@ -258,20 +258,20 @@ public class RequestService {
      */
     @Transactional
     public Request createDuplicate(int fromId) {
-	try {
-	    Request request = load(fromId);
-	    request.setId(0);
-	    request.getHeaders().forEach(i -> i.setId(0));
-	    request.getVariables().forEach(i -> i.setId(0));
-	    request.getDbValidations().forEach(i -> i.setId(0));
-	    request.setName(request.getName() + duplicateSuffix);
-	    return request;
-	} catch (DataAccessException e) {
-	    LOGGER.error("Unable to duplicate the request, requests id: " + fromId, e);
-	    throw e;
-	}
+        try {
+            Request request = load(fromId);
+            request.setId(0);
+            request.getHeaders().forEach(i -> i.setId(0));
+            request.getVariables().forEach(i -> i.setId(0));
+            request.getDbValidations().forEach(i -> i.setId(0));
+            request.setName(request.getName() + duplicateSuffix);
+            return request;
+        } catch (DataAccessException e) {
+            LOGGER.error("Unable to duplicate the request, requests id: " + fromId, e);
+            throw e;
+        }
     }
-  
+
     /**
      * Generates unique name for {@link Request} instance.
      * 
@@ -280,44 +280,44 @@ public class RequestService {
      */
     @SuppressWarnings("unused")
     private String createDuplicateName(Request request) {
-	String name = request.getName();
-	Matcher m = null;
-	while (!isRequestNameFree(name, request.getId())) {
-	    int _position = name.lastIndexOf("_");
-	    if (_position == -1) {
-		name += "_1";
-	    } else {
-		m = requestNameCountPattern.matcher(name);
-		if (m.find()) {
-		    int curValue = Integer.parseInt(m.group().substring(1));
-		    name = name.substring(0, _position) + "_" + ++curValue;
-		} else {
-		    name += "_1";
-		}
-	    }
-	}
-	return name;
+        String name = request.getName();
+        Matcher m = null;
+        while (!isRequestNameFree(name, request.getId())) {
+            int _position = name.lastIndexOf("_");
+            if (_position == -1) {
+                name += "_1";
+            } else {
+                m = requestNameCountPattern.matcher(name);
+                if (m.find()) {
+                    int curValue = Integer.parseInt(m.group().substring(1));
+                    name = name.substring(0, _position) + "_" + ++curValue;
+                } else {
+                    name += "_1";
+                }
+            }
+        }
+        return name;
     }
-    
+
     /**
      * Saves all dbValidations, variables, headers and labels for the request instance to the database.
      */
     private void saveRequestComponents(Request request) {
-	List<DbValidation> dbValidations = request.getDbValidations();
-	if (dbValidations != null && !dbValidations.isEmpty()) {
-	    dbValidationMapper.saveByRequest(request);
-	}
-	List<Variable> variables = request.getVariables();
-	if (variables!=null && !variables.isEmpty()) {
-	    variableMapper.saveByRequest(request);
-	}
-	List<Header> headers = request.getHeaders();
-	if (headers!=null && !headers.isEmpty()) {
-	    headerMapper.saveByRequest(request);
-	}
-	List<Label> labels = request.getLabels();
-	if (labels!=null && !labels.isEmpty()) {
-	    labelMapper.saveByRequest(request);
-	}
+        List<DbValidation> dbValidations = request.getDbValidations();
+        if (dbValidations != null && !dbValidations.isEmpty()) {
+            dbValidationMapper.saveByRequest(request);
+        }
+        List<Variable> variables = request.getVariables();
+        if (variables != null && !variables.isEmpty()) {
+            variableMapper.saveByRequest(request);
+        }
+        List<Header> headers = request.getHeaders();
+        if (headers != null && !headers.isEmpty()) {
+            headerMapper.saveByRequest(request);
+        }
+        List<Label> labels = request.getLabels();
+        if (labels != null && !labels.isEmpty()) {
+            labelMapper.saveByRequest(request);
+        }
     }
 }

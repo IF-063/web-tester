@@ -37,8 +37,8 @@ import com.softserve.webtester.service.RequestService;
 import com.softserve.webtester.validator.RequestValidator;
 
 /**
- * Handles and retrieves {@link Request} pages depending on the URI template. A user must be log-in first he 
- * can access this page.
+ * Handles and retrieves {@link Request} pages depending on the URI template. A user must be log-in first he can access
+ * this page.
  * 
  * @author Taras Oglabyak
  */
@@ -51,41 +51,41 @@ public class RequestController {
 
     @Autowired
     private MetaDataService metaDataService;
-    
+
     @Autowired
     private EnvironmentService environmentService;
-    
+
     @Autowired
     private ApplicationEditor applicationEditor;
 
     @Autowired
     private ServiceEditor serviceEditor;
-   
+
     @Autowired
     private RequestValidator requestValidator;
-    
+
     @InitBinder("request")
     public void initBinder(WebDataBinder binder) {
-	binder.registerCustomEditor(Application.class, applicationEditor);
-	binder.registerCustomEditor(Service.class, serviceEditor);
-	binder.addValidators(requestValidator);
+        binder.registerCustomEditor(Application.class, applicationEditor);
+        binder.registerCustomEditor(Service.class, serviceEditor);
+        binder.addValidators(requestValidator);
     }
-    
+
     /**
-     * Retrieves page with existing requests. 
+     * Retrieves page with existing requests.
      * 
      * @param requestFilterDTO DTO object using for filtering {@link Request} instances.
      * @return ModelAndView instance with 'requests' view and filtered requests
      */
     @RequestMapping(method = RequestMethod.GET)
     public ModelAndView getRequestsPage(@ModelAttribute RequestFilterDTO requestFilterDTO) {
-	ModelAndView modelAndView = new ModelAndView("request/requests");
-	modelAndView.addObject("applications", metaDataService.applicationLoadAll());
-	modelAndView.addObject("services", metaDataService.serviceLoadAll());
-	modelAndView.addObject("labels", metaDataService.loadAllLabels());
-	modelAndView.addObject("environments", environmentService.loadAll());
-	modelAndView.addObject("requests", requestService.loadAll(requestFilterDTO));
-	return modelAndView;
+        ModelAndView modelAndView = new ModelAndView("request/requests");
+        modelAndView.addObject("applications", metaDataService.applicationLoadAll());
+        modelAndView.addObject("services", metaDataService.serviceLoadAll());
+        modelAndView.addObject("labels", metaDataService.loadAllLabels());
+        modelAndView.addObject("environments", environmentService.loadAll());
+        modelAndView.addObject("requests", requestService.loadAll(requestFilterDTO));
+        return modelAndView;
     }
 
     /**
@@ -94,19 +94,18 @@ public class RequestController {
      * @return {@link ModelMap} instance
      */
     private ModelMap addMetaData() {
-	ModelMap map = new ModelMap();
-	map.addAttribute("applications", metaDataService.applicationLoadAll());
-	map.addAttribute("services", metaDataService.serviceLoadAll());
-	map.addAttribute("requestMethods", com.softserve.webtester.model.RequestMethod.values());
-	map.addAttribute("responseTypes", ResponseType.values());
-	map.addAttribute("variableDataTypes", VariableDataType.values());
-	map.addAttribute("labels", metaDataService.loadAllLabels());
-	return map;
+        ModelMap map = new ModelMap();
+        map.addAttribute("applications", metaDataService.applicationLoadAll());
+        map.addAttribute("services", metaDataService.serviceLoadAll());
+        map.addAttribute("requestMethods", com.softserve.webtester.model.RequestMethod.values());
+        map.addAttribute("responseTypes", ResponseType.values());
+        map.addAttribute("variableDataTypes", VariableDataType.values());
+        map.addAttribute("labels", metaDataService.loadAllLabels());
+        return map;
     }
 
-
     /**
-     * Retrieves page for creating new request with empty request instance or with duplicate of existing request 
+     * Retrieves page for creating new request with empty request instance or with duplicate of existing request
      * instance.
      * 
      * @param fromId identifier of existing {@link Request}
@@ -114,55 +113,53 @@ public class RequestController {
      */
     @RequestMapping(value = "/create", method = RequestMethod.GET)
     public ModelAndView getCreateRequestPage(@RequestParam(value = "fromId", required = false) Integer fromId) {
-	ModelAndView modelAndView = new ModelAndView("request/requestCreateEdit");
-	modelAndView.addAllObjects(addMetaData());
-	Request request = null;
-	if (fromId != null) {
-	    modelAndView.addObject("pageTitle", "Duplicate request");
-	    request = requestService.createDuplicate(fromId);
-	}
-	else {
-	    modelAndView.addObject("pageTitle", "Create request");
-	    request = new Request();
-	    request.setTimeout(requestService.getDefaultTimeout());
-	}
-	modelAndView.addObject("request", request);
-	return modelAndView;
+        ModelAndView modelAndView = new ModelAndView("request/requestCreateEdit");
+        modelAndView.addAllObjects(addMetaData());
+        Request request = null;
+        if (fromId != null) {
+            modelAndView.addObject("pageTitle", "Duplicate request");
+            request = requestService.createDuplicate(fromId);
+        } else {
+            modelAndView.addObject("pageTitle", "Create request");
+            request = new Request();
+            request.setTimeout(requestService.getDefaultTimeout());
+        }
+        modelAndView.addObject("request", request);
+        return modelAndView;
     }
 
     /**
      * Handles creating new request.
      * 
      * @param request {@link Request} instance should be saved
-     * @param result {@link BindingResult} validation handle object 
+     * @param result {@link BindingResult} validation handle object
      * @param map container with metadata lists
-     * @return if success, redirects to requests main  page; in case of validation errors returns to creating page
+     * @return if success, redirects to requests main page; in case of validation errors returns to creating page
      */
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     public String confirmNewRequest(@Validated @ModelAttribute Request request, BindingResult result, ModelMap map) {
-	if (result.hasErrors()) {
-	    map.addAllAttributes(addMetaData());
-	    return "request/requestCreateEdit";
-	}
-	System.out.println(request);
-	requestService.save(request);
-	return "redirect:/tests/requests";
+        if (result.hasErrors()) {
+            map.addAllAttributes(addMetaData());
+            return "request/requestCreateEdit";
+        }
+        System.out.println(request);
+        requestService.save(request);
+        return "redirect:/tests/requests";
     }
 
     /**
      * Retrieves request edit page.
      * 
      * @param id identifier of editing {@link Request} instance
-     * 
      * @return ModelAndView instance with 'requestCreateEdit' view
      */
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public ModelAndView getEditRequestPage(@PathVariable int id) {
-	ModelAndView modelAndView = new ModelAndView("request/requestCreateEdit");
-	modelAndView.addObject("pageTitle", "Edit request");
-	modelAndView.addAllObjects(addMetaData());
-	modelAndView.addObject("request", requestService.load(id));
-	return modelAndView;
+        ModelAndView modelAndView = new ModelAndView("request/requestCreateEdit");
+        modelAndView.addObject("pageTitle", "Edit request");
+        modelAndView.addAllObjects(addMetaData());
+        modelAndView.addObject("request", requestService.load(id));
+        return modelAndView;
     }
 
     /**
@@ -172,19 +169,19 @@ public class RequestController {
      * @param request {@link Request} instance should be updated
      * @param result {@link BindingResult} instance
      * @param map {@link ModelMap} instance
-     * @return if success, redirects to requests main  page; in case of validation errors returns to editing page
+     * @return if success, redirects to requests main page; in case of validation errors returns to editing page
      */
     @RequestMapping(value = "/{id}", method = RequestMethod.POST)
     public String confirmEditRequest(@PathVariable int id, @Validated @ModelAttribute Request request,
-	    			     BindingResult result, ModelMap map) {
-	if (result.hasErrors()) {
-	    map.addAllAttributes(addMetaData());
-	    return "request/requestCreateEdit";
-	}
-	System.out.println("editing:" + id);
-	System.out.println(request);
-	requestService.update(request);
-	return "redirect:/tests/requests";
+            BindingResult result, ModelMap map) {
+        if (result.hasErrors()) {
+            map.addAllAttributes(addMetaData());
+            return "request/requestCreateEdit";
+        }
+        System.out.println("editing:" + id);
+        System.out.println(request);
+        requestService.update(request);
+        return "redirect:/tests/requests";
     }
 
     /**
@@ -195,9 +192,9 @@ public class RequestController {
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE, consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable int id) {
-	requestService.delete(id);
+        requestService.delete(id);
     }
-    
+
     /**
      * Handles deleting requests. If success, returns 204 (NO_CONTENT) HTTP status.
      * 
@@ -206,7 +203,7 @@ public class RequestController {
     @RequestMapping(method = RequestMethod.DELETE, consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteRequests(@RequestBody int[] requestIdArray) {
-	requestService.delete(requestIdArray);
+        requestService.delete(requestIdArray);
     }
 
     // TODO Taras O. redirect to request run results
@@ -218,15 +215,15 @@ public class RequestController {
      * @return identifier of requests run
      */
     @RequestMapping(value = "/run", method = RequestMethod.POST)
-    public @ResponseBody int runRequests(@RequestParam(value = "environmentId") int environmentId, 
-	    @RequestParam(value = "requestIdArray[]") int[] requestIdArray) { 
-	System.out.println("start at: " + new Date());
-	System.out.println("e: " + environmentId);
-	System.out.println("rqsts: " + Arrays.toString(requestIdArray));
-	System.out.println();
-	return 1;
+    public @ResponseBody int runRequests(@RequestParam(value = "environmentId") int environmentId,
+            @RequestParam(value = "requestIdArray[]") int[] requestIdArray) {
+        System.out.println("start at: " + new Date());
+        System.out.println("e: " + environmentId);
+        System.out.println("rqsts: " + Arrays.toString(requestIdArray));
+        System.out.println();
+        return 1;
     }
-    
+
     /**
      * Checks the unique of {@link Request} instance's name.
      * 
@@ -236,8 +233,8 @@ public class RequestController {
      */
     @RequestMapping(value = "/create/isRequestNameFree", method = RequestMethod.GET)
     public @ResponseBody String isRequestNameFree(@RequestParam("name") String name,
-	    @RequestParam(value = "exclusionId") int exclusionId){
-	return String.format("{\"valid\": %b}", !"".equals(name) 
-			     && requestService.isRequestNameFree(name, exclusionId));
+            @RequestParam(value = "exclusionId") int exclusionId) {
+        return String.format("{\"valid\": %b}",
+                !"".equals(name) && requestService.isRequestNameFree(name, exclusionId));
     }
 }

@@ -22,7 +22,7 @@ import com.softserve.webtester.model.Request;
  */
 @Repository
 public interface HeaderMapper {
-    
+
     /**
      * Saves {@link Header} instance to the database.
      * 
@@ -33,7 +33,7 @@ public interface HeaderMapper {
     @Insert("INSERT INTO Header(name, value, requestId) VALUES(#{name}, #{value}, #{request.id})")
     @Options(useGeneratedKeys = true, keyProperty = "id")
     int save(Header header);
-    
+
     /**
      * Saves {@link Header} instances for the Request in the database.
      * 
@@ -42,11 +42,10 @@ public interface HeaderMapper {
      * @throws DataAccessException
      */
     @Insert("<script>INSERT INTO Header(name, value, requestId) VALUES "
-	    + "<foreach collection='headers' item='header' separator=','> "
-	    + "(#{header.name}, #{header.value}, #{id}) "
-	    + "</foreach></script>")
+            + "<foreach collection='headers' item='header' separator=','> "
+            + "(#{header.name}, #{header.value}, #{id}) " + "</foreach></script>")
     int saveByRequest(Request request);
-    
+
     /**
      * Loads {@link Header} instance from database by its identifier.
      * 
@@ -56,11 +55,10 @@ public interface HeaderMapper {
      */
     @Select("SELECT id, name, value FROM Header WHERE id = #{id}")
     @Results({ @Result(id = true, property = "id", column = "id", jdbcType = JdbcType.INTEGER),
-	       @Result(property = "name", column = "name", jdbcType = JdbcType.VARCHAR),
-	       @Result(property = "value", column = "value", jdbcType = JdbcType.VARCHAR)
-    })
+               @Result(property = "name", column = "name", jdbcType = JdbcType.VARCHAR),
+               @Result(property = "value", column = "value", jdbcType = JdbcType.VARCHAR) })
     Header load(int id);
-    
+
     /**
      * Loads all {@link Header} instances for the Request from the database.
      * 
@@ -70,9 +68,8 @@ public interface HeaderMapper {
      */
     @Select("SELECT id, name, value FROM Header WHERE requestId = #{id}")
     @Results({ @Result(id = true, property = "id", column = "id", jdbcType = JdbcType.INTEGER),
-	       @Result(property = "name", column = "name", jdbcType = JdbcType.VARCHAR),
-	       @Result(property = "value", column = "value", jdbcType = JdbcType.VARCHAR)
-    })
+               @Result(property = "name", column = "name", jdbcType = JdbcType.VARCHAR),
+               @Result(property = "value", column = "value", jdbcType = JdbcType.VARCHAR) })
     List<Header> loadByRequestId(int id);
 
     /**
@@ -84,7 +81,7 @@ public interface HeaderMapper {
      */
     @Update("UPDATE Header SET name = #{name}, value = #{value}, requestId = #{request.id} WHERE id = #{id}")
     int update(Header header);
-    
+
     /**
      * Deletes {@link Header} instance from the database.
      * 
@@ -94,7 +91,7 @@ public interface HeaderMapper {
      */
     @Delete("DELETE FROM Header WHERE id = #{id}")
     int delete(int id);
-    
+
     /**
      * Deletes {@link Header} instances from the database.
      * 
@@ -104,5 +101,5 @@ public interface HeaderMapper {
      */
     @Delete("DELETE FROM Header WHERE requestId = #{id}")
     int deleteByRequestId(int id);
-    
+
 }
