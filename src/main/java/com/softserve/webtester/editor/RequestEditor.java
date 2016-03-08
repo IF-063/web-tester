@@ -8,6 +8,12 @@ import org.springframework.stereotype.Component;
 import com.softserve.webtester.model.Request;
 import com.softserve.webtester.service.RequestService;
 
+/**
+ * Implementation of CustomCollectionEditor for binding spring form attribute with requests List in {@link RequestCollection} class.
+ * 
+ * @author Yura Lubinec
+ *
+ */
 @Component
 public class RequestEditor extends CustomCollectionEditor {
 	

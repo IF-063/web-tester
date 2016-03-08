@@ -8,8 +8,8 @@ import com.softserve.webtester.model.RequestCollection;
 import com.softserve.webtester.service.RequestCollectionService;
 
 /**
- * Implementation of {@link Validator} interface for additional checking {@link RequestCollection} instance. Checks the unique 
- * of requestCollection's parameter name parameter.
+ * Implementation of {@link Validator} interface for additional checking {@link RequestCollection} instance. Checks the
+ * unique of requestCollection's parameter name parameter.
  * 
  * @author Yura Lubinec
  *
@@ -17,20 +17,21 @@ import com.softserve.webtester.service.RequestCollectionService;
 @Component
 public class CollectionValidator implements Validator {
 
-	@Autowired
+    @Autowired
     private RequestCollectionService requestCollectionService;
 
     @Override
     public boolean supports(Class<?> clazz) {
-	return RequestCollection.class.equals(clazz);
+        return RequestCollection.class.equals(clazz);
     }
 
     @Override
     public void validate(Object target, Errors errors) {
-	RequestCollection requestCollection = (RequestCollection) target;
-	if (!requestCollectionService.isRequestCollectionNameFree(requestCollection.getName(), requestCollection.getId())) {
-	    errors.rejectValue("name", null, "name should be unique");
-	}
-    
-}
+        RequestCollection requestCollection = (RequestCollection) target;
+        if (!requestCollectionService.isRequestCollectionNameFree(requestCollection.getName(),
+                requestCollection.getId())) {
+            errors.rejectValue("name", null, "name should be unique");
+        }
+
+    }
 }
