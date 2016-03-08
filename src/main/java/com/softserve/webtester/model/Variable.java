@@ -15,7 +15,7 @@ import org.hibernate.validator.constraints.NotBlank;
  */
 public class Variable implements Serializable {
 
-    private static final long serialVersionUID = 636905701061698929L;
+    private static final long serialVersionUID = 3879025473184231929L;
 
     private int id;
 
@@ -24,8 +24,8 @@ public class Variable implements Serializable {
 
     @NotBlank(message = "Variable value cannot be empty")
     private String value;
-    private boolean isSql;
-    private boolean isRandom;
+    private boolean sql;
+    private boolean random;
     private VariableDataType dataType;
     private Integer length;
     private Request request;
@@ -56,20 +56,20 @@ public class Variable implements Serializable {
         this.value = value;
     }
 
-    public boolean isIsSql() {
-        return isSql;
+    public boolean isSql() {
+        return sql;
     }
 
-    public void setIsSql(boolean isSql) {
-        this.isSql = isSql;
+    public void setSql(boolean sql) {
+        this.sql = sql;
     }
 
-    public boolean isIsRandom() {
-        return isRandom;
+    public boolean isRandom() {
+        return random;
     }
 
-    public void setIsRandom(boolean isRandom) {
-        this.isRandom = isRandom;
+    public void setRandom(boolean random) {
+        this.random = random;
     }
 
     public VariableDataType getDataType() {

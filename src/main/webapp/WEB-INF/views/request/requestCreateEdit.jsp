@@ -6,12 +6,10 @@
   <div class="row">
     <form:form action="" method="POST" commandName="request" class="form-horizontal" role="form">
       <fieldset>
-        <legend>
-          <c:out value="${pageTitle}" />
-        </legend>
+        <legend>Request editing</legend>
         <div class="row">
 
-          <form:hidden path="id" />
+          <%-- <form:hidden path="id" /> --%>
 
           <div class="form-group">
             <form:label path="name" class="col-md-4 control-label">Name*</form:label>
@@ -180,11 +178,11 @@
                               placeholder="Value" required="required" />
                             <form:errors path="variables[${status.index}].value" cssClass="help-block with-errors" />
                           </td>
-                          <td id=".isSql"><label class="control-label">
-                            <form:checkbox path="variables[${status.index}].isSql" class="isSql" />Sql</label>
+                          <td id=".sql"><label class="control-label">
+                            <form:checkbox path="variables[${status.index}].sql" class="sql" />Sql</label>
                           </td>
-                          <td id=".isRandom"><label class="control-label">
-                            <form:checkbox path="variables[${status.index}].isRandom" class="isRandom" 
+                          <td id=".random"><label class="control-label">
+                            <form:checkbox path="variables[${status.index}].random" class="random" 
                                />Random</label>
                           </td>
                           <td id=".dataType">
@@ -261,6 +259,8 @@
   </div>
 <!-- </div> -->
 
+<input type="hidden" value="${request.id}" id="id">
+
 <!-- Template table -->
 <div id="template" style="display: none">
   <table>
@@ -280,15 +280,13 @@
       <td id=".value">
         <input placeholder="Value" type="text" class="form-control" required="required" />
       </td>
-      <td id=".isSql">
-        <label class="control-label">
-          <input type="checkbox" class="isSql" value="true" /><input type="hidden" value="on" />
-            Sql</label>
+      <td id=".sql">
+        <input type="checkbox" class="sql" value="true" /><input type="hidden" value="on" />
+        <label class="control-label">Sql</label>
       </td>
-      <td id=".isRandom">
-        <label class="control-label">
-          <input class="isRandom" type="checkbox" value="true" /><input type="hidden" value="on" />
-            Random</label>
+      <td id=".random">
+        <input class="random" type="checkbox" value="true" /><input type="hidden" value="on" />
+        <label class="control-label">Random</label>
       </td>
       <td id=".dataType">
         <select class="form-control enableIfRandom" disabled="disabled">

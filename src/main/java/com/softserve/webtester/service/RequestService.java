@@ -12,6 +12,7 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 
 import com.softserve.webtester.dto.RequestFilterDTO;
 import com.softserve.webtester.exception.ResourceNotFoundException;
@@ -20,11 +21,7 @@ import com.softserve.webtester.mapper.HeaderMapper;
 import com.softserve.webtester.mapper.LabelMapper;
 import com.softserve.webtester.mapper.RequestMapper;
 import com.softserve.webtester.mapper.VariableMapper;
-import com.softserve.webtester.model.DbValidation;
-import com.softserve.webtester.model.Header;
-import com.softserve.webtester.model.Label;
 import com.softserve.webtester.model.Request;
-import com.softserve.webtester.model.Variable;
 
 /**
  * RequestService class implements CRUD operation on {@link Request} instance in the database.<br>
@@ -303,20 +300,16 @@ public class RequestService {
      * Saves all dbValidations, variables, headers and labels for the request instance to the database.
      */
     private void saveRequestComponents(Request request) {
-        List<DbValidation> dbValidations = request.getDbValidations();
-        if (dbValidations != null && !dbValidations.isEmpty()) {
+        if (!CollectionUtils.isEmpty(request.getDbValidations())) {
             dbValidationMapper.saveByRequest(request);
         }
-        List<Variable> variables = request.getVariables();
-        if (variables != null && !variables.isEmpty()) {
+        if (!CollectionUtils.isEmpty(request.getVariables())) {
             variableMapper.saveByRequest(request);
         }
-        List<Header> headers = request.getHeaders();
-        if (headers != null && !headers.isEmpty()) {
+        if (!CollectionUtils.isEmpty(request.getHeaders())) {
             headerMapper.saveByRequest(request);
         }
-        List<Label> labels = request.getLabels();
-        if (labels != null && !labels.isEmpty()) {
+        if (!CollectionUtils.isEmpty(request.getLabels())) {
             labelMapper.saveByRequest(request);
         }
     }

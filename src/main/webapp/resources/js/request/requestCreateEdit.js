@@ -54,22 +54,22 @@ $(function() {
   }
 
   // sets elements enabled in variables table  
-  $('input:checkbox:not(:checked)[class=isRandom]').each(function() {
+  $('input:checkbox:not(:checked)[class=random]').each(function() {
     setDisableIfRandom(this, 1);
   });
 
   // changes elements enabled depending on state of isSql checkbox 
-  $(document).on('change', '.isSql', function() {
+  $(document).on('change', '.sql', function() {
     if ($(this).is(':checked')) {
-      var isRandomCheckbox = $(this).closest('tr').find('.isRandom');
+      var isRandomCheckbox = $(this).closest('tr').find('.random');
       isRandomCheckbox.prop('checked', 0);
       setDisableIfRandom(isRandomCheckbox);
     }
   });
 
   // changes elements enabled depending on state of isRandom checkbox 
-  $(document).on('change', '.isRandom', function() {
-    $(this).closest('tr').find('.isSql').prop('checked', 0);
+  $(document).on('change', '.random', function() {
+    $(this).closest('tr').find('.sql').prop('checked', 0);
     setDisableIfRandom(this);
   });
 
@@ -78,10 +78,12 @@ $(function() {
     var obj = $(isRandomCheckbox);
     var state = inputState ? inputState : !obj.prop('checked');
     obj.closest('tr').find('.enableIfRandom').each(function() {
+    	
       if (!inputState && $(this).prop("type") == "text") {
         console.log(state ? 'd' : 'a', this);
         $('#request').bootstrapValidator(state ? 'removeField' : 'addField', $(this));
       }
+      
       $(this).prop('disabled', state);
     });
   }
@@ -146,7 +148,6 @@ $(function() {
         validating: 'glyphicon glyphicon-refresh'
       },
       submitButtons: 'button[id="validate"]',
-      container: 'tooltip',
       fields: {
         name: {
           validators: {
@@ -208,28 +209,11 @@ $(function() {
         },
       }
     }).on('success.form.bv', function(e) {
-      // e.preventDefault();
       var form = $(e.target),
         bv = form.data('bootstrapValidator');
       normalizeLists();
       bv.defaultSubmit();
     });
-
-//    function isRequestNameFree() {
-//  	if ($('#name').val()) {
-//  	  $.ajax({
-//  	    type: 'GET',
-//  	    url: 'create/isRequestNameFree',
-//  	    data: {name : $('#name').val(), exclusionId : $('#id').val()},
-//  	    success: function(data) {
-//  	      alert(data);
-//  	    },
-//  	    error: function() {
-//  	      alert(0);
-//  	    },
-//  	  });
-//  	}
-//    }
 
   // sets indexes in headers, variables or dbvalidations lists
   // should be invoked BEFORE FORM SUBMITING
@@ -265,6 +249,7 @@ $(function() {
               child.prop('id', prefix + iteration + suffix);
               child.prop('name', prefix + '[' + iteration + ']' + suffix);
             }
+            console.log(child);
           });
         });
         iteration++;

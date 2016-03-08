@@ -32,13 +32,10 @@ public class Request implements Serializable {
 
     private RequestMethod requestMethod;
 
-    @Valid
     private Application application;
 
-    @Valid
     private Service service;
 
-    @Valid
     private List<Label> labels;
 
     @NotBlank(message = "Endpoint cannot be empty")

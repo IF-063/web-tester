@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
@@ -20,7 +21,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.servlet.ModelAndView;
 
 import com.softserve.webtester.dto.RequestFilterDTO;
 import com.softserve.webtester.editor.ApplicationEditor;
@@ -74,18 +74,18 @@ public class RequestController {
     /**
      * Retrieves page with existing requests.
      * 
-     * @param requestFilterDTO DTO object using for filtering {@link Request} instances.
-     * @return ModelAndView instance with 'requests' view and filtered requests
+     * @param requestFilterDTO DTO object using for filtering {@link Request} instances
+     * @param model {@link Model} object
+     * @return name of view
      */
     @RequestMapping(method = RequestMethod.GET)
-    public ModelAndView getRequestsPage(@ModelAttribute RequestFilterDTO requestFilterDTO) {
-        ModelAndView modelAndView = new ModelAndView("request/requests");
-        modelAndView.addObject("applications", metaDataService.applicationLoadAll());
-        modelAndView.addObject("services", metaDataService.serviceLoadAll());
-        modelAndView.addObject("labels", metaDataService.loadAllLabels());
-        modelAndView.addObject("environments", environmentService.loadAll());
-        modelAndView.addObject("requests", requestService.loadAll(requestFilterDTO));
-        return modelAndView;
+    public String getRequestsPage(@ModelAttribute RequestFilterDTO requestFilterDTO, Model model) {
+        model.addAttribute("applications", metaDataService.applicationLoadAll());
+        model.addAttribute("services", metaDataService.serviceLoadAll());
+        model.addAttribute("labels", metaDataService.loadAllLabels());
+        model.addAttribute("environments", environmentService.loadAll());
+        model.addAttribute("requests", requestService.loadAll(requestFilterDTO));
+        return "request/requests";
     }
 
     /**
@@ -109,23 +109,24 @@ public class RequestController {
      * instance.
      * 
      * @param fromId identifier of existing {@link Request}
-     * @return ModelAndView instance with 'requestCreateEdit' view with request instance
+     * @param model {@link Model} object
+     * @return name of view
      */
     @RequestMapping(value = "/create", method = RequestMethod.GET)
-    public ModelAndView getCreateRequestPage(@RequestParam(value = "fromId", required = false) Integer fromId) {
-        ModelAndView modelAndView = new ModelAndView("request/requestCreateEdit");
-        modelAndView.addAllObjects(addMetaData());
+    public String getCreateRequestPage(@RequestParam(value = "fromId", required = false) Integer fromId, 
+            Model model) {
+        model.addAllAttributes(addMetaData());
         Request request = null;
         if (fromId != null) {
-            modelAndView.addObject("pageTitle", "Duplicate request");
+            model.addAttribute("pageTitle", "Duplicate request");
             request = requestService.createDuplicate(fromId);
         } else {
-            modelAndView.addObject("pageTitle", "Create request");
+            model.addAttribute("pageTitle", "Create request");
             request = new Request();
             request.setTimeout(requestService.getDefaultTimeout());
         }
-        modelAndView.addObject("request", request);
-        return modelAndView;
+        model.addAttribute("request", request);
+        return "request/requestCreateEdit";
     }
 
     /**
@@ -133,16 +134,15 @@ public class RequestController {
      * 
      * @param request {@link Request} instance should be saved
      * @param result {@link BindingResult} validation handle object
-     * @param map container with metadata lists
+     * @param model container with metadata lists
      * @return if success, redirects to requests main page; in case of validation errors returns to creating page
      */
     @RequestMapping(value = "/create", method = RequestMethod.POST)
-    public String confirmNewRequest(@Validated @ModelAttribute Request request, BindingResult result, ModelMap map) {
+    public String confirmNewRequest(@Validated @ModelAttribute Request request, BindingResult result, Model model) {
         if (result.hasErrors()) {
-            map.addAllAttributes(addMetaData());
+            model.addAllAttributes(addMetaData());
             return "request/requestCreateEdit";
         }
-        System.out.println(request);
         requestService.save(request);
         return "redirect:/tests/requests";
     }
@@ -151,15 +151,15 @@ public class RequestController {
      * Retrieves request edit page.
      * 
      * @param id identifier of editing {@link Request} instance
-     * @return ModelAndView instance with 'requestCreateEdit' view
+     * @param model {@link Model} object
+     * @return name of view
      */
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public ModelAndView getEditRequestPage(@PathVariable int id) {
-        ModelAndView modelAndView = new ModelAndView("request/requestCreateEdit");
-        modelAndView.addObject("pageTitle", "Edit request");
-        modelAndView.addAllObjects(addMetaData());
-        modelAndView.addObject("request", requestService.load(id));
-        return modelAndView;
+    public String getEditRequestPage(@PathVariable int id, Model model) {
+        model.addAttribute("pageTitle", "Edit request");
+        model.addAllAttributes(addMetaData());
+        model.addAttribute("request", requestService.load(id));
+        return "request/requestCreateEdit";
     }
 
     /**
@@ -178,8 +178,6 @@ public class RequestController {
             map.addAllAttributes(addMetaData());
             return "request/requestCreateEdit";
         }
-        System.out.println("editing:" + id);
-        System.out.println(request);
         requestService.update(request);
         return "redirect:/tests/requests";
     }

@@ -5,12 +5,12 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.http.HttpStatus;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.servlet.ModelAndView;
 
 import com.softserve.webtester.editor.LabelEditor;
 import com.softserve.webtester.editor.RequestEditor;
@@ -38,9 +38,17 @@ public class GeneralController {
         binder.registerCustomEditor(String.class, new StringTrimmerEditor(" \t\r\n\f", true));
     }
 
+    /**
+     * Handles ResourceNotFoundException exception.
+     * 
+     * @param e instance of exception
+     * @param model {@link Model} object
+     * @return name of error view
+     */
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(ResourceNotFoundException.class)
-    public ModelAndView error404(ResourceNotFoundException e) {
-        return new ModelAndView("error/404", "message", e.getMessage());
+    public String error404(ResourceNotFoundException e, Model model) {
+        model.addAttribute("message", e.getMessage());
+        return "error/404";
     }
 }

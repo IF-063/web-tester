@@ -59,16 +59,16 @@
           <table class="table table-hover table-bordered table-condensed text-center panel-body" id="requests">
             <thead>
               <tr>
-                <th width="30px"><input id="selectAll" type="checkbox" title="Select all"></th>
+                <th><input id="selectAll" type="checkbox" title="Select all"></th>
                 <th>Name</th>
                 <th>Application</th>
                 <th>Service</th>
                 <th>Endpoint</th>
-                <th width="45px">Run</th>
-                <th width="90px">See results</th>
-                <th width="80px">Duplicate</th>
-                <th width="70px">Disable</th>
-                <th width="60px">Delete</th>
+                <th>Run</th>
+                <th>See results</th>
+                <th>Duplicate</th>
+                <th>Disable</th>
+                <th>Delete</th>
               </tr>
             </thead>
             <tbody>
@@ -109,8 +109,6 @@
     </div>
   </div>
 <!-- </div> -->
-
-<input id="requestsToSend" type="hidden" />
 
 <div class="modal fade" id="environmentModal" tabindex="-1" role="dialog" aria-labelledby="environmentModalLabel">
   <div class="modal-dialog modal-sm" role="document">
