@@ -23,6 +23,16 @@
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
 
+
+  <script src=<c:url value="/resources/bower_components/jquery/dist/jquery.min.js" />></script>
+
+  <script src=<c:url value="/resources/bower_components/bootstrap/dist/js/bootstrap.min.js" />></script>
+
+  <script src=<c:url value="/resources/dist/js/bootstrapValidator.min.js" />></script>
+
+  <!-- Main page script -->
+  <script src=<c:url value="/resources/js/account.js" />></script>
+  
 </head>
 
 <body>
@@ -90,16 +100,6 @@
       </form:form>
     </div>
   </div>
-
-
-  <script src=<c:url value="/resources/bower_components/jquery/dist/jquery.min.js" />></script>
-
-  <script src=<c:url value="/resources/bower_components/bootstrap/dist/js/bootstrap.min.js" />></script>
-
-  <script src=<c:url value="/resources/dist/js/bootstrapValidator.min.js" />></script>
-
-  <!-- Main page script -->
-  <script src=<c:url value="/resources/js/account.js" />></script>
 
 </body>
 

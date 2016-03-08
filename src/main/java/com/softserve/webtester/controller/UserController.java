@@ -3,6 +3,7 @@ package com.softserve.webtester.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.WebDataBinder;
@@ -11,7 +12,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.ModelAndView;
 
 import com.softserve.webtester.model.User;
 import com.softserve.webtester.service.UserService;
@@ -41,19 +41,20 @@ public class UserController {
     /**
      * Retrieves user-account page.
      * 
-     * @param success using to detect successfully updating information about the user.
-     * @return ModelAndView instance with 'account' view
+     * @param success using to detect successfully updating information about the user
+     * @param model {@link Model} object
+     * @return name of view
      */
     @RequestMapping(method = RequestMethod.GET)
-    public ModelAndView getUserAccountPage(@RequestParam(value = "success", required = false) boolean success) {
-        ModelAndView modelAndView = new ModelAndView("account");
+    public String getUserAccountPage(@RequestParam(value = "success", required = false) boolean success, 
+            Model model) {
         if (success) {
-            modelAndView.addObject("success", "Account has been successfully updated!");
+            model.addAttribute("success", "Account has been successfully updated!");
         }
         String userId = SecurityContextHolder.getContext().getAuthentication().getName();
         User user = userService.load(userId);
-        modelAndView.addObject("user", user);
-        return modelAndView;
+        model.addAttribute("user", user);
+        return "account";
     }
 
     /**

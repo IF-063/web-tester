@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.util.CollectionUtils;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
@@ -41,7 +42,7 @@ public class RequestValidator implements Validator {
         }
 
         List<Variable> variables = request.getVariables();
-        if (variables != null && !variables.isEmpty()) {
+        if (!CollectionUtils.isEmpty(variables)) {
             for (int i = 0; i < variables.size(); i++) {
                 try {
                     errors.pushNestedPath("variables[" + i + "]");

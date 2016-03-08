@@ -27,6 +27,20 @@
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
 
+
+  <script>
+    var contextPath = "${pageContext.request.contextPath}"
+  </script>
+
+  <script src=<c:url value="/resources/bower_components/jquery/dist/jquery.min.js" />></script>
+
+  <script src=<c:url value="/resources/bower_components/bootstrap/dist/js/bootstrap.min.js" />></script>
+
+  <script src=<c:url value="/resources/dist/js/select2.min.js" />></script>
+
+  <!-- Main page script -->
+  <script src=<c:url value="/resources/js/request/requests.js" />></script>
+  
 </head>
 
 <body>
@@ -89,16 +103,16 @@
             <table class="table table-hover table-bordered table-condensed text-center panel-body" id="requests">
               <thead>
                 <tr>
-                  <th width="30px"><input id="selectAll" type="checkbox" title="Select all"></th>
+                  <th><input id="selectAll" type="checkbox" title="Select all"></th>
                   <th>Name</th>
                   <th>Application</th>
                   <th>Service</th>
                   <th>Endpoint</th>
-                  <th width="45px">Run</th>
-                  <th width="90px">See results</th>
-                  <th width="80px">Duplicate</th>
-                  <th width="70px">Disable</th>
-                  <th width="60px">Delete</th>
+                  <th>Run</th>
+                  <th>See results</th>
+                  <th>Duplicate</th>
+                  <th>Disable</th>
+                  <th>Delete</th>
                 </tr>
               </thead>
               <tbody>
@@ -163,19 +177,6 @@
       </div>
     </div>
   </div>
-
-  <script>
-    var contextPath = "${pageContext.request.contextPath}"
-  </script>
-
-  <script src=<c:url value="/resources/bower_components/jquery/dist/jquery.min.js" />></script>
-
-  <script src=<c:url value="/resources/bower_components/bootstrap/dist/js/bootstrap.min.js" />></script>
-
-  <script src=<c:url value="/resources/dist/js/select2.min.js" />></script>
-
-  <!-- Main page script -->
-  <script src=<c:url value="/resources/js/request/requests.js" />></script>
 
 </body>
 

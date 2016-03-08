@@ -8,9 +8,7 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>
-    <c:out value="${pageTitle}" />
-  </title>
+  <title>Request editing</title>
 
   <link href=<c:url value="/resources/bower_components/bootstrap/dist/css/bootstrap.min.css" /> rel="stylesheet">
 
@@ -31,6 +29,18 @@
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
 
+
+  <script src=<c:url value="/resources/bower_components/jquery/dist/jquery.min.js" />></script>
+
+  <script src=<c:url value="/resources/bower_components/bootstrap/dist/js/bootstrap.min.js" />></script>
+
+  <script src=<c:url value="/resources/dist/js/bootstrapValidator.min.js" />></script>
+
+  <script src=<c:url value="/resources/dist/js/select2.min.js" />></script>
+
+  <!-- Main page script -->
+  <script src=<c:url value="/resources/js/request/requestCreateEdit.js" />></script>
+
 </head>
 
 <body>
@@ -38,12 +48,10 @@
     <div class="row">
       <form:form action="" method="POST" commandName="request" class="form-horizontal" role="form">
         <fieldset>
-          <legend>
-            <c:out value="${pageTitle}" />
-          </legend>
+          <legend>Request editing</legend>
           <div class="row">
 
-            <form:hidden path="id" />
+            <%-- <form:hidden path="id" /> --%>
 
             <div class="form-group">
               <form:label path="name" class="col-md-4 control-label">Name*</form:label>
@@ -213,11 +221,11 @@
                                 placeholder="Value" required="required" />
                               <form:errors path="variables[${status.index}].value" cssClass="help-block with-errors" />
                             </td>
-                            <td id=".isSql"><label class="control-label">
-                            <form:checkbox path="variables[${status.index}].isSql" class="isSql" />Sql</label>
+                            <td id=".sql"><label class="control-label">
+                            <form:checkbox path="variables[${status.index}].sql" class="sql" />Sql</label>
                             </td>
-                            <td id=".isRandom"><label class="control-label">
-                            <form:checkbox path="variables[${status.index}].isRandom" class="isRandom" 
+                            <td id=".random"><label class="control-label">
+                            <form:checkbox path="variables[${status.index}].random" class="random" 
                                />Random</label>
                             </td>
                             <td id=".dataType">
@@ -293,6 +301,8 @@
       </form:form>
     </div>
   </div>
+  
+  <input type="hidden" value="${request.id}" id="id">
 
   <!-- Template table -->
   <div id="template" style="display: none">
@@ -313,15 +323,13 @@
         <td id=".value">
           <input placeholder="Value" type="text" class="form-control" required="required" />
         </td>
-        <td id=".isSql">
-          <label class="control-label">
-          <input type="checkbox" class="isSql" value="true" /><input type="hidden" value="on" />
-            Sql</label>
+        <td id=".sql">
+          <input type="checkbox" class="sql" value="true" /><input type="hidden" value="on" />
+          <label class="control-label"> Sql</label>
         </td>
-        <td id=".isRandom">
-          <label class="control-label">
-          <input class="isRandom" type="checkbox" value="true" /><input type="hidden" value="on" />
-            Random</label>
+        <td id=".random">
+          <input class="random" type="checkbox" value="true" /><input type="hidden" value="on" />
+          <label class="control-label">  Random</label>
         </td>
         <td id=".dataType">
           <select class="form-control enableIfRandom" disabled="disabled">
@@ -345,18 +353,6 @@
       </tr>
     </table>
   </div>
-
-
-  <script src=<c:url value="/resources/bower_components/jquery/dist/jquery.min.js" />></script>
-
-  <script src=<c:url value="/resources/bower_components/bootstrap/dist/js/bootstrap.min.js" />></script>
-
-  <script src=<c:url value="/resources/dist/js/bootstrapValidator.min.js" />></script>
-
-  <script src=<c:url value="/resources/dist/js/select2.min.js" />></script>
-
-  <!-- Main page script -->
-  <script src=<c:url value="/resources/js/request/requestCreateEdit.js" />></script>
 
 </body>
 

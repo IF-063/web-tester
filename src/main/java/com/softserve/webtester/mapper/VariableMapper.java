@@ -32,7 +32,7 @@ public interface VariableMapper {
      * @throws DataAccessException
      */
     @Insert("INSERT INTO Variable(name, value, isSql, isRandom, dataType, length, requestId) "
-            + "VALUES(#{name}, #{value}, #{isSql}, #{isRandom}, #{dataType}, #{length}, #{request.id})")
+            + "VALUES(#{name}, #{value}, #{sql}, #{random}, #{dataType}, #{length}, #{request.id})")
     @Options(useGeneratedKeys = true, keyProperty = "id")
     int save(Variable variable);
 
@@ -45,7 +45,7 @@ public interface VariableMapper {
      */
     @Insert("<script>INSERT INTO Variable(name, value, isSql, isRandom, dataType, length, requestId) VALUES "
             + "<foreach collection='variables' item='variable' separator=','> "
-            + "(#{variable.name}, #{variable.value}, #{variable.isSql}, #{variable.isRandom}, "
+            + "(#{variable.name}, #{variable.value}, #{variable.sql}, #{variable.random}, "
             + "#{variable.dataType}, #{variable.length}, #{id}) " 
             + "</foreach></script>")
     int saveByRequest(Request request);
@@ -61,8 +61,8 @@ public interface VariableMapper {
     @Results({ @Result(id = true, property = "id", column = "id", jdbcType = JdbcType.INTEGER),
                @Result(property = "name", column = "name", jdbcType = JdbcType.VARCHAR),
                @Result(property = "value", column = "value", jdbcType = JdbcType.LONGVARCHAR),
-               @Result(property = "isSql", column = "isSql", jdbcType = JdbcType.BIT),
-               @Result(property = "isRandom", column = "isRandom", jdbcType = JdbcType.BIT),
+               @Result(property = "sql", column = "isSql", jdbcType = JdbcType.BIT),
+               @Result(property = "random", column = "isRandom", jdbcType = JdbcType.BIT),
                @Result(property = "dataType", column = "dataType", typeHandler = VariableDataTypeHandler.class),
                @Result(property = "length", column = "length", jdbcType = JdbcType.INTEGER) })
     Variable load(int id);
@@ -78,8 +78,8 @@ public interface VariableMapper {
     @Results({ @Result(id = true, property = "id", column = "id", jdbcType = JdbcType.INTEGER),
                @Result(property = "name", column = "name", jdbcType = JdbcType.VARCHAR),
                @Result(property = "value", column = "value", jdbcType = JdbcType.LONGVARCHAR),
-               @Result(property = "isSql", column = "isSql", jdbcType = JdbcType.BIT),
-               @Result(property = "isRandom", column = "isRandom", jdbcType = JdbcType.BIT),
+               @Result(property = "sql", column = "isSql", jdbcType = JdbcType.BIT),
+               @Result(property = "random", column = "isRandom", jdbcType = JdbcType.BIT),
                @Result(property = "dataType", column = "dataType", typeHandler = VariableDataTypeHandler.class),
                @Result(property = "length", column = "length", jdbcType = JdbcType.INTEGER) })
     List<Variable> loadByRequestId(int id);
@@ -92,7 +92,7 @@ public interface VariableMapper {
      * @throws DataAccessException
      */
     @Update("UPDATE Variable SET name = #{name}, value = #{value}, "
-            + "isSql = #{isSql}, isRandom = #{isRandom}, dataType = #{dataType}, "
+            + "isSql = #{sql}, isRandom = #{random}, dataType = #{dataType}, "
             + "length = #{length}, requestId = #{request.id} WHERE id = #{id}")
     int update(Variable variable);
 
