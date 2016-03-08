@@ -15,80 +15,79 @@ import org.hibernate.validator.constraints.NotBlank;
  * The User class represents {@code User} entity stored in the database.
  * 
  * @author Taras Oglabyak
- * @version 1.3
  */
-public class User implements Serializable{
+public class User implements Serializable {
 
     private static final long serialVersionUID = 5801084059340063607L;
-    
+
     private int id;
-    
+
     @Email
-    @NotBlank(message="email cannot be empty")
+    @NotBlank(message = "email cannot be empty")
     private String username;
-    
-    @NotBlank(message="password cannot be empty")
-    @Size(min=4, max=32)
+
+    @NotBlank(message = "password cannot be empty")
+    @Size(min = 4, max = 32)
     private String password;
-    
+
     private String firstName;
-    
+
     private String lastName;
 
     public User() { }
 
     public int getId() {
-	return id;
+        return id;
     }
 
     public void setId(int id) {
-	this.id = id;
+        this.id = id;
     }
 
     public String getUsername() {
-	return username;
+        return username;
     }
 
     public void setUsername(String username) {
-	this.username = username;
+        this.username = username;
     }
 
     public String getPassword() {
-	return password;
+        return password;
     }
 
     public void setPassword(String password) {
-	this.password = password;
+        this.password = password;
     }
 
     public String getFirstName() {
-	return firstName;
+        return firstName;
     }
 
     public void setFirstName(String firstName) {
-	this.firstName = firstName;
+        this.firstName = firstName;
     }
 
     public String getLastName() {
-	return lastName;
+        return lastName;
     }
 
     public void setLastName(String lastName) {
-	this.lastName = lastName;
+        this.lastName = lastName;
     }
 
     @Override
     public int hashCode() {
-	return HashCodeBuilder.reflectionHashCode(this, true);
+        return HashCodeBuilder.reflectionHashCode(this, true);
     }
 
     @Override
     public boolean equals(Object obj) {
-	return EqualsBuilder.reflectionEquals(this, obj);
+        return EqualsBuilder.reflectionEquals(this, obj);
     }
 
     @Override
     public String toString() {
-	return ToStringBuilder.reflectionToString(this, ToStringStyle.SHORT_PREFIX_STYLE);
+        return ToStringBuilder.reflectionToString(this, ToStringStyle.SHORT_PREFIX_STYLE);
     }
 }

@@ -13,8 +13,8 @@ import com.softserve.webtester.model.Variable;
 import com.softserve.webtester.service.RequestService;
 
 /**
- * Implementation of {@link Validator} interface for additional checking {@link Request} instance. Checks the unique 
- * of request's parameter name and valiable's parameter <code>length</code>.
+ * Implementation of {@link Validator} interface for additional checking {@link Request} instance. Checks the unique of
+ * request's parameter name and valiable's parameter <code>length</code>.
  * 
  * @author Taras Oglabyak
  *
@@ -24,32 +24,32 @@ public class RequestValidator implements Validator {
 
     @Autowired
     private RequestService requestService;
-    
+
     @Autowired
     private VariableValidator variableValidator;
 
     @Override
     public boolean supports(Class<?> clazz) {
-	return Request.class.equals(clazz);
+        return Request.class.equals(clazz);
     }
 
     @Override
     public void validate(Object target, Errors errors) {
-	Request request = (Request) target;
-	if (!requestService.isRequestNameFree(request.getName(), request.getId())) {
-	    errors.rejectValue("name", null, "name should be unique");
-	}
+        Request request = (Request) target;
+        if (!requestService.isRequestNameFree(request.getName(), request.getId())) {
+            errors.rejectValue("name", null, "name should be unique");
+        }
 
-	List<Variable> variables = request.getVariables();
-	if (variables != null && !variables.isEmpty()) {
-	    for (int i = 0; i < variables.size(); i++) {
-		try {
-		    errors.pushNestedPath("variables[" + i + "]");
-		    ValidationUtils.invokeValidator(variableValidator, variables.get(i), errors);
-		} finally {
-		    errors.popNestedPath();
-		}
-	    }
-	}
+        List<Variable> variables = request.getVariables();
+        if (variables != null && !variables.isEmpty()) {
+            for (int i = 0; i < variables.size(); i++) {
+                try {
+                    errors.pushNestedPath("variables[" + i + "]");
+                    ValidationUtils.invokeValidator(variableValidator, variables.get(i), errors);
+                } finally {
+                    errors.popNestedPath();
+                }
+            }
+        }
     }
 }

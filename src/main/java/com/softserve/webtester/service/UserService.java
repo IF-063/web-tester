@@ -16,17 +16,16 @@ import com.softserve.webtester.model.User;
  * logging.
  * 
  * @author Taras Oglabyak
- * @version 1.2
  */
 @Service
 @Transactional
 public class UserService {
 
     private static final Logger LOGGER = Logger.getLogger(UserService.class);
-    
+
     @Autowired
     private UserMapper userMapper;
-    
+
     /**
      * Loads {@link User} instance from the database.
      * 
@@ -35,14 +34,14 @@ public class UserService {
      * @throws DataAccessException
      */
     public User load(String userId) {
-	try {
-	   return userMapper.load(userId);
-	} catch (DataAccessException e) {
-	    LOGGER.error("User not found, userId: " + userId, e);
-	    throw e;
-	}
+        try {
+            return userMapper.load(userId);
+        } catch (DataAccessException e) {
+            LOGGER.error("User not found, userId: " + userId, e);
+            throw e;
+        }
     }
-    
+
     /**
      * Updates {@link User} instance in the database.
      * 
@@ -52,14 +51,14 @@ public class UserService {
      * @throws DataAccessException
      */
     public int update(User user) {
-	try {
-	   return userMapper.update(user);
-	} catch (DataAccessException e) {
-	    LOGGER.error("Unable to update the user, username: " + user.getUsername(), e);
-	    throw e;
-	}
+        try {
+            return userMapper.update(user);
+        } catch (DataAccessException e) {
+            LOGGER.error("Unable to update the user, username: " + user.getUsername(), e);
+            throw e;
+        }
     }
-    
+
     /**
      * Checks the unique of user's username.
      * 
@@ -70,11 +69,11 @@ public class UserService {
      */
     @Transactional
     public boolean isUsernameFree(int id, String username) {
-	try {
-	    return userMapper.isUserNameFree(id, username);
-	} catch (DataAccessException e) {
-	    LOGGER.error("Unable to check username, user id: " + id, e);
-	    throw e;
-	}
+        try {
+            return userMapper.isUserNameFree(id, username);
+        } catch (DataAccessException e) {
+            LOGGER.error("Unable to check username, user id: " + id, e);
+            throw e;
+        }
     }
 }

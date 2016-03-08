@@ -17,188 +17,187 @@ import org.hibernate.validator.constraints.NotBlank;
  * The Request class represents {@code Request} entity stored in the database.
  * 
  * @author Taras Oglabyak
- * @version 3.6
  */
 public class Request implements Serializable {
 
     private static final long serialVersionUID = 1620123091542829027L;
-    
+
     private int id;
-    
-    @NotBlank(message="Request name cannot be empty")
+
+    @NotBlank(message = "Request name cannot be empty")
     private String name;
-    
-    @NotBlank(message="Request description cannot be empty")
+
+    @NotBlank(message = "Request description cannot be empty")
     private String description;
-    
+
     private RequestMethod requestMethod;
-    
+
     @Valid
     private Application application;
-    
+
     @Valid
     private Service service;
-    
+
     @Valid
     private List<Label> labels;
-    
-    @NotBlank(message="Endpoint cannot be empty")
+
+    @NotBlank(message = "Endpoint cannot be empty")
     private String endpoint;
-    
+
     @Valid
     private List<Header> headers;
-    
+
     private String requestBody;
-    
+
     @NotNull
     private ResponseType responseType;
-    
-    @NotBlank(message="Expected response endpoint cannot be empty")
+
+    @NotBlank(message = "Expected response endpoint cannot be empty")
     private String expectedResponse;
-    
+
     @Min(1)
     private int timeout;
-    
+
     @Valid
     private List<Variable> variables;
-    
+
     @Valid
     private List<DbValidation> dbValidations;
-    
+
     public Request() { }
 
     public int getId() {
-	return id;
+        return id;
     }
 
     public void setId(int id) {
-	this.id = id;
+        this.id = id;
     }
 
     public String getName() {
-	return name;
+        return name;
     }
 
     public void setName(String name) {
-	this.name = name;
+        this.name = name;
     }
 
     public String getDescription() {
-	return description;
+        return description;
     }
 
     public void setDescription(String description) {
-	this.description = description;
+        this.description = description;
     }
 
     public RequestMethod getRequestMethod() {
-	return requestMethod;
+        return requestMethod;
     }
 
     public void setRequestMethod(RequestMethod requestMethod) {
-	this.requestMethod = requestMethod;
+        this.requestMethod = requestMethod;
     }
 
     public Application getApplication() {
-	return application;
+        return application;
     }
 
     public void setApplication(Application application) {
-	this.application = application;
+        this.application = application;
     }
 
     public Service getService() {
-	return service;
+        return service;
     }
 
     public void setService(Service service) {
-	this.service = service;
+        this.service = service;
     }
 
     public List<Label> getLabels() {
-	return labels;
+        return labels;
     }
 
     public void setLabels(List<Label> labels) {
-	this.labels = labels;
+        this.labels = labels;
     }
 
     public String getEndpoint() {
-	return endpoint;
+        return endpoint;
     }
 
     public void setEndpoint(String endpoint) {
-	this.endpoint = endpoint;
+        this.endpoint = endpoint;
     }
 
     public List<Header> getHeaders() {
-	return headers;
+        return headers;
     }
 
     public void setHeaders(List<Header> headers) {
-	this.headers = headers;
+        this.headers = headers;
     }
 
     public String getRequestBody() {
-	return requestBody;
+        return requestBody;
     }
 
     public void setRequestBody(String requestBody) {
-	this.requestBody = requestBody;
+        this.requestBody = requestBody;
     }
 
     public ResponseType getResponseType() {
-	return responseType;
+        return responseType;
     }
 
     public void setResponseType(ResponseType responseType) {
-	this.responseType = responseType;
+        this.responseType = responseType;
     }
 
     public String getExpectedResponse() {
-	return expectedResponse;
+        return expectedResponse;
     }
 
     public void setExpectedResponse(String expectedResponse) {
-	this.expectedResponse = expectedResponse;
+        this.expectedResponse = expectedResponse;
     }
 
     public int getTimeout() {
-	return timeout;
+        return timeout;
     }
 
     public void setTimeout(int timeout) {
-	this.timeout = timeout;
+        this.timeout = timeout;
     }
 
     public List<Variable> getVariables() {
-	return variables;
+        return variables;
     }
 
     public void setVariables(List<Variable> variables) {
-	this.variables = variables;
+        this.variables = variables;
     }
 
     public List<DbValidation> getDbValidations() {
-	return dbValidations;
+        return dbValidations;
     }
 
     public void setDbValidations(List<DbValidation> dbValidations) {
-	this.dbValidations = dbValidations;
+        this.dbValidations = dbValidations;
     }
-    
+
     @Override
     public int hashCode() {
-	return HashCodeBuilder.reflectionHashCode(this, true);
+        return HashCodeBuilder.reflectionHashCode(this, true);
     }
 
     @Override
     public boolean equals(Object obj) {
-	return EqualsBuilder.reflectionEquals(this, obj);
+        return EqualsBuilder.reflectionEquals(this, obj);
     }
-    
+
     @Override
     public String toString() {
-	return ToStringBuilder.reflectionToString(this, ToStringStyle.SHORT_PREFIX_STYLE);
+        return ToStringBuilder.reflectionToString(this, ToStringStyle.SHORT_PREFIX_STYLE);
     }
 }

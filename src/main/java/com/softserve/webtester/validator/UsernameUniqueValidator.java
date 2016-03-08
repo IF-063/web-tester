@@ -11,7 +11,7 @@ import com.softserve.webtester.model.User;
 import com.softserve.webtester.service.UserService;
 
 /**
- * Implementation of {@link Validator} interface for checking the unique of {@link User} instance's 
+ * Implementation of {@link Validator} interface for checking the unique of {@link User} instance's
  * <code>username</code> property.
  * 
  * @author Taras Oglabyak
@@ -25,17 +25,17 @@ public class UsernameUniqueValidator implements Validator {
 
     @Override
     public boolean supports(Class<?> clazz) {
-	return User.class.equals(clazz);
+        return User.class.equals(clazz);
     }
 
     @Override
     public void validate(Object target, Errors errors) {
-	User user = (User) target;
-	Authentication currentAuthentication = SecurityContextHolder.getContext().getAuthentication();
-	String currentUsername = currentAuthentication.getName();
-	user.setId(Integer.parseInt(currentUsername));
-	if (!userService.isUsernameFree(user.getId(), user.getUsername())) {
-	    errors.rejectValue("username", null, "username should be unique");
-	}
+        User user = (User) target;
+        Authentication currentAuthentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentUsername = currentAuthentication.getName();
+        user.setId(Integer.parseInt(currentUsername));
+        if (!userService.isUsernameFree(user.getId(), user.getUsername())) {
+            errors.rejectValue("username", null, "username should be unique");
+        }
     }
 }

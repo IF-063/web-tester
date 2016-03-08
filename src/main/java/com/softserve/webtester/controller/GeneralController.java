@@ -27,20 +27,20 @@ public class GeneralController {
 
     @Autowired
     private LabelEditor labelEditor;
-    
+
     @Autowired
     private RequestEditor requestEditor;
 
     @InitBinder
     public void initBinder(WebDataBinder binder) {
-	binder.registerCustomEditor(List.class, "labels", labelEditor);
-	binder.registerCustomEditor(List.class, "requests", requestEditor);
-	binder.registerCustomEditor(String.class, new StringTrimmerEditor(" \t\r\n\f", true));
+        binder.registerCustomEditor(List.class, "labels", labelEditor);
+        binder.registerCustomEditor(List.class, "requests", requestEditor);
+        binder.registerCustomEditor(String.class, new StringTrimmerEditor(" \t\r\n\f", true));
     }
-    
+
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(ResourceNotFoundException.class)
-    public ModelAndView error404(ResourceNotFoundException e){
-	return new ModelAndView("error/404", "message", e.getMessage());
+    public ModelAndView error404(ResourceNotFoundException e) {
+        return new ModelAndView("error/404", "message", e.getMessage());
     }
 }

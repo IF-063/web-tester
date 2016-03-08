@@ -12,103 +12,102 @@ import org.hibernate.validator.constraints.NotBlank;
  * The Variable class represents {@code Variable} entity stored in the database.
  * 
  * @author Taras Oglabyak
- * @version 3.5
  */
 public class Variable implements Serializable {
 
     private static final long serialVersionUID = 636905701061698929L;
-    
+
     private int id;
-    
-    @NotBlank(message="Variable name cannot be empty")
+
+    @NotBlank(message = "Variable name cannot be empty")
     private String name;
-    
-    @NotBlank(message="Variable value cannot be empty")
+
+    @NotBlank(message = "Variable value cannot be empty")
     private String value;
     private boolean isSql;
     private boolean isRandom;
     private VariableDataType dataType;
     private Integer length;
     private Request request;
-    
+
     public Variable() { }
 
     public int getId() {
-	return id;
+        return id;
     }
 
     public void setId(int id) {
-	this.id = id;
+        this.id = id;
     }
 
     public String getName() {
-	return name;
+        return name;
     }
 
     public void setName(String name) {
-	this.name = name;
+        this.name = name;
     }
 
     public String getValue() {
-	return value;
+        return value;
     }
 
     public void setValue(String value) {
-	this.value = value;
+        this.value = value;
     }
-    
+
     public boolean isIsSql() {
-	return isSql;
+        return isSql;
     }
 
     public void setIsSql(boolean isSql) {
-	this.isSql = isSql;
+        this.isSql = isSql;
     }
 
     public boolean isIsRandom() {
-	return isRandom;
+        return isRandom;
     }
 
     public void setIsRandom(boolean isRandom) {
-	this.isRandom = isRandom;
+        this.isRandom = isRandom;
     }
 
     public VariableDataType getDataType() {
-	return dataType;
+        return dataType;
     }
 
     public void setDataType(VariableDataType dataType) {
-	this.dataType = dataType;
+        this.dataType = dataType;
     }
 
     public Integer getLength() {
-	return length;
+        return length;
     }
 
     public void setLength(Integer length) {
-	this.length = length;
+        this.length = length;
     }
 
     public Request getRequest() {
-	return request;
+        return request;
     }
 
     public void setRequest(Request request) {
-	this.request = request;
+        this.request = request;
     }
-    
+
     @Override
     public int hashCode() {
-	return HashCodeBuilder.reflectionHashCode(this, true);
+        return HashCodeBuilder.reflectionHashCode(this, true);
     }
 
     @Override
     public boolean equals(Object obj) {
-	return EqualsBuilder.reflectionEquals(this, obj);
+        return EqualsBuilder.reflectionEquals(this, obj);
     }
-    
+
     @Override
     public String toString() {
-	return ToStringBuilder.reflectionToString(this, ToStringStyle.SHORT_PREFIX_STYLE);
+        return ToStringBuilder.reflectionToString(this, ToStringStyle.SHORT_PREFIX_STYLE);
     }
 }

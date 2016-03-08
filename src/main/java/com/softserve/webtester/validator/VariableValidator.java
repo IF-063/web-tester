@@ -17,14 +17,14 @@ public class VariableValidator implements Validator {
 
     @Override
     public boolean supports(Class<?> clazz) {
-	return Variable.class.equals(clazz);
+        return Variable.class.equals(clazz);
     }
 
     @Override
     public void validate(Object target, Errors errors) {
-	Variable variable = (Variable) target;
-	if (variable.isIsRandom() && (variable.getLength() == null || variable.getLength() < 1)) {
-	    errors.rejectValue("length", null, "length is not valid");
-	}
+        Variable variable = (Variable) target;
+        if (variable.isIsRandom() && (variable.getLength() == null || variable.getLength() < 1)) {
+            errors.rejectValue("length", null, "length is not valid");
+        }
     }
 }

@@ -31,7 +31,7 @@ public interface DbValidationMapper {
      * @throws DataAccessException
      */
     @Insert("INSERT INTO DbValidation(sqlQuery, expectedValue, requestId) "
-	    + "VALUES(#{sqlQuery}, #{expectedValue}, #{request.id})")
+            + "VALUES(#{sqlQuery}, #{expectedValue}, #{request.id})")
     @Options(useGeneratedKeys = true, keyProperty = "id")
     int save(DbValidation dbValidation);
 
@@ -44,8 +44,8 @@ public interface DbValidationMapper {
      * @throws DataAccessException
      */
     @Insert("<script>INSERT INTO DbValidation(sqlQuery, expectedValue, requestId) VALUES "
-	    + "<foreach collection='dbValidations' item='dbValidation' separator=','> "
-	    + "(#{dbValidation.sqlQuery}, #{dbValidation.expectedValue}, #{id}) " + "</foreach></script>")
+            + "<foreach collection='dbValidations' item='dbValidation' separator=','> "
+            + "(#{dbValidation.sqlQuery}, #{dbValidation.expectedValue}, #{id}) " + "</foreach></script>")
     int saveByRequest(Request request);
 
     /**
@@ -57,9 +57,8 @@ public interface DbValidationMapper {
      */
     @Select("SELECT id, sqlQuery, expectedValue FROM DbValidation WHERE id = #{id}")
     @Results({ @Result(id = true, property = "id", column = "id", jdbcType = JdbcType.INTEGER),
-	       @Result(property = "sqlQuery", column = "sqlQuery", jdbcType = JdbcType.LONGVARCHAR),
-	       @Result(property = "expectedValue", column = "expectedValue", jdbcType = JdbcType.VARCHAR)
-    })
+               @Result(property = "sqlQuery", column = "sqlQuery", jdbcType = JdbcType.LONGVARCHAR),
+               @Result(property = "expectedValue", column = "expectedValue", jdbcType = JdbcType.VARCHAR) })
     DbValidation load(int id);
 
     /**
@@ -71,9 +70,8 @@ public interface DbValidationMapper {
      */
     @Select("SELECT id, sqlQuery, expectedValue FROM DbValidation WHERE requestId = #{id}")
     @Results({ @Result(id = true, property = "id", column = "id", jdbcType = JdbcType.INTEGER),
-	       @Result(property = "sqlQuery", column = "sqlQuery", jdbcType = JdbcType.LONGVARCHAR),
-	       @Result(property = "expectedValue", column = "expectedValue", jdbcType = JdbcType.VARCHAR)
-    })
+               @Result(property = "sqlQuery", column = "sqlQuery", jdbcType = JdbcType.LONGVARCHAR),
+               @Result(property = "expectedValue", column = "expectedValue", jdbcType = JdbcType.VARCHAR) })
     List<DbValidation> loadByRequestId(int id);
 
     /**
@@ -84,7 +82,7 @@ public interface DbValidationMapper {
      * @throws DataAccessException
      */
     @Update("UPDATE DbValidation SET sqlQuery = #{sqlQuery}, expectedValue = #{expectedValue}, "
-	    + "requestId = #{request.id} WHERE id = #{id}")
+            + "requestId = #{request.id} WHERE id = #{id}")
     int update(DbValidation dbValidation);
 
     /**
@@ -106,5 +104,5 @@ public interface DbValidationMapper {
      */
     @Delete("DELETE FROM DbValidation WHERE requestId = #{id}")
     int deleteByRequestId(int id);
-    
+
 }
