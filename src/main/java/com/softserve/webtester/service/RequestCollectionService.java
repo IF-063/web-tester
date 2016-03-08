@@ -2,7 +2,6 @@ package com.softserve.webtester.service;
 
 
 import java.util.List;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.apache.log4j.Logger;
@@ -13,6 +12,8 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import com.softserve.webtester.dto.RequestCollectionFilterDTO;
 import com.softserve.webtester.mapper.LabelMapper;
 import com.softserve.webtester.mapper.RequestCollectionMapper;
 import com.softserve.webtester.mapper.RequestMapper;
@@ -73,14 +74,17 @@ public class RequestCollectionService {
     
     /**
      * Loads all stored {@link RequestCollection} instances with their main information.
-     * 
+     *
+     * @param requestCollectionFilterDTO DTO object using for filtering {@link RequestCollection} instances
      * @return List of {@link RequestCollection} instances
      * @throws DataAccessException
      */
     @Transactional
-    public List<RequestCollection> loadAll(){
+    public List<RequestCollection> loadAll(RequestCollectionFilterDTO requestCollectionFilterDTO){
+    	String requestCollectionNameFilter = requestCollectionFilterDTO.getRequestCollectionNameFilter();
+    	int[] labelFilter = requestCollectionFilterDTO.getLabelFilter();
 		try {
-		    return requestCollectionMapper.loadAll();
+		    return requestCollectionMapper.loadAll(requestCollectionNameFilter,labelFilter);
 		} catch (DataAccessException e) {
 		    LOGGER.error("Unable to load RequestCollections",e);
 		    throw e;

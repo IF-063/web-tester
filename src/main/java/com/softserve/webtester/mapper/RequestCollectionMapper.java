@@ -18,7 +18,9 @@ public interface RequestCollectionMapper {
     /**
      * Saves {@link Request—ollection} instance to database.
      * 
+     * @param requestCollectionNameFilter using for filtering instances, which name starts with the parameter
      * @param requestCollection Request—ollection instance should be saved in the database
+     * @param labelFilter using for filtering instances, which labels identifier are in the array
      * @return number of rows affected by the statement
      * @throws DataAccessException
      */    
@@ -33,14 +35,22 @@ public interface RequestCollectionMapper {
      * @return List of RequestCollection instances
      * @throws DataAccessException
      */    
-    @Select("SELECT * FROM RequestCollection")
+    @Select({ "<script>SELECT DISTINCT rc.id, rc.name, rc.description FROM RequestCollection rc ",
+    	"<if test='labelFilter!=null and labelFilter.length>0'>LEFT JOIN RequestCollection_Label rcl ON rc.id=rcl.requestCollectionId </if>",
+    	"WHERE rc.id > 0",
+    	"<if test='requestCollectionNameFilter!=null'> AND rc.name LIKE CONCAT(#{requestCollectionNameFilter},'%') </if>",
+    	"<if test='labelFilter!=null and labelFilter.length>0'> AND rcl.labelId IN",
+    	"<foreach collection='labelFilter' item='item' index='index' open='(' separator=',' close=')'>",
+    	" #{item} </foreach></if>", 
+        "</script>"})
     @Results({	@Result(property = "id", column = "ID", jdbcType = JdbcType.INTEGER),
 		@Result(property = "name", column = "name", jdbcType = JdbcType.VARCHAR),
 		@Result(property = "description", column = "description", jdbcType = JdbcType.VARCHAR),
 		@Result(property = "labels", column ="id",
 		        many = @Many(select = "com.softserve.webtester.mapper.LabelMapper.loadByRequestCollectionId"))
     })
-    List<RequestCollection> loadAll();
+    List<RequestCollection> loadAll(@Param (value = "requestCollectionNameFilter") String requestCollectionNameFilter,
+    						@Param(value = "labelFilter") int[] labelFilter); 
     
     /**
      * Loads {@link RequestCollection} instance from database by its identifier.
@@ -56,7 +66,7 @@ public interface RequestCollectionMapper {
 		@Result(property = "labels", column ="id",
 		        many = @Many(select = "com.softserve.webtester.mapper.LabelMapper.loadByRequestCollectionId")),
 		@Result(property = "requests", column ="id",
-			many = @Many(select = "com.softserve.webtester.mapper.RequestMapper.loadByRequestCollectionId"))           
+				many = @Many(select = "com.softserve.webtester.mapper.RequestMapper.loadByRequestCollectionId"))           
     })
     RequestCollection load(int id);
     

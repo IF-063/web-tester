@@ -1,7 +1,5 @@
 package com.softserve.webtester.controller;
 
-
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -19,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.servlet.ModelAndView;
+import com.softserve.webtester.dto.RequestCollectionFilterDTO;
 import com.softserve.webtester.model.RequestCollection;
 import com.softserve.webtester.service.MetaDataService;
 import com.softserve.webtester.service.RequestCollectionService;
@@ -53,14 +52,38 @@ public class RequestCollectionController {
     }
    
     /**
-     * Retrieves page with all existing requestCollections.     
+     * Creates ModelMap container with labels lists. 
+     * 
+     * @return {@link ModelMap} instance
+     */
+    private ModelMap addLabels() {
+  		ModelMap map = new ModelMap();
+  		map.addAttribute("labels", metaDataService.loadAllLabels());
+  		return map;
+    }
+
+    /**
+     * Creates ModelMap container with requests lists. 
+     * 
+     * @return {@link ModelMap} instance
+     */
+    private ModelMap addRequests() {
+  	    ModelMap map = new ModelMap();
+  	    map.addAttribute("requests", requestService.loadAll());
+  	    return map;
+    }
+    
+    /**
+     * Retrieves page with all existing requestCollections
+     * @param requestCollectionFilterDTO DTO object using for filtering {@link RequestCollection} instances     
      * @return ModelAndView instance with 'requestCollections' view and founded requestCollections
      */
     @RequestMapping(method = RequestMethod.GET)
-    public ModelAndView getAllRequestCollection(){
+    public ModelAndView getAllRequestCollection(@ModelAttribute RequestCollectionFilterDTO requestCollectionFilterDTO){
 		ModelAndView model = new ModelAndView("collection/collections");
 		model.addObject("pageTitle", "Collections");
-		model.addObject("collectionList", requestCollectionService.loadAll());
+		model.addObject("labels", metaDataService.loadAllLabels());
+		model.addObject("collectionList", requestCollectionService.loadAll(requestCollectionFilterDTO));
 		return model;
 	}
     
@@ -77,7 +100,7 @@ public class RequestCollectionController {
 		model.addAllObjects(addRequests());
 		RequestCollection requestCollection = null;
 		if (id != null) {
-			model.addObject("pageTitle", "Dublicate requestCollection");
+			model.addObject("pageTitle", "Duplicate Request Collection");
 		    requestCollection = requestCollectionService.createDuplicate(id);
 		}
 		else {
@@ -165,27 +188,5 @@ public class RequestCollectionController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void detele(@RequestBody int[] requestCollectionIdArray) {
     	requestCollectionService.delete(requestCollectionIdArray);
-    }
-    
-    /**
-     * Creates ModelMap container with labels lists. 
-     * 
-     * @return {@link ModelMap} instance
-     */
-    private ModelMap addLabels() {
-  		ModelMap map = new ModelMap();
-  		map.addAttribute("labels", metaDataService.loadAllLabels());
-  		return map;
-    }
-
-    /**
-     * Creates ModelMap container with requests lists. 
-     * 
-     * @return {@link ModelMap} instance
-     */
-    private ModelMap addRequests() {
-  	    ModelMap map = new ModelMap();
-  	    map.addAttribute("requests", requestService.loadAll(null, null, null, null));
-  	    return map;
     }
 }

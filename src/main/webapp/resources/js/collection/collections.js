@@ -1,15 +1,22 @@
 $(function() {
 
+  // enables tag autocomplete in filtering fields
+  
+  $('#labelFilter').select2({
+	theme: 'bootstrap',
+	width: '100%'
+  });	
+	
   $('#selectAll').click(function() {
-    $('input[type="checkbox"][name="operateSelect"]').prop('checked', this.checked);
+	$('input[type="checkbox"][name="operateSelect"]').prop('checked', this.checked);
   });
-
+	
   $(document).on('click', '.removeInstance', function() {
-    if (confirm('Do you really want to delete this Collection?')) {
-    	deleteRequestCollections([$(this).prop('id')]);
-    }
-    return false;
-  });
+	if (confirm('Do you really want to delete this Collection?')) {
+	  deleteRequestCollections([$(this).prop('id')]);
+	}
+	return false;
+  });	
 
   $(document).on('click', '#deleteSelected', function() {
     var selected = [];
@@ -38,6 +45,5 @@ $(function() {
         alert('oyva.. code: ' + jqXHR.status);
       },
     });
-  };
-
+  };	
 });

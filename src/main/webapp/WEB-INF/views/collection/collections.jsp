@@ -8,7 +8,10 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Collections</title>
+  
+  <title>
+  	<c:out value="${pageTitle}" />
+  </title>
 
   <!-- Bootstrap Core CSS -->
   <link href=<c:url value="/resources/bower_components/bootstrap/dist/css/bootstrap.min.css" /> rel="stylesheet">
@@ -18,6 +21,10 @@
 
   <!-- Custom Fonts -->
   <link href=<c:url value="/resources/bower_components/font-awesome/css/font-awesome.min.css" /> rel="stylesheet" >
+   
+  <link href=<c:url value="/resources/dist/css/select2.min.css" /> rel="stylesheet" />
+  
+  <link href=<c:url value="/resources/dist/css/select2-bootstrap.css" /> rel="stylesheet" />
     
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -45,11 +52,41 @@
       <div class="col-md-12">
         <div class="panel panel-default">
           <div class="panel-heading">
-            <label for="requestCollectionsTable">RequestCollections</label>
-            <a href=<c:url value="/tests/collections/newCollection" /> class="btn btn-success">Create</a>
-            <button id="runAll" class="btn btn-info">Run all</button>
-            <button id="runSelected" class="btn btn-info">Run selected</button>
-            <button id="deleteSelected" class="btn btn-danger">Delete selected</button>
+            <form:form modelAttribute="requestCollectionFilterDTO" method="GET">
+              <fieldset>
+                <!--  <legend>Filters</legend> -->
+                	
+                  <div class="col-md-2">
+                    <label for="requestCollectionNameFilter" class="control-label">Collection name</label>
+                    <form:input type="text" path="requestCollectionNameFilter" class="form-control" 
+                      placeholder="name starts with" />
+                  </div>              
+	             
+                  <div class="col-md-2">
+                    <label for="labelFilter" class="control-label">Labels</label>
+                    <form:select path="labelFilter" items="${labels}" class="form-control select2-multiple" 
+                      multiple="multiple" data-placeholder="labels" itemLabel="name" itemValue="id" />
+                  </div>
+	                 
+                  <div class="col-md-4">
+                    <label>Actions</label>
+                    <div>
+                      <a href=<c:url value="/tests/collections/" /> class="btn btn-default">Reset</a>
+                      <input type="submit" class="btn btn-success" value="Filter" />
+                    </div>
+                  </div>
+                  	
+              </fieldset>
+            </form:form>
+	       <h1>RequestCollections</h1>
+            <div class="row">
+              <div class="col-md-12">  	            
+	            <a href=<c:url value="/tests/collections/newCollection" /> class="btn btn-success">Create</a>
+	            <button id="runAll" class="btn btn-info">Run all</button>
+	            <button id="runSelected" class="btn btn-info">Run selected</button>
+	            <button id="deleteSelected" class="btn btn-danger">Delete selected</button>
+              </div>
+            </div> 	
           </div>
           <div class="table-responsive">
           <table class="table table-hover table-bordered table-condensed text-center panel-body" id="requestCollectionsTable">
@@ -101,6 +138,8 @@
 
   <!-- Bootstrap Core JavaScript -->
   <script src=<c:url value="/resources/bower_components/bootstrap/dist/js/bootstrap.min.js" />></script>
+  
+  <script src=<c:url value="/resources/dist/js/select2.min.js" />></script>
   
   <!-- Main page script -->
   <script src=<c:url value="/resources/js/collection/collections.js" />></script>
