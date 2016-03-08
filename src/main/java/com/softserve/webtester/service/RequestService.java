@@ -121,23 +121,49 @@ public class RequestService {
     /**
      * Loads all stored {@link Request} instances with their main information.
      * 
-     * @param requestFilterDTO DTO object using for filtering {@link Request} instances
      * @return List of {@link Request} instances
      * @throws DataAccessException
      */
-    @Transactional
+    public List<Request> loadAll() {
+	return loadAll(null, null, null, null);
+    }
+    
+    /**
+     * Loads filtered {@link Request} instances with their main information.
+     * 
+     * @param requestFilterDTO DTO object using for filtering {@link Request} instance
+     * @return List of {@link Request} instances
+     * @throws DataAccessException
+     */
     public List<Request> loadAll(RequestFilterDTO requestFilterDTO) {
 	String requestNameFilter = requestFilterDTO.getRequestNameFilter();
 	int[] applicationFilter = requestFilterDTO.getApplicationFilter();
 	int[] serviceFilter = requestFilterDTO.getServiceFilter();
 	int[] labelFilter = requestFilterDTO.getLabelFilter();
+        return loadAll(requestNameFilter, applicationFilter, serviceFilter, labelFilter);
+    }    
+    
+    /**
+     * Loads filtered {@link Request} instances from the database.<br>
+     * This method loads only main information about request instance.
+     * 
+     * @param requestNameFilter using for filtering instances, which name starts with the parameter
+     * @param applicationFilter using for filtering instances, which application identifier are in the array
+     * @param serviceFilter using for filtering instances, which service identifier are in the array
+     * @param labelFilter using for filtering instances, which labels identifier are in the array
+     * @return List of Request instances
+     * @throws DataAccessException
+     */
+    @Transactional
+    public List<Request> loadAll(String requestNameFilter, int[] applicationFilter, 
+	    			  int[] serviceFilter, int[] labelFilter) {
 	try {
 	    return requestMapper.loadAll(requestNameFilter, applicationFilter, serviceFilter, labelFilter);
 	} catch (DataAccessException e) {
 	    LOGGER.error("Unable to load request instances", e);
 	    throw e;
 	}
-    }
+    }  
 
     /**
      * Updates {@link Request} instance in the database.
