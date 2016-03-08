@@ -118,7 +118,7 @@ public class RequestController {
 	modelAndView.addAllObjects(addMetaData());
 	Request request = null;
 	if (fromId != null) {
-	    modelAndView.addObject("pageTitle", "Dublicate request");
+	    modelAndView.addObject("pageTitle", "Duplicate request");
 	    request = requestService.createDuplicate(fromId);
 	}
 	else {

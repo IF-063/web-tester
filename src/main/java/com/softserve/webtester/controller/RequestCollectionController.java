@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.servlet.ModelAndView;
+
 import com.softserve.webtester.model.RequestCollection;
 import com.softserve.webtester.service.MetaDataService;
 import com.softserve.webtester.service.RequestCollectionService;
@@ -185,7 +186,7 @@ public class RequestCollectionController {
      */
     private ModelMap addRequests() {
   	    ModelMap map = new ModelMap();
-  	    map.addAttribute("requests", requestService.loadAll(null, null, null, null));
+  	    map.addAttribute("requests", requestService.loadAll(null));
   	    return map;
     }
 }
