@@ -140,12 +140,7 @@ public class RequestService {
 	int[] applicationFilter = requestFilterDTO.getApplicationFilter();
 	int[] serviceFilter = requestFilterDTO.getServiceFilter();
 	int[] labelFilter = requestFilterDTO.getLabelFilter();
-	try {
-	    return loadAll(requestNameFilter, applicationFilter, serviceFilter, labelFilter);
-	} catch (DataAccessException e) {
-	    LOGGER.error("Unable to load request instances", e);
-	    throw e;
-	}
+        return loadAll(requestNameFilter, applicationFilter, serviceFilter, labelFilter);
     }    
     
     /**
