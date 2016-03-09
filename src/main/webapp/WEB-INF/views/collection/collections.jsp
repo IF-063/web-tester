@@ -2,6 +2,10 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
+<link href="<c:url value="/resources/dist/css/select2.min.css" />" rel="stylesheet" />
+
+<link href="<c:url value="/resources/dist/css/select2-bootstrap.css" />" rel="stylesheet" />
+
 <!-- <div class="container"> -->
 	<div class="row">
 		<div class="col-md-12">
@@ -52,7 +56,6 @@
 								<th>Description</th>
 								<th>Labels</th>
 								<th>See results</th>
-								<th>Duplicate</th>
 								<th>Disable</th>
 								<th>Delete</th>
 							</tr>
@@ -68,9 +71,6 @@
 									<td><c:out value="${requestCollection.description}"></c:out></td>
 									<td><c:forEach items="${requestCollection.labels}" var="label">${label.name}, </c:forEach></td>
 									<td><a href=<c:url value="/results/requestCollections/${requestCollection.id}" />>results</a></td>
-									<td><a href=<c:url value="/tests/collections/newCollection?fromId=${requestCollection.id}" />>
-											<i class="fa fa-copy fa-lg"></i>
-									</a></td>
 									<td><input id=<c:out value="${requestCollection.id}" />
 										type="checkbox" name="disableSelect"></td>
 									<td><a id="${requestCollection.id}" class="removeInstance"><i class="fa fa-trash fa-lg"></i></a></td>

@@ -16,6 +16,16 @@ $(function() {
           emailAddress: {
             message: 'The value is not a valid email address'
           },
+          remote: {
+            url: 'account/isUsernameFree',
+            type: 'GET',
+            data: {
+              id: $('#id').val(),
+              username: $('#username').val()
+            },
+            delay: 1000,
+            message: 'User with same email already exists'
+          }
         }
       },
       password: {
@@ -25,7 +35,7 @@ $(function() {
           },
           stringLength: {
             min: 4,
-            max: 31,
+            max: 32,
             message: 'The password must be more than 4 and less than 32 characters long'
           }
         }

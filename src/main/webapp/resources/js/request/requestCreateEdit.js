@@ -79,10 +79,10 @@ $(function() {
     var state = inputState ? inputState : !obj.prop('checked');
     obj.closest('tr').find('.enableIfRandom').each(function() {
     	
-      if (!inputState && $(this).prop("type") == "text") {
-        console.log(state ? 'd' : 'a', this);
-        $('#request').bootstrapValidator(state ? 'removeField' : 'addField', $(this));
-      }
+//      if (!inputState && $(this).prop("type") == "text") {
+//        console.log(state ? 'd' : 'a', this);
+//        $('#request').bootstrapValidator(state ? 'removeField' : 'addField', $(this));
+//      }
       
       $(this).prop('disabled', state);
     });
@@ -95,10 +95,10 @@ $(function() {
       var row = $('#template').find('tr').eq($(this).prop('id')).clone();
       $(this).closest('.elementContainer').find('table').append(row);
 
-      row.find('input[type="text"]:not(:disabled)').each(function() {
-        console.log('a', this);
-        $('#request').bootstrapValidator('addField', $(this));
-      });
+//      row.find('input[type="text"]:not(:disabled)').each(function() {
+//        console.log('a', this);
+//        $('#request').bootstrapValidator('addField', $(this));
+//      });
 
       setVisibility($(this).closest('.elementContainer'));
     }
@@ -109,11 +109,12 @@ $(function() {
   function restrictIfEmpty(button) {
     var container = $(button).closest('.elementContainer');
     var count = 0;
-    container.find(':input[required]:visible:not(:disabled)').each(function() {
+    container.find(':input[type=text]:visible:not(:disabled)').each(function() {
       if (!$.trim($(this).val())) {
         count++;
       }
     });
+    console.log(count);
     return count > 0;
   }
 
@@ -133,87 +134,89 @@ $(function() {
   });
 
 //   manual submits form without bootstrap validaion
-//    $('#validate').click(function() {
-//      normalizeLists();
-//      $('#requests').submit();
-//    });
-
-  var validator = $('#request')
-    .bootstrapValidator({
-      message: 'This value is not valid',
-      excluded: [':disabled', ':hidden', ':not(:visible)'],
-      feedbackIcons: {
-        valid: 'glyphicon glyphicon-ok',
-        invalid: 'glyphicon glyphicon-remove',
-        validating: 'glyphicon glyphicon-refresh'
-      },
-      submitButtons: 'button[id="validate"]',
-      fields: {
-        name: {
-          validators: {
-            notEmpty: {
-              message: 'Request name cannot be empty'
-            },
-            remote: {
-              url: 'create/isRequestNameFree',
-              type: 'GET',
-              data: {
-                name: $('#name').val(),
-                exclusionId: $('#id').val()
-              },
-              delay: 1000,
-              message: 'Request with same name already exists'
-            },
-          }
-        },
-        description: {
-          validators: {
-            notEmpty: {
-              message: 'Description cannot be empty'
-            }
-          }
-        },
-        requestMethod: {
-          validators: {
-            notEmpty: {}
-          }
-        },
-        application: {
-          validators: {
-            notEmpty: {}
-          }
-        },
-        service: {
-          validators: {
-            notEmpty: {}
-          }
-        },
-        endpoint: {
-          validators: {
-            notEmpty: {}
-          }
-        },
-        responseType: {
-          validators: {
-            notEmpty: {}
-          }
-        },
-        timeout: {
-          validators: {
-            notEmpty: {},
-            integer: {},
-            greaterThan: {
-              value: 1
-            }
-          }
-        },
-      }
-    }).on('success.form.bv', function(e) {
-      var form = $(e.target),
-        bv = form.data('bootstrapValidator');
+    $('#validate').click(function() {
       normalizeLists();
-      bv.defaultSubmit();
+      $('#requests').submit();
     });
+
+    
+    // TODO Taras O. bootstrap validation
+//  var validator = $('#request')
+//    .bootstrapValidator({
+//      message: 'This value is not valid',
+//      excluded: [':disabled', ':hidden', ':not(:visible)'],
+//      feedbackIcons: {
+//        valid: 'glyphicon glyphicon-ok',
+//        invalid: 'glyphicon glyphicon-remove',
+//        validating: 'glyphicon glyphicon-refresh'
+//      },
+//      submitButtons: 'button[id="validate"]',
+//      fields: {
+//        name: {
+//          validators: {
+//            notEmpty: {
+//              message: 'Request name cannot be empty'
+//            },
+//            remote: {
+//              url: 'create/isRequestNameFree',
+//              type: 'GET',
+//              data: {
+//                name: $('#name').val(),
+//                exclusionId: $('#id').val()
+//              },
+//              delay: 1000,
+//              message: 'Request with same name already exists'
+//            },
+//          }
+//        },
+//        description: {
+//          validators: {
+//            notEmpty: {
+//              message: 'Description cannot be empty'
+//            }
+//          }
+//        },
+//        requestMethod: {
+//          validators: {
+//            notEmpty: {}
+//          }
+//        },
+//        application: {
+//          validators: {
+//            notEmpty: {}
+//          }
+//        },
+//        service: {
+//          validators: {
+//            notEmpty: {}
+//          }
+//        },
+//        endpoint: {
+//          validators: {
+//            notEmpty: {}
+//          }
+//        },
+//        responseType: {
+//          validators: {
+//            notEmpty: {}
+//          }
+//        },
+//        timeout: {
+//          validators: {
+//            notEmpty: {},
+//            integer: {},
+//            greaterThan: {
+//              value: 1
+//            }
+//          }
+//        },
+//      }
+//    }).on('success.form.bv', function(e) {
+//      var form = $(e.target),
+//        bv = form.data('bootstrapValidator');
+//      normalizeLists();
+//      bv.defaultSubmit();
+//    });
 
   // sets indexes in headers, variables or dbvalidations lists
   // should be invoked BEFORE FORM SUBMITING
