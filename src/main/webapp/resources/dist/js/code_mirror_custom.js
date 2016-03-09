@@ -27,13 +27,6 @@ window.onload = function() {
     orig1 = value.replace(/\.\.\//g, "codemirror/").replace("yellow", "orange");
     orig2 = value2.replace(/\.\.\//g, "codemirror/").replace("yellow", "orange");
     initUI();
-
-     /*value = document.getElementById("code1").textContent ;
-     //value = document.getElementById("code2").textContent ;
-     orig1 = "<!doctype html>\n\n" + value.replace(/\.\.\//g, "codemirror/").replace("yellow", "orange");
-     orig2 = nullvalue.replace(/\u003cscript/g, "\u003cscript type=text/javascript ")
-     .replace("white", "purple;\n      font: comic sans;\n      text-decoration: underline;\n      height: 15em");
-     initUI();*/
 };
 
 function mergeViewHeight(mergeView) {
