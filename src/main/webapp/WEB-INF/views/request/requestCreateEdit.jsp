@@ -253,6 +253,7 @@
         </div>
 
         <div class="row">
+          <button class="btn btn-default btn-lg" onclick="window.history.back();">Back</button>
           <button id="reset" class="btn btn-danger btn-lg">Reset</button>
           <button id="clean" class="btn btn-warning btn-lg">Clean all</button>
           <button id="validate" class="btn btn-success btn-lg">Save</button>
