@@ -4,46 +4,26 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Environment View</title>
-<!-- Bootstrap Core CSS -->
-    <link href=<c:url value="/resources/bower_components/bootstrap/dist/css/bootstrap.min.css" /> rel="stylesheet">
+	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+	<title>Environment <c:out value="${pageTask}" /></title>
+	<link href=<c:url value="/resources/bower_components/bootstrap/dist/css/bootstrap.min.css" /> rel="stylesheet">
 
-    <!-- MetisMenu CSS -->
-    <link href=<c:url value="/resources/bower_components/metisMenu/dist/metisMenu.min.css" /> rel="stylesheet">
+  	<link href=<c:url value="/resources/dist/css/sb-admin-2.css" /> rel="stylesheet" />
 
-    <!-- DataTables CSS -->
-    <link href=<c:url value="/resources/bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.css" /> rel="stylesheet">
+  	<link href=<c:url value="/resources/dist/css/select2.min.css" /> rel="stylesheet" />
+	
+  	<link href=<c:url value="/resources/dist/css/select2-bootstrap.css" /> rel="stylesheet" />
 
-    <!-- DataTables Responsive CSS -->
-    <link href=<c:url value="/resources/bower_components/datatables-responsive/css/responsive.dataTables.css" /> rel="stylesheet">
-
-    <!-- Custom CSS -->
-    <link href=<c:url value="/resources/dist/css/sb-admin-2.css" /> rel="stylesheet">
-
-    <!-- Custom Fonts -->
-    <link href=<c:url value="/resources/bower_components/font-awesome/css/font-awesome.min.css" /> rel="stylesheet" type="text/css">
+  	<link href=<c:url value="/resources/bower_components/font-awesome/css/font-awesome.min.css" /> rel="stylesheet" >
 
 </head>
 <body>
     <div class="container">
     <div class="row">
         <div class="col-sm-offset-2 col-sm-10">
-        	<c:choose>
-				<c:when test="${environment.getId() == 0}">
-					<h1 class="page-header">Create environment</h1>
-					<!-- <c:set var="methodType" value="POST"/> -->					
-				</c:when>
-				<c:otherwise>
-					<h1 class="page-header">Update environment</h1>
-					<!-- <c:set var="methodType" value="PUT"/>-->
-				</c:otherwise>
-			</c:choose>
-        </div>
-                <!-- /.col-sm-12 -->
+        	<h1 class="page-header"><c:out value="${pageTask}" /> environment</h1>
+		</div>
     </div>
-    
-    <!-- <c:url value="/environment" var="environmentActionUrl" /> -->
     
     <form:form class="form-horizontal" role="form" method="POST" modelAttribute="environment" action="">
         <form:hidden path="id" />
@@ -60,7 +40,7 @@
                 <p class="text-left">Base URL</p>
             </label>
             <div class="col-sm-4">
-                <form:input path="baseUrl" type="url" class="form-control" id="baseUrl" placeholder="Base URL"/>
+                <form:input path="baseUrl" type="text" class="form-control" id="baseUrl" placeholder="Base URL"/>
             </div>
         </div>
         <div class="form-group">
@@ -68,7 +48,7 @@
                 <p class="text-left">Database URL</p>
             </label>
             <div class="col-sm-4">
-                <form:input path="dbUrl" type="url" class="form-control" id="dbUrl" placeholder="Database URL"/>
+                <form:input path="dbUrl" type="text" class="form-control" id="dbUrl" placeholder="Database URL"/>
             </div>
         </div>
         <div class="form-group">
@@ -76,7 +56,7 @@
                 <p class="text-left">Database port</p>
             </label>
             <div class="col-sm-4">
-                <form:input path="dbPort" type="number" class="form-control" id="dbPort" placeholder="Database URL" />
+                <form:input path="dbPort" type="number" class="form-control" id="dbPort" placeholder="Database Port" />
             </div>
         </div>
         <div class="form-group">
@@ -100,7 +80,7 @@
                 <p class="text-left">Database password</p>
             </label>
             <div class="col-sm-4">
-                <form:input path="dbPassword" type="password" class="form-control" id="dbPassword" placeholder="Database password" />
+                <form:input path="dbPassword" type="text" class="form-control" id="dbPassword" placeholder="Database password" />
             </div>
         </div>
         <div class="form-group">
@@ -111,47 +91,26 @@
                 <form:input path="timeMultiplier" type="number" step="any" class="form-control" id="timeMultiplier" placeholder="2" />
             </div>
         </div>
-        <c:choose>
-			<c:when test="${environment.getId() == 0}">
-				<div class="form-group">
-           			<div class="col-sm-offset-2 col-sm-10">
-               			<button type="submit" class="btn btn-success">Create</button>
-           			</div>
-        		</div>
-			</c:when>
-			<c:otherwise>
-				<div class="form-group">
-           			<div class="col-sm-offset-2 col-sm-10">
-               			<button type="submit" class="btn btn-success">Update</button>
-           			</div>
-        		</div>
-			</c:otherwise>
-		</c:choose>
+       	<div class="form-group">
+       		<div class="col-sm-offset-2 col-sm-1">
+       			<button type="submit" class="btn btn-success"><c:out value="${pageTask}" /></button>
+       		</div>
+       		<c:url value="/environments/create" var="environmentCreate" />
+       		<c:url value="/environments" var="environments" />
+       		<div class="col-sm-1">
+       			<button type="reset" class="btn btn-warning" onclick="location.href='${environmentCreate}'">Reset</button>
+       		</div>
+       		<div class="col-sm-4">
+       			<button type="button" class="btn btn-danger" onclick="location.href='${environments}'">Back</button>
+       		</div>
+       	</div>
+	
     </form:form>
 
-	<!-- jQuery -->
-    <script src="/resources/bower_components/jquery/dist/jquery.min.js"></script>
+  <script src=<c:url value="/resources/bower_components/jquery/dist/jquery.min.js" />></script>
 
-    <!-- Bootstrap Core JavaScript -->
-    <script src="/resources/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+  <script src=<c:url value="/resources/bower_components/bootstrap/dist/js/bootstrap.min.js" />></script>
 
-    <!-- Metis Menu Plugin JavaScript -->
-    <script src="/resources/bower_components/metisMenu/dist/metisMenu.min.js"></script>
-
-    <!-- DataTables JavaScript -->
-    <script src="/resources/bower_components/datatables/media/js/jquery.dataTables.min.js"></script>
-    <script src="/resources/bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.min.js"></script>
-
-    <!-- Custom Theme JavaScript -->
-    <script src="dist/js/sb-admin-2.js"></script>
-
-    <!-- Page-Level Demo Scripts - Tables - Use for reference 
-    <script>
-    $(document).ready(function() {
-        $('#dataTables-example').DataTable({
-                responsive: true
-        });
-    });
-    </script> -->      
+  <script src=<c:url value="/resources/dist/js/select2.min.js" />></script>
 </body>
 </html>

@@ -1,5 +1,6 @@
 package com.softserve.webtester.mapper;
 
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Result;
 import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.Select;
@@ -26,13 +27,12 @@ public interface UserMapper {
      */
     @Select("SELECT id, username, password, firstName, lastName FROM User WHERE id = #{userId}")
     @Results({ @Result(id = true, property = "id", column = "id", jdbcType = JdbcType.INTEGER),
-	       @Result(property = "username", column = "username", jdbcType = JdbcType.VARCHAR),
-	       @Result(property = "password", column = "password", jdbcType = JdbcType.VARCHAR),
-	       @Result(property = "firstName", column = "firstName", jdbcType = JdbcType.VARCHAR),
-	       @Result(property = "lastName", column = "lastName", jdbcType = JdbcType.VARCHAR)
-    })
+               @Result(property = "username", column = "username", jdbcType = JdbcType.VARCHAR),
+               @Result(property = "password", column = "password", jdbcType = JdbcType.VARCHAR),
+               @Result(property = "firstName", column = "firstName", jdbcType = JdbcType.VARCHAR),
+               @Result(property = "lastName", column = "lastName", jdbcType = JdbcType.VARCHAR) })
     User load(String userId);
-    
+
     /**
      * Updates {@link User} instance in the database.
      * 
@@ -41,7 +41,17 @@ public interface UserMapper {
      * @throws DataAccessException
      */
     @Update("UPDATE User SET username = #{username}, password = #{password}, firstName = #{firstName}, "
-    	    + "lastName = #{lastName} WHERE id = #{id}")
+            + "lastName = #{lastName} WHERE id = #{id}")
     int update(User user);
-    
+
+    /**
+     * Checks the unique of user's username.
+     * 
+     * @param id id of {@link User} should be excluded
+     * @param username username of {@link User} should be checked
+     * @return true, if username is unique
+     */
+    @Select("SELECT IF(count(*) > 0, false, true) FROM User WHERE username = #{username} AND id != #{id}")
+    boolean isUserNameFree(@Param("id") int id, @Param("username") String username);
+
 }

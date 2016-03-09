@@ -23,7 +23,7 @@ import com.softserve.webtester.model.VariableDataTypeHandler;
  */
 @Repository
 public interface VariableMapper {
-    
+
     /**
      * Saves {@link Variable} instance to database.
      * 
@@ -32,10 +32,10 @@ public interface VariableMapper {
      * @throws DataAccessException
      */
     @Insert("INSERT INTO Variable(name, value, isSql, isRandom, dataType, length, requestId) "
-	    + "VALUES(#{name}, #{value}, #{isSql}, #{isRandom}, #{dataType}, #{length}, #{request.id})")
+            + "VALUES(#{name}, #{value}, #{sql}, #{random}, #{dataType}, #{length}, #{request.id})")
     @Options(useGeneratedKeys = true, keyProperty = "id")
     int save(Variable variable);
-    
+
     /**
      * Saves {@link Variable} instances for the Request in the database.
      * 
@@ -44,12 +44,12 @@ public interface VariableMapper {
      * @throws DataAccessException
      */
     @Insert("<script>INSERT INTO Variable(name, value, isSql, isRandom, dataType, length, requestId) VALUES "
-	    + "<foreach collection='variables' item='variable' separator=','> "
-	    + "(#{variable.name}, #{variable.value}, #{variable.isSql}, #{variable.isRandom}, "
-	    + "#{variable.dataType}, #{variable.length}, #{id}) "
-	    + "</foreach></script>")
+            + "<foreach collection='variables' item='variable' separator=','> "
+            + "(#{variable.name}, #{variable.value}, #{variable.sql}, #{variable.random}, "
+            + "#{variable.dataType}, #{variable.length}, #{id}) " 
+            + "</foreach></script>")
     int saveByRequest(Request request);
-    
+
     /**
      * Loads {@link Variable} instance from database by its identifier.
      * 
@@ -59,15 +59,14 @@ public interface VariableMapper {
      */
     @Select("SELECT id, name, value, isSql, isRandom, dataType, length FROM Variable WHERE id = #{id}")
     @Results({ @Result(id = true, property = "id", column = "id", jdbcType = JdbcType.INTEGER),
-	       @Result(property = "name", column = "name", jdbcType = JdbcType.VARCHAR),
-	       @Result(property = "value", column = "value", jdbcType = JdbcType.LONGVARCHAR),
-	       @Result(property = "isSql", column = "isSql", jdbcType = JdbcType.BIT),
-	       @Result(property = "isRandom", column = "isRandom", jdbcType = JdbcType.BIT),
-	       @Result(property = "dataType", column = "dataType", typeHandler = VariableDataTypeHandler.class),
-	       @Result(property = "length", column = "length", jdbcType = JdbcType.INTEGER),
-    })
+               @Result(property = "name", column = "name", jdbcType = JdbcType.VARCHAR),
+               @Result(property = "value", column = "value", jdbcType = JdbcType.LONGVARCHAR),
+               @Result(property = "sql", column = "isSql", jdbcType = JdbcType.BIT),
+               @Result(property = "random", column = "isRandom", jdbcType = JdbcType.BIT),
+               @Result(property = "dataType", column = "dataType", typeHandler = VariableDataTypeHandler.class),
+               @Result(property = "length", column = "length", jdbcType = JdbcType.INTEGER) })
     Variable load(int id);
-    
+
     /**
      * Loads all {@link Variable} instances for the Request from the database.
      * 
@@ -77,15 +76,14 @@ public interface VariableMapper {
      */
     @Select("SELECT id, name, value, isSql, isRandom, dataType, length FROM Variable WHERE requestId = #{id}")
     @Results({ @Result(id = true, property = "id", column = "id", jdbcType = JdbcType.INTEGER),
-	       @Result(property = "name", column = "name", jdbcType = JdbcType.VARCHAR),
-	       @Result(property = "value", column = "value", jdbcType = JdbcType.LONGVARCHAR),
-	       @Result(property = "isSql", column = "isSql", jdbcType = JdbcType.BIT),
-	       @Result(property = "isRandom", column = "isRandom", jdbcType = JdbcType.BIT),
-	       @Result(property = "dataType", column = "dataType", typeHandler = VariableDataTypeHandler.class),
-	       @Result(property = "length", column = "length", jdbcType = JdbcType.INTEGER),
-    })
+               @Result(property = "name", column = "name", jdbcType = JdbcType.VARCHAR),
+               @Result(property = "value", column = "value", jdbcType = JdbcType.LONGVARCHAR),
+               @Result(property = "sql", column = "isSql", jdbcType = JdbcType.BIT),
+               @Result(property = "random", column = "isRandom", jdbcType = JdbcType.BIT),
+               @Result(property = "dataType", column = "dataType", typeHandler = VariableDataTypeHandler.class),
+               @Result(property = "length", column = "length", jdbcType = JdbcType.INTEGER) })
     List<Variable> loadByRequestId(int id);
-    
+
     /**
      * Updates {@link Variable} instance in the database.
      * 
@@ -93,11 +91,11 @@ public interface VariableMapper {
      * @return number of rows affected by the statement
      * @throws DataAccessException
      */
-    @Update("UPDATE Variable SET name = #{name}, value = #{value}, " 
-	    + "isSql = #{isSql}, isRandom = #{isRandom}, dataType = #{dataType}, " 
-	    + "length = #{length}, requestId = #{request.id} WHERE id = #{id}")
+    @Update("UPDATE Variable SET name = #{name}, value = #{value}, "
+            + "isSql = #{sql}, isRandom = #{random}, dataType = #{dataType}, "
+            + "length = #{length}, requestId = #{request.id} WHERE id = #{id}")
     int update(Variable variable);
-    
+
     /**
      * Deletes {@link Variable} instance from the database.
      * 
@@ -107,15 +105,15 @@ public interface VariableMapper {
      */
     @Delete("DELETE FROM Variable WHERE id = #{id}")
     int delete(int id);
-    
+
     /**
      * Deletes {@link Variable} instances from the database.
      * 
-     * @param id identifier of {@link Request} instance , whose variables should be deleted
+     * @param id identifier of {@link Request} instance, whose variables should be deleted
      * @return number of rows affected by the statement
      * @throws DataAccessException
      */
     @Delete("DELETE FROM Variable WHERE requestId = #{id}")
     int deleteByRequestId(int id);
-    
+
 }

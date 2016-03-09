@@ -22,16 +22,16 @@ public class LabelEditor extends CustomCollectionEditor {
     private MetaDataService metaDataService;
 
     public LabelEditor() {
-	super(List.class);
+        super(List.class);
     }
 
     @Override
     protected Label convertElement(Object element) {
-	if (element != null) {
-	    int id = Integer.parseInt(element.toString());
-	    Label label = metaDataService.loadLabelById(id);
-	    return label;
-	}
-	return null;
+        if (element != null) {
+            int id = Integer.parseInt(element.toString());
+            Label label = metaDataService.loadLabelById(id);
+            return label;
+        }
+        return null;
     }
 }

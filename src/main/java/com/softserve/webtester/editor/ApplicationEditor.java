@@ -23,7 +23,7 @@ public class ApplicationEditor extends PropertyEditorSupport {
 
     @Override
     public void setAsText(String text) throws IllegalArgumentException {
-	Application instance = metaDataService.applicationLoad(Integer.parseInt(text));
-	this.setValue(instance);
+        Application instance = metaDataService.applicationLoad(Integer.parseInt(text));
+        this.setValue(instance);
     }
 }

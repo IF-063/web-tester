@@ -10,11 +10,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Requests</title>
 
-  <!-- Bootstrap Core CSS -->
   <link href=<c:url value="/resources/bower_components/bootstrap/dist/css/bootstrap.min.css" /> rel="stylesheet">
 
-  <!-- Custom CSS -->
-  <link href=<c:url value="/resources/dist/css/sb-admin-2.css" /> rel="stylesheet">
+  <link href=<c:url value="/resources/dist/css/sb-admin-2.css" /> rel="stylesheet" />
 
   <link href=<c:url value="/resources/dist/css/select2.min.css" /> rel="stylesheet" />
 
@@ -29,6 +27,20 @@
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
 
+
+  <script>
+    var contextPath = "${pageContext.request.contextPath}"
+  </script>
+
+  <script src=<c:url value="/resources/bower_components/jquery/dist/jquery.min.js" />></script>
+
+  <script src=<c:url value="/resources/bower_components/bootstrap/dist/js/bootstrap.min.js" />></script>
+
+  <script src=<c:url value="/resources/dist/js/select2.min.js" />></script>
+
+  <!-- Main page script -->
+  <script src=<c:url value="/resources/js/request/requests.js" />></script>
+  
 </head>
 
 <body>
@@ -38,63 +50,69 @@
       <div class="col-md-12">
         <div class="panel panel-default">
           <div class="panel-heading">
-          <!--   <label for="requestsTable">Requests</label> -->
-            <a href=<c:url value="/tests/requests/create" /> class="btn btn-success">Create</a>
-            <button id="runAll" class="btn btn-info">Run all</button>
-            <button id="runSelected" class="btn btn-info">Run selected</button>
-            <button id="deleteSelected" class="btn btn-danger">Delete selected</button>
-            <form>
-            <fieldset>
-              <legend>Filters</legend>
-              <div class="col-md-3">
-                <!-- <label for="applicationFilter">applicationFilter</label> -->
-                <select id="applicationFilter" name="applicationFilter" class="form-control input-md select2-multiple" 
-                  multiple="multiple" data-placeholder="application filters">
-				  <c:forEach items="${applications}" var="application">
-					<option value="${application.id}"><c:out value="${application.name}" /></option>
-				  </c:forEach>
-			    </select>
+            <form:form modelAttribute="requestFilterDTO" method="GET">
+              <fieldset>
+                <!--  <legend>Filters</legend> -->
+
+                  <div class="col-md-2">
+                    <label for="requestNameFilter" class="control-label">Request name</label>
+                    <form:input type="text" path="requestNameFilter" class="form-control" 
+                      placeholder="name starts with" />
+                  </div>
+
+                  <div class="col-md-2">
+                    <label for="applicationFilter" class="control-label">Applications</label>
+                    <form:select path="applicationFilter" items="${applications}" class="form-control select2-multiple" 
+                      multiple="multiple" data-placeholder="applications" itemLabel="name" itemValue="id" />
+                  </div>
+
+                  <div class="col-md-2">
+                    <label for="serviceFilter" class="control-label">Service</label>
+                     <form:select path="serviceFilter" items="${services}" class="form-control select2-multiple" 
+                      multiple="multiple" data-placeholder="services" itemLabel="name" itemValue="id" />
+                  </div>
+
+                  <div class="col-md-2">
+                    <label for="labelFilter" class="control-label">Labels</label>
+                    <form:select path="labelFilter" items="${labels}" class="form-control select2-multiple" 
+                      multiple="multiple" data-placeholder="labels" itemLabel="name" itemValue="id" />
+                  </div>
+                 
+                  <div class="col-md-4">
+                    <label>Actions</label>
+                    <div>
+                      <a href=<c:url value="/tests/requests/" /> class="btn btn-default">Reset</a>
+                      <input type="submit" class="btn btn-success" value="Filter" />
+                    </div>
+                  </div>
+
+              </fieldset>
+
+            </form:form>
+           <h4>Requests</h4>
+            <div class="row">
+              <div class="col-md-12">
+                <a href=<c:url value="/tests/requests/create" /> class="btn btn-success">Create</a>
+                <button id="runAll" class="btn btn-info">Run all</button>
+                <button id="runSelected" class="btn btn-info">Run selected</button>
+                <button id="deleteSelected" class="btn btn-default">Delete selected</button>
               </div>
-              <div class="col-md-3">
-                <!-- <label for="serviceFilter">serviceFilter</label> -->
-                <select id="serviceFilter" name="serviceFilter" class="form-control input-md select2-multiple" 
-                  multiple="multiple"  data-placeholder="service filters">
-                    <c:forEach items="${services}" var="service">
-                      <option value="${service.id}"><c:out value="${service.name}" /></option>
-                    </c:forEach>
-                  </select>
-              </div>
-              <div class="col-md-3">
-                <!-- <label for="labelFilter">labelFilter</label> -->
-                <select id="labelFilter" name="labelFilter" class="form-control input-md select2-multiple" 
-                  multiple="multiple" data-placeholder="label filters">
-                    <c:forEach items="${labels}" var="label">
-                      <option value="${label.id}"><c:out value="${label.name}" /></option>
-                    </c:forEach>
-                  </select>
-              </div>
-              <div class="col-md-3">
-                <button id="resetFilters" class="btn btn-default">Reset</button>
-                <input type="submit" class="btn btn-success" value="Filter" />
-              </div>
-            </fieldset>
-           
-            </form>
-           </div>
+            </div>
+          </div>
           <div class="table-responsive">
             <table class="table table-hover table-bordered table-condensed text-center panel-body" id="requests">
               <thead>
                 <tr>
-                  <th width="30px"><input id="selectAll" type="checkbox" title="Select all"></th>
+                  <th><input id="selectAll" type="checkbox" title="Select all"></th>
                   <th>Name</th>
                   <th>Application</th>
                   <th>Service</th>
                   <th>Endpoint</th>
-                  <th width="45px">Run</th>
-                  <th width="90px">See results</th>
-                  <th width="80px">Duplicate</th>
-                  <th width="70px">Disable</th>
-                  <th width="60px">Delete</th>
+                  <th>Run</th>
+                  <th>See results</th>
+                  <th>Duplicate</th>
+                  <th>Disable</th>
+                  <th>Delete</th>
                 </tr>
               </thead>
               <tbody>
@@ -159,16 +177,6 @@
       </div>
     </div>
   </div>
-
-
-  <script src=<c:url value="/resources/bower_components/jquery/dist/jquery.min.js" />></script>
-
-  <script src=<c:url value="/resources/bower_components/bootstrap/dist/js/bootstrap.min.js" />></script>
-
-  <script src=<c:url value="/resources/dist/js/select2.min.js" />></script>
-
-  <!-- Main page script -->
-  <script src=<c:url value="/resources/js/requests.js" />></script>
 
 </body>
 
