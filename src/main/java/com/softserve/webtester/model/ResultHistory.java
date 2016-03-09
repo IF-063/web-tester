@@ -2,7 +2,6 @@ package com.softserve.webtester.model;
 
 import java.io.Serializable;
 import java.util.List;
-import javax.xml.ws.Service;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -24,7 +23,8 @@ public class ResultHistory implements Serializable {
     private String requestName;
     private String requestDescription;
     private String url;
-    private ResponseType responseType;
+    private String responseType;
+    //private ResponseType responseType;
     private String requestBody;
     private String statusLine;
     private String timeStart;
@@ -44,9 +44,9 @@ public class ResultHistory implements Serializable {
     }
 
     public ResultHistory(int id, String status, Application application, Service service, Request request,
-                         String requestName, String requestDescription, String url, ResponseType responseType,
-                         String requestBody, String statusLine, String timeStart, int expectedResponseTime, int responseTime,
-                         String expectedResponse, String actualResponse, String message, int runId,
+                         String requestName, String requestDescription, String url, String responseType,
+                         String requestBody, String statusLine, String timeStart, int expectedResponseTime,
+                         int responseTime, String expectedResponse, String actualResponse, String message, int runId,
                          RequestCollection requestCollection, BuildVersion buildVersion, List<Label> labels,
                          List<HeaderHistory> headerHistories, List<DBValidationHistory> dbValidationHistories) {
         this.id = id;
@@ -138,11 +138,11 @@ public class ResultHistory implements Serializable {
         this.url = url;
     }
 
-    public ResponseType getResponseType() {
+    public String getResponseType() {
         return responseType;
     }
 
-    public void setResponseType(ResponseType responseType) {
+    public void setResponseType(String responseType) {
         this.responseType = responseType;
     }
 

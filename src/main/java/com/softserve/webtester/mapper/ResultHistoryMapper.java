@@ -24,7 +24,7 @@ public interface ResultHistoryMapper {
     int save(ResultHistory resultHistory);
 
     @Select("SELECT id, status, applicationId, serviceId, requestId, requestName, requestDescription, url," +
-            "expectedResponseType, requestBody, statusLine, timeStart, expectedResponseTime, responseTime," +
+            "responseType, requestBody, statusLine, timeStart, expectedResponseTime, responseTime," +
             "expectedResponse, actualResponse, message, runId, requestCollectionId, buildVersionId " +
             "FROM ResultHistory WHERE id = #{id}")
     @Results({
@@ -39,7 +39,8 @@ public interface ResultHistoryMapper {
             @Result(property = "requestName", column = "requestName", jdbcType = JdbcType.VARCHAR),
             @Result(property = "requestDescription", column = "requestDescription", jdbcType = JdbcType.VARCHAR),
             @Result(property = "url", column = "url", jdbcType = JdbcType.VARCHAR),
-            @Result(property = "responseType", column = "responseType", typeHandler = ResponseTypeHandler.class),
+            @Result(property = "responseType", column = "responseType", jdbcType = JdbcType.VARCHAR),
+
             @Result(property = "requestBody", column = "requestBody", jdbcType = JdbcType.LONGVARCHAR),
             @Result(property = "statusLine", column = "statusLine", jdbcType = JdbcType.LONGVARCHAR),
             @Result(property = "timeStart", column = "timeStart", jdbcType = JdbcType.TIMESTAMP),
@@ -60,7 +61,7 @@ public interface ResultHistoryMapper {
             @Result(property = "dbValidationHistories", column = "id",
                     many = @Many(select = "com.softserve.webtester.mapper.DbValidationHistory.loadByResultHistoryId"))
     })
-    ResultHistory load(int id);
+    ResultHistory loadById(int id);
 
     @Select("SELECT id, status, applicationId, serviceId, requestName, message, requestDescription, timeStart " +
             "FROM ResultHistory")
@@ -74,12 +75,15 @@ public interface ResultHistoryMapper {
             @Result(property = "requestName", column = "requestName", jdbcType = JdbcType.VARCHAR),
             @Result(property = "message", column = "message", jdbcType = JdbcType.LONGVARCHAR),
             @Result(property = "requestDescription", column = "requestDescription", jdbcType = JdbcType.VARCHAR),
-            @Result(property = "timeStart", column = "timeStart", jdbcType = JdbcType.VARCHAR)
+            @Result(property = "timeStart", column = "timeStart", jdbcType = JdbcType.TIMESTAMP)
     })
     List<ResultHistory> loadAll();
 
     @Delete("DELETE FROM ResultHistory WHERE id = #{id}")
     int detele(int id);
+
+    @Delete("DELETE FROM ResultHistory")
+    int deteleAll();
 }
 
 
