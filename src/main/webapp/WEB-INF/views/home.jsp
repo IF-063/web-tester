@@ -23,6 +23,9 @@
   <p>
     <a href=<c:url value="/tests/requests" />>/tests/requests</a>
   </p>
+  <p>
+    <a href=<c:url value="/metadata/labels" />>/metadata/labels</a>
+  </p>
 </body>
 
 </html>
