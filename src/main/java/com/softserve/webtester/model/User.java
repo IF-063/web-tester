@@ -23,10 +23,10 @@ public class User implements Serializable {
     private int id;
 
     @Email
-    @NotBlank(message = "email cannot be empty")
+    @NotBlank
     private String username;
 
-    @NotBlank(message = "password cannot be empty")
+    @NotBlank
     @Size(min = 4, max = 32)
     private String password;
 

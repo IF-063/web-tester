@@ -19,10 +19,10 @@ public class Header implements Serializable {
 
     private int id;
 
-    @NotBlank(message = "header name cannot be empty")
+    @NotBlank
     private String name;
 
-    @NotBlank(message = "header value cannot be empty")
+    @NotBlank
     private String value;
     private Request request;
 

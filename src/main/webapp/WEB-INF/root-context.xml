@@ -19,5 +19,9 @@
 	<bean id="requestCollectionNameCountPattern" class="java.util.regex.Pattern" factory-method="compile">
 		<constructor-arg value="_[0-9]\d*$" />
 	</bean>
+	
+	<bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+        <property name="basename" value="classpath:validationMessage" />
+    </bean>
 
 </beans>

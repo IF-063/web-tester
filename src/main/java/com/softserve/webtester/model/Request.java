@@ -24,21 +24,24 @@ public class Request implements Serializable {
 
     private int id;
 
-    @NotBlank(message = "Request name cannot be empty")
+    @NotBlank
     private String name;
 
-    @NotBlank(message = "Request description cannot be empty")
+    @NotBlank
     private String description;
 
+    @NotNull
     private RequestMethod requestMethod;
 
+    @NotNull
     private Application application;
 
+    @NotNull
     private Service service;
 
     private List<Label> labels;
 
-    @NotBlank(message = "Endpoint cannot be empty")
+    @NotBlank
     private String endpoint;
 
     @Valid
@@ -49,7 +52,7 @@ public class Request implements Serializable {
     @NotNull
     private ResponseType responseType;
 
-    @NotBlank(message = "Expected response endpoint cannot be empty")
+    @NotBlank
     private String expectedResponse;
 
     @Min(1)

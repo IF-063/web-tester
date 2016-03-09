@@ -38,7 +38,7 @@ public class RequestValidator implements Validator {
     public void validate(Object target, Errors errors) {
         Request request = (Request) target;
         if (!requestService.isRequestNameFree(request.getName(), request.getId())) {
-            errors.rejectValue("name", null, "name should be unique");
+            errors.rejectValue("name", "NotUnique.request.name", "Name should be unique");
         }
 
         List<Variable> variables = request.getVariables();
