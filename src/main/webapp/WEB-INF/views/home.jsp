@@ -26,6 +26,9 @@
 <p>
     <a href=<c:url value="/tests/collections" />>/tests/collections</a>
 </p>
+<p>
+    <a href=<c:url value="/environments" />>/environments</a>
+</p>
 </body>
 
 </html>
