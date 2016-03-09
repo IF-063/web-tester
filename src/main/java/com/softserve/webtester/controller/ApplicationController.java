@@ -20,7 +20,7 @@ import com.softserve.webtester.service.MetaDataService;
  * ApplicationController class represents {@code Application} MVC Controller
  *
  * @author Roman Zolotar
- * @version 1.0
+ * @version 1.1
  */
 
 @Controller
@@ -40,14 +40,16 @@ public class ApplicationController {
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public String getApplication(@PathVariable(value = "id") Integer applicationId, Model model) {
 		Application application = metaDataService.applicationLoad(applicationId);
-		model.addAttribute("title", "Update Application");
+		//model.addAttribute("title", "Update Application");
+		model.addAttribute("isUpdate", "true");
 		model.addAttribute("application", application);
 		return "application/update";
 	}
 
 	@RequestMapping(value = "/create", method = RequestMethod.GET)
 	public String createApplication(Model model) {
-		model.addAttribute("title", "Create Application");
+		//model.addAttribute("title", "Create Application");
+		model.addAttribute("isUpdate", "false");
 		model.addAttribute("application", new Application());
 		return "application/update";
 	}
@@ -56,7 +58,8 @@ public class ApplicationController {
 	public String saveCreatedApplication(@Valid @ModelAttribute("application") Application application,
 			BindingResult result, Model model) {
 		if (result.hasErrors()) {
-			model.addAttribute("title", "Create Application");
+			//model.addAttribute("title", "Create Application");
+			model.addAttribute("isUpdate", "false");
 			return "application/update";
 		}
 		metaDataService.applicationSave(application);
@@ -67,7 +70,8 @@ public class ApplicationController {
 	public String saveUpdatedApplication(@Valid @ModelAttribute("application") Application application,
 			BindingResult result, Model model) {
 		if (result.hasErrors()) {
-			model.addAttribute("title", "Update Application");
+			//model.addAttribute("title", "Update Application");
+			model.addAttribute("isUpdate", "true");
 			return "application/update";
 		}
 		metaDataService.applicationUpdate(application);

@@ -5,6 +5,9 @@
 <html>
 
 <head>
+<c:set var="title" value="Create page"/>
+<c:if test="${isUpdate}"><c:set var="title" value="Update page"/></c:if>
+
 	<title>${title}</title>
 	
 	<!-- Bootstrap Core CSS -->
