@@ -1,17 +1,16 @@
 package com.softserve.webtester.controller;
 
+import com.softserve.webtester.model.Application;
 import com.softserve.webtester.model.ResultHistory;
 import com.softserve.webtester.service.ResultHistoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -50,13 +49,10 @@ public class ResultHistoryController {
     }
 
     @RequestMapping(value = "/remove_selected", method = RequestMethod.POST)
-    public String removeSelectedResults(HttpServletRequest request){
+    public String removeSelectedResults(@RequestParam List<Integer> ids){
 
-        String[] ids = request.getParameterValues("id");
-        for(String str:ids) {
-            int i = Integer.parseInt(str);
-            System.out.println(i);
-            resultHistoryService.delete(i);
+        for(Integer id:ids) {
+            resultHistoryService.delete(id);
         }
         System.out.println("Selected results deleted");
         return "redirect:/results";
@@ -73,10 +69,7 @@ public class ResultHistoryController {
     @RequestMapping("/show/{id}")
     public String showResult(@PathVariable("id") int id, Model model){
 
-
-        System.out.println("BEFORE LOAD_BY_ID");
         ResultHistory result = resultHistoryService.loadById(id);
-        System.out.println("AFTER LOAD_BY_ID");
         model.addAttribute("result",result);
         return "result_detailed";
     }
