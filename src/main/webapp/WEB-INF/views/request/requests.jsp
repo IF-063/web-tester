@@ -13,7 +13,7 @@
         <div class="panel-heading">
           <form:form modelAttribute="requestFilterDTO" method="GET">
             <fieldset>
-              <!--  <legend>Filters</legend> -->
+              <h4>Filters</h4>
 
               <div class="col-md-2">
                 <label for="requestNameFilter" class="control-label">Request name</label>

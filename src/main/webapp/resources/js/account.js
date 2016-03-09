@@ -7,6 +7,7 @@ $(function() {
       invalid: 'glyphicon glyphicon-remove',
       validating: 'glyphicon glyphicon-refresh'
     },
+    submitButtons: 'button[id="validate"]',
     fields: {
       username: {
         validators: {
@@ -42,9 +43,8 @@ $(function() {
       },
     }
   }).on('success.form.bv', function(e) {
-    // e.preventDefault();
     var form = $(e.target),
-      bv = form.data('bootstrapValidator');
+    bv = form.data('bootstrapValidator');
     bv.defaultSubmit();
   });
 

@@ -12,10 +12,9 @@
         <form:hidden path="id" />
 
         <div class="form-group">
-          <c:if test="${not empty success}">
+          <c:if test="${not empty param.success}">
             <div class="alert alert-success col-md-4 col-md-offset-4">
-              <strong>Success!</strong>
-              <c:out value="${success}" />
+              <strong>Success!</strong> Account has been successfully updated!
             </div>
           </c:if>
         </div>
