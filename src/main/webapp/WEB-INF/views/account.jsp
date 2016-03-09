@@ -2,10 +2,14 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
+<link href="<c:url value="/resources/dist/css/bootstrapValidator.min.css" />" rel="stylesheet" />
+
 <!-- <div class="container"> -->
   <div class="row">
     <form:form action="" method="POST" modelAttribute="user" class="form-horizontal" role="form">
       <fieldset>
+      
+        <form:hidden path="id" />
 
         <div class="form-group">
           <c:if test="${not empty success}">
