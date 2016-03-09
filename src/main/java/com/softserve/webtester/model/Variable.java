@@ -19,10 +19,10 @@ public class Variable implements Serializable {
 
     private int id;
 
-    @NotBlank(message = "Variable name cannot be empty")
+    @NotBlank
     private String name;
 
-    @NotBlank(message = "Variable value cannot be empty")
+    @NotBlank
     private String value;
     private boolean sql;
     private boolean random;

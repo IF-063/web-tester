@@ -19,10 +19,10 @@ public class DbValidation implements Serializable {
 
     private int id;
 
-    @NotBlank(message = "dbValidation sqlQuery cannot be empty")
+    @NotBlank
     private String sqlQuery;
 
-    @NotBlank(message = "dbValidation expectedValue cannot be empty")
+    @NotBlank
     private String expectedValue;
     private Request request;
 
