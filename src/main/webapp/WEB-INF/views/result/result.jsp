@@ -70,10 +70,13 @@
     </div>
   </div>
 </div>
-<script src="/resources/dist/js/result.js"></script>
+<script src="/resources/dist/js/result_filter.js"></script>
 
 </body>
 </html>
+
+
+
 
 
 
