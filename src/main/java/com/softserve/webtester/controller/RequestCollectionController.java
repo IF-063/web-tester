@@ -5,7 +5,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.WebDataBinder;
@@ -15,7 +14,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import com.softserve.webtester.dto.RequestCollectionFilterDTO;
 import com.softserve.webtester.model.RequestCollection;
@@ -66,26 +64,16 @@ public class RequestCollectionController {
     }
 
     /**
-     * Retrieves page for creating new requestCollection with empty requestCollection or with duplicate of existing
-     * requestCollection instance.
+     * Retrieves page for creating new requestCollection with empty requestCollection instance.
      * 
-     * @param fromId identifier of existing {@link RequestCollection}
      * @param model container for {@link RequestCollection}, {@link Request} and {@link Label} instances
      * @return 'collectionCreateEdit' view with requestCollection instance
      */
     @RequestMapping(value = "/newCollection", method = RequestMethod.GET)
-    public String getEmptyFormForRequestCollection(@RequestParam(value = "fromId", required = false) Integer id, Model model) {
+    public String getEmptyFormForRequestCollection(Model model) {
         model.addAttribute("labels", metaDataService.loadAllLabels());
-        model.addAttribute("requests", requestService.loadAll());
-        RequestCollection requestCollection = null;
-        if (id != null) {
-            model.addAttribute("pageTitle", "Duplicate Request Collection");
-            requestCollection = requestCollectionService.createDuplicate(id);
-        } else {
-            model.addAttribute("pageTitle", "Create New Request Collection");
-            requestCollection = new RequestCollection();
-        }
-        model.addAttribute("requestCollection", requestCollection);
+        model.addAttribute("requests", requestService.loadAll());        
+        model.addAttribute("requestCollection", new RequestCollection());
         return "collection/collectionCreateEdit";
     }
 

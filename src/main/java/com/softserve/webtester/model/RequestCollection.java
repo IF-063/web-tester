@@ -23,10 +23,10 @@ public class RequestCollection implements Serializable {
 
     private int id;
 
-    @NotBlank(message = "Collection name cannot be empty")
+    @NotBlank
     private String name;
 
-    @NotBlank(message = "Collection description cannot be empty")
+    @NotBlank
     private String description;
 
     @Valid
