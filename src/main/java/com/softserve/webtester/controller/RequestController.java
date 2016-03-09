@@ -118,10 +118,8 @@ public class RequestController {
         model.addAllAttributes(addMetaData());
         Request request = null;
         if (fromId != null) {
-            model.addAttribute("pageTitle", "Duplicate request");
             request = requestService.createDuplicate(fromId);
         } else {
-            model.addAttribute("pageTitle", "Create request");
             request = new Request();
             request.setTimeout(requestService.getDefaultTimeout());
         }
@@ -156,7 +154,6 @@ public class RequestController {
      */
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public String getEditRequestPage(@PathVariable int id, Model model) {
-        model.addAttribute("pageTitle", "Edit request");
         model.addAllAttributes(addMetaData());
         model.addAttribute("request", requestService.load(id));
         return "request/requestCreateEdit";

@@ -280,7 +280,7 @@ public class MetaDataService {
      * @return Set of {@link BuildVersion} instances
      * @throws DataAccessException
      */
-    List<BuildVersion> loadAllBuildVersions() {
+    public List<BuildVersion> loadAllBuildVersions() {
         try {
             return buildVersionMapper.loadAllBuildVersions();
         } catch (DataAccessException e) {
@@ -296,7 +296,7 @@ public class MetaDataService {
      * @throws DuplicateKeyException if the buildVersion with the same name exists in the database.
      * @throws DataAccessException
      */
-    int updateBuildVersion(BuildVersion buildVersion) {
+    public int updateBuildVersion(BuildVersion buildVersion) {
         try {
             buildVersionMapper.updateBuildVersion(buildVersion);
             int id = buildVersion.getId();
@@ -314,7 +314,7 @@ public class MetaDataService {
      * @return the number of rows affected by the statement
      * @throws DataAccessException
      */
-    int deleteBuildVersion(int id) {
+    public int deleteBuildVersion(int id) {
         try {
             return buildVersionMapper.deleteBuildVersion(id);
         } catch (DataAccessException e) {

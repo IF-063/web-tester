@@ -17,7 +17,7 @@ public interface BuildVersionMapper {
      * @return number of rows affected by the statement
      * @throws DataAccessException
      */
-    @Insert("INSERT INTO Buildversion (name, description) VALUES (#{name}, #{description})")
+    @Insert("INSERT INTO BuildVersion (name, description) VALUES (#{name}, #{description})")
     @Options(useGeneratedKeys = true, keyProperty = "id")
     int saveBuildVersion(BuildVersion buildVersion);
 
@@ -27,7 +27,7 @@ public interface BuildVersionMapper {
      * @return BuildVersion instance
      * @throws DataAccessException
      */
-    @Select("SELECT id, name, description FROM Buildversion WHERE id = #{id} AND deleted = 0")
+    @Select("SELECT id, name, description FROM BuildVersion WHERE id = #{id} AND deleted = 0")
     @Results({ @Result(property = "id", column = "id", jdbcType = JdbcType.INTEGER),
             @Result(property = "name", column = "name", jdbcType = JdbcType.VARCHAR),
             @Result(property = "description", column = "description", jdbcType = JdbcType.VARCHAR)
@@ -39,7 +39,7 @@ public interface BuildVersionMapper {
      * @return Set of BuildVersion instaces
      * @throws DataAccessException
      */
-    @Select("SELECT id, name, description from Buildversion WHERE deleted = 0")
+    @Select("SELECT id, name, description from BuildVersion WHERE deleted = 0")
     @Results({ @Result(property = "id", column = "id", jdbcType = JdbcType.INTEGER),
             @Result(property = "name", column = "name", jdbcType = JdbcType.VARCHAR),
             @Result(property = "description", column = "description", jdbcType = JdbcType.VARCHAR)
@@ -52,7 +52,7 @@ public interface BuildVersionMapper {
      * @return number of rows affected by the statement
      * @throws DataAccessException
      */
-    @Update("UPDATE Buildversion SET name = #{name}, description = #{description}, " +
+    @Update("UPDATE BuildVersion SET name = #{name}, description = #{description}, " +
             "deleted = #{deleted} WHERE id = #{id}")
     int updateBuildVersion(BuildVersion buildVersion);
 
@@ -62,7 +62,7 @@ public interface BuildVersionMapper {
      * @return number of rows affected by the statement
      * @throws DataAccessException
      */
-    @Update("UPDATE Buildversion SET deleted = 1 WHERE id = #{id}")
+    @Update("UPDATE BuildVersion SET deleted = 1 WHERE id = #{id}")
     int deleteBuildVersion(int id);
 
     /**
@@ -71,7 +71,6 @@ public interface BuildVersionMapper {
      * @return number of rows affected by the statement
      * @throws DataAccessException
      */
-    @Delete("DELETE FROM Buildversion WHERE id = #{id}")
+    @Delete("DELETE FROM BuildVersion WHERE id = #{id}")
     int hardDeleteBuildVersion(int id);
-
 }

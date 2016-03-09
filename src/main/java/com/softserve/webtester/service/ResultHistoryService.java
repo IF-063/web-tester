@@ -2,12 +2,14 @@ package com.softserve.webtester.service;
 
 import com.softserve.webtester.mapper.*;
 import com.softserve.webtester.model.*;
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import java.util.List;
 
 @Service
@@ -43,9 +45,14 @@ public class ResultHistoryService {
     }
 
     // Loading resultHistory instance from ResultHistory table
-    public ResultHistory load(int id) {
+    public ResultHistory loadById(int id) {
+
         try {
-            return resultHistoryMapper.load(id);
+            System.out.println("BEFORE invoking loadById() in Service");
+            ResultHistory result=resultHistoryMapper.loadById(id);
+            System.out.println("AFTER invoking loadById() in Service");
+            return result;
+
         } catch (DataAccessException e) {
             LOGGER.error("Unable to load resultHistory instance with id: " + id, e);
             throw e;
@@ -74,21 +81,32 @@ public class ResultHistoryService {
         }
     }
 
+    // Deleting all resultHistory instances from ResultHistory table
+    public int deleteAll() {
+
+        try {
+            return resultHistoryMapper.deteleAll();
+        } catch (DataAccessException e) {
+            LOGGER.error("Unable to delete all resultHistory instances");
+            throw e;
+        }
+    }
+
     // Saving DbValidationHistories, headerHistories and labels for the resultHistory instance to the database
     private void saveResultHistoryComponents(ResultHistory resultHistory) {
 
         List<DBValidationHistory> dbValidationHistories = resultHistory.getDbValidationHistories();
-        if (dbValidationHistories!=null && !dbValidationHistories.isEmpty()) {
+        if (CollectionUtils.isNotEmpty(dbValidationHistories)) {
             dbValidationHistoryMapper.saveByResultHistory(resultHistory);
         }
 
         List<HeaderHistory> headerHistories = resultHistory.getHeaderHistories();
-        if (headerHistories!=null && !headerHistories.isEmpty()) {
+        if (CollectionUtils.isNotEmpty(headerHistories)) {
             headerHistoryMapper.saveByResultHistory(resultHistory);
         }
 
         List<Label> labels = resultHistory.getLabels();
-        if (labels!=null && !labels.isEmpty()) {
+        if (CollectionUtils.isNotEmpty(labels)) {
             labelMapper.saveByResultHistory(resultHistory);
         }
     }

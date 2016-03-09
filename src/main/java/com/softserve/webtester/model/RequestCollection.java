@@ -17,23 +17,22 @@ import org.hibernate.validator.constraints.NotBlank;
  * @author Yura Lubinec
  * @version 1.0
  */
-public class RequestCollection implements Serializable{
-    
-   
+public class RequestCollection implements Serializable {
+
     private static final long serialVersionUID = -8452554592409888993L;
-    
+
     private int id;
-    
-    @NotBlank(message="RequestCollection name cannot be empty")
+
+    @NotBlank(message = "Collection name cannot be empty")
     private String name;
-    
-    @NotBlank(message="RequestCollection description cannot be empty")
+
+    @NotBlank(message = "Collection description cannot be empty")
     private String description;
-    
+
     @Valid
     @NotNull
     private List<Request> requests;
-    
+
     @Valid
     private List<Label> labels;
 
@@ -71,9 +70,9 @@ public class RequestCollection implements Serializable{
 
     @Override
     public int hashCode() {
-	return HashCodeBuilder.reflectionHashCode(this, true);
+        return HashCodeBuilder.reflectionHashCode(this, true);
     }
-    
+
     public List<Label> getLabels() {
         return labels;
     }
@@ -84,24 +83,24 @@ public class RequestCollection implements Serializable{
 
     @Override
     public boolean equals(Object obj) {
-	if (this == obj){
-	    return true;
-	} 
-	if (obj == null){
-	    return false;
-	}
-	
-	if (getClass() != obj.getClass()){
-	    return false;
-	} 
-	RequestCollection other = (RequestCollection) obj;
-	
-	return EqualsBuilder.reflectionEquals(this, other, true);
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        RequestCollection other = (RequestCollection) obj;
+
+        return EqualsBuilder.reflectionEquals(this, other, true);
     }
 
     @Override
     public String toString() {
-	return ToStringBuilder.reflectionToString(this);
+        return ToStringBuilder.reflectionToString(this);
     }
-		 
+
 }
