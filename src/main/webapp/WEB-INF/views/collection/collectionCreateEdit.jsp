@@ -53,8 +53,11 @@
 						<form:errors path="requests" cssClass="help-block with-errors" />
 					</div>
 				</div>
-
-				<button type="submit" class="btn btn-success">Submit Button</button>
+				<div class="row">
+					<button type="submit" class="btn btn-success btn-lg">Submit Button</button>
+					<button id="reset" class="btn btn-danger btn-lg">Reset</button>
+					<button type="button" class="btn btn-default btn-lg" onclick="history.back()">Back</button>
+				</div>	
 			</div>
 		</fieldset>
 	</form:form>
