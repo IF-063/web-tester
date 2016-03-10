@@ -66,7 +66,7 @@
 									<button type="button" class="btn btn-info"
 										onclick="location.reload();">Reset</button>
 									<button type="button" class="btn btn-danger"
-										onclick="location.href='<c:url value="/application" />'">Cancel</button>
+										onclick="location.href='<c:url value="/configuration/applications" />'">Cancel</button>
 								</div>
 							</div>
 						</form:form>

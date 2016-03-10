@@ -13,7 +13,7 @@
       </a>
       <ul class="dropdown-menu dropdown-alerts">
         <li>
-          <a href="#">
+          <a href=<c:url value="/configuration/applications" />>
             <i class="fa fa-comment fa-fw"></i> Applications
           </a>
         </li>

@@ -31,6 +31,7 @@
 				<value>/WEB-INF/tiles/layouts.xml</value>
 				<value>/WEB-INF/tiles/requests.xml</value>
 				<value>/WEB-INF/tiles/collections.xml</value>
+				<value>/WEB-INF/tiles/applications.xml</value>
 			</list>
 		</property>
 	</bean>
