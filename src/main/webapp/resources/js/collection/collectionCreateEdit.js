@@ -7,4 +7,9 @@ $(function() {
   $('#requests').multiSelect({
 	  dblClick: true
   });
+  
+  $('#reset').click(function() {
+	  location.reload();
+	  return false;
+  });
 })    

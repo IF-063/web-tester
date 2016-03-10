@@ -2,6 +2,10 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
+<link href="<c:url value="/resources/dist/css/select2.min.css" />" rel="stylesheet" />
+
+<link href="<c:url value="/resources/dist/css/select2-bootstrap.css" />" rel="stylesheet" />
+
 <!-- <div class="container"> -->
   <div class="row">
     <div class="col-md-12">
@@ -9,7 +13,7 @@
         <div class="panel-heading">
           <form:form modelAttribute="requestFilterDTO" method="GET">
             <fieldset>
-              <!--  <legend>Filters</legend> -->
+              <h4>Filters</h4>
 
               <div class="col-md-2">
                 <label for="requestNameFilter" class="control-label">Request name</label>

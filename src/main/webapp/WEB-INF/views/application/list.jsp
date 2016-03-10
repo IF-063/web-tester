@@ -21,16 +21,6 @@
 	href="<c:url value="/resources/bower_components/font-awesome/css/font-awesome.css"/>"
 	rel="stylesheet">
 
-<style type="text/css">
-th {
-	text-align: center;
-}
-
-.row {
-	margin: 3px;
-}
-</style>
-
 </head>
 
 <body>
@@ -40,7 +30,7 @@ th {
 				<div class="panel panel-default">
 					<div class="panel-heading">
 						<h3>Application</h3>
-						<button type="button" class="btn btn-info" onclick="location.href='<c:url value="/application/create" />'">Create new
+						<button type="button" class="btn btn-info" onclick="location.href='<c:url value="/configuration/applications/create" />'">Create new
 							application</button>
 					</div>
 					<div class="panel body">
@@ -67,13 +57,13 @@ th {
 										<td>
 
 											<button type="button" class="btn btn-success btn-sm"
-												onclick="location.href='<c:url value="/application/${application.id}" />'">
+												onclick="location.href='<c:url value="/configuration/applications/${application.id}" />'">
 												<span class="glyphicon glyphicon-pencil"></span>Modify
 											</button>
 
 
 											<button type="button" class="btn btn-danger btn-sm"
-												onclick="location.href='<c:url value="/application/delete/${application.id}" />'">
+												onclick="location.href='<c:url value="/applications/delete/${application.id}" />'">
 												<span class="glyphicon glyphicon-trash"></span>Delete
 											</button>
 

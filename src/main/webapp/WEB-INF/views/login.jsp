@@ -33,14 +33,14 @@
             <h3 class="panel-title">Please Sign In</h3>
           </div>
           <div class="panel-body">
-            <c:if test="${not empty error}">
+            <c:if test="${not empty param.error}">
               <div class="alert alert-danger">
-                <strong>Error!</strong> ${error}
+                <strong>Error!</strong> Invalid username and password!
               </div>
             </c:if>
-            <c:if test="${not empty msg}">
+            <c:if test="${not empty param.logout}">
               <div class="alert alert-success">
-                <strong>Success!</strong> ${msg}
+                <strong>Success!</strong> You've been logged out successfully.
               </div>
             </c:if>
             <form role="form" action="${pageContext.request.contextPath}/loginCheck" method="POST">

@@ -20,11 +20,11 @@ import com.softserve.webtester.service.MetaDataService;
  * ServiceController class represents {@code Service} MVC Controller
  *
  * @author Roman Zolotar
- * @version 1.0
+ * @version 1.2
  */
 
 @Controller
-@RequestMapping(value = "/service")
+@RequestMapping(value = "/configuration/services")
 public class ServiceController {
 
 	@Autowired
@@ -40,14 +40,14 @@ public class ServiceController {
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public String getService(@PathVariable(value = "id") Integer serviceId, Model model) {
 		Service service = metaDataService.serviceLoad(serviceId);
-		model.addAttribute("title", "Update Service");
+		model.addAttribute("isUpdate", "true");
 		model.addAttribute("service", service);
 		return "service/update";
 	}
 
 	@RequestMapping(value = "/create", method = RequestMethod.GET)
 	public String createService(Model model) {
-		model.addAttribute("title", "Create Service");
+		model.addAttribute("isUpdate", "false");
 		model.addAttribute("service", new Service());
 		return "service/update";
 	}
@@ -56,22 +56,22 @@ public class ServiceController {
 	public String saveCreatedService(@Valid @ModelAttribute("service") Service service,
 			BindingResult result, Model model) {
 		if (result.hasErrors()) {
-			model.addAttribute("title", "Create Service");
+			model.addAttribute("isUpdate", "false");
 			return "service/update";
 		}
 		metaDataService.serviceSave(service);
-		return "redirect:/service";
+		return "redirect:/configuration/services";
 	}
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.POST)
 	public String saveUpdatedService(@Valid @ModelAttribute("service") Service service,
 			BindingResult result, Model model) {
 		if (result.hasErrors()) {
-			model.addAttribute("title", "Update Service");
+			model.addAttribute("isUpdate", "true");
 			return "service/update";
 		}
 		metaDataService.serviceUpdate(service);
-		return "redirect:/service";
+		return "redirect:/configuration/services";
 	}
 
 	@RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)

@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.softserve.webtester.model.User;
 import com.softserve.webtester.service.UserService;
@@ -41,16 +42,11 @@ public class UserController {
     /**
      * Retrieves user-account page.
      * 
-     * @param success using to detect successfully updating information about the user
      * @param model {@link Model} object
      * @return name of view
      */
     @RequestMapping(method = RequestMethod.GET)
-    public String getUserAccountPage(@RequestParam(value = "success", required = false) boolean success, 
-            Model model) {
-        if (success) {
-            model.addAttribute("success", "Account has been successfully updated!");
-        }
+    public String getUserAccountPage(Model model) {
         String userId = SecurityContextHolder.getContext().getAuthentication().getName();
         User user = userService.load(userId);
         model.addAttribute("user", user);
@@ -73,5 +69,18 @@ public class UserController {
         }
         userService.update(user);
         return "redirect:/account?success=true";
+    }
+    
+    /**
+     * Checks the unique of {@link User} instance's name.
+     * 
+     * @param id identifier of {@link User} instance should be excluded from checking
+     * @param username username property should be checked
+     * @return JSON object with <code>valid</code> name and boolean value
+     */
+    @RequestMapping(value = "/isUsernameFree", method = RequestMethod.GET)
+    public @ResponseBody String isUsernameFree(@RequestParam(value = "id") int id,
+            @RequestParam("username") String username) {
+        return String.format("{\"valid\": %b}", !"".equals(username) && userService.isUsernameFree(id, username));
     }
 }

@@ -2,7 +2,6 @@ package com.softserve.webtester.controller;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -12,7 +11,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import com.softserve.webtester.model.User;
 import com.softserve.webtester.service.UserService;
@@ -32,32 +30,21 @@ public class LoginLogoutController {
     /**
      * Retrieves login page.
      * 
-     * @param error error flag, if true error message will be shown
-     * @param logout logout flag, if true logout message will be shown
-     * @param model {@link Model} object
      * @return name of view
      */
     @RequestMapping(value = "/login", method = RequestMethod.GET)
-    public String loginPage(@RequestParam(value = "error", required = false) boolean error,
-            @RequestParam(value = "logout", required = false) boolean logout, Model model) {
-        if (error) {
-            model.addAttribute("error", "Invalid username and password!");
-        }
-        if (logout) {
-            model.addAttribute("msg", "You've been logged out successfully.");
-        }
+    public String loginPage() {
         return "login";
     }
 
     /**
      * Retrieves home page.
      * 
-     * @param session HTTP session instance
      * @param model {@link Model} object
      * @return name of view
      */
     @RequestMapping(value = { "/", "/home" }, method = RequestMethod.GET)
-    public String home(HttpSession session, Model model) {
+    public String home(Model model) {
         String userId = SecurityContextHolder.getContext().getAuthentication().getName();
         User user = userService.load(userId);
         model.addAttribute("user", user);

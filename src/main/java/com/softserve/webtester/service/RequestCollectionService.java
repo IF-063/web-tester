@@ -42,9 +42,6 @@ public class RequestCollectionService {
     @Autowired
     private LabelMapper labelMapper;
 
-    @Value("${request.name.duplicate.suffix:_duplicate}")
-    private String duplicateSuffix;
-
     @Autowired
     @Qualifier("requestCollectionNameCountPattern")
     private Pattern requestCollectionNameCountPattern;
@@ -216,26 +213,6 @@ public class RequestCollectionService {
             return requestCollectionMapper.isRequestCollectionNameFree(name, exclusionId);
         } catch (DataAccessException e) {
             LOGGER.error("Unable to check request name, requests name: " + name, e);
-            throw e;
-        }
-    }
-
-    /**
-     * Creates duplicate existing {@link RequestCollection}
-     * 
-     * @param id identifier of RequestCollection should be duplicated
-     * @return duplicate of existing RequestCollection instance
-     * @throws DataAccessException
-     */
-    @Transactional
-    public RequestCollection createDuplicate(int id) {
-        try {
-            RequestCollection requestCollection = load(id);
-            requestCollection.setId(0);
-            requestCollection.setName(requestCollection.getName() + duplicateSuffix);
-            return requestCollection;
-        } catch (DataAccessException e) {
-            LOGGER.error("Unable to duplicate the request, requests id: " + id, e);
             throw e;
         }
     }
