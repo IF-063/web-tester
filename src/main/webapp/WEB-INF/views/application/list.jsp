@@ -14,7 +14,8 @@
 	rel="stylesheet " type='text/css' media='all'>
 
 <!-- Custom CSS -->
-<link href="<c:url value="/resources/dist/css/sb-admin-2.css"/>" rel="stylesheet">
+<link href="<c:url value="/resources/dist/css/sb-admin-2.css"/>"
+	rel="stylesheet">
 
 <!-- Custom Fonts -->
 <link
@@ -30,8 +31,9 @@
 				<div class="panel panel-default">
 					<div class="panel-heading">
 						<h3>Application</h3>
-						<button type="button" class="btn btn-info" onclick="location.href='<c:url value="/configuration/applications/create" />'">Create new
-							application</button>
+						<button type="button" class="btn btn-info"
+							onclick="location.href='<c:url value="/configuration/applications/create" />'">Create
+							new application</button>
 					</div>
 					<div class="panel body">
 
@@ -40,20 +42,16 @@
 							id="applicationTable">
 							<thead>
 								<tr>
-									<th>ID</th>
 									<th>Application Name</th>
 									<th>Application Description</th>
-									<th>Deleted</th>
 									<th>Action</th>
 								</tr>
 							</thead>
 							<tbody>
 								<c:forEach items="${applications}" var="application">
 									<tr>
-										<td><c:out value="${application.id}"></c:out></td>
 										<td><c:out value="${application.name}"></c:out></td>
 										<td><c:out value="${application.description}"></c:out></td>
-										<td><c:out value="${application.deleted}"></c:out></td>
 										<td>
 
 											<button type="button" class="btn btn-success btn-sm"
@@ -61,15 +59,14 @@
 												<span class="glyphicon glyphicon-pencil"></span>Modify
 											</button>
 
-
 											<button type="button" class="btn btn-danger btn-sm"
-												onclick="location.href='<c:url value="/applications/delete/${application.id}" />'">
+												onclick="location.href='<c:url value="/configuration/applications/${application.id}" />'">
 												<span class="glyphicon glyphicon-trash"></span>Delete
 											</button>
 
 										</td>
-
 									</tr>
+
 								</c:forEach>
 							</tbody>
 						</table>

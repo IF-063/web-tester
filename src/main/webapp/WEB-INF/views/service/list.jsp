@@ -40,20 +40,16 @@
 							id="serviceTable">
 							<thead>
 								<tr>
-									<th>ID</th>
 									<th>Service Name</th>
 									<th>Service Description</th>
-									<th>Deleted</th>
 									<th>Action</th>
 								</tr>
 							</thead>
 							<tbody>
 								<c:forEach items="${services}" var="service">
 									<tr>
-										<td><c:out value="${service.id}"></c:out></td>
 										<td><c:out value="${service.name}"></c:out></td>
 										<td><c:out value="${service.description}"></c:out></td>
-										<td><c:out value="${service.deleted}"></c:out></td>
 										<td>
 
 											<button type="button" class="btn btn-success btn-sm"

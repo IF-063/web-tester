@@ -6,9 +6,9 @@
 <html>
 
 <head>
-<c:set var="title" value="Create page" />
+<c:set var="title" value="Create application" />
 <c:if test="${isUpdate}">
-	<c:set var="title" value="Update page" />
+	<c:set var="title" value="Update application" />
 </c:if>
 
 <title>${title}</title>
