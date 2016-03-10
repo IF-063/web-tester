@@ -9,7 +9,7 @@
   <ul class="nav navbar-top-links navbar-left">
     <li class="dropdown">
       <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-        <i class="fa fa-bell fa-fw"></i> Configuration <i class="fa fa-caret-down"></i>
+        <i class="fa fa-cog fa-fw"></i> Configuration <i class="fa fa-caret-down"></i>
       </a>
       <ul class="dropdown-menu dropdown-alerts">
         <li>
@@ -46,7 +46,7 @@
 
     <li class="dropdown">
       <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-        <i class="fa fa-bell fa-fw"></i> Tests <i class="fa fa-caret-down"></i>
+        <i class="fa fa-tasks fa-fw"></i> Tests <i class="fa fa-caret-down"></i>
       </a>
       <ul class="dropdown-menu dropdown-alerts">
         <li>
@@ -84,18 +84,18 @@
 
     <li class="dropdown">
       <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-        <i class="fa fa-bell fa-fw"></i> Reporst <i class="fa fa-caret-down"></i>
+        <i class="fa fa-calendar-o fa-fw"></i> Reporst <i class="fa fa-caret-down"></i>
       </a>
       <ul class="dropdown-menu dropdown-alerts">
         <li>
           <a href="#">
-            <i class="fa fa-comment fa-fw"></i> Statistic
+            <i class="fa fa-bar-chart fa-fw"></i> Statistic
           </a>
         </li>
         <li class="divider"></li>
         <li>
           <a href="#">
-            <i class="fa fa-comment fa-fw"></i> Graphics
+            <i class="fa fa-line-chart fa-fw"></i> Graphics
           </a>
         </li>
       </ul>

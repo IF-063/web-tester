@@ -42,16 +42,11 @@ public class UserController {
     /**
      * Retrieves user-account page.
      * 
-     * @param success using to detect successfully updating information about the user
      * @param model {@link Model} object
      * @return name of view
      */
     @RequestMapping(method = RequestMethod.GET)
-    public String getUserAccountPage(@RequestParam(value = "success", required = false) boolean success, 
-            Model model) {
-        if (success) {
-            model.addAttribute("success", "Account has been successfully updated!");
-        }
+    public String getUserAccountPage(Model model) {
         String userId = SecurityContextHolder.getContext().getAuthentication().getName();
         User user = userService.load(userId);
         model.addAttribute("user", user);
