@@ -2,6 +2,7 @@ package com.softserve.webtester.model;
 
 import java.io.Serializable;
 
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
@@ -24,6 +25,7 @@ public class User implements Serializable {
 
     @Email
     @NotBlank
+    @Pattern(regexp = "^\\w+([\\.-]?\\w+)*@\\w+([\\.-]?\\w+)*(\\.\\w{2,3})+$")
     private String username;
 
     @NotBlank

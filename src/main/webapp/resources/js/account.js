@@ -17,6 +17,10 @@ $(function() {
           emailAddress: {
             message: 'The value is not a valid email address'
           },
+          regexp:{
+        	  regexp: /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
+        	  message: 'The value is not a valid email address'
+          },
           remote: {
             url: 'account/isUsernameFree',
             type: 'GET',
