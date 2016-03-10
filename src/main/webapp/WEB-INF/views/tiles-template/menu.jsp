@@ -25,13 +25,13 @@
         </li>
         <li class="divider"></li>
         <li>
-          <a href="#">
+          <a href=<c:url value="/configuration/labels"/>>
             <i class="fa fa-comment fa-fw"></i> Labels
           </a>
         </li>
         <li class="divider"></li>
         <li>
-          <a href="#">
+          <a href=<c:url value="/configuration/buildVersions"/>>
             <i class="fa fa-comment fa-fw"></i> Build versions
           </a>
         </li>

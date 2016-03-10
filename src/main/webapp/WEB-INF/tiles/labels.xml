@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN"
+		"http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
+<tiles-definitions>
+
+	<definition name="labels/labels" extends="DefaultTemplate">
+		<put-attribute name="title" value="Labels" />
+		<put-attribute name="body" value="/WEB-INF/views/labels/labels.jsp" />
+	</definition>
+
+	<definition name="labels/create" extends="DefaultTemplate">
+		<put-attribute name="title" value="Label editing" />
+		<put-attribute name="body" value="/WEB-INF/views/labels/create.jsp" />
+	</definition>
+
+</tiles-definitions>

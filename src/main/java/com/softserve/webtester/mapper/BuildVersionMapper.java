@@ -73,4 +73,14 @@ public interface BuildVersionMapper {
      */
     @Delete("DELETE FROM BuildVersion WHERE id = #{id}")
     int hardDeleteBuildVersion(int id);
+
+    /**
+     * Checks the unique of build version's name.
+     *
+     * @param name name of {@link BuildVersion} should be checked
+     * @param exclusionId id of {@link BuildVersion} should be excluded
+     * @return true, if name is unique
+     */
+    @Select("SELECT IF(count(*) > 0, false, true) FROM BuildVersion WHERE name = #{name} AND id != #{exclusionId}")
+    boolean isBuildVersionNameFree(@Param("name") String name, @Param("exclusionId") int exclusionId);
 }

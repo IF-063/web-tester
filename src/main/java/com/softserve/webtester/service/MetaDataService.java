@@ -248,6 +248,7 @@ public class MetaDataService {
      * @throws DuplicateKeyException if the buildVersion with the same name exists in the database
      * @throws DataAccessException
      */
+	@Transactional
     public int saveBuildVersion(BuildVersion buildVersion) {
         try {
             buildVersionMapper.saveBuildVersion(buildVersion);
@@ -266,6 +267,7 @@ public class MetaDataService {
      * @return {@link BuildVersion} instance
      * @throws DataAccessException
      */
+	@Transactional
     public BuildVersion loadBuildVersionById(int id) {
         try {
             return buildVersionMapper.loadBuildVersionById(id);
@@ -280,6 +282,7 @@ public class MetaDataService {
      * @return Set of {@link BuildVersion} instances
      * @throws DataAccessException
      */
+	@Transactional
     public List<BuildVersion> loadAllBuildVersions() {
         try {
             return buildVersionMapper.loadAllBuildVersions();
@@ -296,6 +299,7 @@ public class MetaDataService {
      * @throws DuplicateKeyException if the buildVersion with the same name exists in the database.
      * @throws DataAccessException
      */
+	@Transactional
     public int updateBuildVersion(BuildVersion buildVersion) {
         try {
             buildVersionMapper.updateBuildVersion(buildVersion);
@@ -314,6 +318,7 @@ public class MetaDataService {
      * @return the number of rows affected by the statement
      * @throws DataAccessException
      */
+	@Transactional
     public int deleteBuildVersion(int id) {
         try {
             return buildVersionMapper.deleteBuildVersion(id);
@@ -322,6 +327,24 @@ public class MetaDataService {
             throw e;
         }
     }
+
+	/**
+	 * Checks the unique of build version's name.
+	 *
+	 * @param name name of {@link BuildVersion} should be checked
+	 * @param exclusionId id of {@link BuildVersion} should be excluded
+	 * @return true, if name is unique
+	 * @throws DataAccessException
+	 */
+	@Transactional
+	public boolean isBuildVersionNameFree(String name, int exclusionId) {
+		try {
+			return buildVersionMapper.isBuildVersionNameFree(name, exclusionId);
+		} catch (DataAccessException e) {
+			LOGGER.error("Unable to check build version's name, build version's name: " + name, e);
+			throw e;
+		}
+	}
 
                                                     //LABELS
 
@@ -332,6 +355,7 @@ public class MetaDataService {
      * @throws DuplicateKeyException if the Label with the same name exists in the database
      * @throws DataAccessException
      */
+	@Transactional
     public int saveLabel(Label label) {
         try {
             labelMapper.saveLabel(label);
@@ -350,6 +374,7 @@ public class MetaDataService {
      * @return {@link Label} instance
      * @throws DataAccessException
      */
+	@Transactional
     public Label loadLabelById(int id) {
         try {
             return labelMapper.loadLabelById(id);
@@ -364,7 +389,8 @@ public class MetaDataService {
      * @return Set of {@link Label} instances
      * @throws DataAccessException
      */
-   public List<Label> loadAllLabels() {
+	@Transactional
+	public List<Label> loadAllLabels() {
         try {
             return labelMapper.loadAllLabels();
         } catch (DataAccessException e) {
@@ -379,13 +405,32 @@ public class MetaDataService {
      * @return the number of rows affected by the statement
      * @throws DataAccessException
      */
-   public int deleteLabel(int id) {
-        try {
-            return labelMapper.deleteLabel(id);
-        } catch (DataAccessException e) {
-            LOGGER.error("Unable to delete Label instance, request id: " + id, e);
-            throw e;
-        }
-    }
+	@Transactional
+	public int deleteLabel(int id) {
+		try {
+			return labelMapper.deleteLabel(id);
+		} catch (DataAccessException e) {
+			LOGGER.error("Unable to delete Label instance, request id: " + id, e);
+			throw e;
+		}
+	}
+
+	/**
+	 * Checks the unique of label's name.
+	 *
+	 * @param name name of {@link Label} should be checked
+	 * @param exclusionId id of {@link Label} should be excluded
+	 * @return true, if name is unique
+	 * @throws DataAccessException
+	 */
+	@Transactional
+	public boolean isLabelNameFree(String name, int exclusionId) {
+		try {
+			return labelMapper.isLabelNameFree(name, exclusionId);
+		} catch (DataAccessException e) {
+			LOGGER.error("Unable to check label's name, label's name: " + name, e);
+			throw e;
+		}
+	}
 
 }

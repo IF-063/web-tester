@@ -2,60 +2,76 @@ package com.softserve.webtester.controller;
 
 import com.softserve.webtester.model.BuildVersion;
 import com.softserve.webtester.service.MetaDataService;
+import com.softserve.webtester.validator.BuildVersionValidator;
 import com.sun.javafx.sg.prism.NGShape;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @Controller
-@RequestMapping(value = "/metadata/build_versions")
+@RequestMapping(value = "/configuration/buildVersions")
 public class BuildVersionsController {
 
     @Autowired
     private MetaDataService metaDataService;
 
+    @Autowired
+    private BuildVersionValidator buildVersionValidator;
+
+    @InitBinder("buildVersion")
+    public void initBinder(WebDataBinder binder) {
+        binder.addValidators(buildVersionValidator);
+    }
+
     @RequestMapping(method = RequestMethod.GET)
     public String getBuildVersionsPage(Model model) {
         List<BuildVersion> buildVersions = metaDataService.loadAllBuildVersions();
-        model.addAttribute("build_versions", buildVersions);
-        return "build_version/build_versions";
+        model.addAttribute("buildVersions", buildVersions);
+        return "buildVersion/buildVersions";
     }
 
     @RequestMapping(value = "/create", method = RequestMethod.GET)
     public String getCreatePage(Model model) {
         BuildVersion buildVersion = new BuildVersion();
-        model.addAttribute("build_version", buildVersion);
-        return "build_version/createOrModify";
+        model.addAttribute("buildVersion", buildVersion);
+        return "buildVersion/createOrModify";
     }
 
     @RequestMapping(value = "/create", method = RequestMethod.POST)
-    public String confirmCreate(BuildVersion buildVersion) {
+    public String confirmCreate(@Validated @ModelAttribute BuildVersion buildVersion, BindingResult result) {
+        if (result.hasErrors()) {
+            return "buildVersion/createOrModify";
+        }
         metaDataService.saveBuildVersion(buildVersion);
-        return "redirect:/metadata/build_versions";
+        return "redirect:/configuration/buildVersions";
     }
 
     @RequestMapping(value = "/{id}/modify", method = RequestMethod.GET)
     public String modifyBuildVersion(@PathVariable("id")int id, Model model) {
         BuildVersion buildVersion = metaDataService.loadBuildVersionById(id);
-        model.addAttribute("build_version", buildVersion);
-        return "build_version/createOrModify";
+        model.addAttribute("buildVersion", buildVersion);
+        return "buildVersion/createOrModify";
     }
 
     @RequestMapping(value = "/{id}/modify", method = RequestMethod.POST)
-    public String confirmModify(BuildVersion buildVersion) {
+    public String confirmModify(@Validated @ModelAttribute BuildVersion buildVersion, BindingResult result) {
+        if (result.hasErrors()) {
+            return "buildVersion/createOrModify";
+        }
         metaDataService.updateBuildVersion(buildVersion);
-        return "redirect:/metadata/build_versions";
+        return "redirect:/configuration/buildVersions";
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public String deleteBuildVersion(BuildVersion buildVersion) {
         metaDataService.deleteBuildVersion(buildVersion.getId());
-        return "redirect:/metadata/build_versions";
+        return "redirect:/configuration/buildVersions";
     }
 
 }

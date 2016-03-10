@@ -29,6 +29,8 @@
             <list>  
                 <value>/WEB-INF/tiles/layouts.xml</value>
                 <value>/WEB-INF/tiles/requests.xml</value>
+                <value>/WEB-INF/tiles/labels.xml</value>
+                <value>/WEB-INF/tiles/buildVersions.xml</value>
             </list>  
         </property>  
     </bean>  
