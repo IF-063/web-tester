@@ -45,19 +45,25 @@
 				</div>
 
 				<div class="form-group">
-					<label class="col-md-4 control-label" for="requests">Requests</label>
+					<label class="col-md-4 control-label" for="requests">Requests*</label>
 					<div class="col-md-4">
 						<form:select path="requests" multiple="multiple"
 							items="${requests}" itemValue="id" itemLabel="name"
 							id="requests" />
-						<form:errors path="requests" cssClass="help-block with-errors" />
-					</div>
+						<form:errors path="requests" cssClass="help-block with-errors" />				
+						<div class="row">							
+							<a href='#' id='select-all' class="btn btn-default ">select all</a>
+							<a href='#' id='deselect-all' class="btn btn-default ">deselect all</a>						
+						</div>			
+					</div>																				
 				</div>
+				
 				<div class="row">
 					<button type="submit" class="btn btn-success btn-lg">Submit Button</button>
 					<button id="reset" class="btn btn-danger btn-lg">Reset</button>
-					<button type="button" class="btn btn-default btn-lg" onclick="history.back()">Back</button>
+					<a href=<c:url value="/tests/collections" /> class="btn btn-default btn-lg">Back</a>
 				</div>	
+				
 			</div>
 		</fieldset>
 	</form:form>

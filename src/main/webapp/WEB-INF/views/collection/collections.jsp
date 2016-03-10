@@ -28,9 +28,8 @@
 							<div class="col-md-4">
 								<label>Actions</label>
 								<div>
-									<a href=<c:url value="/tests/collections/" />
-										class="btn btn-default">Reset</a> <input type="submit"
-										class="btn btn-success" value="Filter" />
+									<a href=<c:url value="/tests/collections/" /> class="btn btn-default">Reset</a> 
+									<input type="submit" class="btn btn-success" value="Filter" />
 								</div>
 							</div>
 						</fieldset>
@@ -38,11 +37,10 @@
 					<h1>Collections</h1>
 					<div class="row">
 						<div class="col-md-12">
-							<a href=<c:url value="/tests/collections/newCollection" />
-								class="btn btn-success">Create</a>
+							<a href=<c:url value="/tests/collections/newCollection" /> class="btn btn-success">Create</a>
 							<button id="runAll" class="btn btn-info">Run all</button>
 							<button id="runSelected" class="btn btn-info">Run selected</button>
-							<button id="deleteSelected" class="btn btn-danger">Delete	selected</button>
+							<button id="deleteSelected" class="btn btn-default">Delete	selected</button>
 						</div>
 					</div>
 				</div>
