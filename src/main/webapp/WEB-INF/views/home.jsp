@@ -11,7 +11,7 @@
 <div class="row">
 
   <div class="col-md-4">
-    <div class="panel panel-red">
+    <div class="panel panel-red" id="labelsBlock">
       <div class="panel-heading">
         <div class="row">
           <div class="col-xs-3">
@@ -33,7 +33,7 @@
   </div>
 
   <div class="col-md-4">
-    <div class="panel panel-yellow">
+    <div class="panel panel-yellow" id="BuildVersionsBlock">
       <div class="panel-heading">
         <div class="row">
           <div class="col-xs-3">
@@ -65,7 +65,7 @@
 <div class="row">
 
   <div class="col-md-4">
-    <div class="panel panel-primary">
+    <div class="panel panel-primary" id="requestBlock">
       <div class="panel-heading">
         <div class="row">
           <div class="col-xs-3">
@@ -87,7 +87,7 @@
   </div>
   
   <div class="col-md-4">
-    <div class="panel panel-green">
+    <div class="panel panel-green" id="collectionsBlock">
       <div class="panel-heading">
         <div class="row">
           <div class="col-xs-3">
@@ -109,3 +109,6 @@
   </div>
 
 </div>
+
+<!-- Main page script -->
+<script src=<c:url value="/resources/js/home.js" />></script>
