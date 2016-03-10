@@ -253,7 +253,7 @@
         </div>
 
         <div class="row">
-          <button class="btn btn-default btn-lg" onclick="window.history.back();">Back</button>
+          <a href=<c:url value="/tests/requests" /> class="btn btn-default btn-lg">Back</a>
           <button id="reset" class="btn btn-danger btn-lg">Reset</button>
           <button id="clean" class="btn btn-warning btn-lg">Clean all</button>
           <button id="validate" class="btn btn-success btn-lg">Save</button>

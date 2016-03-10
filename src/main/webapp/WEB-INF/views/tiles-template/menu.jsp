@@ -14,31 +14,31 @@
       <ul class="dropdown-menu dropdown-alerts">
         <li>
           <a href=<c:url value="/configuration/applications" />>
-            <i class="fa fa-comment fa-fw"></i> Applications
+            <i class="fa fa-wrench fa-fw"></i> Applications
           </a>
         </li>
         <li class="divider"></li>
         <li>
           <a href=<c:url value="/configuration/services" />>
-            <i class="fa fa-comment fa-fw"></i> Services
+            <i class="fa fa-wrench fa-fw"></i> Services
           </a>
         </li>
         <li class="divider"></li>
         <li>
           <a href="#">
-            <i class="fa fa-comment fa-fw"></i> Labels
+            <i class="fa fa-wrench fa-fw"></i> Labels
           </a>
         </li>
         <li class="divider"></li>
         <li>
           <a href="#">
-            <i class="fa fa-comment fa-fw"></i> Build versions
+            <i class="fa fa-wrench fa-fw"></i> Build versions
           </a>
         </li>
         <li class="divider"></li>
         <li>
-          <a href="#">
-            <i class="fa fa-comment fa-fw"></i> Environments
+          <a href=<c:url value="/configuration/environments" />>
+            <i class="fa fa-wrench fa-fw"></i> Environments
           </a>
         </li>
       </ul>
@@ -51,13 +51,13 @@
       <ul class="dropdown-menu dropdown-alerts">
         <li>
           <a href=<c:url value="/tests/requests" />>
-            <i class="fa fa-comment fa-fw"></i> Requests
+            <i class="fa fa-flag fa-fw"></i> Requests
           </a>
         </li>
         <li class="divider"></li>
         <li>
           <a href=<c:url value="/tests/collections " />>
-            <i class="fa fa-comment fa-fw"></i> Collections
+            <i class="fa fa-flag fa-fw"></i> Collections
           </a>
         </li>
       </ul>
@@ -65,18 +65,18 @@
 
     <li class="dropdown">
       <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-        <i class="fa fa-bell fa-fw"></i> Results <i class="fa fa-caret-down"></i>
+        <i class="fa fa-eye fa-fw"></i> Results <i class="fa fa-caret-down"></i>
       </a>
       <ul class="dropdown-menu dropdown-alerts">
         <li>
           <a href="#">
-            <i class="fa fa-comment fa-fw"></i> Requests
+            <i class="fa fa-book fa-fw"></i> Requests
           </a>
         </li>
         <li class="divider"></li>
         <li>
           <a href="#">
-            <i class="fa fa-comment fa-fw"></i> Collections
+            <i class="fa fa-book fa-fw"></i> Collections
           </a>
         </li>
       </ul>
