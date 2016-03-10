@@ -25,13 +25,13 @@
         </li>
         <li class="divider"></li>
         <li>
-          <a href="#">
+          <a href=<c:url value="/configuration/labels" />>
             <i class="fa fa-wrench fa-fw"></i> Labels
           </a>
         </li>
         <li class="divider"></li>
         <li>
-          <a href="#">
+          <a href=<c:url value="/configuration/buildVersions" />>
             <i class="fa fa-wrench fa-fw"></i> Build versions
           </a>
         </li>
@@ -56,7 +56,7 @@
         </li>
         <li class="divider"></li>
         <li>
-          <a href=<c:url value="/tests/collections " />>
+          <a href=<c:url value="/tests/collections" />>
             <i class="fa fa-flag fa-fw"></i> Collections
           </a>
         </li>
@@ -84,7 +84,7 @@
 
     <li class="dropdown">
       <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-        <i class="fa fa-calendar-o fa-fw"></i> Reporst <i class="fa fa-caret-down"></i>
+        <i class="fa fa-calendar-o fa-fw"></i> Reports <i class="fa fa-caret-down"></i>
       </a>
       <ul class="dropdown-menu dropdown-alerts">
         <li>

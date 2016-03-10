@@ -20,7 +20,7 @@
                     <form:label path="description" class="col-md-4 control-label">Description*</form:label>
                     <div class="col-md-4">
                         <form:input path="description" class="form-control" required="required" maxlength="120"/>
-                        <form:errors path="description" cssClass="help-block with-errors" />
+                        <label><h6>Max length is 120 characters</h6></label>
                     </div>
                 </div>
 
