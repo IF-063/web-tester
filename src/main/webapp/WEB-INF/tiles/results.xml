@@ -3,7 +3,7 @@
         "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
 <tiles-definitions>
 
-    <definition name="result/results" extends="DefaultTemplate">
+    <definition name="result" extends="DefaultTemplate">
         <put-attribute name="title" value="Requests" />
         <put-attribute name="body" value="/WEB-INF/views/result/result.jsp" />
     </definition>
