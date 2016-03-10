@@ -1,24 +1,32 @@
 $(function() {
-	
+
   $('.multipleSelect').select2({
-    theme: 'bootstrap'
+    theme: 'bootstrap',
+    width: '100%'
   });
   
-  $('#requests').multiSelect({
-	  dblClick: true
+  $('.multiSelect').multiSelect({
+    dblClick: true
   });
   
   $('#select-all').click(function(){
-      $('#requests').multiSelect('select_all');
+      $('.multiSelect').multiSelect('select_all');
       return false;
   });
   $('#deselect-all').click(function(){
-	  $('#requests').multiSelect('deselect_all');
-	  return false;
+    $('.multiSelect').multiSelect('deselect_all');
+    return false;
   });
   
   $('#reset').click(function() {
-	  location.reload();
-	  return false;
+    location.reload();
+    return false;
+  });
+  
+  $('#clean').click(function(e) {
+    $('.multipleSelect').select2('val', null);
+    $('.multiSelect').multiSelect('deselect_all');
+    $('input[type=text],textarea').val('');
+    return false;
   });
 })    
