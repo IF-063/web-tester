@@ -32,10 +32,10 @@ $(function() {
     var container = $(this).closest('.elementContainer');
     var row = $(this).parents('.dataRow');
 
-    row.find('input[type="text"]:not(:disabled)').each(function() {
-      console.log('d', this);
-      $('#request').bootstrapValidator('removeField', $(this));
-    });
+//    row.find('input[type="text"]:not(:disabled)').each(function() {
+//      console.log('d', this);
+//      $('#request').bootstrapValidator('removeField', $(this));
+//    });
 
     row.remove();
     setVisibility(container);

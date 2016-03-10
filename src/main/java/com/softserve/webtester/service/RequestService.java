@@ -1,12 +1,9 @@
 package com.softserve.webtester.service;
 
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DuplicateKeyException;
@@ -56,10 +53,6 @@ public class RequestService {
 
     @Value("${request.name.duplicate.suffix:_duplicate}")
     private String duplicateSuffix;
-
-    @Autowired
-    @Qualifier("requestNameCountPattern")
-    private Pattern requestNameCountPattern;
 
     public int getDefaultTimeout() {
         return defaultTimeout;
@@ -267,33 +260,6 @@ public class RequestService {
             LOGGER.error("Unable to duplicate the request, requests id: " + fromId, e);
             throw e;
         }
-    }
-
-    /**
-     * Generates unique name for {@link Request} instance.
-     * 
-     * @param request existing Request which name should be duplicated
-     * @return generated request name
-     */
-    @SuppressWarnings("unused")
-    private String createDuplicateName(Request request) {
-        String name = request.getName();
-        Matcher m = null;
-        while (!isRequestNameFree(name, request.getId())) {
-            int _position = name.lastIndexOf("_");
-            if (_position == -1) {
-                name += "_1";
-            } else {
-                m = requestNameCountPattern.matcher(name);
-                if (m.find()) {
-                    int curValue = Integer.parseInt(m.group().substring(1));
-                    name = name.substring(0, _position) + "_" + ++curValue;
-                } else {
-                    name += "_1";
-                }
-            }
-        }
-        return name;
     }
 
     /**
