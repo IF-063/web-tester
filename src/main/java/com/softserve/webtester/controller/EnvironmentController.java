@@ -14,7 +14,7 @@ import com.softserve.webtester.model.EnvironmentDbType;
 import com.softserve.webtester.service.EnvironmentService;
 
 @Controller
-@RequestMapping("/environments")
+@RequestMapping("/configuration/environments")
 public class EnvironmentController {
 
     @Autowired
@@ -41,7 +41,7 @@ public class EnvironmentController {
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     public String createEnvironment(Environment environment) {
         environmentService.save(environment);
-        return "redirect:/environments";
+        return "redirect:/configuration/environments";
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
@@ -57,13 +57,13 @@ public class EnvironmentController {
     @RequestMapping(value = "/{id}", method = RequestMethod.POST)
     public String updateEnvironment(Environment environment) {
         environmentService.update(environment);
-        return "redirect:/environments";
+        return "redirect:/configuration/environments";
     }
 
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.POST)
     public String deleteEnvironment(Environment environment) {
         environmentService.delete(environment);
-        return "redirect:/environments";
+        return "redirect:/configuration/environments";
     }
 
     @RequestMapping(value = "/check/{id}", method = RequestMethod.GET)
