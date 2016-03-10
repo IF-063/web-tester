@@ -21,16 +21,6 @@
 	href="<c:url value="/resources/bower_components/font-awesome/css/font-awesome.css"/>"
 	rel="stylesheet">
 
-<style type="text/css">
-th {
-	text-align: center;
-}
-
-.row {
-	margin: 3px;
-}
-</style>
-
 </head>
 
 <body>

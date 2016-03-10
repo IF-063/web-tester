@@ -20,11 +20,11 @@ import com.softserve.webtester.service.MetaDataService;
  * ServiceController class represents {@code Service} MVC Controller
  *
  * @author Roman Zolotar
- * @version 1.1
+ * @version 1.2
  */
 
 @Controller
-@RequestMapping(value = "/service")
+@RequestMapping(value = "/configuration/services")
 public class ServiceController {
 
 	@Autowired
@@ -60,7 +60,7 @@ public class ServiceController {
 			return "service/update";
 		}
 		metaDataService.serviceSave(service);
-		return "redirect:/service";
+		return "redirect:/configuration/services";
 	}
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.POST)
@@ -71,7 +71,7 @@ public class ServiceController {
 			return "service/update";
 		}
 		metaDataService.serviceUpdate(service);
-		return "redirect:/service";
+		return "redirect:/configuration/services";
 	}
 
 	@RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)

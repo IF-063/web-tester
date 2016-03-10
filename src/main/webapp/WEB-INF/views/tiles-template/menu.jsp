@@ -19,7 +19,7 @@
         </li>
         <li class="divider"></li>
         <li>
-          <a href="#">
+          <a href=<c:url value="/configuration/services" />>
             <i class="fa fa-comment fa-fw"></i> Services
           </a>
         </li>
