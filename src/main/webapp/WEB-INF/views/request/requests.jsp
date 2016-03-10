@@ -2,9 +2,9 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
-<link href="<c:url value="/resources/dist/css/select2.min.css" />" rel="stylesheet" />
+<link href=<c:url value="/resources/dist/css/select2.min.css" /> rel="stylesheet" />
 
-<link href="<c:url value="/resources/dist/css/select2-bootstrap.css" />" rel="stylesheet" />
+<link href=<c:url value="/resources/dist/css/select2-bootstrap.css" /> rel="stylesheet" />
 
 <!-- <div class="container"> -->
   <div class="row">
@@ -141,7 +141,7 @@
   var contextPath = "${pageContext.request.contextPath}"
 </script>
 
-<script src=<c:url value="/resources/dist/js/select2.min.js " />></script>
+<script src=<c:url value="/resources/dist/js/select2.min.js" />></script>
 
 <!-- Main page script -->
-<script src=<c:url value="/resources/js/request/requests.js " />></script>
+<script src=<c:url value="/resources/js/request/requests.js" />></script>

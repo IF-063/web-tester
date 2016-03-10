@@ -3,13 +3,7 @@ package com.softserve.webtester.mapper;
 import java.util.List;
 
 import com.softserve.webtester.model.ResultHistory;
-import org.apache.ibatis.annotations.Delete;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Options;
-import org.apache.ibatis.annotations.Result;
-import org.apache.ibatis.annotations.Results;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.Update;
+import org.apache.ibatis.annotations.*;
 import org.apache.ibatis.type.JdbcType;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Repository;
@@ -74,6 +68,16 @@ public interface LabelMapper {
      */
     @Delete("DELETE FROM Label WHERE id = #{id}")
     int deleteLabel(int id);
+
+    /**
+     * Checks the unique of label's name.
+     *
+     * @param name name of {@link Label} should be checked
+     * @param exclusionId id of {@link Label} should be excluded
+     * @return true, if name is unique
+     */
+    @Select("SELECT IF(count(*) > 0, false, true) FROM Label WHERE name = #{name} AND id != #{exclusionId}")
+    boolean isLabelNameFree(@Param("name") String name, @Param("exclusionId") int exclusionId);
     
     /**
      * Saves records to {@code Request_Label} junction table in the database by the Request.<br>
@@ -128,13 +132,6 @@ public interface LabelMapper {
 	       @Result(property = "name", column = "name", jdbcType = JdbcType.VARCHAR)
     })
     List<Label> loadByRequestId(int id);
-
-    @Select("SELECT l.id, l.name FROM Label l INNER JOIN ResultHistory_Label rhl ON rhl.labelId = l.id "
-            + "WHERE rhl.resultHistoryId = #{id}")
-    @Results({ @Result(id = true, property = "id", column = "id", jdbcType = JdbcType.INTEGER),
-            @Result(property = "name", column = "name", jdbcType = JdbcType.VARCHAR)
-    })
-    List<Label> loadByResultHistoryId(int id);
     
     /**
      * Loads all {@link Label} instances for the RequestCollection from the database.

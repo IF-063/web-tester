@@ -2,9 +2,9 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
-<link href="<c:url value="/resources/dist/css/select2.min.css" />" rel="stylesheet" />
+<link href=<c:url value="/resources/dist/css/select2.min.css" /> rel="stylesheet" />
 
-<link href="<c:url value="/resources/dist/css/select2-bootstrap.css" />" rel="stylesheet" />
+<link href=<c:url value="/resources/dist/css/select2-bootstrap.css" /> rel="stylesheet" />
 
 <!-- <div class="container"> -->
   <div class="row">
@@ -253,7 +253,7 @@
         </div>
 
         <div class="row">
-          <button class="btn btn-default btn-lg" onclick="window.history.back();">Back</button>
+          <a href=<c:url value="/tests/requests" /> class="btn btn-default btn-lg">Back</a>
           <button id="reset" class="btn btn-danger btn-lg">Reset</button>
           <button id="clean" class="btn btn-warning btn-lg">Clean all</button>
           <button id="validate" class="btn btn-success btn-lg">Save</button>
@@ -316,7 +316,7 @@
   </table>
 </div>
 
-<script src=<c:url value="/resources/dist/js/select2.min.js " />></script>
+<script src=<c:url value="/resources/dist/js/select2.min.js" />></script>
 
 <script src=<c:url value="/resources/dist/js/bootstrapValidator.min.js" />></script>
 
