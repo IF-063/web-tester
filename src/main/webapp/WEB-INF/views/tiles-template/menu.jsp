@@ -69,13 +69,13 @@
       </a>
       <ul class="dropdown-menu dropdown-alerts">
         <li>
-          <a href="#">
+          <a href="/results">
             <i class="fa fa-book fa-fw"></i> Requests
           </a>
         </li>
         <li class="divider"></li>
         <li>
-          <a href="#">
+          <a href="results_collections">
             <i class="fa fa-book fa-fw"></i> Collections
           </a>
         </li>

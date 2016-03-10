@@ -1,6 +1,5 @@
 package com.softserve.webtester.controller;
-import org.springframework.stereotype.Controller;
-import com.softserve.webtester.model.Application;
+
 import com.softserve.webtester.model.ResultHistory;
 import com.softserve.webtester.service.ResultHistoryService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,19 +8,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
 import java.util.List;
 
 @Controller
 public class ResultHistoryCollectionController {
-
-
-
-
-
-
-
 
     private ResultHistoryService resultHistoryService;
 
@@ -38,17 +28,22 @@ public class ResultHistoryCollectionController {
         return resultHistoryService.loadAll();
     }
 
-    @RequestMapping(value = "/results", method = RequestMethod.GET)
+    @RequestMapping(value = "/results_collections", method = RequestMethod.GET)
     public String listResults(Model model) {
 
         model.addAttribute("result", new ResultHistory());
         List<ResultHistory> list = resultHistoryService.loadAll();
+        System.out.println(list.size());
+
+        ResultHistory rs=list.get(0);
+        System.out.println(rs.getMessage());
+
         model.addAttribute("list", list);
         model.addAttribute("list_size", list.size());
-        return "result";
+        return "result_collections";
     }
 
-    @RequestMapping("/remove/{id}")
+    /*@RequestMapping("/remove/{id}")
     public String removeResult(@PathVariable("id") int id){
 
         resultHistoryService.delete(id);
@@ -79,5 +74,5 @@ public class ResultHistoryCollectionController {
         ResultHistory result = resultHistoryService.loadById(id);
         model.addAttribute("result",result);
         return "result_detailed";
-    }
+    }*/
 }
