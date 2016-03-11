@@ -1,7 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
-<%-- <c:out value="Hello, ${user.firstName} ${user.lastName}!" /> --%>
-
 <div class="row">
   <div class="col-md-12">
     <h1 class="page-header">Configuration</h1>

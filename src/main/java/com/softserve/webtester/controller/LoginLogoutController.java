@@ -4,15 +4,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.softserve.webtester.model.User;
 import com.softserve.webtester.service.UserService;
 
 /**
@@ -34,20 +33,20 @@ public class LoginLogoutController {
      */
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public String loginPage() {
-        return "login";
+        if (SecurityContextHolder.getContext().getAuthentication() instanceof AnonymousAuthenticationToken) {
+            System.out.println(1);
+            return "login";
+        }
+        return "redirect:/";
     }
 
     /**
      * Retrieves home page.
      * 
-     * @param model {@link Model} object
      * @return name of view
      */
     @RequestMapping(value = { "/", "/home" }, method = RequestMethod.GET)
-    public String home(Model model) {
-        String userId = SecurityContextHolder.getContext().getAuthentication().getName();
-        User user = userService.load(userId);
-        model.addAttribute("user", user);
+    public String home() {
         return "home";
     }
 

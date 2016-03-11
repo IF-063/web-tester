@@ -6,113 +6,95 @@
 
 <link href=<c:url value="/resources/dist/css/select2-bootstrap.css" /> rel="stylesheet" />
 
-<!-- <div class="container"> -->
-  <div class="row">
-    <div class="col-md-12">
-      <div class="panel panel-default">
-        <div class="panel-heading">
-          <form:form modelAttribute="requestFilterDTO" method="GET">
-            <fieldset>
-              <h4>Filters</h4>
+<div class="row">
+  <div class="col-md-12">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <form:form modelAttribute="requestFilterDTO" method="GET">
+          <fieldset>
+            <h4>Filters</h4>
 
-              <div class="col-md-2">
-                <label for="requestNameFilter" class="control-label">Request name</label>
-                <form:input type="text" path="requestNameFilter" class="form-control" placeholder="name starts with" />
-              </div>
-
-              <div class="col-md-2">
-                <label for="applicationFilter" class="control-label">Applications</label>
-                <form:select path="applicationFilter" items="${applications}" class="form-control select2-multiple" 
-                  multiple="multiple" data-placeholder="applications" itemLabel="name" itemValue="id" />
-              </div>
-
-              <div class="col-md-2">
-                <label for="serviceFilter" class="control-label">Service</label>
-                <form:select path="serviceFilter" items="${services}" class="form-control select2-multiple" 
-                  multiple="multiple" data-placeholder="services" itemLabel="name" itemValue="id" />
-              </div>
-
-              <div class="col-md-2">
-                <label for="labelFilter" class="control-label">Labels</label>
-                <form:select path="labelFilter" items="${labels}" class="form-control select2-multiple" 
-                  multiple="multiple" data-placeholder="labels" itemLabel="name" itemValue="id" />
-              </div>
-
-              <div class="col-md-4">
-                <label>Actions</label>
-                <div>
-                  <a href=<c:url value="/tests/requests/" /> class="btn btn-default">Reset</a>
-                  <input type="submit" class="btn btn-success" value="Filter" />
-                </div>
-              </div>
-
-            </fieldset>
-
-          </form:form>
-          <h4>Requests</h4>
-          <div class="row">
-            <div class="col-md-12">
-              <a href=<c:url value="/tests/requests/create" /> class="btn btn-success">Create</a>
-              <button id="runAll" class="btn btn-info">Run all</button>
-              <button id="runSelected" class="btn btn-info">Run selected</button>
-              <button id="deleteSelected" class="btn btn-default">Delete selected</button>
+            <div class="col-md-2">
+              <label for="requestNameFilter" class="control-label">Request name</label>
+              <form:input type="text" path="requestNameFilter" class="form-control" placeholder="name includes" />
             </div>
+
+            <div class="col-md-2">
+              <label for="applicationFilter" class="control-label">Applications</label>
+              <form:select path="applicationFilter" items="${applications}" class="form-control select2-multiple" 
+                multiple="multiple" data-placeholder="applications" itemLabel="name" itemValue="id" />
+            </div>
+
+            <div class="col-md-2">
+              <label for="serviceFilter" class="control-label">Service</label>
+              <form:select path="serviceFilter" items="${services}" class="form-control select2-multiple" 
+                multiple="multiple" data-placeholder="services" itemLabel="name" itemValue="id" />
+            </div>
+
+            <div class="col-md-2">
+              <label for="labelFilter" class="control-label">Labels</label>
+              <form:select path="labelFilter" items="${labels}" class="form-control select2-multiple" 
+                multiple="multiple" data-placeholder="labels" itemLabel="name" itemValue="id" />
+            </div>
+
+            <div class="col-md-4">
+              <label>Actions</label>
+              <div>
+                <a href=<c:url value="/tests/requests/" /> class="btn btn-default">Reset</a>
+                <input type="submit" class="btn btn-success" value="Filter" />
+              </div>
+            </div>
+
+          </fieldset>
+
+        </form:form>
+        <h4>Requests</h4>
+        <div class="row">
+          <div class="col-md-12">
+            <a href=<c:url value="/tests/requests/create" /> class="btn btn-success">Create</a>
+            <button id="runAll" class="btn btn-info">Run all</button>
+            <button id="runSelected" class="btn btn-info">Run selected</button>
+            <button id="deleteSelected" class="btn btn-default">Delete selected</button>
           </div>
         </div>
-        <div class="table-responsive">
-          <table class="table table-hover table-bordered table-condensed text-center panel-body" id="requests">
-            <thead>
-              <tr>
-                <th><input id="selectAll" type="checkbox" title="Select all"></th>
-                <th>Name</th>
-                <th>Application</th>
-                <th>Service</th>
-                <th>Endpoint</th>
-                <th>Run</th>
-                <th>See results</th>
-                <th>Duplicate</th>
-                <th>Disable</th>
-                <th>Delete</th>
+      </div>
+      <div class="table-responsive">
+        <table class="table table-hover table-bordered table-condensed text-center panel-body" id="requests">
+          <thead>
+            <tr>
+              <th><input id="selectAll" type="checkbox" title="Select all"></th>
+              <th>Name</th>
+              <th>Application</th>
+              <th>Service</th>
+              <th>Endpoint</th>
+              <th>Run</th>
+              <th>See results</th>
+              <th>Duplicate</th>
+              <th>Disable</th>
+              <th>Delete</th>
+            </tr>
+          </thead>
+          <tbody>
+            <c:forEach items="${requests}" var="request">
+              <tr class="dataRow">
+                <td><input id="${request.id}" type="checkbox" name="operateSelect"></td>
+                <td><a href=<c:url value="/tests/requests/${request.id} " />><c:out value="${request.name}" /></a></td>
+                <td><c:out value="${request.application.name}" /></td>
+                <td><c:out value="${request.service.name}" /></td>
+                <td title="${request.endpoint}"><c:out value="${request.endpoint}" /></td>
+                <td id="${request.id}" class="run cursorPointer"><i class="fa fa-play"></i></td>
+                <td><a href=<c:url value="/results/requests/${request.id}" />>results</a></td>
+                <td class="duplicate cursorPointer" id="${request.id}"><i class="fa fa-copy fa-lg"></i></td>
+                <td><input id=<c:out value="${request.id}" /> type="checkbox" name="disableSelect"></td>
+                <td id="${request.id}" class="removeInstance cursorPointer"><i class="fa fa-trash fa-lg"></i></td>
               </tr>
-            </thead>
-            <tbody>
-              <c:forEach items="${requests}" var="request">
-                <tr class="dataRow">
-                  <td>
-                    <input id="${request.id}" type="checkbox" name="operateSelect">
-                  </td>
-                  <td>
-                    <a href=<c:url value="/tests/requests/${request.id} " />>
-                      <c:out value="${request.name}" />
-                    </a>
-                  </td>
-                  <td>
-                    <c:out value="${request.application.name}" />
-                  </td>
-                  <td>
-                    <c:out value="${request.service.name}" />
-                  </td>
-                  <td title="${request.endpoint}">
-                    <c:out value="${request.endpoint}" />
-                  </td>
-                  <td><a id="${request.id}" class="run"><i class="fa fa-play"></i></a></td>
-                  <td><a href=<c:url value="/results/requests/${request.id}" />>results</a>
-                  </td>
-                  <td>
-                    <a href=<c:url value="/tests/requests/create?fromId=${request.id}" />>
-                      <i class="fa fa-copy fa-lg"></i></a>
-                  </td>
-                  <td><input id=<c:out value="${request.id}" /> type="checkbox" name="disableSelect"></td>
-                  <td><a id="${request.id}" class="removeInstance"><i class="fa fa-trash fa-lg"></i></a></td>
-                </tr>
-              </c:forEach>
-            </tbody>
-          </table>
-        </div>
+            </c:forEach>
+          </tbody>
+        </table>
       </div>
     </div>
   </div>
-<!-- </div> -->
+</div>
 
 <div class="modal fade" id="environmentModal" tabindex="-1" role="dialog" aria-labelledby="environmentModalLabel">
   <div class="modal-dialog modal-sm" role="document">

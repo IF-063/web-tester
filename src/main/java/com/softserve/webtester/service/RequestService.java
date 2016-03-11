@@ -26,7 +26,6 @@ import com.softserve.webtester.model.Request;
  * logging.
  * 
  * @author Taras Oglabyak
- * @version 1.4
  */
 @Service
 public class RequestService {

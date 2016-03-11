@@ -381,3 +381,11 @@ th {
 	text-align: left;
 	vertical-align: middle;
 }
+
+#requestBody, #expectedResponse {
+    resize: vertical;
+}
+
+.cursorPointer {
+	cursor: pointer
+}

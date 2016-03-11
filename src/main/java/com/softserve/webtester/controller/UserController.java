@@ -63,7 +63,7 @@ public class UserController {
      * @return name of view will be returned
      */
     @RequestMapping(method = RequestMethod.POST)
-    public String editAccount(@Validated @ModelAttribute("user") User user, BindingResult result) {
+    public String editAccount(@Validated @ModelAttribute User user, BindingResult result) {
         if (result.hasErrors()) {
             return "account";
         }
@@ -79,8 +79,7 @@ public class UserController {
      * @return JSON object with <code>valid</code> name and boolean value
      */
     @RequestMapping(value = "/isUsernameFree", method = RequestMethod.GET)
-    public @ResponseBody String isUsernameFree(@RequestParam(value = "id") int id,
-            @RequestParam("username") String username) {
+    public @ResponseBody String isUsernameFree(@RequestParam int id, @RequestParam String username) {
         return String.format("{\"valid\": %b}", !"".equals(username) && userService.isUsernameFree(id, username));
     }
 }

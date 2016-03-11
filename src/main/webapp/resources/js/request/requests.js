@@ -5,6 +5,11 @@ $(function() {
 	theme: 'bootstrap',
     width: '100%'
   });
+  
+  $(document).on('click', '.duplicate', function() {
+	window.location.href = contextPath + '/tests/requests/create?fromId=' + $(this).prop('id');
+	return false;
+  });
  
   // selects all request on page
   $('#requests #selectAll').click(function() {
@@ -15,8 +20,7 @@ $(function() {
 
   // performs request run
   $(document).on('click', '.run', function() {
-    // $('#requestsToSend').prop('value', [$(this).prop('id')]);
-	  requestsToSend = [$(this).prop('id')];
+	requestsToSend = [$(this).prop('id')];
     startTest();
     return false;
   });
@@ -105,7 +109,6 @@ $(function() {
         for (var i = 0; i < input.length; i++) {
           $('#requests input[type="checkbox"][id=' + input[i] + ']').parents('tr').remove();
         }
-        alert('Request deleted (code: ' + jqXHR.status + ')');
       },
       error: function(jqXHR) {
         alert('Error (code: ' + jqXHR.status + ')');

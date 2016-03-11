@@ -113,7 +113,7 @@ public class RequestController {
      * @return name of view
      */
     @RequestMapping(value = "/create", method = RequestMethod.GET)
-    public String getCreateRequestPage(@RequestParam(value = "fromId", required = false) Integer fromId, 
+    public String getCreateRequestPage(@RequestParam(required = false) Integer fromId, 
             Model model) {
         model.addAllAttributes(addMetaData());
         Request request = null;
@@ -210,7 +210,7 @@ public class RequestController {
      * @return identifier of requests run
      */
     @RequestMapping(value = "/run", method = RequestMethod.POST)
-    public @ResponseBody int runRequests(@RequestParam(value = "environmentId") int environmentId,
+    public @ResponseBody int runRequests(@RequestParam int environmentId,
             @RequestParam(value = "requestIdArray[]") int[] requestIdArray) {
         System.out.println("start at: " + new Date());
         System.out.println("e: " + environmentId);
@@ -227,8 +227,7 @@ public class RequestController {
      * @return JSON object with <code>valid</code> name and boolean value
      */
     @RequestMapping(value = "/create/isRequestNameFree", method = RequestMethod.GET)
-    public @ResponseBody String isRequestNameFree(@RequestParam("name") String name,
-            @RequestParam(value = "exclusionId") int exclusionId) {
+    public @ResponseBody String isRequestNameFree(@RequestParam String name, @RequestParam int exclusionId) {
         return String.format("{\"valid\": %b}",
                 !"".equals(name) && requestService.isRequestNameFree(name, exclusionId));
     }

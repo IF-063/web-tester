@@ -8,9 +8,9 @@
          http://www.springframework.org/schema/security/spring-security-4.0.xsd">
 
   <sec:http pattern="/resources/**" security="none" />
-  <sec:http pattern="/login" security="none" />
 
   <sec:http use-expressions="true">
+    <sec:intercept-url pattern="/login" access="permitAll" />
     <sec:intercept-url pattern="/configuration/**" access="hasRole('ROLE_QA')" />
     <sec:intercept-url pattern="/tests/**" access="hasRole('ROLE_QA')" />
     <sec:intercept-url pattern="/results/**" access="hasRole('ROLE_QA')" />

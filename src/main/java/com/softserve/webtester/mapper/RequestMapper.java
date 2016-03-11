@@ -91,7 +91,7 @@ public interface RequestMapper {
     @Select({ "<script>SELECT DISTINCT r.id, r.name, r.applicationId, r.serviceId, r.endpoint FROM Request r ",
               "<if test='labelFilter!=null and labelFilter.length>0'>LEFT JOIN Request_Label rl ON r.id=rl.requestId ",
               "</if>", "WHERE r.id > 0",
-              "<if test='requestNameFilter!=null'> AND r.name LIKE CONCAT(#{requestNameFilter},'%')</if>",
+              "<if test='requestNameFilter!=null'> AND r.name LIKE CONCAT('%', #{requestNameFilter},'%')</if>",
               "<if test='applicationFilter!=null and applicationFilter.length>0'> AND r.applicationId IN",
               "<foreach collection='applicationFilter' item='item' index='index' open='(' separator=',' close=')'>",
               "#{item}</foreach></if>", 
@@ -100,7 +100,6 @@ public interface RequestMapper {
               "#{item}</foreach></if>", "<if test='labelFilter!=null and labelFilter.length>0'> AND rl.labelId IN",
               "<foreach collection='labelFilter' item='item' index='index' open='(' separator=',' close=')'>",
               "#{item}</foreach></if>",
-              // " GROUP BY r.id",
               "</script>" })
     @Results({ @Result(id = true, property = "id", column = "id", jdbcType = JdbcType.INTEGER),
                @Result(property = "name", column = "name", jdbcType = JdbcType.VARCHAR),
