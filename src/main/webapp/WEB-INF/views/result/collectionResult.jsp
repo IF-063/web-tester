@@ -66,4 +66,4 @@
   </div>
 </div>
 
-<link href=<c:url value="/resources/dist/js/result_filter.js" /> rel="stylesheet" />
+<script src=<c:url value="/resources/dist/js/result_filter.js" />></script>

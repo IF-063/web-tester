@@ -73,7 +73,7 @@ article {
 
 section, article {
     display: block;
-    padding: 0;
+    padding: 0px;
 }
 
 #view{
@@ -87,4 +87,9 @@ section, article {
     border-radius: 7px;
     border: 1px solid black;
     height: 1220px;
+}
+
+article {
+    border-left: white;
+    padding: 0px;
 }
