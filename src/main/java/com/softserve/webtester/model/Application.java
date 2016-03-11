@@ -21,68 +21,68 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 public class Application implements Serializable {
 
-	private static final long serialVersionUID = -6038553268823619415L;
+    private static final long serialVersionUID = -6038553268823619415L;
 
-	private int id;
+    private int id;
 
-	@NotEmpty(message = "Name can't be empty")
-	@Size(max = 75, message = "Too long value")
-	private String name;
-	
-	@NotNull
-	@Size(max = 255, message = "Too long value")
-	private String description;
-	
-	private boolean deleted;
+    @NotEmpty(message = "Name can't be empty")
+    @Size(max = 75, message = "Too long value")
+    private String name;
 
-	public Application() {
-	}
+    @NotNull
+    @Size(max = 255, message = "Too long value")
+    private String description;
 
-	public int getId() {
-		return id;
-	}
+    private boolean deleted;
 
-	public void setId(int id) {
-		this.id = id;
-	}
+    public Application() {
+    }
 
-	public String getName() {
-		return name;
-	}
+    public int getId() {
+        return id;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public void setId(int id) {
+        this.id = id;
+    }
 
-	public String getDescription() {
-		return description;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public void setDescription(String description) {
-		this.description = description;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public boolean getDeleted() {
-		return deleted;
-	}
+    public String getDescription() {
+        return description;
+    }
 
-	public void setDeleted(boolean deleted) {
-		this.deleted = deleted;
-	}
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
-	@Override
-	public boolean equals(Object obj) {
-		return EqualsBuilder.reflectionEquals(this, obj);
-	}
+    public boolean getDeleted() {
+        return deleted;
+    }
 
-	@Override
-	public String toString() {
-		return ToStringBuilder.reflectionToString(this, ToStringStyle.SHORT_PREFIX_STYLE);
-	}
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
+    }
 
-	@Override
-	public int hashCode() {
-		return HashCodeBuilder.reflectionHashCode(this, true);
-	}
+    @Override
+    public boolean equals(Object obj) {
+        return EqualsBuilder.reflectionEquals(this, obj);
+    }
+
+    @Override
+    public String toString() {
+        return ToStringBuilder.reflectionToString(this, ToStringStyle.SHORT_PREFIX_STYLE);
+    }
+
+    @Override
+    public int hashCode() {
+        return HashCodeBuilder.reflectionHashCode(this, true);
+    }
 
 }

@@ -19,9 +19,9 @@ import com.softserve.webtester.model.Service;
 
 /**
  * MetaDataService class implements CRUD operation on {@link Application},
- * {@link Service}, {@link BuildVersion} and {@link Label} instances in the database.
- * The service uses Spring DataSourceTransactionManager for managing transaction
- * with the database and log4j for logging.
+ * {@link Service}, {@link BuildVersion} and {@link Label} instances in the
+ * database. The service uses Spring DataSourceTransactionManager for managing
+ * transaction with the database and log4j for logging.
  * 
  * @author Roman Zolotar, Anton Mykytiuk
  * @version 1.2
@@ -31,224 +31,242 @@ import com.softserve.webtester.model.Service;
 @Transactional
 public class MetaDataService {
 
-	private static final Logger LOGGER = Logger.getLogger(MetaDataService.class);
+    private static final Logger LOGGER = Logger.getLogger(MetaDataService.class);
 
-	@Autowired
-	private ApplicationMapper applicationMapper;
+    @Autowired
+    private ApplicationMapper applicationMapper;
 
-	@Autowired
-	private ServiceMapper serviceMapper;
+    @Autowired
+    private ServiceMapper serviceMapper;
 
-	@Autowired
+    @Autowired
     private BuildVersionMapper buildVersionMapper;
 
     @Autowired
     private LabelMapper labelMapper;
-    
-    										//APPLICATION
-    
+
+    // APPLICATION
+
     /**
      * Loads all {@link Application} instances from database
+     * 
      * @return List of {@link Application} instances
      * @throws DataAccessException
      */
 
-	public List<Application> applicationLoadAll() {
-		try {
-			return applicationMapper.loadAll();
-		} catch (DataAccessException e) {
-			LOGGER.error("Unable to read Application table: ", e);
-			throw e;
-		}
-	}
+    public List<Application> applicationLoadAll() {
+        try {
+            return applicationMapper.loadAll();
+        } catch (DataAccessException e) {
+            LOGGER.error("Unable to read Application table: ", e);
+            throw e;
+        }
+    }
 
-	/**
+    /**
      * Loads {@link Application} instance from database
+     * 
      * @param id
      * @return id of Loaded Application
      * @throws DataAccessException
      */
-	
-	public Application applicationLoad(int id) {
-		try {
-			return applicationMapper.load(id);
-		} catch (DataAccessException e) {
-			LOGGER.error("Unable to read line from Application table with next id: " + id, e);
-			throw e;
-		}
-	}
 
-	/**
+    public Application applicationLoad(int id) {
+        try {
+            return applicationMapper.load(id);
+        } catch (DataAccessException e) {
+            LOGGER.error("Unable to read line from Application table with next id: " + id, e);
+            throw e;
+        }
+    }
+
+    /**
      * Updates {@link Application} instance in database
-     * @param application object
+     * 
+     * @param application
+     *            object
      * @throws DataAccessException
      */
-	
-	public void applicationUpdate(Application application) {
-		try {
-			applicationMapper.update(application);
-		} catch (DataAccessException e) {
-			LOGGER.error("Unable to update line in Application table with next id: " + application.getId(), e);
-			throw e;
-		}
-	}
-	
-	/**
+
+    public void applicationUpdate(Application application) {
+        try {
+            applicationMapper.update(application);
+        } catch (DataAccessException e) {
+            LOGGER.error("Unable to update line in Application table with next id: " + application.getId(), e);
+            throw e;
+        }
+    }
+
+    /**
      * Deletes {@link Application} instance from database
+     * 
      * @param id
      * @throws DataAccessException
      */
 
-	public void applicationDelete(int id) {
-		try {
-			applicationMapper.delete(id);
-		} catch (DataAccessException e) {
-			LOGGER.error("Unable to delete line from Application table with next id: " + id, e);
-			throw e;
-		}
-	}
-	
-	/**
+    public void applicationDelete(int id) {
+        try {
+            applicationMapper.delete(id);
+        } catch (DataAccessException e) {
+            LOGGER.error("Unable to delete line from Application table with next id: " + id, e);
+            throw e;
+        }
+    }
+
+    /**
      * Provides soft-delete {@link Application} instance
+     * 
      * @param id
      * @throws DataAccessException
      */
-	
-	public void applicationSoftDelete(int id) {
-		try {
-			Application application = applicationMapper.load(id);
-			if (application != null) {
-				application.setDeleted(true);
-				applicationMapper.update(application);
-			}
-		} catch (DataAccessException e) {
-			LOGGER.error("Unable to delete line from Application table with next id: " + id, e);
-			throw e;
-		}
-	}
-	
-	/**
+
+    public void applicationSoftDelete(int id) {
+        try {
+            Application application = applicationMapper.load(id);
+            if (application != null) {
+                application.setDeleted(true);
+                applicationMapper.update(application);
+            }
+        } catch (DataAccessException e) {
+            LOGGER.error("Unable to delete line from Application table with next id: " + id, e);
+            throw e;
+        }
+    }
+
+    /**
      * Saves {@link Application} instance in database
-     * @param application object
+     * 
+     * @param application
+     *            object
      * @throws DataAccessException
      */
 
-	public void applicationSave(Application application) {
-		try {
-			applicationMapper.save(application);
-		} catch (DataAccessException e) {
-			LOGGER.error("Unable to create line in Application table with next id: ", e);
-			throw e;
-		}
-	}
-	
-											//SERVICE
-	
-	/**
+    public void applicationSave(Application application) {
+        try {
+            applicationMapper.save(application);
+        } catch (DataAccessException e) {
+            LOGGER.error("Unable to create line in Application table with next id: ", e);
+            throw e;
+        }
+    }
+
+    // SERVICE
+
+    /**
      * Loads all {@link Service} instances from database
+     * 
      * @return List of {@link Service} instances
      * @throws DataAccessException
      */
 
-	public List<Service> serviceLoadAll() {
-		try {
-			return serviceMapper.loadAll();
-		} catch (DataAccessException e) {
-			LOGGER.error("Unable to read Service table: ", e);
-			throw e;
-		}
-	}
-	
-	/**
+    public List<Service> serviceLoadAll() {
+        try {
+            return serviceMapper.loadAll();
+        } catch (DataAccessException e) {
+            LOGGER.error("Unable to read Service table: ", e);
+            throw e;
+        }
+    }
+
+    /**
      * Loads {@link Service} instance from database
+     * 
      * @param id
      * @return id of Loaded Service
      * @throws DataAccessException
      */
 
-	public Service serviceLoad(int id) {
-		try {
-			return serviceMapper.load(id);
-		} catch (DataAccessException e) {
-			LOGGER.error("Unable to read line from Service table with next id: " + id, e);
-			throw e;
-		}
-	}
-	
-	/**
+    public Service serviceLoad(int id) {
+        try {
+            return serviceMapper.load(id);
+        } catch (DataAccessException e) {
+            LOGGER.error("Unable to read line from Service table with next id: " + id, e);
+            throw e;
+        }
+    }
+
+    /**
      * Updates {@link Service} instance in database
-     * @param service object
+     * 
+     * @param service
+     *            object
      * @throws DataAccessException
      */
 
-	public void serviceUpdate(Service service) {
-		try {
-			serviceMapper.update(service);
-		} catch (DataAccessException e) {
-			LOGGER.error("Unable to update line in Service table with next id: " + service.getId(), e);
-			throw e;
-		}
-	}
-	
-	/**
+    public void serviceUpdate(Service service) {
+        try {
+            serviceMapper.update(service);
+        } catch (DataAccessException e) {
+            LOGGER.error("Unable to update line in Service table with next id: " + service.getId(), e);
+            throw e;
+        }
+    }
+
+    /**
      * Deletes {@link Service} instance from database
+     * 
      * @param id
      * @throws DataAccessException
      */
 
-	public void serviceDelete(int id) {
-		try {
-			serviceMapper.delete(id);
-		} catch (DataAccessException e) {
-			LOGGER.error("Unable to delete line from Service table with next id: " + id, e);
-			throw e;
-		}
-	}
-	
-	/**
+    public void serviceDelete(int id) {
+        try {
+            serviceMapper.delete(id);
+        } catch (DataAccessException e) {
+            LOGGER.error("Unable to delete line from Service table with next id: " + id, e);
+            throw e;
+        }
+    }
+
+    /**
      * Provides Soft-delete {@link Service} instance
+     * 
      * @param id
      * @throws DataAccessException
      */
-	
-	public void serviceSoftDelete(int id) {
-		try {
-			Service service = serviceMapper.load(id);
-			if (service != null) {
-				service.setDeleted(true);
-				serviceMapper.update(service);
-			}
-		} catch (DataAccessException e) {
-			LOGGER.error("Unable to delete line from Service table with next id: " + id, e);
-			throw e;
-		}
-	}
-	
-	/**
+
+    public void serviceSoftDelete(int id) {
+        try {
+            Service service = serviceMapper.load(id);
+            if (service != null) {
+                service.setDeleted(true);
+                serviceMapper.update(service);
+            }
+        } catch (DataAccessException e) {
+            LOGGER.error("Unable to delete line from Service table with next id: " + id, e);
+            throw e;
+        }
+    }
+
+    /**
      * Saves {@link Service} instance in database
-     * @param service object
+     * 
+     * @param service
+     *            object
      * @throws DataAccessException
      */
 
-	public void serviceSave(Service service) {
-		try {
-			serviceMapper.save(service);
-		} catch (DataAccessException e) {
-			LOGGER.error("Unable to create line in Service table: ", e);
-			throw e;
-		}
-	}
+    public void serviceSave(Service service) {
+        try {
+            serviceMapper.save(service);
+        } catch (DataAccessException e) {
+            LOGGER.error("Unable to create line in Service table: ", e);
+            throw e;
+        }
+    }
 
-                                                //BUILD_VERSIONS
+    // BUILD_VERSIONS
 
     /**
      * Saves {@link BuildVersion} instance to database
+     * 
      * @param buildVersion
      * @return id of saved BuildVersion
-     * @throws DuplicateKeyException if the buildVersion with the same name exists in the database
+     * @throws DuplicateKeyException
+     *             if the buildVersion with the same name exists in the database
      * @throws DataAccessException
      */
-	@Transactional
+    @Transactional
     public int saveBuildVersion(BuildVersion buildVersion) {
         try {
             buildVersionMapper.saveBuildVersion(buildVersion);
@@ -263,11 +281,12 @@ public class MetaDataService {
 
     /**
      * Loads {@link BuildVersion} instance from database
+     * 
      * @param id
      * @return {@link BuildVersion} instance
      * @throws DataAccessException
      */
-	@Transactional
+    @Transactional
     public BuildVersion loadBuildVersionById(int id) {
         try {
             return buildVersionMapper.loadBuildVersionById(id);
@@ -278,11 +297,13 @@ public class MetaDataService {
     }
 
     /**
-     * Loads all stored {@link BuildVersion} instances with their main information.
+     * Loads all stored {@link BuildVersion} instances with their main
+     * information.
+     * 
      * @return Set of {@link BuildVersion} instances
      * @throws DataAccessException
      */
-	@Transactional
+    @Transactional
     public List<BuildVersion> loadAllBuildVersions() {
         try {
             return buildVersionMapper.loadAllBuildVersions();
@@ -294,12 +315,15 @@ public class MetaDataService {
 
     /**
      * Updates {@link BuildVersion} instance should be updated in the database.
+     * 
      * @param buildVersion
      * @return the number of rows affected by the statement
-     * @throws DuplicateKeyException if the buildVersion with the same name exists in the database.
+     * @throws DuplicateKeyException
+     *             if the buildVersion with the same name exists in the
+     *             database.
      * @throws DataAccessException
      */
-	@Transactional
+    @Transactional
     public int updateBuildVersion(BuildVersion buildVersion) {
         try {
             buildVersionMapper.updateBuildVersion(buildVersion);
@@ -314,11 +338,12 @@ public class MetaDataService {
 
     /**
      * Deletes {@link BuildVersion} instance from the database.
+     * 
      * @param id
      * @return the number of rows affected by the statement
      * @throws DataAccessException
      */
-	@Transactional
+    @Transactional
     public int deleteBuildVersion(int id) {
         try {
             return buildVersionMapper.deleteBuildVersion(id);
@@ -328,34 +353,38 @@ public class MetaDataService {
         }
     }
 
-	/**
-	 * Checks the unique of build version's name.
-	 *
-	 * @param name name of {@link BuildVersion} should be checked
-	 * @param exclusionId id of {@link BuildVersion} should be excluded
-	 * @return true, if name is unique
-	 * @throws DataAccessException
-	 */
-	@Transactional
-	public boolean isBuildVersionNameFree(String name, int exclusionId) {
-		try {
-			return buildVersionMapper.isBuildVersionNameFree(name, exclusionId);
-		} catch (DataAccessException e) {
-			LOGGER.error("Unable to check build version's name, build version's name: " + name, e);
-			throw e;
-		}
-	}
+    /**
+     * Checks the unique of build version's name.
+     *
+     * @param name
+     *            name of {@link BuildVersion} should be checked
+     * @param exclusionId
+     *            id of {@link BuildVersion} should be excluded
+     * @return true, if name is unique
+     * @throws DataAccessException
+     */
+    @Transactional
+    public boolean isBuildVersionNameFree(String name, int exclusionId) {
+        try {
+            return buildVersionMapper.isBuildVersionNameFree(name, exclusionId);
+        } catch (DataAccessException e) {
+            LOGGER.error("Unable to check build version's name, build version's name: " + name, e);
+            throw e;
+        }
+    }
 
-                                                    //LABELS
+    // LABELS
 
     /**
      * Saves {@link Label} instance to database
+     * 
      * @param label
      * @return id of saved Label
-     * @throws DuplicateKeyException if the Label with the same name exists in the database
+     * @throws DuplicateKeyException
+     *             if the Label with the same name exists in the database
      * @throws DataAccessException
      */
-	@Transactional
+    @Transactional
     public int saveLabel(Label label) {
         try {
             labelMapper.saveLabel(label);
@@ -370,11 +399,12 @@ public class MetaDataService {
 
     /**
      * Loads {@link Label} instance from database
+     * 
      * @param id
      * @return {@link Label} instance
      * @throws DataAccessException
      */
-	@Transactional
+    @Transactional
     public Label loadLabelById(int id) {
         try {
             return labelMapper.loadLabelById(id);
@@ -386,11 +416,12 @@ public class MetaDataService {
 
     /**
      * Loads all stored {@link Label} instances with their main information.
+     * 
      * @return Set of {@link Label} instances
      * @throws DataAccessException
      */
-	@Transactional
-	public List<Label> loadAllLabels() {
+    @Transactional
+    public List<Label> loadAllLabels() {
         try {
             return labelMapper.loadAllLabels();
         } catch (DataAccessException e) {
@@ -401,36 +432,39 @@ public class MetaDataService {
 
     /**
      * Deletes {@link Label} instance from the database.
+     * 
      * @param id
      * @return the number of rows affected by the statement
      * @throws DataAccessException
      */
-	@Transactional
-	public int deleteLabel(int id) {
-		try {
-			return labelMapper.deleteLabel(id);
-		} catch (DataAccessException e) {
-			LOGGER.error("Unable to delete Label instance, request id: " + id, e);
-			throw e;
-		}
-	}
+    @Transactional
+    public int deleteLabel(int id) {
+        try {
+            return labelMapper.deleteLabel(id);
+        } catch (DataAccessException e) {
+            LOGGER.error("Unable to delete Label instance, request id: " + id, e);
+            throw e;
+        }
+    }
 
-	/**
-	 * Checks the unique of label's name.
-	 *
-	 * @param name name of {@link Label} should be checked
-	 * @param exclusionId id of {@link Label} should be excluded
-	 * @return true, if name is unique
-	 * @throws DataAccessException
-	 */
-	@Transactional
-	public boolean isLabelNameFree(String name, int exclusionId) {
-		try {
-			return labelMapper.isLabelNameFree(name, exclusionId);
-		} catch (DataAccessException e) {
-			LOGGER.error("Unable to check label's name, label's name: " + name, e);
-			throw e;
-		}
-	}
+    /**
+     * Checks the unique of label's name.
+     *
+     * @param name
+     *            name of {@link Label} should be checked
+     * @param exclusionId
+     *            id of {@link Label} should be excluded
+     * @return true, if name is unique
+     * @throws DataAccessException
+     */
+    @Transactional
+    public boolean isLabelNameFree(String name, int exclusionId) {
+        try {
+            return labelMapper.isLabelNameFree(name, exclusionId);
+        } catch (DataAccessException e) {
+            LOGGER.error("Unable to check label's name, label's name: " + name, e);
+            throw e;
+        }
+    }
 
 }

@@ -27,56 +27,56 @@ import com.softserve.webtester.service.MetaDataService;
 @RequestMapping(value = "configuration/applications")
 public class ApplicationController {
 
-	@Autowired
-	private MetaDataService metaDataService;
+    @Autowired
+    private MetaDataService metaDataService;
 
-	@RequestMapping(method = RequestMethod.GET)
-	public String getApplicationList(Model model) {
-		List<Application> applications = metaDataService.applicationLoadAll();
-		model.addAttribute("applications", applications);
-		return "application/list";
-	}
+    @RequestMapping(method = RequestMethod.GET)
+    public String getApplicationList(Model model) {
+        List<Application> applications = metaDataService.applicationLoadAll();
+        model.addAttribute("applications", applications);
+        return "application/list";
+    }
 
-	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
-	public String getApplication(@PathVariable(value = "id") Integer applicationId, Model model) {
-		Application application = metaDataService.applicationLoad(applicationId);
-		model.addAttribute("isUpdate", true);
-		model.addAttribute("application", application);
-		return "application/update";
-	}
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    public String getApplication(@PathVariable(value = "id") Integer applicationId, Model model) {
+        Application application = metaDataService.applicationLoad(applicationId);
+        model.addAttribute("isUpdate", true);
+        model.addAttribute("application", application);
+        return "application/update";
+    }
 
-	@RequestMapping(value = "/create", method = RequestMethod.GET)
-	public String createApplication(Model model) {
-		model.addAttribute("isUpdate", false);
-		model.addAttribute("application", new Application());
-		return "application/update";
-	}
+    @RequestMapping(value = "/create", method = RequestMethod.GET)
+    public String createApplication(Model model) {
+        model.addAttribute("isUpdate", false);
+        model.addAttribute("application", new Application());
+        return "application/update";
+    }
 
-	@RequestMapping(value = "/create", method = RequestMethod.POST)
-	public String saveCreatedApplication(@Valid @ModelAttribute("application") Application application,
-			BindingResult result, Model model) {
-		if (result.hasErrors()) {
-			model.addAttribute("isUpdate", false);
-			return "application/update";
-		}
-		metaDataService.applicationSave(application);
-		return "redirect:/configuration/applications";
-	}
+    @RequestMapping(value = "/create", method = RequestMethod.POST)
+    public String saveCreatedApplication(@Valid @ModelAttribute("application") Application application,
+            BindingResult result, Model model) {
+        if (result.hasErrors()) {
+            model.addAttribute("isUpdate", false);
+            return "application/update";
+        }
+        metaDataService.applicationSave(application);
+        return "redirect:/configuration/applications";
+    }
 
-	@RequestMapping(value = "/{id}", method = RequestMethod.POST)
-	public String saveUpdatedApplication(@Valid @ModelAttribute("application") Application application,
-			BindingResult result, Model model) {
-		if (result.hasErrors()) {
-			model.addAttribute("isUpdate", true);
-			return "application/update";
-		}
-		metaDataService.applicationUpdate(application);
-		return "redirect:/configuration/applications";
-	}
+    @RequestMapping(value = "/{id}", method = RequestMethod.POST)
+    public String saveUpdatedApplication(@Valid @ModelAttribute("application") Application application,
+            BindingResult result, Model model) {
+        if (result.hasErrors()) {
+            model.addAttribute("isUpdate", true);
+            return "application/update";
+        }
+        metaDataService.applicationUpdate(application);
+        return "redirect:/configuration/applications";
+    }
 
-	@RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
-	public String deleteApplication(@PathVariable(value = "id") Integer id, Model model) {
-		metaDataService.applicationSoftDelete(id);
-		return "redirect:configuration/application";
-	}
+    @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
+    public String deleteApplication(@PathVariable(value = "id") Integer id, Model model) {
+        metaDataService.applicationSoftDelete(id);
+        return "redirect:configuration/application";
+    }
 }
