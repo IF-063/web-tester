@@ -20,13 +20,13 @@
                   <th></th>
                   <th width="120">Collection Name</th>
                   <th width="120">Collection Description</th>
-                  <th width="300">Labels</th>
-                  <th width="80">Build Version</th>
-                  <th width="80">Start Time</th>
-                  <th width="80">Status</th>
+                  <th width="320">Labels</th>
+                  <th width="150">Build Version</th>
+                  <th width="200">Start Time</th>
+                  <th width="100">Status</th>
                   <th width="150">Message</th>
-                  <th width="120">Show request results</th>
-                  <th width="120">Delete</th>
+                  <th width="100">Show request results</th>
+                  <th width="100">Delete</th>
                 </tr>
                 </thead>
 

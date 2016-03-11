@@ -22,9 +22,9 @@ public class ResultHistoryController {
 
     @RequestMapping(method = RequestMethod.GET)
     public String listResults(Model model) {
-
-        model.addAttribute("result", new ResultHistory());
         List<ResultHistory> list = resultHistoryService.loadAll();
+        // list.forEach(System.out::println);
+        System.out.print(list.isEmpty());
         model.addAttribute("list", list);
         return "requestResult";
     }
