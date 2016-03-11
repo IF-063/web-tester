@@ -139,7 +139,7 @@
   <div class="row">
 
     <div class="col-md-4">
-      <div class="panel panel-primary" id="requestBlock">
+      <div class="panel panel-primary" id="requestResultBlock">
         <div class="panel-heading">
           <div class="row">
             <div class="col-xs-3">
@@ -161,7 +161,7 @@
     </div>
 
     <div class="col-md-4">
-      <div class="panel panel-green" id="collectionsBlock">
+      <div class="panel panel-green" id="collectionResultBlock">
         <div class="panel-heading">
           <div class="row">
             <div class="col-xs-3">
@@ -181,10 +181,6 @@
         </a>
       </div>
     </div>
-
-
-
-
 </div>
 
 <!-- Main page script -->

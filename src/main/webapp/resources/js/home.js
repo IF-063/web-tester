@@ -16,4 +16,15 @@ $(function() {
     window.location.href = 'tests/collections';
   });
 
+  $('#requestResultBlock').click(function() {
+    window.location.href = 'tests/collections';
+  });
+
+  $('#collectionResultBlock').click(function() {
+    window.location.href = 'tests/collections';
+  });
+
+
+
+
 });
