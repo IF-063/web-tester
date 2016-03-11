@@ -109,46 +109,6 @@
               <td>${result.runId}</td>
             </tr>
 
-        <c:if test="${result.requestCollection!=null}">
-            <tr>
-                <th class="th">Collection</th>
-                <td>
-                  <table class="table-bordered">
-                    <tr>
-                    <th class="th1">Id</th>
-                    <th class="th2">Name</th>
-                    <th class="th2">Description</th>
-                    </tr>
-                    <tr>
-                      <td>${result.requestCollection.getId()}</td>
-                      <td>${result.requestCollection.getName()}</td>
-                      <td>${result.requestCollection.getDescription()}</td>
-                    </tr>
-                  </table>
-                </td>
-              </tr>
-            </c:if>
-
-            <c:if test="${result.buildVersion!=null}">
-              <tr>
-              <th class="th">BuildVersion</th>
-                <td>
-                  <table class="table-bordered">
-                    <tr>
-                    <th class="th1">Id</th>
-                    <th class="th2">Name</th>
-                    <th class="th2">Description</th>
-                    </tr>
-                    <tr>
-                    <td>${result.buildVersion.getId()}</td>
-                    <td>${result.buildVersion.getName()}</td>
-                    <td>${result.buildVersion.getDescription()}</td>
-                    </tr>
-                  </table>
-                </td>
-              </tr>
-            </c:if>
-
             <tr>
               <th class="th">Message</th>
               <td><textarea id="code" name="code" rows="1" cols="90">${result.message}</textarea></td>

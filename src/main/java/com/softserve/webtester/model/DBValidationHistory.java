@@ -11,7 +11,7 @@ import java.io.Serializable;
  * @author Viktor Syomka
  */
 
-public class DbValidationHistory implements Serializable {
+    public class DbValidationHistory implements Serializable {
 
     private static final long serialVersionUID = 660145260667703463L;
 
@@ -88,4 +88,5 @@ public class DbValidationHistory implements Serializable {
     public int hashCode() {
         return HashCodeBuilder.reflectionHashCode(this, true);
     }
+    //...
 }

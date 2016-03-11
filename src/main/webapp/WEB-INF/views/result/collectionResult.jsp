@@ -51,10 +51,9 @@
                         <span class="glyphicon glyphicon-share-alt"></span>Show request results</a>
                     </td>
                     <td>
-                      <a class="btn btn-primary btn-xs" href="<c:url value="/results/collections/remove/${result.id}" />" >
+                      <a class="btn btn-primary btn-xs" href="<c:url value="/results/requests/remove/${result.id}" />" >
                         <span class="glyphicon glyphicon-remove"></span>Delete</a>
                     </td>
-
                   </tr>
                 </c:forEach>
                 </tbody>
