@@ -11,43 +11,27 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Controller
+@RequestMapping(value = "/results/collections")
 public class ResultHistoryCollectionController {
 
+    @Autowired
     private ResultHistoryService resultHistoryService;
 
-    //@Autowired and @Qualifier annotations are used for injecting ResultHistoryService
-    @Autowired(required=true)
-    @Qualifier(value="resultHistoryService")
-    public void setResultHistoryService(ResultHistoryService resultHistoryService){
-        this.resultHistoryService = resultHistoryService;
-    }
-
-    @ModelAttribute("list")
-    public List<ResultHistory> listResults() {
-        // Delegate to service
-        return resultHistoryService.loadAll();
-    }
-
-    @RequestMapping(value = "/results_collections", method = RequestMethod.GET)
+    @RequestMapping(method = RequestMethod.GET)
     public String listResults(Model model) {
 
         model.addAttribute("result", new ResultHistory());
-        List<ResultHistory> list = resultHistoryService.loadAll();
+        List<ResultHistory> list = resultHistoryService.loadAllCollections();
         System.out.println(list.size());
-
-        ResultHistory rs=list.get(0);
-        System.out.println(rs.getMessage());
-
         model.addAttribute("list", list);
-        model.addAttribute("list_size", list.size());
-        return "result_collections";
+        return "collectionResult";
     }
 
-    /*@RequestMapping("/remove/{id}")
-    public String removeResult(@PathVariable("id") int id){
+    @RequestMapping("/remove/{id}")
+    public String removeResult(@PathVariable int id){
 
         resultHistoryService.delete(id);
-        return "redirect:/results";
+        return "redirect:/results/collections";
     }
 
     @RequestMapping(value = "/remove_selected", method = RequestMethod.POST)
@@ -57,7 +41,7 @@ public class ResultHistoryCollectionController {
             resultHistoryService.delete(id);
         }
         System.out.println("Selected results deleted");
-        return "redirect:/results";
+        return "redirect:/results/collections";
     }
 
     @RequestMapping(value = "/remove_all", method = RequestMethod.GET)
@@ -65,14 +49,6 @@ public class ResultHistoryCollectionController {
 
         resultHistoryService.deleteAll();
         System.out.println("All results deleted");
-        return "redirect:/results";
+        return "redirect:/results/collections";
     }
-
-    @RequestMapping("/show/{id}")
-    public String showResult(@PathVariable("id") int id, Model model){
-
-        ResultHistory result = resultHistoryService.loadById(id);
-        model.addAttribute("result",result);
-        return "result_detailed";
-    }*/
 }

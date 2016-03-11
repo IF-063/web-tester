@@ -14,38 +14,26 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Controller
+@RequestMapping(value = "/results/requests")
 public class ResultHistoryController {
 
+    @Autowired
     private ResultHistoryService resultHistoryService;
 
-    //@Autowired and @Qualifier annotations are used for injecting ResultHistoryService
-    @Autowired(required=true)
-    @Qualifier(value="resultHistoryService")
-    public void setResultHistoryService(ResultHistoryService resultHistoryService){
-        this.resultHistoryService = resultHistoryService;
-    }
-
-    @ModelAttribute("list")
-    public List<ResultHistory> listResults() {
-        // Delegate to service
-        return resultHistoryService.loadAll();
-    }
-
-    @RequestMapping(value = "/results", method = RequestMethod.GET)
+    @RequestMapping(method = RequestMethod.GET)
     public String listResults(Model model) {
 
         model.addAttribute("result", new ResultHistory());
         List<ResultHistory> list = resultHistoryService.loadAll();
         model.addAttribute("list", list);
-        model.addAttribute("list_size", list.size());
-        return "result";
+        return "requestResult";
     }
 
     @RequestMapping("/remove/{id}")
-    public String removeResult(@PathVariable("id") int id){
+    public String removeResult(@PathVariable int id){
 
         resultHistoryService.delete(id);
-        return "redirect:/results";
+        return "redirect:/results/requests";
     }
 
     @RequestMapping(value = "/remove_selected", method = RequestMethod.POST)
@@ -55,7 +43,7 @@ public class ResultHistoryController {
             resultHistoryService.delete(id);
         }
         System.out.println("Selected results deleted");
-        return "redirect:/results";
+        return "redirect:/results/requests";
     }
 
     @RequestMapping(value = "/remove_all", method = RequestMethod.GET)
@@ -63,10 +51,10 @@ public class ResultHistoryController {
 
         resultHistoryService.deleteAll();
         System.out.println("All results deleted");
-        return "redirect:/results";
+        return "redirect:/results/requests";
     }
 
-    @RequestMapping("/show/{id}")
+    @RequestMapping("/{id}")
     public String showResult(@PathVariable("id") int id, Model model){
 
         ResultHistory result = resultHistoryService.loadById(id);
@@ -74,3 +62,5 @@ public class ResultHistoryController {
         return "result_detailed";
     }
 }
+
+

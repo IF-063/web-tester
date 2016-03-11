@@ -1,0 +1,90 @@
+.btn-primary {
+    color: #fff;
+    background-color: #ff6a53;
+    border-color: #ff6a53;
+}
+
+.btn.btn-primary.btn-xs{
+    color: #fff;
+    background-color: #2259ff;
+    border-color: #2259ff;
+}
+
+.table-bordered {
+    border: 3px solid #ddd;
+}
+
+th {
+    text-decoration: underline;
+    text-align: left;
+}
+
+.th{
+    width: 170px;
+}
+
+.th1{
+    width: 20px;
+}
+
+.th2{
+    width: 120px;
+}
+
+.th3{
+    width: 300px;
+}
+
+.th4{
+    width: 380px;
+}
+
+.th5{
+    width: 800px;
+    text-align: center;
+}
+
+.CodeMirror { line-height: 1.2; }
+@media screen and (min-width: 1300px) {
+    article { max-width: 1000px; }
+    #nav { border-right: 499px solid transparent; }
+}
+
+span.clicky {
+    cursor: pointer;
+    background: #d70;
+    color: white;
+    padding: 0 3px;
+    border-radius: 3px;
+}
+
+article {
+    max-width: 1200px;
+    margin: 0 0 0 100px;
+    border-left: 0px solid #E30808;;
+    padding: 30px 50px 100px 50px;
+    background: white;
+    z-index: 2;
+    position: relative;
+    min-height: 10%;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+}
+
+section, article {
+    display: block;
+    padding: 0;
+}
+
+#view{
+    height: 250px;
+}
+
+.row2{
+    padding: 5px 5px 5px 5px;
+    margin-left: 40px;
+    margin-right: 40px;
+    border-radius: 7px;
+    border: 1px solid black;
+    height: 1220px;
+}

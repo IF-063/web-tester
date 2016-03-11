@@ -82,6 +82,22 @@ public interface ResultHistoryMapper {
     })
     List<ResultHistory> loadAll();
 
+    @Select("SELECT id, requestCollectionId, buildVersionId, status, message, timeStart " +
+            "FROM ResultHistory WHERE requestCollectionId IS NOT NULL")
+    @Results({
+            @Result(id = true, property = "id", column = "id", jdbcType = JdbcType.INTEGER),
+            @Result(property = "requestCollection", column = "requestCollectionId",
+                    one = @One(select = "com.softserve.webtester.mapper.RequestCollectionMapper.load")),
+            @Result(property = "labels", column = "id",
+                    many = @Many(select = "com.softserve.webtester.mapper.LabelMapper.loadByResultHistoryId")),
+            @Result(property = "buildVersion", column = "buildVersionId",
+                    one = @One(select = "com.softserve.webtester.mapper.BuildVersionMapper.loadBuildVersionById")),
+            @Result(property = "status", column = "status", jdbcType = JdbcType.VARCHAR),
+            @Result(property = "message", column = "message", jdbcType = JdbcType.LONGVARCHAR),
+            @Result(property = "timeStart", column = "timeStart", jdbcType = JdbcType.TIMESTAMP)
+    })
+    List<ResultHistory> loadAllCollections();
+
     @Delete("DELETE FROM ResultHistory WHERE id = #{id}")
     int detele(int id);
 

@@ -6,7 +6,6 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
-import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -70,6 +69,17 @@ public class ResultHistoryService {
         }
     }
 
+    // Loading resultHistory instance from ResultHistory table
+    public List<ResultHistory> loadAllCollections() {
+
+        try {
+            return resultHistoryMapper.loadAllCollections();
+        } catch (DataAccessException e) {
+            LOGGER.error("Unable to load resultHistory instances", e);
+            throw e;
+        }
+    }
+
     // Deleting resultHistory instance from ResultHistory table
     public int delete(int id) {
 
@@ -95,7 +105,7 @@ public class ResultHistoryService {
     // Saving DbValidationHistories, headerHistories and labels for the resultHistory instance to the database
     private void saveResultHistoryComponents(ResultHistory resultHistory) {
 
-        List<DBValidationHistory> dbValidationHistories = resultHistory.getDbValidationHistories();
+        List<DbValidationHistory> dbValidationHistories = resultHistory.getDbValidationHistories();
         if (CollectionUtils.isNotEmpty(dbValidationHistories)) {
             dbValidationHistoryMapper.saveByResultHistory(resultHistory);
         }

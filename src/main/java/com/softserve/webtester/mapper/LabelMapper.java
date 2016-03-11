@@ -132,6 +132,13 @@ public interface LabelMapper {
 	       @Result(property = "name", column = "name", jdbcType = JdbcType.VARCHAR)
     })
     List<Label> loadByRequestId(int id);
+
+    @Select("SELECT l.id, l.name FROM Label l INNER JOIN ResultHistory_Label rhl ON rhl.labelId = l.id "
+            + "WHERE rhl.resultHistoryId = #{id}")
+    @Results({ @Result(id = true, property = "id", column = "id", jdbcType = JdbcType.INTEGER),
+            @Result(property = "name", column = "name", jdbcType = JdbcType.VARCHAR)
+    })
+    List<Label> loadByResultHistoryId(int id);
     
     /**
      * Loads all {@link Label} instances for the RequestCollection from the database.
@@ -140,6 +147,7 @@ public interface LabelMapper {
      * @return List of Label instances
      * @throws DataAccessException
      */
+
     @Select("SELECT l.id, l.name FROM Label l INNER JOIN RequestCollection_Label rcl ON rcl.labelId = l.id "
     	    + "WHERE rcl.requestCollectionId = #{id}")
     @Results({ @Result(id = true, property = "id", column = "id", jdbcType = JdbcType.INTEGER),

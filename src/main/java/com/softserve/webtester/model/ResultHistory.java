@@ -38,7 +38,7 @@ public class ResultHistory implements Serializable {
     private BuildVersion buildVersion;
     private List<Label> labels;
     private List<HeaderHistory> headerHistories;
-    private List<DBValidationHistory> dbValidationHistories;
+    private List<DbValidationHistory> dbValidationHistories;
 
     public ResultHistory() {
     }
@@ -48,7 +48,7 @@ public class ResultHistory implements Serializable {
                          String requestBody, String statusLine, String timeStart, int expectedResponseTime,
                          int responseTime, String expectedResponse, String actualResponse, String message, int runId,
                          RequestCollection requestCollection, BuildVersion buildVersion, List<Label> labels,
-                         List<HeaderHistory> headerHistories, List<DBValidationHistory> dbValidationHistories) {
+                         List<HeaderHistory> headerHistories, List<DbValidationHistory> dbValidationHistories) {
         this.id = id;
         this.status = status;
         this.application = application;
@@ -250,11 +250,11 @@ public class ResultHistory implements Serializable {
         this.headerHistories = headerHistories;
     }
 
-    public List<DBValidationHistory> getDbValidationHistories() {
+    public List<DbValidationHistory> getDbValidationHistories() {
         return dbValidationHistories;
     }
 
-    public void setDbValidationHistories(List<DBValidationHistory> dbValidationHistories) {
+    public void setDbValidationHistories(List<DbValidationHistory> dbValidationHistories) {
         this.dbValidationHistories = dbValidationHistories;
     }
 

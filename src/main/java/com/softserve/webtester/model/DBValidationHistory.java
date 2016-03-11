@@ -11,7 +11,7 @@ import java.io.Serializable;
  * @author Viktor Syomka
  */
 
-public class DBValidationHistory implements Serializable {
+public class DbValidationHistory implements Serializable {
 
     private static final long serialVersionUID = 660145260667703463L;
 
@@ -21,7 +21,7 @@ public class DBValidationHistory implements Serializable {
     private String actualValue;
     private ResultHistory resultHistory;
 
-    public DBValidationHistory(long id, String sqlQuery, String expectedValue, String actualValue,
+    public DbValidationHistory(long id, String sqlQuery, String expectedValue, String actualValue,
                                ResultHistory resultHistory) {
         this.id = id;
         this.sqlQuery = sqlQuery;
@@ -30,7 +30,7 @@ public class DBValidationHistory implements Serializable {
         this.resultHistory = resultHistory;
     }
 
-    public DBValidationHistory(){
+    public DbValidationHistory(){
 
     }
 

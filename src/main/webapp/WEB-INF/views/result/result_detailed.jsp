@@ -4,34 +4,21 @@
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 
-<html>
-<head>
-  <meta charset="UTF-8">
-  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
-  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-  <link href="/css/custom.css" rel = stylesheet type = "text/css">
+<link href=<c:url value="/resources/dist/css/result.css" /> rel="stylesheet" />
+<script src=<c:url value="/resources/dist/js/codemirror-5.12/lib/codemirror.js" />></script>
+<script src=<c:url value="/resources/dist/js/codemirror-5.12/mode/javascript/javascript.js" />></script>
+<script src=<c:url value="/resources/dist/js/codemirror-compressed.js" />></script>
+<link href=<c:url value="/resources/dist/js/codemirror-5.12/lib/codemirror.css" /> rel="stylesheet" />
+<link href=<c:url value="/resources/dist/js/codemirror-5.12/doc/docs.css" /> rel="stylesheet" />
+<link href=<c:url value="/resources/dist/js/codemirror-5.12/addon/merge/merge.css" /> rel="stylesheet" />
+<script src=<c:url value="/resources/dist/js/codemirror-5.12/mode/xml/xml.js" />></script>
+<script src=<c:url value="/resources/dist/js/codemirror-5.12/mode/css/css.js" />></script>
+<script src=<c:url value="/resources/dist/js/codemirror-5.12/mode/htmlmixed/htmlmixed.js" />></script>
+<script src=<c:url value="https://cdnjs.cloudflare.com/ajax/libs/diff_match_patch/20121119/diff_match_patch.js" />></script>
+<script src=<c:url value="/resources/dist/js/codemirror-5.12/addon/merge/merge.js" />></script>
+<script src=<c:url value="/resources/dist/js/code_mirror_custom.js" />></script>
 
-  <script src="/resources/dist/js/codemirror-5.12/lib/codemirror.js" type="text/javascript"></script>
-  <script src="/resources/dist/js/codemirror-5.12/mode/javascript/javascript.js" type="text/javascript"></script>
-  <script src="/resources/dist/js/codemirror-compressed.js" type="text/javascript"></script>
-  <link rel="stylesheet" href="/resources/dist/js/codemirror-5.12/lib/codemirror.css">
-  <link rel="stylesheet" href="/resources/dist/js/codemirror-5.12/doc/docs.css">
-  <link rel="stylesheet" href="/resources/dist/js/codemirror-5.12/addon/merge/merge.css">
-  <link rel="stylesheet" href="/resources/dist/css/result.css">
-  <script src="/resources/dist/js/codemirror-5.12/mode/xml/xml.js"></script>
-  <script src="/resources/dist/js/codemirror-5.12/mode/css/css.js"></script>
-  <script src="/resources/dist/js/codemirror-5.12/mode/htmlmixed/htmlmixed.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/diff_match_patch/20121119/diff_match_patch.js"></script>
-  <script src="/resources/dist/js/codemirror-5.12/addon/merge/merge.js"></script>
-  <script src="/resources/dist/js/code_mirror_custom.js"></script>
-
-  <title>Result Page</title>
-</head>
-<body id="b">
-<br>
 <div class = "container2">
   <div class="row2">
     <div class="col-md-12">
@@ -233,5 +220,3 @@
     </div>
   </div>
 </div>
-</body>
-</html>

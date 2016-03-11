@@ -69,16 +69,16 @@
       </a>
       <ul class="dropdown-menu dropdown-alerts">
         <li>
-          <a href=<c:url value="/results" />>
+          <a href=<c:url value="/results/requests" />>
             <i class="fa fa-book fa-fw"></i> Requests
           </a>
-<!--         </li>
+        </li>
         <li class="divider"></li>
         <li>
-          <a href="results_collections">
+          <a href=<c:url value="/results/collections" />>
             <i class="fa fa-book fa-fw"></i> Collections
           </a>
-        </li> -->
+        </li>
       </ul>
     </li>
 
