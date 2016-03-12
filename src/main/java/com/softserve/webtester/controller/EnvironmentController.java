@@ -5,6 +5,11 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -12,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import com.softserve.webtester.model.Environment;
 import com.softserve.webtester.model.EnvironmentDbType;
 import com.softserve.webtester.service.EnvironmentService;
+import com.softserve.webtester.validator.EnvironmentValidator;
 
 @Controller
 @RequestMapping("/configuration/environments")
@@ -19,6 +25,14 @@ public class EnvironmentController {
 
     @Autowired
     private EnvironmentService environmentService;
+
+    @Autowired
+    private EnvironmentValidator environmentValidator;
+
+    @InitBinder("environment")
+    public void initBinder(WebDataBinder binder) {
+        binder.addValidators(environmentValidator);
+    }
 
     @RequestMapping(method = RequestMethod.GET)
     public String getEnvironmentsPage(Model model) {
@@ -39,15 +53,18 @@ public class EnvironmentController {
     }
 
     @RequestMapping(value = "/create", method = RequestMethod.POST)
-    public String createEnvironment(Environment environment) {
+    public String createEnvironment(@Validated @ModelAttribute Environment environment, BindingResult result) {
+        if (result.hasErrors()) {
+            return "environment/environmentCreateOrUpdate";
+        }
         environmentService.save(environment);
         return "redirect:/configuration/environments";
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public String getEnvironmentUpdatePage(@PathVariable("id") int id, Model model) {
+    public String getEnvironmentUpdatePage(@PathVariable int id, Model model) {
         model.addAttribute("pageTask", "Update");
-        model.addAttribute("id", ((Integer)id).toString());
+        model.addAttribute("id", ((Integer) id).toString());
         Environment environment = environmentService.load(id);
         model.addAttribute("environment", environment);
         model.addAttribute("dbTypes", EnvironmentDbType.values());
@@ -55,19 +72,22 @@ public class EnvironmentController {
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.POST)
-    public String updateEnvironment(Environment environment) {
+    public String updateEnvironment(@Validated @ModelAttribute Environment environment, BindingResult result) {
+        if (result.hasErrors()) {
+            return "environment/environmentCreateOrUpdate";
+        }
         environmentService.update(environment);
         return "redirect:/configuration/environments";
     }
 
-    @RequestMapping(value = "/delete/{id}", method = RequestMethod.POST)
+    @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
     public String deleteEnvironment(Environment environment) {
         environmentService.delete(environment);
         return "redirect:/configuration/environments";
     }
 
     @RequestMapping(value = "/check/{id}", method = RequestMethod.GET)
-    public String checkEnvironment(@PathVariable("id") int id, Model model) {
+    public String checkEnvironment(@PathVariable int id, Model model) {
         Environment environment = environmentService.load(id);
 
         try {

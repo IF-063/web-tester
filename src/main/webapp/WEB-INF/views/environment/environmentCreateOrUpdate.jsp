@@ -23,6 +23,8 @@
             <div class="col-sm-4">
                 <form:input path="name" type="text" class="form-control"
                     id="name" placeholder="Name" />
+                <form:errors path="name"
+                    cssClass="help-block with-errors" />
             </div>
         </div>
         <div class="form-group">
@@ -33,6 +35,8 @@
                 <form:input path="baseUrl" type="text"
                     class="form-control" id="baseUrl"
                     placeholder="Base URL" />
+                <form:errors path="baseUrl"
+                    cssClass="help-block with-errors" />
             </div>
         </div>
         <div class="form-group">
@@ -42,6 +46,8 @@
             <div class="col-sm-4">
                 <form:select path="dbType" class="form-control"
                     id="dbType" items="${dbTypes}" />
+                <form:errors path="dbType"
+                    cssClass="help-block with-errors" />
             </div>
         </div>
         <div class="form-group">
@@ -52,6 +58,8 @@
                 <form:input path="dbUrl" type="text"
                     class="form-control" id="dbUrl"
                     placeholder="Database URL" />
+                <form:errors path="dbUrl"
+                    cssClass="help-block with-errors" />
             </div>
         </div>
         <div class="form-group">
@@ -62,6 +70,8 @@
                 <form:input path="dbPort" type="number"
                     class="form-control" id="dbPort"
                     placeholder="Database Port" />
+                <form:errors path="dbPort"
+                    cssClass="help-block with-errors" />
             </div>
         </div>
         <div class="form-group">
@@ -72,6 +82,8 @@
                 <form:input path="dbName" type="text"
                     class="form-control" id="dbName"
                     placeholder="Database name" />
+                <form:errors path="dbName"
+                    cssClass="help-block with-errors" />
             </div>
         </div>
         <div class="form-group">
@@ -82,6 +94,8 @@
                 <form:input path="dbUsername" type="text"
                     class="form-control" id="dbUsername"
                     placeholder="Database username" />
+                <form:errors path="dbUsername"
+                    cssClass="help-block with-errors" />
             </div>
         </div>
         <div class="form-group">
@@ -92,6 +106,8 @@
                 <form:input path="dbPassword" type="text"
                     class="form-control" id="dbPassword"
                     placeholder="Database password" />
+                <form:errors path="dbPassword"
+                    cssClass="help-block with-errors" />
             </div>
         </div>
         <div class="form-group">
@@ -102,15 +118,18 @@
                 <form:input path="timeMultiplier" type="number"
                     step="any" class="form-control" id="timeMultiplier"
                     placeholder="2" />
+                <form:errors path="timeMultiplier"
+                    cssClass="help-block with-errors" />
             </div>
         </div>
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-1">
-                <button type="submit" class="btn btn-success">
+                <button type="submit" class="btn btn-success btn-lg">
                     <c:out value="${pageTask}" />
                 </button>
             </div>
-            <c:url value="/configuration/environments" var="environments" />
+            <c:url value="/configuration/environments"
+                var="environments" />
             <c:choose>
                 <c:when test="${not empty id}">
                     <c:url value="/configuration/environments/${id}" var="resetButton" />
@@ -121,12 +140,12 @@
                 </c:otherwise>
             </c:choose>
             <div class="col-sm-1">
-                <button type="reset" class="btn btn-warning"
+                <button type="reset" class="btn btn-danger btn-lg"
                     onclick="location.href='${resetButton}'">Reset</button>
             </div>
             <div class="col-sm-4">
-                <button type="button" class="btn btn-danger"
-                    onclick="location.href='${environments}'">Back</button>
+                <button type="button" class="btn btn-default btn-lg"
+                    onclick="location.href='${environments}'">Cancel</button>
             </div>
         </div>
 

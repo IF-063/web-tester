@@ -26,8 +26,7 @@ public interface EnvironmentMapper {
      * Saves Environment instance to database. Uses insertSql method from
      * {@link EnvironmentSqlProvider}
      * 
-     * @param Environment
-     *            environment
+     * @param Environment environment
      * @return number of rows affected by the statement
      * @see com.softserve.webtester.mapper.EnvironmentSqlProvider.insertSql
      */
@@ -39,8 +38,7 @@ public interface EnvironmentMapper {
      * Selects Environment entity from database. Uses selectSql method from
      * {@link EnvironmentSqlProvider}
      * 
-     * @param id
-     *            identifier of Environment instance
+     * @param id identifier of Environment instance
      * @return Environment instance
      */
     @SelectProvider(type = EnvironmentSqlProvider.class, method = "selectSql")
@@ -81,8 +79,7 @@ public interface EnvironmentMapper {
      * Updates Environment instance in the database. Uses updateSql method from
      * {@link EnvironmentSqlProvider}
      * 
-     * @param Environment
-     *            environment
+     * @param Environment environment
      * @return number of rows affected by the statement
      */
     @UpdateProvider(type = EnvironmentSqlProvider.class, method = "updateSql")
@@ -92,10 +89,18 @@ public interface EnvironmentMapper {
      * Deletes Environment instance from database. Uses deleteSql method from
      * {@link EnvironmentSqlProvider}
      * 
-     * @param Environment
-     *            environment
+     * @param Environment environment
      * @return number of rows affected by the statement
      */
     @UpdateProvider(type = EnvironmentSqlProvider.class, method = "deleteSql")
     int delete(Environment environment);
+    
+    /**
+     * Checks the unique of environment's name.
+     * @param name property of Environment instance
+     * @param id identifier of Environment instance
+     * @return
+     */
+    @SelectProvider(type = EnvironmentSqlProvider.class, method = "isNameFree")
+    int isNameFree(String name, int id);
 }

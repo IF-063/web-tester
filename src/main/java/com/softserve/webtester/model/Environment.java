@@ -2,10 +2,14 @@ package com.softserve.webtester.model;
 
 import java.io.Serializable;
 
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.NotNull;
+
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
+import org.hibernate.validator.constraints.NotBlank;
 
 /**
  * POJO class represents Environment object which stores database connection
@@ -24,47 +28,57 @@ public class Environment implements Serializable {
     /**
      * Unique name of environment entity
      */
+    @NotBlank
     private String name;
 
     /**
      * Address of the host which will be tested
      */
+    @NotBlank
     private String baseUrl;
 
     /**
      * Database type
      */
+    @NotNull
     private EnvironmentDbType dbType;
 
     /**
      * Address of the server with database to perform queries for variables and
      * db validation.
      */
+    @NotBlank
     private String dbUrl;
 
     /**
      * Port of the database
      */
+    @NotBlank
     private String dbPort;
 
     /**
      * Name of the database to which the connection is established
      */
+    @NotBlank
     private String dbName;
 
     /**
      * Username to perform login to the database
      */
+    @NotBlank
     private String dbUsername;
 
     /**
      * Password for the specified username
      */
+    @NotBlank
     private String dbPassword;
 
     /**
      * Value which will be used to multiply response time of the each request
      */
+    
+    @DecimalMin("0.1")
     private float timeMultiplier;
 
     /**

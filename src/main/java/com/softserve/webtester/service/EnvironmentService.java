@@ -5,7 +5,9 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.Collator;
 import java.util.List;
+import java.util.Locale;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +29,7 @@ import com.softserve.webtester.model.Environment;
 public class EnvironmentService {
 
     private static final Logger LOGGER = Logger.getLogger(Environment.class);
-    
+
     @Value("${environment.timemultiplier.default}")
     private float defaultTimeMultiplier;
 
@@ -37,6 +39,7 @@ public class EnvironmentService {
     public float getDefaultTimeMultiplier() {
         return defaultTimeMultiplier;
     }
+
     /**
      * @see EnvironmentMapper#load(int) method
      * @throws DataAccessException
@@ -105,35 +108,33 @@ public class EnvironmentService {
         }
     }
 
+    /**
+     * @see EnvironmentMapper#isNameFree(Environment environment) method
+     * @throws DataAccessException
+     */
+    public int isNameFree(String name, int id) {
+        try {
+            return environmentMapper.isNameFree(name, id);
+        } catch (DataAccessException e) {
+            LOGGER.error("Unable to check environment name, environments name: " + name, e);
+            throw e;
+        }
+    }
+
     public Connection getConnection(Environment environment) throws Exception {
-        String jdbcDriver = null;
-        String connectionUrl = null;
-        switch (environment.getDbType().toString()) {
-        case ("MYSQL"): {
-            jdbcDriver = "com.mysql.jdbc.Driver";
-            connectionUrl = "jdbc:mysql://" + environment.getDbUrl() + ":" + environment.getDbPort() + "/"
-                    + environment.getDbName() + "?" + "user=" + environment.getDbUsername() + "&" + "password="
-                    + environment.getDbPassword();
-            break;
-        }
-        case ("MSSQL"): {
-            jdbcDriver = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
-            connectionUrl = "jdbc:sqlserver://" + environment.getDbUrl() + ":" + environment.getDbPort() + ";"
-                    + "databaseName=" + environment.getDbName() + ";" + "user=" + environment.getDbUsername() + "; "
-                    + "password=" + environment.getDbPassword();
-            break;
-        }
-        case ("ORACLE"): {
-            jdbcDriver = "oracle.jdbc.OracleDriver";
-            connectionUrl = "jdbc:oracle:thin:" + environment.getDbUsername() + "/" + environment.getDbPassword() + "@"
-                    + environment.getDbUrl() + ":" + environment.getDbPort() + ":" + environment.getDbName();
-            break;
-        }
-        }
+        String jdbcDriver = environment.getDbType().getDbDriver();
+        String connectionUrl = String.format(environment.getDbType().getConnectionPattern(), environment.getDbUrl(),
+                environment.getDbPort(), environment.getDbName(), environment.getDbUsername(),
+                environment.getDbPassword());
 
         Connection connection = null;
 
         try {
+            //Setting Locale for thin jdbc oracle driver
+            /*if (environment.getDbType().name() == "ORACLE") {
+                Locale ukrainian = new Locale("uk", "UA");
+                Locale.setDefault(ukrainian);
+            }*/
             Class.forName(jdbcDriver);
             connection = DriverManager.getConnection(connectionUrl);
         } catch (SQLException se) {
@@ -141,7 +142,7 @@ public class EnvironmentService {
         } catch (Exception e) {
             throw e;
         }
-       
+
         return connection;
     }
 

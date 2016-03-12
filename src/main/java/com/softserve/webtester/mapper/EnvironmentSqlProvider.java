@@ -89,4 +89,15 @@ public class EnvironmentSqlProvider {
             }
         }.toString();
     }
+    
+    public String isNameFree() {
+        return new SQL() {
+            {
+                SELECT("count(*)");
+                FROM(TABLE_NAME);
+                WHERE("name = #{name}");
+                WHERE("id != #{id}");
+            }
+        }.toString();
+    }
 }
