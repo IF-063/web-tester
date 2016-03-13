@@ -25,7 +25,7 @@ public interface UserMapper {
      * @return User instance
      * @throws DataAccessException
      */
-    @Select("SELECT id, username, password, firstName, lastName FROM User WHERE id = #{userId}")
+    @Select("SELECT id, lower(username) as username, password, firstName, lastName FROM User WHERE id = #{userId}")
     @Results({ @Result(id = true, property = "id", column = "id", jdbcType = JdbcType.INTEGER),
                @Result(property = "username", column = "username", jdbcType = JdbcType.VARCHAR),
                @Result(property = "password", column = "password", jdbcType = JdbcType.VARCHAR),
@@ -40,7 +40,7 @@ public interface UserMapper {
      * @return number of rows affected by the statement
      * @throws DataAccessException
      */
-    @Update("UPDATE User SET username = #{username}, password = #{password}, firstName = #{firstName}, "
+    @Update("UPDATE User SET username = lower(#{username}), password = #{password}, firstName = #{firstName}, "
             + "lastName = #{lastName} WHERE id = #{id}")
     int update(User user);
 
@@ -51,7 +51,7 @@ public interface UserMapper {
      * @param username username of {@link User} should be checked
      * @return true, if username is unique
      */
-    @Select("SELECT IF(count(*) > 0, false, true) FROM User WHERE username = #{username} AND id != #{id}")
+    @Select("SELECT IF(count(*) > 0, false, true) FROM User WHERE username = lower(#{username}) AND id != #{id}")
     boolean isUserNameFree(@Param("id") int id, @Param("username") String username);
 
 }
