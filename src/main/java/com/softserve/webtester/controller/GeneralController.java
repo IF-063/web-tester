@@ -3,7 +3,6 @@ package com.softserve.webtester.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.http.HttpStatus;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.WebDataBinder;
@@ -35,7 +34,6 @@ public class GeneralController {
     public void initBinder(WebDataBinder binder) {
         binder.registerCustomEditor(List.class, "labels", labelEditor);
         binder.registerCustomEditor(List.class, "requests", requestEditor);
-        binder.registerCustomEditor(String.class, new StringTrimmerEditor(" \t\r\n\f", true));
     }
 
     /**

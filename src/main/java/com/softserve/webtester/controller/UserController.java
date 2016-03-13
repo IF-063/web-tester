@@ -76,10 +76,10 @@ public class UserController {
      * 
      * @param id identifier of {@link User} instance should be excluded from checking
      * @param username username property should be checked
-     * @return JSON object with <code>valid</code> name and boolean value
+     * @return is user username free boolean value
      */
-    @RequestMapping(value = "/isUsernameFree", method = RequestMethod.GET)
-    public @ResponseBody String isUsernameFree(@RequestParam int id, @RequestParam String username) {
-        return String.format("{\"valid\": %b}", !"".equals(username) && userService.isUsernameFree(id, username));
+    @RequestMapping(value = "/isUsernameFree", method = RequestMethod.POST)
+    public @ResponseBody boolean isUsernameFree(@RequestParam int id, @RequestParam String username) {
+        return !"".equals(username) && userService.isUsernameFree(id, username);
     }
 }

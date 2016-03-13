@@ -1,55 +1,70 @@
 $(function() {
 
-  $('#user').bootstrapValidator({
-    message: 'This value is not valid',
-    feedbackIcons: {
-      valid: 'glyphicon glyphicon-ok',
-      invalid: 'glyphicon glyphicon-remove',
-      validating: 'glyphicon glyphicon-refresh'
+  $.validator.addMethod('regex', function(value, element, regexpr) {
+    return regexpr.test(value);
+  });
+
+  $('#user').validate({
+    onkeyup: function(element) {
+      $(element).valid();
     },
-    submitButtons: 'button[id="validate"]',
-    fields: {
+    rules: {
       username: {
-        validators: {
-          notEmpty: {
-            message: 'Username cannot be empty'
-          },
-          emailAddress: {
-            message: 'The value is not a valid email address'
-          },
-          regexp:{
-        	  regexp: /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
-        	  message: 'The value is not a valid email address'
-          },
-          remote: {
-            url: 'account/isUsernameFree',
-            type: 'GET',
-            data: {
-              id: $('#id').val(),
-              username: $('#username').val()
+        required: true,
+        remote: {
+          url: 'account/isUsernameFree',
+          type: 'POST',
+          dataType: 'json',
+          data: {
+            username: function() {
+              return $('#username').val();
             },
-            delay: 1000,
-            message: 'User with same email already exists'
+            id: $('#id').val()
           }
-        }
+        },
+        regex: /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
       },
       password: {
-        validators: {
-          notEmpty: {
-            message: 'Password cannot be empty'
-          },
-          stringLength: {
-            min: 4,
-            max: 32,
-            message: 'The password must be more than 4 and less than 32 characters long'
-          }
-        }
+        required: true,
+        rangelength: [4, 32]
+      }
+    },
+    messages: {
+      username: {
+        required: 'Email can not be empty',
+        remote: 'User with same email already exists',
+        regex: 'The value is not a valid email address'
       },
+      password: {
+        required: 'Password can not be empty',
+        rangelength: 'Password length must be between {0} and {1}'
+      }
+    },
+    errorElement: 'em',
+    errorPlacement: function(error, element) {
+      error.addClass('help-block');
+      element.parents('div').addClass('has-feedback');
+      error.insertAfter(element);
+      if (!element.next('span')[0]) {
+        $('<span class="glyphicon glyphicon-remove form-control-feedback"></span>').insertAfter(element);
+      }
+    },
+    success: function(label, element) {
+      if (!$(element).next('span')[0]) {
+        $('<span class="glyphicon glyphicon-ok form-control-feedback"></span>').insertAfter($(element));
+      }
+    },
+    highlight: function(element, errorClass, validClass) {
+      $(element).parent('div').addClass('has-error').removeClass('has-success');
+      $(element).next('span').addClass('glyphicon-remove').removeClass('glyphicon-ok');
+    },
+    unhighlight: function(element, errorClass, validClass) {
+      $(element).parent('div').addClass('has-success').removeClass('has-error');
+      $(element).next('span').addClass('glyphicon-ok').removeClass('glyphicon-remove');
+    },
+    submitHandler: function(form) {
+      form.submit();
     }
-  }).on('success.form.bv', function(e) {
-    var form = $(e.target),
-    bv = form.data('bootstrapValidator');
-    bv.defaultSubmit();
   });
 
 });

@@ -224,11 +224,10 @@ public class RequestController {
      * 
      * @param name name property should be checked
      * @param exclusionId identifier of {@link Request} instance should be excluded from checking
-     * @return JSON object with <code>valid</code> name and boolean value
+     * @return is request name free boolean value
      */
-    @RequestMapping(value = "/create/isRequestNameFree", method = RequestMethod.GET)
-    public @ResponseBody String isRequestNameFree(@RequestParam String name, @RequestParam int exclusionId) {
-        return String.format("{\"valid\": %b}",
-                !"".equals(name) && requestService.isRequestNameFree(name, exclusionId));
+    @RequestMapping(value = "/isRequestNameFree", method = RequestMethod.POST)
+    public @ResponseBody boolean isRequestNameFree(@RequestParam String name, @RequestParam int exclusionId) {
+        return !"".equals(name) && requestService.isRequestNameFree(name, exclusionId);
     }
 }

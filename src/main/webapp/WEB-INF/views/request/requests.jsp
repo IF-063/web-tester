@@ -78,14 +78,14 @@
             <c:forEach items="${requests}" var="request">
               <tr class="dataRow">
                 <td><input id="${request.id}" type="checkbox" name="operateSelect"></td>
-                <td><a href=<c:url value="/tests/requests/${request.id} " />><c:out value="${request.name}" /></a></td>
-                <td><c:out value="${request.application.name}" /></td>
-                <td><c:out value="${request.service.name}" /></td>
-                <td title="${request.endpoint}"><c:out value="${request.endpoint}" /></td>
+                <td><a href=<c:url value="/tests/requests/${request.id} " />>${request.name}</a></td>
+                <td>${request.application.name}</td>
+                <td>${request.service.name}</td>
+                <td>${request.endpoint}</td>
                 <td id="${request.id}" class="run cursorPointer"><i class="fa fa-play"></i></td>
-                  <td><a href=<c:url value="/results/requests/${request.id}" />>results</a></td>
+                <td><a href=<c:url value="/results/requests/${request.id}" />>results</a></td>
                 <td class="duplicate cursorPointer" id="${request.id}"><i class="fa fa-copy fa-lg"></i></td>
-                <td><input id=<c:out value="${request.id}" /> type="checkbox" name="disableSelect"></td>
+                <td><input id="${request.id}" type="checkbox" name="disableSelect"></td>
                 <td id="${request.id}" class="removeInstance cursorPointer"><i class="fa fa-trash fa-lg"></i></td>
               </tr>
             </c:forEach>
@@ -107,7 +107,7 @@
       <div class="modal-body">
         <select id="environment" class="form-control">
           <c:forEach items="${environments}" var="environment">
-            <option value="${environment.id}"><c:out value="${environment.name}" /></option>
+            <option value="${environment.id}">${environment.name}</option>
           </c:forEach>
         </select>
       </div>

@@ -64,7 +64,7 @@
         <div class="form-group">
           <form:label path="requestBody" class="col-md-4 control-label">Request Body</form:label>
           <div class="col-md-4">
-            <form:textarea path="requestBody" resize="vertical" rows="5" class="form-control" />
+            <form:textarea path="requestBody" rows="5" class="form-control" />
             <form:errors path="requestBody" cssClass="help-block with-errors" />
           </div>
         </div>
@@ -190,8 +190,8 @@
                             items="${variableDataTypes}" />
                         </td>
                         <td id=".length">
-                          <form:input path="variables[${status.index}].length" class="form-control enableIfRandom" 
-                            placeholder="Length" />
+                          <form:input path="variables[${status.index}].length" class="form-control l enableIfRandom" 
+                            placeholder="Length"  />
                           <form:errors path="variables[${status.index}].length" cssClass="help-block with-errors" />
                         </td>
                         <td class="removeInstance cursorPointer"><i class="fa fa-trash fa-2x"></i></td>
@@ -252,7 +252,7 @@
         <a href=<c:url value="/tests/requests" /> class="btn btn-default btn-lg">Cancel</a>
         <button id="reset" class="btn btn-danger btn-lg">Reset</button>
         <button id="clean" class="btn btn-warning btn-lg">Clean all</button>
-        <button id="validate" class="btn btn-success btn-lg">Save</button>
+        <button id="validate" type="submit" class="btn btn-success btn-lg">Save</button>
       </div>
 
     </fieldset>
@@ -267,18 +267,22 @@
 
     <!-- Row for Header template -->
     <tr class="dataRow">
-      <td id=".name"><input placeholder="Name" type="text" class="form-control" /></td>
-      <td id=".value"><input placeholder="Value" type="text" class="form-control" /></td>
+      <td id=".name">
+        <input placeholder="Name" type="text" class="form-control" name="headers" required="required" />
+      </td>
+      <td id=".value">
+        <input placeholder="Value" type="text" class="form-control" name="headers" required="required" />
+      </td>
       <td class="removeInstance cursorPointer"><i class="fa fa-trash fa-2x"></i></td>
     </tr>
 
     <!-- Row for Variable template -->
     <tr class="dataRow">
       <td id=".name">
-        <input placeholder="Name" type="text" class="form-control" />
+        <input placeholder="Name" type="text" class="form-control" name="variables" required="required" />
       </td>
       <td id=".value">
-        <input placeholder="Value" type="text" class="form-control" />
+        <input placeholder="Value" type="text" class="form-control" name="variables" required="required" />
       </td>
       <td id=".sql"><label class="control-label">
         <input type="checkbox" class="sql" value="true" /><input type="hidden" value="on" />
@@ -296,15 +300,18 @@
           </select>
       </td>
       <td id=".length">
-        <input placeholder="Length" class="form-control enableIfRandom" type="text" />
+        <input placeholder="Length" class="form-control enableIfRandom" type="text" name="length" 
+          required="required" />
       </td>
       <td class="removeInstance cursorPointer"><i class="fa fa-trash fa-2x"></i></td>
     </tr>
 
     <!-- Row for DbValidation template -->
     <tr class="dataRow">
-      <td id=".sqlQuery"><input placeholder="SQL query" type="text" class="form-control" /></td>
-      <td id=".expectedValue"><input placeholder="Expected value" type="text" class="form-control" /></td>
+      <td id=".sqlQuery"><input placeholder="SQL query" type="text" class="form-control" 
+        name="dbValidations" required="required" /></td>
+      <td id=".expectedValue"><input placeholder="Expected value" type="text" class="form-control" 
+        name="dbValidations" required="required" /></td>
       <td class="removeInstance cursorPointer"><i class="fa fa-trash fa-2x"></i></td>
     </tr>
   </table>
@@ -312,7 +319,7 @@
 
 <script src=<c:url value="/resources/dist/js/select2.min.js" />></script>
 
-<script src=<c:url value="/resources/dist/js/bootstrapValidator.min.js" />></script>
+<script src=<c:url value="/resources/bower_components/jquery/dist/jquery.validate.min.js" />></script>
 
 <!-- Main page script -->
 <script src=<c:url value="/resources/js/request/requestCreateEdit.js" />></script>
