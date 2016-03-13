@@ -139,11 +139,11 @@
   <div class="row">
 
     <div class="col-md-4">
-      <div class="panel panel-primary" id="requestResultBlock">
+      <div class="panel panel-yellow" id="requestResultBlock">
         <div class="panel-heading">
           <div class="row">
             <div class="col-xs-3">
-              <i class="fa fa-tasks fa-4x"></i>
+              <i class="fa fa-eye fa-4x"></i>
             </div>
             <div class="col-xs-9 text-right">
               <div class="huge">Requests</div>
@@ -161,11 +161,11 @@
     </div>
 
     <div class="col-md-4">
-      <div class="panel panel-green" id="collectionResultBlock">
+      <div class="panel panel-yellow" id="collectionResultBlock">
         <div class="panel-heading">
           <div class="row">
             <div class="col-xs-3">
-              <i class="fa fa-tasks fa-4x"></i>
+              <i class="fa fa-eye fa-4x"></i>
             </div>
             <div class="col-xs-9 text-right">
               <div class="huge">Collections</div>

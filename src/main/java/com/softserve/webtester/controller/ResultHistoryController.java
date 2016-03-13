@@ -5,12 +5,15 @@ import com.softserve.webtester.model.ResultHistory;
 import com.softserve.webtester.service.ResultHistoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Controller
@@ -22,9 +25,9 @@ public class ResultHistoryController {
 
     @RequestMapping(method = RequestMethod.GET)
     public String listResults(Model model) {
+
+        model.addAttribute("result", new ResultHistory());
         List<ResultHistory> list = resultHistoryService.loadAll();
-        // list.forEach(System.out::println);
-        System.out.print(list.isEmpty());
         model.addAttribute("list", list);
         return "requestResult";
     }
@@ -36,14 +39,11 @@ public class ResultHistoryController {
         return "redirect:/results/requests";
     }
 
-    @RequestMapping(value = "/remove_selected", method = RequestMethod.POST)
-    public String removeSelectedResults(@RequestParam List<Integer> ids){
+    @RequestMapping(method = RequestMethod.DELETE, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteRequests(@RequestBody int[] arr) {
 
-        for(Integer id:ids) {
-            resultHistoryService.delete(id);
-        }
-        System.out.println("Selected results deleted");
-        return "redirect:/results/requests";
+        resultHistoryService.deleteSelectedResults(arr);
     }
 
     @RequestMapping(value = "/remove_all", method = RequestMethod.GET)
@@ -57,6 +57,7 @@ public class ResultHistoryController {
     @RequestMapping("/{id}")
     public String showResult(@PathVariable("id") int id, Model model){
 
+        System.out.println("SEE RESULT_ID "+id);
         ResultHistory result = resultHistoryService.loadById(id);
         model.addAttribute("result",result);
         return "result_detailed";

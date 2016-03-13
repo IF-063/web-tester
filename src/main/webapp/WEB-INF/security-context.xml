@@ -29,8 +29,8 @@
 
   <sec:authentication-manager alias="applicationAuthenticationManager">
     <sec:authentication-provider>
-      <sec:jdbc-user-service data-source-ref="dataSource" 
-        users-by-username-query="SELECT id, password, 1 FROM User WHERE username = ?" 
+      <sec:jdbc-user-service data-source-ref="dataSource"
+        users-by-username-query="SELECT id, password, 1 FROM User WHERE username = ?"
         authorities-by-username-query="SELECT id, role FROM User WHERE id = ?" />
     </sec:authentication-provider>
   </sec:authentication-manager>

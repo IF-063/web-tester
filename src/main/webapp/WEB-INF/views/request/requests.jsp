@@ -83,7 +83,7 @@
                 <td><c:out value="${request.service.name}" /></td>
                 <td title="${request.endpoint}"><c:out value="${request.endpoint}" /></td>
                 <td id="${request.id}" class="run cursorPointer"><i class="fa fa-play"></i></td>
-                <td><a href=<c:url value="/results/requests/${request.id}" />>results</a></td>
+                  <td><a href=<c:url value="/results/requests/${request.id}" />>results</a></td>
                 <td class="duplicate cursorPointer" id="${request.id}"><i class="fa fa-copy fa-lg"></i></td>
                 <td><input id=<c:out value="${request.id}" /> type="checkbox" name="disableSelect"></td>
                 <td id="${request.id}" class="removeInstance cursorPointer"><i class="fa fa-trash fa-lg"></i></td>

@@ -12,6 +12,8 @@
 
 .table-bordered {
     border: 3px solid #ddd;
+    border-bottom-right-radius: 3px;
+    border-bottom-left-radius: 3px;
 }
 
 th {
@@ -20,7 +22,7 @@ th {
 }
 
 .th{
-    width: 170px;
+    width: 200px;
 }
 
 .th1{
@@ -44,52 +46,10 @@ th {
     text-align: center;
 }
 
-.CodeMirror { line-height: 1.2; }
-@media screen and (min-width: 1300px) {
-    article { max-width: 1000px; }
-    #nav { border-right: 499px solid transparent; }
-}
-
-span.clicky {
-    cursor: pointer;
-    background: #d70;
-    color: white;
-    padding: 0 3px;
-    border-radius: 3px;
-}
-
-article {
-    max-width: 1200px;
-    margin: 0 0 0 100px;
-    border-left: 0px solid #E30808;;
-    padding: 30px 50px 100px 50px;
-    background: white;
-    z-index: 2;
-    position: relative;
-    min-height: 10%;
-    box-sizing: border-box;
-    -moz-box-sizing: border-box;
-}
-
-section, article {
+section{
     display: block;
-    padding: 0px;
 }
 
 #view{
     height: 250px;
-}
-
-.row2{
-    padding: 5px 5px 5px 5px;
-    margin-left: 40px;
-    margin-right: 40px;
-    border-radius: 7px;
-    border: 1px solid black;
-    height: 1220px;
-}
-
-article {
-    border-left: white;
-    padding: 0px;
 }

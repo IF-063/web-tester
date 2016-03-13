@@ -47,9 +47,7 @@ public class ResultHistoryService {
     public ResultHistory loadById(int id) {
 
         try {
-            System.out.println("BEFORE invoking loadById() in Service");
             ResultHistory result=resultHistoryMapper.loadById(id);
-            System.out.println("AFTER invoking loadById() in Service");
             return result;
 
         } catch (DataAccessException e) {
@@ -80,13 +78,54 @@ public class ResultHistoryService {
         }
     }
 
-    // Deleting resultHistory instance from ResultHistory table
+    public List<ResultHistory> loadAllRequestsByRunId(int id) {
+
+        try {
+            return resultHistoryMapper.loadAllRequestsByRunId(id);
+        } catch (DataAccessException e) {
+            LOGGER.error("Unable to load resultHistory instances", e);
+            throw e;
+        }
+    }
+
+    // Deleting resultHistory instance ByRequestId from ResultHistory table
     public int delete(int id) {
 
         try {
             return resultHistoryMapper.detele(id);
         } catch (DataAccessException e) {
-            LOGGER.error("Unable to delete resultHistory instance with id: " + id, e);
+            LOGGER.error("Unable to delete resultHistory instance with requestId: " + id, e);
+            throw e;
+        }
+    }
+
+    // Deleting resultHistory instance ByCollectionId from ResultHistory table
+    public int deteleByCollectionId(int id) {
+
+        try {
+            return resultHistoryMapper.deteleByCollectionId(id);
+        } catch (DataAccessException e) {
+            LOGGER.error("Unable to delete resultHistory instance with collectionId: " + id, e);
+            throw e;
+        }
+    }
+
+    @Transactional
+    public int deleteSelectedResults(int[] arr) {
+        try {
+            return resultHistoryMapper.deleteSelectedResults(arr);
+        } catch (DataAccessException e) {
+            LOGGER.error("Unable to delete result instances, results id: " + arr, e);
+            throw e;
+        }
+    }
+
+    @Transactional
+    public int deleteSelectedCollectionResults(int[] arr) {
+        try {
+            return resultHistoryMapper.deleteSelectedCollectionResults(arr);
+        } catch (DataAccessException e) {
+            LOGGER.error("Unable to delete result instances, results id: " + arr, e);
             throw e;
         }
     }
@@ -95,7 +134,18 @@ public class ResultHistoryService {
     public int deleteAll() {
 
         try {
-            return resultHistoryMapper.deteleAll();
+            return resultHistoryMapper.deleteAll();
+        } catch (DataAccessException e) {
+            LOGGER.error("Unable to delete all resultHistory instances");
+            throw e;
+        }
+    }
+
+    // Deleting all resultHistory instances from ResultHistory table
+    public int deleteAllCollectionResults() {
+
+        try {
+            return resultHistoryMapper.deleteAllCollectionResults();
         } catch (DataAccessException e) {
             LOGGER.error("Unable to delete all resultHistory instances");
             throw e;

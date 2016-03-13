@@ -23,11 +23,6 @@ public interface ResultHistoryMapper {
     @Options(useGeneratedKeys = true, keyProperty = "id")
     int save(ResultHistory resultHistory);
 
-    /*@Select("SELECT id, status, applicationId, serviceId, requestId, requestName, requestDescription, url," +
-            "responseType, requestBody, statusLine, timeStart, expectedResponseTime, responseTime," +
-            "expectedResponse, actualResponse, message, runId, requestCollectionId, buildVersionId " +
-            "FROM ResultHistory WHERE id = #{id}")*/
-
     @Select("SELECT id, status, applicationId, serviceId, requestId, requestName, requestDescription, url," +
             "responseType, requestBody, statusLine, timeStart, expectedResponse, actualResponse, message," +
             " runId, requestCollectionId, buildVersionId FROM ResultHistory WHERE id = #{id}")
@@ -82,10 +77,27 @@ public interface ResultHistoryMapper {
     })
     List<ResultHistory> loadAll();
 
-    @Select("SELECT id, requestCollectionId, buildVersionId, status, message, timeStart " +
+    @Select("SELECT id, status, applicationId, serviceId, requestName, message, requestDescription, timeStart " +
+            "FROM ResultHistory WHERE runId = #{id}")
+    @Results({
+            @Result(id = true, property = "id", column = "id", jdbcType = JdbcType.INTEGER),
+            @Result(property = "status", column = "status", jdbcType = JdbcType.VARCHAR),
+            @Result(property = "application", column = "applicationId",
+                    one = @One(select = "com.softserve.webtester.mapper.ApplicationMapper.load")),
+            @Result(property = "service", column = "serviceId",
+                    one = @One(select = "com.softserve.webtester.mapper.ServiceMapper.load")),
+            @Result(property = "requestName", column = "requestName", jdbcType = JdbcType.VARCHAR),
+            @Result(property = "message", column = "message", jdbcType = JdbcType.LONGVARCHAR),
+            @Result(property = "requestDescription", column = "requestDescription", jdbcType = JdbcType.VARCHAR),
+            @Result(property = "timeStart", column = "timeStart", jdbcType = JdbcType.TIMESTAMP)
+    })
+    List<ResultHistory> loadAllRequestsByRunId(int id);
+
+    @Select("SELECT id, runId, requestCollectionId, buildVersionId, status, message, timeStart " +
             "FROM ResultHistory WHERE requestCollectionId IS NOT NULL")
     @Results({
             @Result(id = true, property = "id", column = "id", jdbcType = JdbcType.INTEGER),
+            @Result(property = "runId", column = "runId", jdbcType = JdbcType.INTEGER),
             @Result(property = "requestCollection", column = "requestCollectionId",
                     one = @One(select = "com.softserve.webtester.mapper.RequestCollectionMapper.load")),
             @Result(property = "labels", column = "id",
@@ -98,9 +110,25 @@ public interface ResultHistoryMapper {
     })
     List<ResultHistory> loadAllCollections();
 
+    @Delete("<script>DELETE FROM ResultHistory WHERE id IN "
+            + "<foreach item='item' index='index' collection='list' open='(' separator=',' close=')'>"
+            + "#{item}</foreach></script>")
+    int deleteSelectedResults(@Param("list") int[] arr);
+
+    @Delete("<script>DELETE FROM ResultHistory WHERE requestCollectionId IN "
+            + "<foreach item='item' index='index' collection='list' open='(' separator=',' close=')'>"
+            + "#{item}</foreach></script>")
+    int deleteSelectedCollectionResults(@Param("list") int[] arr);
+
     @Delete("DELETE FROM ResultHistory WHERE id = #{id}")
     int detele(int id);
 
+    @Delete("DELETE FROM ResultHistory WHERE requestCollectionId = #{id}")
+    int deteleByCollectionId(int id);
+
     @Delete("DELETE FROM ResultHistory")
-    int deteleAll();
+    int deleteAll();
+
+    @Delete("DELETE FROM ResultHistory WHERE requestCollectionId IS NOT NULL")
+    int deleteAllCollectionResults();
 }
