@@ -9,6 +9,53 @@
 <div class="row">
 
   <div class="col-md-4">
+    <div class="panel custom-Purple4" id="applicationsBlock">
+      <div class="panel-heading">
+        <div class="row">
+          <div class="col-xs-3">
+            <i class="fa fa-cog fa-4x"></i>
+          </div>
+          <div class="col-xs-9 text-right">
+            <div class="huge">Applications</div>
+          </div>
+        </div>
+      </div>
+      <a href=<c:url value="/configuration/applications" />>
+        <div class="panel-footer">
+          <span class="pull-left"><font color= #551A8B>View page</font></span>
+          <span class="pull-right"><font color= #551A8B><i class="fa fa-arrow-circle-right"></i></font></span>
+          <div class="clearfix"></div>
+        </div>
+      </a>
+    </div>
+  </div>
+
+  <div class="col-md-4">
+    <div class="panel custom-OliveDrab4" id="serviceBlock">
+      <div class="panel-heading">
+        <div class="row">
+          <div class="col-xs-3">
+            <i class="fa fa-cog fa-4x"></i>
+          </div>
+          <div class="col-xs-9 text-right">
+            <div class="huge">Services</div>
+          </div>
+        </div>
+      </div>
+      <a href=<c:url value="/configuration/services" />>
+        <div class="panel-footer">
+          <span class="pull-left"><font color= #698B22>View page</font></span>
+          <span class="pull-right"><font color= #698B22><i class="fa fa-arrow-circle-right"></i></font></span>
+          <div class="clearfix"></div>
+        </div>
+      </a>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+
+  <div class="col-md-4">
     <div class="panel panel-red" id="labelsBlock">
       <div class="panel-heading">
         <div class="row">
