@@ -76,6 +76,6 @@ public class ApplicationController {
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
     public String deleteApplication(@PathVariable(value = "id") Integer id, Model model) {
         metaDataService.applicationSoftDelete(id);
-        return "redirect:configuration/application";
+        return "redirect:/configuration/applications";
     }
 }

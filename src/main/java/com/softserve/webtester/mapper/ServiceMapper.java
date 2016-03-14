@@ -12,12 +12,12 @@ import com.softserve.webtester.model.Service;
  * operations.
  * 
  * @author Roman Zolotar
- * @version 1.1
+ * @version 1.2
  */
 
 @Repository
 public interface ServiceMapper {
-    final String LOAD_ALL = "SELECT * FROM Service";
+    final String LOAD_ALL = "SELECT * FROM Service WHERE DELETED = 0";
     final String LOAD = "SELECT * FROM Service WHERE ID = #{id}";
     final String DELETE_BY_ID = "DELETE from Service WHERE ID = #{id}";
     final String INSERT = "INSERT INTO Service (NAME, DESCRIPTION, DELETED) VALUES (#{name}, #{description}, #{deleted})";

@@ -37,7 +37,7 @@
                       </a>
                     </td>
                     <td>
-                      <a href=<c:url value="/configuration/applications/${application.id}" />>
+                      <a href=<c:url value="/configuration/applications/delete/${application.id}" />>
                          <span class="fa fa-trash fa-lg"></span>
                       </a>
                     </td>

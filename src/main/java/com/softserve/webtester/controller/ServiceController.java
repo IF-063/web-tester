@@ -76,6 +76,6 @@ public class ServiceController {
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
     public String deleteService(@PathVariable(value = "id") Integer id, Model model) {
         metaDataService.serviceSoftDelete(id);
-        return "redirect:/configuration/service";
+        return "redirect:/configuration/services";
     }
 }
