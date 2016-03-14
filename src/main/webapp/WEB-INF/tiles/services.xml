@@ -3,16 +3,14 @@
         "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
 <tiles-definitions>
 
-	<definition name="service/list" extends="DefaultTemplate">
-		<put-attribute name="title" value="list" />
-		<put-attribute name="body"
-			value="/WEB-INF/views/service/list.jsp" />
-	</definition>
+  <definition name="service/list" extends="DefaultTemplate">
+    <put-attribute name="title" value="list" />
+    <put-attribute name="body" value="/WEB-INF/views/service/list.jsp"/>
+  </definition>
 
-	<definition name="service/update" extends="DefaultTemplate">
-		<put-attribute name="title" value="update" />
-		<put-attribute name="body"
-			value="/WEB-INF/views/service/update.jsp" />
-	</definition>
+  <definition name="service/update" extends="DefaultTemplate">
+    <put-attribute name="title" value="update" />
+    <put-attribute name="body" value="/WEB-INF/views/service/update.jsp"/>
+  </definition>
 
 </tiles-definitions>
