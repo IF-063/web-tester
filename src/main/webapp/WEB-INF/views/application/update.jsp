@@ -41,8 +41,8 @@
               <div class="form-group">
                 <div class="col-sm-offset-2 col-sm-10">
                   <button type="submit" class="btn btn-success">Save</button>
-                  <button type="button" class="btn btn-info" onclick="location.reload();">Reset</button>
-                  <button type="button" class="btn btn-danger" onclick="location.href='<c:url value="/configuration/applications"/>'">Cancel</button>
+                  <button type="button" class="btn btn-danger" onclick="location.reload();">Reset</button>
+                  <button type="button" class="btn btn-warning" onclick="location.href='<c:url value="/configuration/applications"/>'">Cancel</button>
                 </div>
               </div>
             </form:form>

@@ -4,12 +4,12 @@
 <tiles-definitions>
 
   <definition name="application/list" extends="DefaultTemplate">
-    <put-attribute name="title" value="list" />
+    <put-attribute name="title" value="Applications" />
     <put-attribute name="body" value="/WEB-INF/views/application/list.jsp"/>
   </definition>
 
   <definition name="application/update" extends="DefaultTemplate">
-    <put-attribute name="title" value="update" />
+    <put-attribute name="title" value="UpdateApplication" />
     <put-attribute name="body" value="/WEB-INF/views/application/update.jsp"/>
   </definition>
 

@@ -1,11 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
-
-<head>
-  <title>service</title>
-</head>
 
   <div class="container">
     <div class="row">
@@ -13,17 +8,18 @@
         <div class="panel panel-default">
           <div class="panel-heading">
             <h3>Service</h3>
-            <button type="button" class="btn btn-info" onclick="location.href='<c:url value="/configuration/services/create"/>'">
-              Create new service
+            <button type="button" class="btn btn-success" onclick="location.href='<c:url value="/configuration/services/create"/>'">
+              Create
             </button>
           </div>
           <div class="panel body">
             <table class="table table-striped table table-hover table-bordered table-condensed text-center panel-body" id="serviceTable">
               <thead>
                 <tr>
-                  <th>Service Name</th>
-                  <th>Service Description</th>
-                  <th>Action</th>
+                  <th class="col-md-3">Name</th>
+                  <th class="col-md-7">Description</th>
+                  <th class="col-md-1">Modify</th>
+                  <th class="col-md-1">Delete</th>
                 </tr>
               </thead>
               <tbody>
@@ -36,14 +32,14 @@
                       <c:out value="${service.description}"></c:out>
                     </td>
                     <td>
-
-                      <button type="button" class="btn btn-success btn-sm" onclick="location.href='<c:url value="/configuration/services/${service.id}"/>'">
-                        <span class="glyphicon glyphicon-pencil"></span>Modify
-                      </button>
-
-                      <button type="button" class="btn btn-danger btn-sm" onclick="location.href='<c:url value="/delete/${service.id}"/>'">
-                        <span class="glyphicon glyphicon-trash"></span>Delete
-                      </button>
+                      <a href=<c:url value="/configuration/services/${service.id}" />>
+                         <span class="fa fa-pencil fa-lg"></span>
+                      </a>
+                    </td>
+                    <td>
+                      <a href=<c:url value="/configuration/services/${service.id}" />>
+                         <span class="fa fa-trash fa-lg"></span>
+                      </a>
                     </td>
                   </tr>
                 </c:forEach>
@@ -54,4 +50,3 @@
       </div>
     </div>
   </div>
-
