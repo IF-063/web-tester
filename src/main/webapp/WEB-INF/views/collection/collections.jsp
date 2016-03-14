@@ -17,13 +17,14 @@
 
             <div class="col-md-2">
               <label for="requestCollectionNameFilter" class="control-label">Collection name</label>
-              <form:input type="text" path="requestCollectionNameFilter" class="form-control" placeholder="name starts with" />
+              <form:input type="text" path="requestCollectionNameFilter" class="form-control" 
+               placeholder="name starts with" />
             </div>
 
             <div class="col-md-2">
               <label for="labelFilter" class="control-label">Labels</label>
-              <form:select path="labelFilter" items="${labels}" class="form-control select2-multiple" multiple="multiple" data-placeholder="labels"
-                itemLabel="name" itemValue="id" />
+              <form:select path="labelFilter" items="${labels}" class="form-control select2-multiple" 
+               multiple="multiple" data-placeholder="labels" itemLabel="name" itemValue="id" />
             </div>
 
             <div class="col-md-4">
@@ -68,7 +69,9 @@
                   <c:out value="${requestCollection.description}"></c:out>
                 </td>
                 <td>
-                  <c:forEach items="${requestCollection.labels}" var="label">${label.name}, </c:forEach>
+                  <c:forEach items="${requestCollection.labels}" var="label">
+                    <span class="label label-info"/>${label.name}</span>
+                  </c:forEach>
                 </td>
                 <td><a href=<c:url value="/results/requestCollections/${requestCollection.id}" />>results</a>
                 </td>

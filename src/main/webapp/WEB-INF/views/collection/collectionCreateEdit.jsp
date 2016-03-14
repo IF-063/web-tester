@@ -24,7 +24,7 @@
       </div>
 
       <div class="form-group">
-        <form:label path="description" class="col-md-4 control-label">Description*</form:label>
+        <form:label path="description" class="col-md-4 control-label" >Description*</form:label>
         <div class="col-md-4">
           <form:input path="description" class="form-control input-md" required="required" />
           <form:errors path="description" cssClass="help-block with-errors" />
@@ -41,7 +41,7 @@
       </div>
 
       <div class="form-group">
-        <label class="col-md-4 control-label" for="requests">Requests*</label>
+        <label class="col-md-4 control-label" for="requests" >Requests*</label>
         <div class="col-md-4">
           <form:select path="requests" class="form-control input-md multiSelect" multiple="multiple" items="${requests}"
            itemValue="id" itemLabel="name" id="requests" />
@@ -54,7 +54,7 @@
       </div>
 
       <div class="row">
-        <a href=<c:url value="/tests/collections" /> class="btn btn-default btn-lg">Back</a>
+        <a href=<c:url value="/tests/collections" /> class="btn btn-default btn-lg">Cancel</a>
         <button id="reset" class="btn btn-danger btn-lg">Reset</button>
         <button id="clean" class="btn btn-warning btn-lg">Clean all</button>
         <button type="submit" class="btn btn-success btn-lg">Save</button>  
@@ -65,9 +65,11 @@
 </form:form>
 <!-- </div> -->
 
-<script src=<c:url value="/resources/dist/js/bootstrapValidator.min.js" />></script>
-
 <script src=<c:url value="/resources/dist/js/select2.min.js" />></script>
+
+<!-- <script src=<c:url value="/resources/dist/js/jquery.quicksearch.js" />></script> -->
+
+<script src=<c:url value="/resources/bower_components/jquery/dist/jquery.validate.min.js" />></script>
 
 <script src=<c:url value="/resources/dist/js/jquery.multi-select.js" />></script>
 
