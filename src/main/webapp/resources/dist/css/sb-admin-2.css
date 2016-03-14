@@ -407,3 +407,11 @@ th {
 .cursorPointer {
 	cursor: pointer
 }
+.custom-Purple4 {
+ background: #551A8B;
+ color: #ffffff;
+}
+.custom-OliveDrab4 {
+ background: #698B22;
+ color: #ffffff;
+}
