@@ -2,12 +2,11 @@ package com.softserve.webtester.controller;
 
 import java.util.List;
 
-import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -53,7 +52,7 @@ public class ApplicationController {
     }
 
     @RequestMapping(value = "/create", method = RequestMethod.POST)
-    public String saveCreatedApplication(@Valid @ModelAttribute("application") Application application,
+    public String saveCreatedApplication(@Validated @ModelAttribute("application") Application application,
             BindingResult result, Model model) {
         if (result.hasErrors()) {
             model.addAttribute("isUpdate", false);
@@ -64,7 +63,7 @@ public class ApplicationController {
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.POST)
-    public String saveUpdatedApplication(@Valid @ModelAttribute("application") Application application,
+    public String saveUpdatedApplication(@Validated @ModelAttribute("application") Application application,
             BindingResult result, Model model) {
         if (result.hasErrors()) {
             model.addAttribute("isUpdate", true);

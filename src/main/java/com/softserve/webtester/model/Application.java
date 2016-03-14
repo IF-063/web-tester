@@ -2,14 +2,13 @@ package com.softserve.webtester.model;
 
 import java.io.Serializable;
 
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
-import org.hibernate.validator.constraints.NotEmpty;
+import org.hibernate.validator.constraints.NotBlank;
 
 /**
  * The Application class represents {@code Application} entity stored in the
@@ -25,12 +24,12 @@ public class Application implements Serializable {
 
     private int id;
 
-    @NotEmpty(message = "Name can't be empty")
-    @Size(max = 75, message = "Too long value")
+    @NotBlank
+    @Size(min = 1, max = 75)
     private String name;
-
-    @NotNull
-    @Size(max = 255, message = "Too long value")
+    
+    @NotBlank
+    @Size(min = 1, max = 255)
     private String description;
 
     private boolean deleted;
