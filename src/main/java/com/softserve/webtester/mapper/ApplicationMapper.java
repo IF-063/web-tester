@@ -17,7 +17,8 @@ import com.softserve.webtester.model.Application;
 
 @Repository
 public interface ApplicationMapper {
-    final String LOAD_ALL = "SELECT * FROM Application WHERE DELETED = 0";
+    final String LOAD_ALL = "SELECT * FROM Application";
+    final String LOAD_ALL_WITHOUT_DELETED = "SELECT * FROM Application WHERE DELETED = 0";
     final String LOAD = "SELECT * FROM Application WHERE ID = #{id}";
     final String DELETE_BY_ID = "DELETE from Application WHERE ID = #{id}";
     final String INSERT = "INSERT INTO Application (NAME, DESCRIPTION, DELETED) VALUES (#{name}, #{description}, #{deleted})";
@@ -30,6 +31,14 @@ public interface ApplicationMapper {
             @Result(property = "deleted", column = "DELETED") })
 
     List<Application> loadAll();
+    
+    @Select(LOAD_ALL_WITHOUT_DELETED)
+    @Results(value = { @Result(property = "id", column = "ID"), 
+            @Result(property = "name", column = "NAME"),
+            @Result(property = "description", column = "DESCRIPTION"),
+            @Result(property = "deleted", column = "DELETED") })
+
+    List<Application> loadAllWithoutDeleted();
 
     @Select(LOAD)
     @Results(value = { @Result(property = "id", column = "ID"), 

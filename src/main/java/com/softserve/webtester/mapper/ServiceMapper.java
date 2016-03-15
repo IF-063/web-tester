@@ -17,7 +17,8 @@ import com.softserve.webtester.model.Service;
 
 @Repository
 public interface ServiceMapper {
-    final String LOAD_ALL = "SELECT * FROM Service WHERE DELETED = 0";
+    final String LOAD_ALL = "SELECT * FROM Service";
+    final String LOAD_ALL_WITHOUT_DELETED = "SELECT * FROM Service WHERE DELETED = 0";
     final String LOAD = "SELECT * FROM Service WHERE ID = #{id}";
     final String DELETE_BY_ID = "DELETE from Service WHERE ID = #{id}";
     final String INSERT = "INSERT INTO Service (NAME, DESCRIPTION, DELETED) VALUES (#{name}, #{description}, #{deleted})";
@@ -29,6 +30,14 @@ public interface ServiceMapper {
             @Result(property = "deleted", column = "DELETED") })
 
     List<Service> loadAll();
+    
+    @Select(LOAD_ALL_WITHOUT_DELETED)
+    @Results(value = { @Result(property = "id", column = "ID"), 
+            @Result(property = "name", column = "NAME"),
+            @Result(property = "description", column = "DESCRIPTION"),
+            @Result(property = "deleted", column = "DELETED") })
+
+    List<Service> loadAllWithoutDeleted();
 
     @Select(LOAD)
     @Results(value = { @Result(property = "id", column = "ID"), @Result(property = "name", column = "NAME"),

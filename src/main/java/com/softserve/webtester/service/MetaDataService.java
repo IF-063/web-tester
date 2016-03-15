@@ -62,6 +62,22 @@ public class MetaDataService {
             throw e;
         }
     }
+    
+    /**
+     * Loads all without deleted {@link Application} instances from database
+     * 
+     * @return List of not deleted {@link Application} instances
+     * @throws DataAccessException
+     */
+
+    public List<Application> applicationLoadAllWithoutDeleted() {
+        try {
+            return applicationMapper.loadAllWithoutDeleted();
+        } catch (DataAccessException e) {
+            LOGGER.error("Unable to read Application table: ", e);
+            throw e;
+        }
+    }
 
     /**
      * Loads {@link Application} instance from database
@@ -164,6 +180,22 @@ public class MetaDataService {
             return serviceMapper.loadAll();
         } catch (DataAccessException e) {
             LOGGER.error("Unable to read Service table: ", e);
+            throw e;
+        }
+    }
+    
+    /**
+     * Loads all without deleted {@link Application} instances from database
+     * 
+     * @return List of not deleted {@link Application} instances
+     * @throws DataAccessException
+     */
+
+    public List<Service> serviceLoadAllWithoutDeleted() {
+        try {
+            return serviceMapper.loadAllWithoutDeleted();
+        } catch (DataAccessException e) {
+            LOGGER.error("Unable to read Application table: ", e);
             throw e;
         }
     }

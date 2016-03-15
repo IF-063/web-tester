@@ -29,9 +29,16 @@ public class ApplicationController {
     @Autowired
     private MetaDataService metaDataService;
 
-    @RequestMapping(method = RequestMethod.GET)
+    /*@RequestMapping(method = RequestMethod.GET)
     public String getApplicationList(Model model) {
         List<Application> applications = metaDataService.applicationLoadAll();
+        model.addAttribute("applications", applications);
+        return "application/list";
+    }*/
+    
+    @RequestMapping(method = RequestMethod.GET)
+    public String getNotDeletedApplicationList(Model model) {
+        List<Application> applications = metaDataService.applicationLoadAllWithoutDeleted();
         model.addAttribute("applications", applications);
         return "application/list";
     }

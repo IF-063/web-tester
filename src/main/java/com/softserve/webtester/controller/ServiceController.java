@@ -29,9 +29,16 @@ public class ServiceController {
     @Autowired
     private MetaDataService metaDataService;
 
-    @RequestMapping(method = RequestMethod.GET)
+    /*@RequestMapping(method = RequestMethod.GET)
     public String getServiceList(Model model) {
         List<Service> services = metaDataService.serviceLoadAll();
+        model.addAttribute("services", services);
+        return "service/list";
+    }*/
+    
+    @RequestMapping(method = RequestMethod.GET)
+    public String getNotDeletedServiceList(Model model) {
+        List<Service> services = metaDataService.serviceLoadAllWithoutDeleted();
         model.addAttribute("services", services);
         return "service/list";
     }
