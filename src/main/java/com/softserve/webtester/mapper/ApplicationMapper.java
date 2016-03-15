@@ -23,6 +23,7 @@ public interface ApplicationMapper {
     final String DELETE_BY_ID = "DELETE from Application WHERE ID = #{id}";
     final String INSERT = "INSERT INTO Application (NAME, DESCRIPTION, DELETED) VALUES (#{name}, #{description}, #{deleted})";
     final String UPDATE = "UPDATE Application SET DELETED = #{deleted}, NAME = #{name}, DESCRIPTION = #{description} WHERE ID = #{id}";
+    final String IS_APPLICATION_NAME_FREE = "SELECT IF(count(*) > 0, false, true) FROM Application WHERE name = #{name} AND id != #{exclusionId}";
 
     @Select(LOAD_ALL)
     @Results(value = { @Result(property = "id", column = "ID"), 
@@ -57,4 +58,7 @@ public interface ApplicationMapper {
     @Insert(INSERT)
     @Options(useGeneratedKeys = true, keyProperty = "id")
     void save(Application application);
+    
+    @Select(IS_APPLICATION_NAME_FREE)
+    boolean isApplicationNameFree(@Param("name") String name, @Param("exclusionId") int exclusionId);
 }

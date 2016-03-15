@@ -7,6 +7,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,12 +16,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.softserve.webtester.model.Application;
 import com.softserve.webtester.service.MetaDataService;
+import com.softserve.webtester.validator.ApplicationValidator;
 
 /**
  * ApplicationController class represents {@code Application} MVC Controller
  *
  * @author Roman Zolotar
- * @version 1.2
+ * @version 1.3
  */
 
 @Controller
@@ -29,13 +32,21 @@ public class ApplicationController {
     @Autowired
     private MetaDataService metaDataService;
 
-    /*@RequestMapping(method = RequestMethod.GET)
-    public String getApplicationList(Model model) {
-        List<Application> applications = metaDataService.applicationLoadAll();
-        model.addAttribute("applications", applications);
-        return "application/list";
-    }*/
-    
+    @Autowired
+    private ApplicationValidator applicationValidator;
+
+    @InitBinder("application")
+    public void initBinder(WebDataBinder binder) {
+        binder.addValidators(applicationValidator);
+    }
+
+    /*
+     * @RequestMapping(method = RequestMethod.GET) public String
+     * getApplicationList(Model model) { List<Application> applications =
+     * metaDataService.applicationLoadAll(); model.addAttribute("applications",
+     * applications); return "application/list"; }
+     */
+
     @RequestMapping(method = RequestMethod.GET)
     public String getNotDeletedApplicationList(Model model) {
         List<Application> applications = metaDataService.applicationLoadAllWithoutDeleted();
@@ -85,4 +96,5 @@ public class ApplicationController {
         metaDataService.applicationSoftDelete(id);
         return "redirect:/configuration/applications";
     }
+
 }

@@ -23,6 +23,7 @@ public interface ServiceMapper {
     final String DELETE_BY_ID = "DELETE from Service WHERE ID = #{id}";
     final String INSERT = "INSERT INTO Service (NAME, DESCRIPTION, DELETED) VALUES (#{name}, #{description}, #{deleted})";
     final String UPDATE = "UPDATE Service SET DELETED = #{deleted}, NAME = #{name}, DESCRIPTION = #{description} WHERE ID = #{id}";
+    final String IS_SERVICE_NAME_FREE = "SELECT IF(count(*) > 0, false, true) FROM Service WHERE name = #{name} AND id != #{exclusionId}";
 
     @Select(LOAD_ALL)
     @Results(value = { @Result(property = "id", column = "ID"), @Result(property = "name", column = "NAME"),
@@ -30,10 +31,9 @@ public interface ServiceMapper {
             @Result(property = "deleted", column = "DELETED") })
 
     List<Service> loadAll();
-    
+
     @Select(LOAD_ALL_WITHOUT_DELETED)
-    @Results(value = { @Result(property = "id", column = "ID"), 
-            @Result(property = "name", column = "NAME"),
+    @Results(value = { @Result(property = "id", column = "ID"), @Result(property = "name", column = "NAME"),
             @Result(property = "description", column = "DESCRIPTION"),
             @Result(property = "deleted", column = "DELETED") })
 
@@ -55,4 +55,7 @@ public interface ServiceMapper {
     @Insert(INSERT)
     @Options(useGeneratedKeys = true, keyProperty = "id")
     void save(Service service);
+    
+    @Select(IS_SERVICE_NAME_FREE)
+    boolean isServiceNameFree(@Param("name") String name, @Param("exclusionId") int exclusionId);
 }

@@ -165,6 +165,25 @@ public class MetaDataService {
             throw e;
         }
     }
+    
+    /**
+     * Checks the unique of application's name.
+     *
+     * @param name - name of {@link Application} which should be checked
+     * @param exclusionId - id of {@link Application} that should be excluded
+     * @return true, if name is unique
+     * @throws DataAccessException
+     */
+    @Transactional
+    public boolean isApplicationNameFree(String name, int exclusionId) {
+        try {
+            return applicationMapper.isApplicationNameFree(name, exclusionId);
+        } catch (DataAccessException e) {
+            LOGGER.error("Unable to check application's name, label's name: " + name, e);
+            throw e;
+        }
+    }
+
 
     // SERVICE
 
@@ -283,6 +302,24 @@ public class MetaDataService {
             serviceMapper.save(service);
         } catch (DataAccessException e) {
             LOGGER.error("Unable to create line in Service table: ", e);
+            throw e;
+        }
+    }
+    
+    /**
+     * Checks the unique of service's name.
+     *
+     * @param name - name of {@link Service} which should be checked       
+     * @param exclusionId - id of {@link Service} that should be excluded          
+     * @return true, if name is unique
+     * @throws DataAccessException
+     */
+    @Transactional
+    public boolean isServiceNameFree(String name, int exclusionId) {
+        try {
+            return serviceMapper.isServiceNameFree(name, exclusionId);
+        } catch (DataAccessException e) {
+            LOGGER.error("Unable to check service's name, label's name: " + name, e);
             throw e;
         }
     }

@@ -7,6 +7,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,12 +16,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.softserve.webtester.model.Service;
 import com.softserve.webtester.service.MetaDataService;
+import com.softserve.webtester.validator.ServiceValidator;
 
 /**
  * ServiceController class represents {@code Service} MVC Controller
  *
  * @author Roman Zolotar
- * @version 1.2
+ * @version 1.3
  */
 
 @Controller
@@ -28,6 +31,14 @@ public class ServiceController {
 
     @Autowired
     private MetaDataService metaDataService;
+    
+    @Autowired
+    private ServiceValidator serviceValidator;
+
+    @InitBinder("service")
+    public void initBinder(WebDataBinder binder) {
+        binder.addValidators(serviceValidator);
+    }
 
     /*@RequestMapping(method = RequestMethod.GET)
     public String getServiceList(Model model) {
