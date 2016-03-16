@@ -112,11 +112,11 @@ public class EnvironmentService {
      * @see EnvironmentMapper#isNameFree(Environment environment) method
      * @throws DataAccessException
      */
-    public int isNameFree(String name, int id) {
+    public int isNameFree(Environment environment) {
         try {
-            return environmentMapper.isNameFree(name, id);
+            return environmentMapper.isNameFree(environment);
         } catch (DataAccessException e) {
-            LOGGER.error("Unable to check environment name, environments name: " + name, e);
+            LOGGER.error("Unable to check environment name, environments name: " + environment.getName(), e);
             throw e;
         }
     }

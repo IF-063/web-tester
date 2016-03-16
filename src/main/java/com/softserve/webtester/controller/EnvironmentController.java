@@ -3,6 +3,8 @@ package com.softserve.webtester.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -53,8 +55,10 @@ public class EnvironmentController {
     }
 
     @RequestMapping(value = "/create", method = RequestMethod.POST)
-    public String createEnvironment(@Validated @ModelAttribute Environment environment, BindingResult result) {
+    public String createEnvironment(@Validated @ModelAttribute Environment environment, BindingResult result, Model model) {
         if (result.hasErrors()) {
+            model.addAttribute("pageTask", "Create");
+            model.addAttribute("dbTypes", EnvironmentDbType.values());
             return "environment/environmentCreateOrUpdate";
         }
         environmentService.save(environment);
@@ -72,8 +76,10 @@ public class EnvironmentController {
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.POST)
-    public String updateEnvironment(@Validated @ModelAttribute Environment environment, BindingResult result) {
+    public String updateEnvironment(@Validated @ModelAttribute Environment environment, BindingResult result, Model model) {
         if (result.hasErrors()) {
+            model.addAttribute("pageTask", "Update");
+            model.addAttribute("dbTypes", EnvironmentDbType.values());
             return "environment/environmentCreateOrUpdate";
         }
         environmentService.update(environment);
@@ -86,17 +92,22 @@ public class EnvironmentController {
         return "redirect:/configuration/environments";
     }
 
-    @RequestMapping(value = "/check/{id}", method = RequestMethod.GET)
-    public String checkEnvironment(@PathVariable int id, Model model) {
+    @RequestMapping(value = "/check/{id}", method = RequestMethod.POST)
+    public ResponseEntity<String> checkEnvironment(@PathVariable int id, Model model) {
+        String message = "";
+        HttpStatus status = HttpStatus.OK;
+        
         Environment environment = environmentService.load(id);
 
         try {
             environmentService.checkConnection(environment);
-            model.addAttribute("success",
-                    " Environment: " + environment.getName() + ", connection was checked successfully");
+            message = " Environment: " + environment.getName() + ", connection was checked successfully";
         } catch (Exception e) {
-            model.addAttribute("error", " Environment: " + environment.getName() + " error:" + e.getMessage());
+            message = " Environment: " + environment.getName() + " check finished with  error:" + e.getMessage();
+            status = HttpStatus.BAD_REQUEST;
         }
-        return getEnvironmentsPage(model);
+        ResponseEntity<String> responseEntity = new ResponseEntity<String>(message, status);
+        
+        return responseEntity;
     }
 }

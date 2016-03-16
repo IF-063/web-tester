@@ -22,8 +22,8 @@ public class EnvironmentValidator implements Validator {
     @Override
     public void validate(Object target, Errors e) {
         Environment environment = (Environment) target;
-        if ((environmentService.isNameFree(environment.getName(), environment.getId())) > 0) {
-            e.rejectValue("name", "NotUnique.request.name", "Name should be unique");
+        if (environmentService.isNameFree(environment) > 0) {
+            e.rejectValue("name", "NotUnique.environment.name", "Name should be unique");
         }
 
     }

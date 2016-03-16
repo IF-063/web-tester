@@ -102,5 +102,5 @@ public interface EnvironmentMapper {
      * @return
      */
     @SelectProvider(type = EnvironmentSqlProvider.class, method = "isNameFree")
-    int isNameFree(String name, int id);
+    int isNameFree(Environment environment);
 }
