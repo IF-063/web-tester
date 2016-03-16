@@ -52,7 +52,6 @@ public class Request implements Serializable {
     @NotNull
     private ResponseType responseType;
 
-    @NotBlank
     private String expectedResponse;
 
     @Min(1)

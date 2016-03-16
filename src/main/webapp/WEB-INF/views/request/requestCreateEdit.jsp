@@ -82,7 +82,6 @@
             </div>
 
             <div class="form-group">
-
               <form:label path="requestBody" class="col-md-2 control-label">
                 <p class="text-left">Request Body: </p>
               </form:label>
@@ -128,13 +127,12 @@
               </form:label>
               <div class="col-md-4">
                 <form:select path="labels" class="form-control select2-multiple multipleSelect" multiple="multiple" 
-                  items="${labels}" itemValue="id"
-                  itemLabel="name" />
+                  items="${labels}" itemValue="id" itemLabel="name" />
               </div>
             </div>
 
             <div class="form-group">
-              <div class="col-md-8 elementContainer">
+              <div class="col-md-12 elementContainer">
                 <div class="panel panel-default">
                   <div class="panel-heading">
                     <label for="headers">Headers</label>
@@ -142,13 +140,13 @@
                     <button class="btn btn-link clearCollection">Delete all</button>
                   </div>
                   <div class="table-responsive">
-                    <table class="table table-hover table-bordered table-condensed text-center panel-body" 
+                    <table class="table table-hover table-bordered table-condensed text-center table-striped panel-body" 
                       id="headers">
                       <thead>
                         <tr>
                           <th class="col-xs-4 col-sm-4 col-md-4">Name</th>
                           <th>Value</th>
-                          <th>Delete</th>
+                          <th class="col-xs-1 col-sm-1 col-md-1">Delete</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -185,7 +183,7 @@
                     <button class="btn btn-link clearCollection">Delete all</button>
                   </div>
                   <div class="table-responsive">
-                    <table class="table table-hover table-bordered table-condensed text-center panel-body" 
+                    <table class="table table-hover table-bordered table-condensed text-center table-striped panel-body" 
                       id="variables">
                       <thead>
                         <tr>
@@ -195,7 +193,7 @@
                           <th>IsRandom</th>
                           <th class="col-xs-2 col-sm-2 col-md-2">DataType</th>
                           <th class="col-xs-2 col-sm-2 col-md-2">Length</th>
-                          <th>Delete</th>
+                          <th class="col-xs-1 col-sm-1 col-md-1">Delete</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -244,7 +242,7 @@
             </div>
 
             <div class="form-group">
-              <div class="col-md-8 elementContainer">
+              <div class="col-md-12 elementContainer">
                 <div class="panel panel-default">
                   <div class="panel-heading">
                     <label for="dbValidations">DbValidations</label>
@@ -252,13 +250,13 @@
                     <button class="btn btn-link clearCollection">Delete all</button>
                   </div>
                   <div class="table-responsive">
-                    <table class="table table-hover table-bordered table-condensed text-center panel-body" 
+                    <table class="table table-hover table-bordered table-condensed text-center table-striped panel-body" 
                       id="dbValidations">
                       <thead>
                         <tr>
                           <th>SQL query</th>
                           <th class="col-xs-3 col-sm-3 col-md-3">Expected value</th>
-                          <th>Delete</th>
+                          <th class="col-xs-1 col-sm-1 col-md-1">Delete</th>
                         </tr>
                       </thead>
                       <tbody>
