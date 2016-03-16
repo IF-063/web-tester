@@ -86,7 +86,7 @@ public class EnvironmentController {
         return "redirect:/configuration/environments";
     }
 
-    @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/delete/{id}", method = RequestMethod.POST)
     public String deleteEnvironment(Environment environment) {
         environmentService.delete(environment);
         return "redirect:/configuration/environments";
@@ -101,9 +101,9 @@ public class EnvironmentController {
 
         try {
             environmentService.checkConnection(environment);
-            message = " Environment: " + environment.getName() + ", connection was checked successfully";
+            message = " " + environment.getName() + ": environment connection was checked successfully";
         } catch (Exception e) {
-            message = " Environment: " + environment.getName() + " check finished with  error:" + e.getMessage();
+            message = " " + environment.getName() + ": environment check finished with  error:" + e.getMessage();
             status = HttpStatus.BAD_REQUEST;
         }
         ResponseEntity<String> responseEntity = new ResponseEntity<String>(message, status);

@@ -9,19 +9,8 @@
             <div class="panel-heading">
                 <h4>Environments</h4>
             </div>
-            <c:if test="${not empty success}">
-                <div class="alert col-sm-12" id="alertCheck">
-                    <a href="#" class="close" data-dismiss="alert"
-                        aria-label="close">&times;</a> <strong>Success!</strong>${success}
-                </div>
-            </c:if>
-            <c:if test="${not empty error}">
-                <div class="alert alert-danger col-sm-12">
-                    <a href="#" class="close" data-dismiss="alert"
-                        aria-label="close">&times;</a> <strong>Error!</strong>
-                    <c:out value='${error}' />
-                </div>
-            </c:if>
+            <div class="alert fade in" id="success-error"
+                style="display: none;"></div>
             <!-- /.panel-heading -->
             <div class="panel-body">
                 <div class="row">
@@ -37,17 +26,16 @@
                         id="dataTables-example">
                         <thead>
                             <div class="row">
-                                <tr>
-                                    <th>Name</th>
-                                    <th>Base URL</th>
-                                    <th>Database Type</th>
-                                    <th>Database URL</th>
-                                    <th>Database port</th>
-                                    <th>Database name</th>
-                                    <th>Response time multiplier</th>
-                                    <th>Check Environment</th>
-                                    <th>Delete</th>
-                                </tr>
+                            <tr>
+                                <th>Name</th>
+                                <th>Base URL</th>
+                                <th>Database Type</th>
+                                <th>Database URL</th>
+                                <th>Database port</th>
+                                <th>Database name</th>
+                                <th>Check Environment</th>
+                                <th>Delete</th>
+                            </tr>
                             </div>
                         </thead>
                         <tbody>
@@ -70,13 +58,12 @@
                                     <td>${environment.dbUrl}</td>
                                     <td>${environment.dbPort}</td>
                                     <td>${environment.dbName}</td>
-                                    <td>${environment.timeMultiplier}</td>
                                     <td><span
-                                        class="glyphicon glyphicon-check cursorPointer" id="glyphiconCheck${environment.id}"
+                                        class="fa fa-check-square-o fa-lg cursorPointer"
+                                        id="environmentCheck${environment.id}"
                                         onclick="checkEnvironment(${environment.id})"></span></td>
-                                    <td><a
-                                        href="${environmentDeleteUrl}"><span
-                                            class="glyphicon glyphicon-trash"></span></a></td>
+                                    <td class="deleteEnvironment" id="${environment.id}">
+                                    <span class="fa fa-trash fa-lg cursorPointer"></span></td>
                                 </tr>
                             </c:forEach>
                         </tbody>
@@ -93,7 +80,8 @@
 <script>
   var contextPath = "${pageContext.request.contextPath}"
 </script>
-<script src=<c:url value="/resources/bower_components/jquery/dist/jquery.min.js" />></script>
+<script
+    src=<c:url value="/resources/bower_components/jquery/dist/jquery.min.js" />></script>
 
 <script src=<c:url value="/resources/dist/js/select2.min.js" />></script>
 <!-- Main page script -->
