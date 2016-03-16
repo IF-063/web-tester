@@ -5,25 +5,18 @@
 <div class="container">
     <div class="row">
         <div class="col-md-12">
-            <h1 class="page-header"><c:out value="${pageTask}" /> Build Version</h1>
+            <h1 class="page-header"><c:out value="${pageTask}" /> Label</h1>
         </div>
     </div>
     <div class="row">
         <div class="col-md-12">
-            <form:form action="" method="POST" class="form-horizontal" role="form" modelAttribute="buildVersion">
+            <form:form action="" method="POST" class="form-horizontal" role="form" modelAttribute="label">
                 <div class="row">
                     <div class="form-group">
                         <form:label path="name" class="col-md-4 control-label">Name*</form:label>
                         <div class="col-md-4">
-                            <form:input path="name" class="form-control"/>
+                            <form:input path="name" class="form-control" />
                             <form:errors path="name" cssClass="help-block with-errors" />
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <form:label path="description" class="col-md-4 control-label">Description*</form:label>
-                        <div class="col-md-4">
-                            <form:textarea path="description" class="form-control" resize="none" />
-                            <form:errors path="description" cssClass="help-block with-errors" />
                         </div>
                     </div>
                     <div class="row">
@@ -32,7 +25,7 @@
                             <button type="button" class="btn btn-danger btn-lg"
                                     onclick="location.reload();">Reset</button>
                             <button type="button" class="btn btn-default btn-lg" onclick="location.href='<c:url
-                                    value ="/configuration/buildVersions" />'">Cancel</button>
+                                    value ="/configuration/labels" />'">Cancel</button>
                         </div>
                     </div>
                 </div>
@@ -40,3 +33,5 @@
         </div>
     </div>
 </div>
+
+

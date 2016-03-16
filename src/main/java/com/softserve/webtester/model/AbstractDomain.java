@@ -5,6 +5,8 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
+import javax.validation.constraints.Size;
+
 /**
  * The AbstractDomain abstract class represents {@code AbstractDomain} entity from which inherited
  * classes like Aplication, Service, Label.
@@ -16,8 +18,13 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 public class AbstractDomain {
 
     protected int id;
+
+    @Size(max = 24)
     protected String name;
+
+    @Size(max = 80)
     protected String description;
+
     protected boolean deleted;
 
     public AbstractDomain() { }

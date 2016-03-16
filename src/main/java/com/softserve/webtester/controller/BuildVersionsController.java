@@ -38,6 +38,7 @@ public class BuildVersionsController {
 
     @RequestMapping(value = "/create", method = RequestMethod.GET)
     public String getCreatePage(Model model) {
+        model.addAttribute("pageTask", "Create");
         BuildVersion buildVersion = new BuildVersion();
         model.addAttribute("buildVersion", buildVersion);
         return "buildVersion/createOrModify";
@@ -52,14 +53,15 @@ public class BuildVersionsController {
         return "redirect:/configuration/buildVersions";
     }
 
-    @RequestMapping(value = "/{id}/modify", method = RequestMethod.GET)
-    public String modifyBuildVersion(@PathVariable("id")int id, Model model) {
+    @RequestMapping(value = "/modify/{id}", method = RequestMethod.GET)
+    public String modifyBuildVersion(@PathVariable int id, Model model) {
+        model.addAttribute("pageTask", "Modify");
         BuildVersion buildVersion = metaDataService.loadBuildVersionById(id);
         model.addAttribute("buildVersion", buildVersion);
         return "buildVersion/createOrModify";
     }
 
-    @RequestMapping(value = "/{id}/modify", method = RequestMethod.POST)
+    @RequestMapping(value = "/modify/{id}", method = RequestMethod.POST)
     public String confirmModify(@Validated @ModelAttribute BuildVersion buildVersion, BindingResult result) {
         if (result.hasErrors()) {
             return "buildVersion/createOrModify";
@@ -68,9 +70,9 @@ public class BuildVersionsController {
         return "redirect:/configuration/buildVersions";
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public String deleteBuildVersion(BuildVersion buildVersion) {
-        metaDataService.deleteBuildVersion(buildVersion.getId());
+    @RequestMapping(value = "delete/{id}", method = RequestMethod.GET)
+    public String deleteBuildVersion(@PathVariable int id) {
+        metaDataService.deleteBuildVersion(id);
         return "redirect:/configuration/buildVersions";
     }
 

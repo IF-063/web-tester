@@ -4,6 +4,7 @@ import com.softserve.webtester.model.BuildVersion;
 import com.softserve.webtester.service.MetaDataService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 import org.springframework.validation.Errors;
 
@@ -14,16 +15,18 @@ public class BuildVersionValidator implements Validator {
     private MetaDataService metaDataService;
 
     @Override
-    public boolean supports(Class<?> clazz) {
+    public boolean supports(Class clazz) {
         return BuildVersion.class.equals(clazz);
     }
 
     @Override
-    public void validate(Object target, Errors errors) {
-        BuildVersion buildVersion = (BuildVersion) target;
+    public void validate(Object object, Errors errors) {
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "name", "NotBlank.buildVersion.name");
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "description", "NotBlank.buildVersion.description");
+        BuildVersion buildVersion = (BuildVersion) object;
         if (!metaDataService.isBuildVersionNameFree(buildVersion.getName(),
                 buildVersion.getId())) {
-            errors.rejectValue("name", "NotUnique.buildVersion.name", "Name should be unique");
+            errors.rejectValue("name", "NotUnique.buildVersion.name");
         }
 
     }

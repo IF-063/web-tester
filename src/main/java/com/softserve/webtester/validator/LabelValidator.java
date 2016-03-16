@@ -4,6 +4,7 @@ import com.softserve.webtester.model.Label;
 import com.softserve.webtester.service.MetaDataService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 import org.springframework.validation.Errors;
 
@@ -14,17 +15,17 @@ public class LabelValidator implements Validator {
     private MetaDataService metaDataService;
 
     @Override
-    public boolean supports(Class<?> clazz) {
+    public boolean supports(Class clazz) {
         return Label.class.equals(clazz);
     }
 
     @Override
-    public void validate(Object target, Errors errors) {
-        Label label = (Label) target;
+    public void validate(Object object, Errors errors) {
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "name", "NotBlank.label.name");
+        Label label = (Label) object;
         if (!metaDataService.isLabelNameFree(label.getName(),
                 label.getId())) {
-            errors.rejectValue("name", "NotUnique.label.name", "Name should be unique");
+            errors.rejectValue("name", "NotUnique.label.name");
         }
-
     }
 }

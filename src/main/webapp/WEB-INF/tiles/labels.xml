@@ -3,14 +3,14 @@
 		"http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
 <tiles-definitions>
 
-	<definition name="labels/labels" extends="DefaultTemplate">
+	<definition name="label/labels" extends="DefaultTemplate">
 		<put-attribute name="title" value="Labels" />
-		<put-attribute name="body" value="/WEB-INF/views/labels/labels.jsp" />
+		<put-attribute name="body" value="/WEB-INF/views/label/labels.jsp" />
 	</definition>
 
-	<definition name="labels/create" extends="DefaultTemplate">
+	<definition name="label/createOrModify" extends="DefaultTemplate">
 		<put-attribute name="title" value="Label editing" />
-		<put-attribute name="body" value="/WEB-INF/views/labels/create.jsp" />
+		<put-attribute name="body" value="/WEB-INF/views/label/createOrModify.jsp" />
 	</definition>
 
 </tiles-definitions>

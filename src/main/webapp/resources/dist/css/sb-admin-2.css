@@ -415,3 +415,7 @@ th {
  background: #698B22;
  color: #ffffff;
 }
+
+textarea {
+    resize: none;
+}

@@ -5,6 +5,7 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 
 /**
@@ -19,6 +20,8 @@ public class Label implements Serializable {
     private static final long serialVersionUID = 8470321606695180897L;
 
     private int id;
+
+    @Size(max = 24)
     private String name;
 
     public Label() { }

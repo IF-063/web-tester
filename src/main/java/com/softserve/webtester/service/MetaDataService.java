@@ -500,6 +500,29 @@ public class MetaDataService {
     }
 
     /**
+     * Updates {@link Label} instance should be updated in the database.
+     *
+     * @param label
+     * @return the number of rows affected by the statement
+     * @throws DuplicateKeyException
+     *             if the label with the same name exists in the
+     *             database.
+     * @throws DataAccessException
+     */
+    @Transactional
+    public int updateLabel(Label label) {
+        try {
+            labelMapper.updateLabel(label);
+            int id = label.getId();
+            LOGGER.info("Successfully updated Label instance in the database, label id: " + id);
+            return id;
+        } catch (DataAccessException e) {
+            LOGGER.error("Unable to update Label instance, label id " + label.getId(), e);
+            throw e;
+        }
+    }
+
+    /**
      * Deletes {@link Label} instance from the database.
      * 
      * @param id

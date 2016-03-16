@@ -9,10 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.InitBinder;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -36,28 +33,46 @@ public class LabelsController {
     public String getLabelsPage(Model model) {
         List<Label> labels = metaDataService.loadAllLabels();
         model.addAttribute("labels", labels);
-        return "labels/labels";
+        return "label/labels";
     }
 
     @RequestMapping(value = "/create", method = RequestMethod.GET)
     public String getCreatePage(Model model) {
+        model.addAttribute("pageTask", "Create");
         Label label = new Label();
         model.addAttribute("label", label);
-        return "labels/create";
+        return "label/createOrModify";
     }
 
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     public String confirmCreate(@Validated @ModelAttribute Label label, BindingResult result) {
         if (result.hasErrors()) {
-            return "labels/create";
+            return "label/createOrModify";
         }
         metaDataService.saveLabel(label);
         return "redirect:/configuration/labels";
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public String deleteLabel(Label label) {
-        metaDataService.deleteLabel(label.getId());
+    @RequestMapping(value = "/modify/{id}", method = RequestMethod.GET)
+    public String modifyLabel(@PathVariable int id, Model model) {
+        model.addAttribute("pageTask", "Modify");
+        Label label = metaDataService.loadLabelById(id);
+        model.addAttribute("label", label);
+        return "label/createOrModify";
+    }
+
+    @RequestMapping(value = "/modify/{id}", method = RequestMethod.POST)
+    public String confirmModify(@Validated @ModelAttribute Label label, BindingResult result) {
+        if (result.hasErrors()) {
+            return "label/createOrModify";
+        }
+        metaDataService.updateLabel(label);
+        return "redirect:/configuration/labels";
+    }
+
+    @RequestMapping(value = "delete/{id}", method = RequestMethod.GET)
+    public String deleteLabel(@PathVariable int id) {
+        metaDataService.deleteLabel(id);
         return "redirect:/configuration/labels";
     }
 }
