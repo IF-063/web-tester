@@ -88,20 +88,20 @@ $(function() {
     var state = inputState ? inputState : !obj.prop('checked');
     obj.closest('tr').find('.enableIfRandom').each(function() {
     	
-      var obj = $(this);
-      if (obj.is('input[type="text"]')) {
-        if (!state) {
-          $('#request').validate();
-          obj.rules('add', {
-            min: 1
-          });
-        } else {
-          var curTd = obj.parents('td');
-          curTd.removeClass('has-error');
-          curTd.find('em').remove();
-          curTd.find('span').remove();
-        }
-      }
+//      var obj = $(this);
+//      if (obj.is('input[type="text"]')) {
+//        if (!state) {
+//          $('#request').validate();
+//          obj.rules('add', {
+//            min: 1
+//          });
+//        } else {
+//          var curTd = obj.parents('td');
+//          curTd.removeClass('has-error');
+//          curTd.find('em').remove();
+//          curTd.find('span').remove();
+//        }
+//      }
       
       $(this).prop('disabled', state);
     });
@@ -151,95 +151,98 @@ $(function() {
     return false;
   });
 
-  $('#request').validate({
-    onkeyup: function(element) {
-      $(element).valid();
-    },
-    rules: {
-      name: {
-        required: true,
-        remote: {
-          url: '/web-tester/tests/requests/isRequestNameFree',
-          type: 'POST',
-          dataType: 'json',
-          data: {
-            name: function() {
-              return $('#name').val();
-            },
-            exclusionId: $('#id').val()
-          }
-        },
-      },
-      description: 'required',
-      requestMethod: 'required',
-      application: 'required',
-      service: 'required',
-      endpoint: 'required',
-      responseType: 'required',
-      expectedResponse: 'required',
-      timeout: {
-        required: true,
-        min: 1
-      },
-    },
-    messages: {
-      name: {
-        required: 'Name can not be empty',
-        remote: 'Name should be unique'
-      },
-      description: {
-        required: 'Description can not be empty'
-      },
-      requestMethod: {
-        required: 'Request method can not be empty'
-      },
-      application: {
-        required: 'Application can not be empty'
-      },
-      service: {
-        required: 'Service can not be empty'
-      },
-      endpoint: {
-        required: 'Endpoint can not be empty'
-      },
-      responseType: {
-        required: 'Response type can not be empty'
-      },
-      expectedResponse: {
-        required: 'Expected response can not be empty'
-      },
-      timeout: {
-        required: 'Timeout can not be empty',
-        min: 'Timeout must be greater than or equal to 1'
-      },
-    },
-    errorElement: "em",
-    errorPlacement: function(error, element) {
-      error.addClass("help-block");
-      element.parents("div,td").addClass("has-feedback");
-      error.insertAfter(element);
-      if (!element.next("span")[0]) {
-        $("<span class='glyphicon glyphicon-remove form-control-feedback'></span>").insertAfter(element);
-      }
-    },
-    success: function(label, element) {
-      if (!$(element).next("span")[0]) {
-        $("<span class='glyphicon glyphicon-ok form-control-feedback'></span>").insertAfter($(element));
-      }
-    },
-    highlight: function(element, errorClass, validClass) {
-      $(element).parent('').addClass("has-error").removeClass("has-success");
-      $(element).next("span").addClass("glyphicon-remove").removeClass("glyphicon-ok");
-    },
-    unhighlight: function(element, errorClass, validClass) {
-      $(element).parent('div,td').addClass("has-success").removeClass("has-error");
-      $(element).next("span").addClass("glyphicon-ok").removeClass("glyphicon-remove");
-    },
-    submitHandler: function(form) {
-      normalizeLists();
-      form.submit();
-    }
-  });
+  // manual submits form without bootstrap validaion
+  $('#validate').click(function(e) {
+    normalizeLists();
+    $('#requests').submit();
+  });  
+  
+  
+//  $('#request').validate({
+//    onkeyup: function(element) {
+//      $(element).valid();
+//    },
+//    rules: {
+//      name: {
+//        required: true,
+//        remote: {
+//          url: '/web-tester/tests/requests/isRequestNameFree',
+//          type: 'POST',
+//          dataType: 'json',
+//          data: {
+//            name: function() {
+//              return $('#name').val();
+//            },
+//            exclusionId: $('#id').val()
+//          }
+//        },
+//      },
+//      description: 'required',
+//      requestMethod: 'required',
+//      application: 'required',
+//      service: 'required',
+//      endpoint: 'required',
+//      responseType: 'required',
+//      timeout: {
+//        required: true,
+//        min: 1
+//      },
+//    },
+//    messages: {
+//      name: {
+//        required: 'Name can not be empty',
+//        remote: 'Name should be unique'
+//      },
+//      description: {
+//        required: 'Description can not be empty'
+//      },
+//      requestMethod: {
+//        required: 'Request method can not be empty'
+//      },
+//      application: {
+//        required: 'Application can not be empty'
+//      },
+//      service: {
+//        required: 'Service can not be empty'
+//      },
+//      endpoint: {
+//        required: 'Endpoint can not be empty'
+//      },
+//      responseType: {
+//        required: 'Response type can not be empty'
+//      },
+//      timeout: {
+//        required: 'Timeout can not be empty',
+//        min: 'Timeout must be greater than or equal to 1'
+//      },
+//    },
+//    errorElement: 'span',
+//    errorPlacement: function(error, element) {
+//      error.addClass("help-block");
+//      element.parents("div,td").addClass("has-feedback");
+//      error.insertAfter(element);
+//      if (!element.next("span")[0]) {
+//        $("<span class='glyphicon glyphicon-remove form-control-feedback'></span>").insertAfter(element);
+//      }
+//    },
+//    success: function(label, element) {
+//      if (!$(element).next("span")[0]) {
+//        $("<span class='glyphicon glyphicon-ok form-control-feedback'></span>").insertAfter($(element));
+//      }
+//    },
+//    highlight: function(element, errorClass, validClass) {
+//      $(element).parent('').addClass("has-error").removeClass("has-success");
+//      $(element).next("span").addClass("glyphicon-remove").removeClass("glyphicon-ok");
+//    },
+//    unhighlight: function(element, errorClass, validClass) {
+//      $(element).parent('div,td').addClass("has-success").removeClass("has-error");
+//      $(element).next("span").addClass("glyphicon-ok").removeClass("glyphicon-remove");
+//    },
+//    submitHandler: function(form) {
+//      normalizeLists();
+//      form.submit();
+//    }
+//  });
 
   // sets indexes in headers, variables or dbvalidations lists
   // should be invoked BEFORE FORM SUBMITING

@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <link href=<c:url value="/resources/dist/css/select2.min.css" /> rel="stylesheet" />
 
@@ -10,6 +11,7 @@
   <div class="col-md-12">
     <div class="panel panel-default">
       <div class="panel-heading">
+        <h3>Requests</h3>
         <form:form modelAttribute="requestFilterDTO" method="GET">
           <fieldset>
             <h4>Filters</h4>
@@ -38,7 +40,7 @@
             </div>
 
             <div class="col-md-4">
-              <label>Actions</label>
+              <span aria-hidden="true">&nbsp;</span>
               <div>
                 <a href=<c:url value="/tests/requests/" /> class="btn btn-default">Reset</a>
                 <input type="submit" class="btn btn-success" value="Filter" />
@@ -48,8 +50,9 @@
           </fieldset>
 
         </form:form>
-        <h4>Requests</h4>
+        
         <div class="row">
+        <h4>Showing ${fn:length(requests)} results</h4>
           <div class="col-md-12">
             <a href=<c:url value="/tests/requests/create" /> class="btn btn-success">Create</a>
             <button id="runAll" class="btn btn-info">Run all</button>
@@ -59,7 +62,7 @@
         </div>
       </div>
       <div class="table-responsive">
-        <table class="table table-hover table-bordered table-condensed text-center panel-body" id="requests">
+        <table class="table table-hover table-bordered table-condensed table-striped panel-body" id="requests">
           <thead>
             <tr>
               <th><input id="selectAll" type="checkbox" title="Select all"></th>
@@ -68,25 +71,27 @@
               <th>Service</th>
               <th>Endpoint</th>
               <th>Run</th>
-              <th>See results</th>
-              <th>Duplicate</th>
-              <th>Disable</th>
-              <th>Delete</th>
+              <th class="col-md-1">See results</th>
+              <th class="col-md-1">Duplicate</th>
+              <th class="col-md-1">Disable</th>
+              <th class="col-md-1">Delete</th>
             </tr>
           </thead>
           <tbody>
             <c:forEach items="${requests}" var="request">
               <tr class="dataRow">
-                <td><input id="${request.id}" type="checkbox" name="operateSelect"></td>
+                <td class="td-centered"><input id="${request.id}" type="checkbox" name="operateSelect"></td>
                 <td><a href=<c:url value="/tests/requests/${request.id} " />>${request.name}</a></td>
                 <td>${request.application.name}</td>
                 <td>${request.service.name}</td>
                 <td>${request.endpoint}</td>
-                <td id="${request.id}" class="run cursorPointer"><i class="fa fa-play"></i></td>
-                <td><a href=<c:url value="/results/requests/${request.id}" />>results</a></td>
-                <td class="duplicate cursorPointer" id="${request.id}"><i class="fa fa-copy fa-lg"></i></td>
-                <td><input id="${request.id}" type="checkbox" name="disableSelect"></td>
-                <td id="${request.id}" class="removeInstance cursorPointer"><i class="fa fa-trash fa-lg"></i></td>
+                <td class="td-centered"><i id="${request.id}" class="run cursorPointer fa fa-play"></i></td>
+                <td class="td-centered"><a href=<c:url value="/results/requests/${request.id}" />>results</a></td>
+                <td class="td-centered"><i id="${request.id}" class="duplicate cursorPointer fa fa-copy fa-lg"></i></td>
+                <td class="td-centered"><input id="${request.id}" type="checkbox" name="disableSelect"></td>
+                <td class="td-centered">
+                  <i id="${request.id}" class="removeInstance cursorPointer fa fa-trash fa-lg"></i>
+                </td>
               </tr>
             </c:forEach>
           </tbody>

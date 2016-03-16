@@ -22,7 +22,7 @@ body {
     #page-wrapper {
         position: inherit;
         margin: 0 0 0 0;
-        padding: 0 30px;
+        padding: 10px 30px;
         border-left: 1px solid #e7e7e7;
     }
 }
@@ -418,4 +418,12 @@ th {
 
 textarea {
     resize: none;
+}
+
+.td-centered {
+	text-align: center;
+}
+.icon-centered {
+    vertical-align: middle;	
+    font-size: 18px;
 }
