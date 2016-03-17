@@ -26,7 +26,7 @@ public class ApplicationValidator implements Validator {
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "description", "NotBlank.application.description");
         Application application = (Application) target;
         if (!metaDataService.isApplicationNameFree(application.getName(), application.getId())) {
-            errors.rejectValue("name", null, "name should be unique");
+            errors.rejectValue("name", null, "Name should be unique");
         }
 
     }
