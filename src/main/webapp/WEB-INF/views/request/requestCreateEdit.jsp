@@ -21,7 +21,7 @@
                 <p class="text-left">Name: *</p>
               </form:label>
               <div class="col-md-4">
-                <form:input path="name" class="form-control" />
+                <form:input path="name" class="form-control" cssErrorClass="error" />
                 <form:errors path="name" cssClass="help-block with-errors" />
               </div>
             </div>
@@ -31,7 +31,7 @@
                 <p class="text-left">Description: *</p>
               </form:label>
               <div class="col-md-4">
-                <form:input path="description" class="form-control" />
+                <form:input path="description" class="form-control" cssErrorClass="error" />
                 <form:errors path="description" cssClass="help-block with-errors" />
               </div>
             </div>
@@ -41,32 +41,30 @@
                 <p class="text-left">Request Method: *</p>
               </form:label>
               <div class="col-md-4">
-                <form:select path="requestMethod" class="form-control" items="${requestMethods}" />
+                <form:select path="requestMethod" class="form-control" items="${requestMethods}" 
+                  cssErrorClass="error" />
                 <form:errors path="requestMethod" cssClass="help-block with-errors" />
               </div>
             </div>
 
             <div class="form-group">
-
               <form:label path="application" class="col-md-2 control-label">
                 <p class="text-left">Application: *</p>
               </form:label>
-
               <div class="col-md-4">
                 <form:select path="application" class="form-control" items="${applications}" itemValue="id" 
-                  itemLabel="name" />
+                  itemLabel="name" cssErrorClass="error" />
                 <form:errors path="application" cssClass="help-block with-errors" />
               </div>
             </div>
 
             <div class="form-group">
-
               <form:label path="service" class="col-md-2 control-label">
                 <p class="text-left">Service: *</p>
               </form:label>
-
               <div class="col-md-4">
-                <form:select path="service" class="form-control" items="${services}" itemValue="id" itemLabel="name" />
+                <form:select path="service" class="form-control" items="${services}" itemValue="id" itemLabel="name"
+                  cssErrorClass="error" />
                 <form:errors path="service" cssClass="help-block with-errors" />
               </div>
             </div>
@@ -76,7 +74,7 @@
                 <p class="text-left">Endpoint: *</p>
               </form:label>
               <div class="col-md-4">
-                <form:input path="endpoint" class="form-control" />
+                <form:input path="endpoint" class="form-control" cssErrorClass="error" />
                 <form:errors path="endpoint" cssClass="help-block with-errors" />
               </div>
             </div>
@@ -96,7 +94,8 @@
                 <p class="text-left">Response Type: *</p>
               </form:label>
               <div class="col-md-4">
-                <form:select path="responseType" class="form-control" items="${responseTypes}" itemLabel="textValue" />
+                <form:select path="responseType" class="form-control" items="${responseTypes}" itemLabel="textValue"
+                  cssErrorClass="error" />
                 <form:errors path="responseType" cssClass="help-block with-errors" />
               </div>
             </div>
@@ -116,7 +115,7 @@
                 <p class="text-left">Timeout: *</p>
               </form:label>
               <div class="col-md-4">
-                <form:input path="timeout" class="form-control" placeholder="Value in seconds" />
+                <form:input path="timeout" class="form-control" placeholder="Value in seconds" cssErrorClass="error" />
                 <form:errors path="timeout" cssClass="help-block with-errors" />
               </div>
             </div>
@@ -154,12 +153,12 @@
                           <tr class="dataRow">
                             <td id=".name">
                               <form:input type="text" path="headers[${status.index}].name" class="form-control" 
-                                placeholder="Name" />
+                                placeholder="Name" cssErrorClass="error" />
                               <form:errors path="headers[${status.index}].name" cssClass="help-block with-errors" />
                             </td>
                             <td id=".value">
                               <form:input type="text" path="headers[${status.index}].value" class="form-control" 
-                                placeholder="Value" />
+                                placeholder="Value" cssErrorClass="error" />
                               <form:errors path="headers[${status.index}].value" cssClass="help-block with-errors" />
                             </td>
                             <td class="removeInstance cursorPointer icon-centered">
@@ -201,12 +200,12 @@
                           <tr class="dataRow">
                             <td id=".name">
                               <form:input type="text" path="variables[${status.index}].name" class="form-control" 
-                                placeholder="Name" />
+                                placeholder="Name" cssErrorClass="error" />
                               <form:errors path="variables[${status.index}].name" cssClass="help-block with-errors" />
                             </td>
                             <td id=".value">
                               <form:input type="text" path="variables[${status.index}].value" class="form-control" 
-                                placeholder="Value" />
+                                placeholder="Value" cssErrorClass="error" />
                               <form:errors path="variables[${status.index}].value" cssClass="help-block with-errors" />
                             </td>
                             <td id=".sql">
@@ -225,7 +224,7 @@
                             </td>
                             <td id=".length">
                               <form:input path="variables[${status.index}].length" 
-                                class="form-control enableIfRandom" placeholder="Length" />
+                                class="form-control enableIfRandom" placeholder="Length" cssErrorClass="error" />
                               <form:errors path="variables[${status.index}].length" 
                                 cssClass="help-block with-errors" />
                             </td>
@@ -264,13 +263,13 @@
                           <tr class="dataRow">
                             <td id=".sqlQuery">
                               <form:input type="text" path="dbValidations[${status.index}].sqlQuery" 
-                                class="form-control" placeholder="SQL query" />
+                                class="form-control" placeholder="SQL query" cssErrorClass="error" />
                               <form:errors path="dbValidations[${status.index}].sqlQuery" 
                                 cssClass="help-block with-errors" />
                             </td>
                             <td id=".expectedValue">
                               <form:input type="text" path="dbValidations[${status.index}].expectedValue" 
-                                class="form-control" placeholder="Expected value" />
+                                class="form-control" placeholder="Expected value" cssErrorClass="error" />
                               <form:errors path="dbValidations[${status.index}].expectedValue" 
                                 cssClass="help-block with-errors" />
                             </td>

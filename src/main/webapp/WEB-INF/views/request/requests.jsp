@@ -17,7 +17,7 @@
         <form:form modelAttribute="requestFilterDTO" method="GET">
           <fieldset>
             <h4>Filters</h4>
-
+            <div class="shift-left">
             <div class="col-md-2">
               <label for="requestNameFilter" class="control-label">Request name</label>
               <form:input type="text" path="requestNameFilter" class="form-control" placeholder="name includes" />
@@ -32,29 +32,29 @@
             <div class="col-md-2">
               <label for="serviceFilter" class="control-label">Service</label>
               <form:select path="serviceFilter" items="${services}" class="form-control select2-multiple" 
-              multiple="multiple" data-placeholder="services" itemLabel="name" itemValue="id" />
+                multiple="multiple" data-placeholder="services" itemLabel="name" itemValue="id" />
             </div>
 
             <div class="col-md-2">
               <label for="labelFilter" class="control-label">Labels</label>
               <form:select path="labelFilter" items="${labels}" class="form-control select2-multiple" 
-              multiple="multiple" data-placeholder="labels" itemLabel="name" itemValue="id" />
+                multiple="multiple" data-placeholder="labels" itemLabel="name" itemValue="id" />
             </div>
 
             <div class="col-md-4">
-              <span aria-hidden="true">&nbsp;</span>
+              <label aria-hidden="true">&nbsp;</label>
               <div>
                 <a href=<c:url value="/tests/requests/" /> class="btn btn-default">Reset</a>
                 <input type="submit" class="btn btn-success" value="Filter" />
               </div>
             </div>
-
+            </div>
           </fieldset>
 
         </form:form>
 
-        <div class="row">
-          <span aria-hidden="true">&nbsp;</span>
+        <div class="row shift-left">
+          <label aria-hidden="true">&nbsp;</label>
           <div class="col-md-12">
             <a href=<c:url value="/tests/requests/create" /> class="btn btn-success">Create</a>
             <button id="runAll" class="btn btn-info">Run all</button>

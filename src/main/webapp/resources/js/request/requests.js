@@ -2,10 +2,6 @@ $(function() {
 
   $(document).ready(function() {
     $('#requests').DataTable({
-      language: {
-        search: "Search by name:",
-        searchPlaceholder: "search..."
-      },
       order: [
         [1, 'asc']
       ],

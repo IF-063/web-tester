@@ -22,7 +22,7 @@
         <div class="form-group">
           <form:label path="username" class="col-md-4 control-label">Email</form:label>
           <div class="col-md-4">
-            <form:input type="text" path="username" class="form-control" />
+            <form:input type="text" path="username" class="form-control" cssErrorClass="error" />
             <form:errors path="username" class="help-block with-errors" />
           </div>
         </div>
@@ -30,7 +30,7 @@
         <div class="form-group">
           <form:label path="password" class="col-md-4 control-label">Password</form:label>
           <div class="col-md-4">
-            <form:input path="password" class="form-control" />
+            <form:input path="password" class="form-control" cssErrorClass="error" />
             <form:errors path="password" class="help-block" />
           </div>
         </div>

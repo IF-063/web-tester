@@ -454,3 +454,6 @@ input.error{
 .help-block{
  color: #a94442
 }
+.shift-left {
+	margin-left: -15px;
+}
