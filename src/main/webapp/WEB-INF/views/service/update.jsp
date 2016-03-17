@@ -19,7 +19,7 @@
           </div>
           <div class="panel body">
             <div class="row"></div>
-            <form:form cssClass="form-horizontal" action="" method="POST" modelAttribute="application">
+            <form:form cssClass="form-horizontal" action="" method="POST" modelAttribute="service">
               <form:hidden path="id" />
               <div class="form-group">
                 <form:label path="name" cssClass="col-sm-2 control-label">Name:</form:label>
@@ -42,7 +42,7 @@
                 <div class="col-sm-offset-2 col-sm-10">
                   <button type="submit" class="btn btn-success">Save</button>
                   <button type="button" class="btn btn-danger" onclick="location.reload();">Reset</button>
-                  <button type="button" class="btn btn-default" onclick="location.href='<c:url value="/configuration/applications"/>'">Cancel</button>
+                  <button type="button" class="btn btn-default" onclick="location.href='<c:url value="/configuration/services"/>'">Cancel</button>
                 </div>
               </div>
             </form:form>
