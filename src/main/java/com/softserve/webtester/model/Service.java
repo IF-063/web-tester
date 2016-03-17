@@ -8,7 +8,7 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
-import org.hibernate.validator.constraints.NotBlank;
+
 
 /**
  * The Service class represents {@code Service} entity stored in the database.
@@ -23,12 +23,10 @@ public class Service implements Serializable {
 
     private int id;
 
-    @NotBlank
-    @Size(min = 1, max = 75)
+    @Size(max = 75)
     private String name;
 
-    @NotBlank
-    @Size(min = 1, max = 255)
+    @Size(max = 255)
     private String description;
 
     private boolean deleted;

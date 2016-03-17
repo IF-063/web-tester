@@ -23,15 +23,15 @@
               <form:hidden path="id" />
               <div class="form-group">
                 <form:label path="name" cssClass="col-sm-2 control-label">Name:</form:label>
-                <div class="col-sm-8">
-                  <form:input cssClass="form-control" path="name"/>
+                <div class="col-sm-4">
+                  <form:input cssClass="form-control" path="name" cssErrorClass="error"/>
                   <form:errors path="name" cssClass="help-block with-errors"/>
                 </div>
               </div>
               <div class="form-group">
                 <form:label path="description" cssClass="col-sm-2 control-label">Description:</form:label>
-                <div class="col-sm-8">
-                  <form:input cssClass="form-control" path="description"/>
+                <div class="col-sm-4">
+                  <form:input cssClass="form-control" path="description" cssErrorClass="error"/>
                   <form:errors path="description" cssClass="help-block with-errors"/>
                 </div>
               </div>
@@ -42,7 +42,7 @@
                 <div class="col-sm-offset-2 col-sm-10">
                   <button type="submit" class="btn btn-success">Save</button>
                   <button type="button" class="btn btn-danger" onclick="location.reload();">Reset</button>
-                  <button type="button" class="btn btn-warning" onclick="location.href='<c:url value="/configuration/applications"/>'">Cancel</button>
+                  <button type="button" class="btn btn-default" onclick="location.href='<c:url value="/configuration/applications"/>'">Cancel</button>
                 </div>
               </div>
             </form:form>

@@ -3,13 +3,13 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <head>
-  <c:set var="title" value="Create page"/>
+  <c:set var="title" value="Create" />
   <c:if test="${isUpdate}">
-    <c:set var="title" value="Update page"/>
+    <c:set var="title" value="Update" />
   </c:if>
+
   <title>${title}</title>
 </head>
-
   <div class="container">
     <div class="row">
       <div class="col-md-12">
@@ -19,19 +19,19 @@
           </div>
           <div class="panel body">
             <div class="row"></div>
-            <form:form cssClass="form-horizontal" action="" method="POST" modelAttribute="service">
+            <form:form cssClass="form-horizontal" action="" method="POST" modelAttribute="application">
               <form:hidden path="id" />
               <div class="form-group">
                 <form:label path="name" cssClass="col-sm-2 control-label">Name:</form:label>
-                <div class="col-sm-8">
-                  <form:input cssClass="form-control" path="name"/>
+                <div class="col-sm-4">
+                  <form:input cssClass="form-control" path="name" cssErrorClass="error"/>
                   <form:errors path="name" cssClass="help-block with-errors"/>
                 </div>
               </div>
               <div class="form-group">
                 <form:label path="description" cssClass="col-sm-2 control-label">Description:</form:label>
-                <div class="col-sm-8">
-                  <form:input cssClass="form-control" path="description"/>
+                <div class="col-sm-4">
+                  <form:input cssClass="form-control" path="description" cssErrorClass="error"/>
                   <form:errors path="description" cssClass="help-block with-errors"/>
                 </div>
               </div>
@@ -42,7 +42,7 @@
                 <div class="col-sm-offset-2 col-sm-10">
                   <button type="submit" class="btn btn-success">Save</button>
                   <button type="button" class="btn btn-danger" onclick="location.reload();">Reset</button>
-                  <button type="button" class="btn btn-warning" onclick="location.href='<c:url value="/configuration/services"/>'">Cancel</button>
+                  <button type="button" class="btn btn-default" onclick="location.href='<c:url value="/configuration/applications"/>'">Cancel</button>
                 </div>
               </div>
             </form:form>
