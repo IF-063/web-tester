@@ -4,6 +4,8 @@ import java.io.Serializable;
 
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
@@ -29,12 +31,15 @@ public class Environment implements Serializable {
      * Unique name of environment entity
      */
     @NotBlank
+    @Size(max = 75)
     private String name;
 
     /**
      * Address of the host which will be tested
      */
     @NotBlank
+    @Pattern(regexp = "^(https?)://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]")
+    @Size(max = 75)
     private String baseUrl;
 
     /**
@@ -48,30 +53,35 @@ public class Environment implements Serializable {
      * db validation.
      */
     @NotBlank
+    @Size(max = 100)
     private String dbUrl;
 
     /**
      * Port of the database
      */
     @NotBlank
+    @Pattern(regexp = "\\d{1,5}")
     private String dbPort;
 
     /**
      * Name of the database to which the connection is established
      */
     @NotBlank
+    @Size(max = 75)
     private String dbName;
 
     /**
      * Username to perform login to the database
      */
     @NotBlank
+    @Size(max = 75)
     private String dbUsername;
 
     /**
      * Password for the specified username
      */
     @NotBlank
+    @Size(max = 75)
     private String dbPassword;
 
     /**
