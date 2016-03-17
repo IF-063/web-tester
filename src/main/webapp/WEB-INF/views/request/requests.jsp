@@ -1,11 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <link href=<c:url value="/resources/dist/css/select2.min.css" /> rel="stylesheet" />
 
 <link href=<c:url value="/resources/dist/css/select2-bootstrap.css" /> rel="stylesheet" />
+
+<link href=<c:url value="/resources/bower_components/bootstrap-dataTables/css/dataTables.bootstrap.min.css" /> 
+  rel="stylesheet" />
 
 <div class="row">
   <div class="col-md-12">
@@ -30,13 +32,13 @@
             <div class="col-md-2">
               <label for="serviceFilter" class="control-label">Service</label>
               <form:select path="serviceFilter" items="${services}" class="form-control select2-multiple" 
-                multiple="multiple" data-placeholder="services" itemLabel="name" itemValue="id" />
+              multiple="multiple" data-placeholder="services" itemLabel="name" itemValue="id" />
             </div>
 
             <div class="col-md-2">
               <label for="labelFilter" class="control-label">Labels</label>
               <form:select path="labelFilter" items="${labels}" class="form-control select2-multiple" 
-                multiple="multiple" data-placeholder="labels" itemLabel="name" itemValue="id" />
+              multiple="multiple" data-placeholder="labels" itemLabel="name" itemValue="id" />
             </div>
 
             <div class="col-md-4">
@@ -50,9 +52,9 @@
           </fieldset>
 
         </form:form>
-        
+
         <div class="row">
-        <h4 class="resultCountLabel">Showing ${fn:length(requests)} results</h4>
+          <span aria-hidden="true">&nbsp;</span>
           <div class="col-md-12">
             <a href=<c:url value="/tests/requests/create" /> class="btn btn-success">Create</a>
             <button id="runAll" class="btn btn-info">Run all</button>
@@ -61,41 +63,47 @@
           </div>
         </div>
       </div>
-      <div class="table-responsive">
-        <table class="table table-hover table-bordered table-condensed table-striped panel-body" id="requests">
-          <thead>
-            <tr>
-              <th><input id="selectAll" type="checkbox" title="Select all"></th>
-              <th>Name</th>
-              <th>Application</th>
-              <th>Service</th>
-              <th>Endpoint</th>
-              <th>Run</th>
-              <th class="col-md-1">See results</th>
-              <th class="col-md-1">Duplicate</th>
-              <th class="col-md-1">Disable</th>
-              <th class="col-md-1">Delete</th>
-            </tr>
-          </thead>
-          <tbody>
-            <c:forEach items="${requests}" var="request">
-              <tr class="dataRow">
-                <td class="td-centered"><input id="${request.id}" type="checkbox" name="operateSelect"></td>
-                <td><a href=<c:url value="/tests/requests/${request.id} " />>${request.name}</a></td>
-                <td>${request.application.name}</td>
-                <td>${request.service.name}</td>
-                <td>${request.endpoint}</td>
-                <td class="td-centered"><i id="${request.id}" class="run cursorPointer fa fa-play"></i></td>
-                <td class="td-centered"><a href=<c:url value="/results/requests/${request.id}" />>results</a></td>
-                <td class="td-centered"><i id="${request.id}" class="duplicate cursorPointer fa fa-copy fa-lg"></i></td>
-                <td class="td-centered"><input id="${request.id}" type="checkbox" name="disableSelect"></td>
-                <td class="td-centered">
-                  <i id="${request.id}" class="removeInstance cursorPointer fa fa-trash fa-lg"></i>
-                </td>
+      <div class="panel-body">
+        <div class="table-responsive">
+          <table class="table table-hover table-bordered table-striped " id="requests">
+            <thead>
+              <tr>
+                <th><input id="selectAll" type="checkbox" title="Select all"></th>
+                <th>Name</th>
+                <th>Application</th>
+                <th>Service</th>
+                <th>Endpoint</th>
+                <th>Run</th>
+                <th class="col-md-1">See results</th>
+                <th class="col-md-1">Duplicate</th>
+                <th class="col-md-1">Disable</th>
+                <th class="col-md-1">Delete</th>
               </tr>
-            </c:forEach>
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              <c:forEach items="${requests}" var="request">
+                <tr class="dataRow">
+                  <td class="td-centered"><input id="${request.id}" type="checkbox" name="operateSelect"></td>
+                  <td><a href=<c:url value="/tests/requests/${request.id} " />>${request.name}</a>
+                  </td>
+                  <td>${request.application.name}</td>
+                  <td>${request.service.name}</td>
+                  <td>${request.endpoint}</td>
+                  <td class="td-centered"><i id="${request.id}" class="run cursorPointer fa fa-play"></i></td>
+                  <td class="td-centered"><a href=<c:url value="/results/requests/${request.id}" />>results</a>
+                  </td>
+                  <td class="td-centered">
+                    <i id="${request.id}" class="duplicate cursorPointer fa fa-copy fa-lg"></i>
+                  </td>
+                  <td class="td-centered"><input id="${request.id}" type="checkbox" name="disableSelect"></td>
+                  <td class="td-centered">
+                    <i id="${request.id}" class="removeInstance cursorPointer fa fa-trash fa-lg"></i>
+                  </td>
+                </tr>
+              </c:forEach>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   </div>
@@ -124,9 +132,12 @@
   </div>
 </div>
 
-<input id="contextPath" type="hidden" value="${pageContext.request.contextPath}"/>
+<input id="contextPath" type="hidden" value="${pageContext.request.contextPath}" />
 
 <script src=<c:url value="/resources/dist/js/select2.min.js" />></script>
+
+<script src=<c:url value="/resources/bower_components/bootstrap-dataTables/js/jquery.dataTables.min.js" />></script>
+<script src=<c:url value="/resources/bower_components/bootstrap-dataTables/js/dataTables.bootstrap.min.js" />></script>
 
 <!-- Main page script -->
 <script src=<c:url value="/resources/js/request/requests.js" />></script>

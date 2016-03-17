@@ -1,28 +1,44 @@
 $(function() {
-	
+
+  $(document).ready(function() {
+    $('#requests').DataTable({
+      language: {
+        search: "Search by name:",
+        searchPlaceholder: "search..."
+      },
+      order: [
+        [1, 'asc']
+      ],
+      columnDefs: [{
+        targets: [0, 5, 6, 7, 8, 9],
+        orderable: false,
+      }]
+    });
+  });
+
   var contextPath = $('#contextPath').val();
 
   // enables tag autocomplete in filtering fields
   $('#applicationFilter, #serviceFilter, #labelFilter').select2({
-	theme: 'bootstrap',
+    theme: 'bootstrap',
     width: '100%'
   });
-  
+
   $(document).on('click', '.duplicate', function() {
-	window.location.href = contextPath + '/tests/requests/create?fromId=' + $(this).prop('id');
-	return false;
+    window.location.href = contextPath + '/tests/requests/create?fromId=' + $(this).prop('id');
+    return false;
   });
- 
+
   // selects all request on page
   $('#requests #selectAll').click(function() {
     $('#requests input[type="checkbox"][name="operateSelect"]').prop('checked', this.checked);
   });
-  
+
   var requestsToSend = [];
 
   // performs request run
   $(document).on('click', '.run', function() {
-	requestsToSend = [$(this).prop('id')];
+    requestsToSend = [$(this).prop('id')];
     startTest();
     return false;
   });
@@ -31,7 +47,7 @@ $(function() {
   $(document).on('click', '#runSelected', function() {;
     requestsToSend = [];
     $('#requests input:checked[name="operateSelect"]').each(function() {
-    	requestsToSend.push($(this).prop('id'));
+      requestsToSend.push($(this).prop('id'));
     });
     if (requestsToSend.length != 0) {
       startTest();
@@ -72,7 +88,7 @@ $(function() {
         requestIdArray: requestsToSend
       },
       success: function(data, textStatus, jqXHR) {
-    	window.location.replace(contextPath + '/results/requests/run/'+data);
+        window.location.replace(contextPath + '/results/requests/run/' + data);
       },
       error: function(jqXHR) {
         alert(0);
