@@ -1,17 +1,12 @@
 package com.softserve.webtester.service;
 
 import java.util.List;
-import java.util.regex.Pattern;
-
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import com.softserve.webtester.dto.RequestCollectionFilterDTO;
 import com.softserve.webtester.mapper.LabelMapper;
 import com.softserve.webtester.mapper.RequestCollectionMapper;
@@ -42,9 +37,9 @@ public class RequestCollectionService {
     @Autowired
     private LabelMapper labelMapper;
 
-    @Autowired
-    @Qualifier("requestCollectionNameCountPattern")
-    private Pattern requestCollectionNameCountPattern;
+//    @Autowired
+//    @Qualifier("requestCollectionNameCountPattern")
+//    private Pattern requestCollectionNameCountPattern;
 
     /**
      * Saves {@link RequestCollection} instance to the database.

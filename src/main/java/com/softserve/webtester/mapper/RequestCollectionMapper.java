@@ -46,16 +46,19 @@ public interface RequestCollectionMapper {
      * @throws DataAccessException
      */
     @Select({ "<script>SELECT DISTINCT rc.id, rc.name, rc.description FROM RequestCollection rc ",
-            "<if test='labelFilter!=null and labelFilter.length>0'>LEFT JOIN RequestCollection_Label rcl ON rc.id=rcl.requestCollectionId </if>",
+            "<if test='labelFilter!=null and labelFilter.length>0'>LEFT JOIN RequestCollection_Label rcl "
+            + "ON rc.id=rcl.requestCollectionId </if>",
             "WHERE rc.id > 0",
-            "<if test='requestCollectionNameFilter!=null'> AND rc.name LIKE CONCAT(#{requestCollectionNameFilter},'%') </if>",
+            "<if test='requestCollectionNameFilter!=null'> AND rc.name LIKE "
+            + "CONCAT('%',#{requestCollectionNameFilter},'%') </if>",
             "<if test='labelFilter!=null and labelFilter.length>0'> AND rcl.labelId IN",
             "<foreach collection='labelFilter' item='item' index='index' open='(' separator=',' close=')'>",
             " #{item} </foreach></if>", "</script>" })
     @Results({ @Result(property = "id", column = "ID", jdbcType = JdbcType.INTEGER),
             @Result(property = "name", column = "name", jdbcType = JdbcType.VARCHAR),
             @Result(property = "description", column = "description", jdbcType = JdbcType.VARCHAR),
-            @Result(property = "labels", column = "id", many = @Many(select = "com.softserve.webtester.mapper.LabelMapper.loadByRequestCollectionId") ) })
+            @Result(property = "labels", column = "id", 
+                    many = @Many(select = "com.softserve.webtester.mapper.LabelMapper.loadByRequestCollectionId") ) })
     List<RequestCollection> loadAll(@Param(value = "requestCollectionNameFilter") String requestCollectionNameFilter,
             @Param(value = "labelFilter") int[] labelFilter);
 

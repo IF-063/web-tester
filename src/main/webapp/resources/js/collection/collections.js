@@ -1,4 +1,20 @@
 $(function() {
+	
+	$(document).ready(function() {
+	    $('#collections').DataTable({
+	      language: {
+	        search: "Search by name:",
+	        searchPlaceholder: "search..."
+	      },
+	      order: [
+	        [1, 'asc']
+	      ],
+	      columnDefs: [{
+	        targets: [0, 2, 3, 4, 5, 6],
+	        orderable: false,
+	      }]
+	    });
+	  });
 
   // enables tag autocomplete in filtering fields
   
@@ -20,7 +36,7 @@ $(function() {
 
   $(document).on('click', '#deleteSelected', function() {
     var selected = [];
-    $('#requestCollectionsTable input:checked[name="operateSelect"]').each(function() {
+    $('#collections input:checked[name="operateSelect"]').each(function() {
       selected.push($(this).prop('id'));
     });
     if (selected.length != 0 && confirm('Do you really want to delete the requestCollections?')) {
@@ -37,9 +53,9 @@ $(function() {
       data: JSON.stringify(input),
       success: function(data, textStatus, jqXHR) {
         for (var i = 0; i < input.length; i++) {
-          $('#requestCollectionsTable input[type="checkbox"][id=' + input[i] + ']').parents('tr').remove();
+          $('#collections input[type="checkbox"][id=' + input[i] + ']').parents('tr').remove();
         }
-        alert('code: ' + jqXHR.status);
+        
       },
       error: function(jqXHR) {
         alert('oyva.. code: ' + jqXHR.status);

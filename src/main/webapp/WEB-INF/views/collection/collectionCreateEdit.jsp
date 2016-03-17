@@ -9,67 +9,75 @@
 
 <link href="<c:url value="/resources/dist/css/multi-select.css" />" rel="stylesheet" />
 
-<!-- <div class="container"> -->
-<form:form action="" method="POST" commandName="requestCollection" class="form-horizontal" role="form">
-  <fieldset>
-    <legend>Collection Editing</legend>
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h3>Collection Editing</h3>
+  </div>
+  <div class="panel body">
     <div class="row">
-
-      <div class="form-group">
-        <form:label path="name" class="col-md-4 control-label">Name*</form:label>
-        <div class="col-md-4">
-          <form:input path="name" class="form-control input-md" required="required" />
-          <form:errors path="name" cssClass="help-block with-errors" />
-        </div>
-      </div>
-
-      <div class="form-group">
-        <form:label path="description" class="col-md-4 control-label" >Description*</form:label>
-        <div class="col-md-4">
-          <form:input path="description" class="form-control input-md" required="required" />
-          <form:errors path="description" cssClass="help-block with-errors" />
-        </div>
-      </div>
-
-      <div class="form-group">
-        <label class="col-md-4 control-label" for="labels">Labels</label>
-        <div class="col-md-4">
-          <form:select path="labels" class="form-control input-md select2-multiple multipleSelect" multiple="multiple"
-           items="${labels}" itemValue="id" itemLabel="name" />
-          <form:errors path="labels" cssClass="help-block with-errors" />
-        </div>
-      </div>
-
-      <div class="form-group">
-        <label class="col-md-4 control-label" for="requests" >Requests*</label>
-        <div class="col-md-4">
-          <form:select path="requests" class="form-control input-md multiSelect" multiple="multiple" items="${requests}"
-           itemValue="id" itemLabel="name" id="requests" />
-          <form:errors path="requests" cssClass="help-block with-errors" />
+      <form:form action="" method="POST" commandName="requestCollection" class="form-horizontal" role="form">
+        <fieldset>
           <div class="row">
-            <a href='#' id='select-all' class="btn btn-default ">select all</a>
-            <a href='#' id='deselect-all' class="btn btn-default ">deselect all</a>
+
+            <div class="form-group">
+              <form:label path="name" class="col-md-2 control-label">
+                <p class="text-left">Name: *</p>
+              </form:label>
+              <div class="col-md-6">
+                <form:input path="name" class="form-control" />
+                <form:errors path="name" cssClass="help-block with-errors" />
+              </div>
+            </div>
+
+            <div class="form-group">
+              <form:label path="description" class="col-md-2 control-label">
+                <p class="text-left">Description: *</p>
+              </form:label>
+              <div class="col-md-6">
+                <form:input path="description" class="form-control" />
+                <form:errors path="description" cssClass="help-block with-errors" />
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="col-md-2 control-label" for="labels">
+                <p class="text-left">Labels:</p>
+              </label>
+              <div class="col-md-6">
+                <form:select path="labels" class="form-control select2-multiple multipleSelect" multiple="multiple" 
+                 items="${labels}" itemValue="id"
+                  itemLabel="name" />
+                <form:errors path="labels" cssClass="help-block with-errors" />
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="col-md-2 control-label" for="requests">
+                <p class="text-left">Requests: *</p>
+              </label>
+              <div class="col-md-6">
+                <form:select path="requests" class="form-control multiSelect col-md-6" multiple="multiple" 
+                 items="${requests}" itemValue="id" itemLabel="name" id="requests" />
+                <form:errors path="requests" cssClass="help-block with-errors" />
+              </div>
+            </div>
+
+            <div class="row">
+              <button type="submit" class="btn btn-success btn-lg">Save</button>
+              <button id="reset" class="btn btn-danger btn-lg">Reset</button>
+              <button id="clean" class="btn btn-warning btn-lg">Clean all</button>
+              <a href=<c:url value="/tests/collections" /> class="btn btn-default btn-lg">Cancel</a>
+            </div>
+
           </div>
-        </div>
-      </div>
-
-      <div class="row">
-        <a href=<c:url value="/tests/collections" /> class="btn btn-default btn-lg">Cancel</a>
-        <button id="reset" class="btn btn-danger btn-lg">Reset</button>
-        <button id="clean" class="btn btn-warning btn-lg">Clean all</button>
-        <button type="submit" class="btn btn-success btn-lg">Save</button>  
-      </div>
-
+        </fieldset>
+      </form:form>
     </div>
-  </fieldset>
-</form:form>
+  </div>
+</div>
 <!-- </div> -->
 
 <script src=<c:url value="/resources/dist/js/select2.min.js" />></script>
-
-<!-- <script src=<c:url value="/resources/dist/js/jquery.quicksearch.js" />></script> -->
-
-<script src=<c:url value="/resources/bower_components/jquery/dist/jquery.validate.min.js" />></script>
 
 <script src=<c:url value="/resources/dist/js/jquery.multi-select.js" />></script>
 
