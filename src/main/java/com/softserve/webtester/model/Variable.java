@@ -2,6 +2,8 @@ package com.softserve.webtester.model;
 
 import java.io.Serializable;
 
+import javax.validation.constraints.Size;
+
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -20,6 +22,7 @@ public class Variable implements Serializable {
     private int id;
 
     @NotBlank
+    @Size(max = 50)
     private String name;
 
     @NotBlank

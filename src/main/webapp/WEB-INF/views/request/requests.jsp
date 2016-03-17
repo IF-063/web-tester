@@ -52,7 +52,7 @@
         </form:form>
         
         <div class="row">
-        <h4>Showing ${fn:length(requests)} results</h4>
+        <h4 class="resultCountLabel">Showing ${fn:length(requests)} results</h4>
           <div class="col-md-12">
             <a href=<c:url value="/tests/requests/create" /> class="btn btn-success">Create</a>
             <button id="runAll" class="btn btn-info">Run all</button>
@@ -124,9 +124,7 @@
   </div>
 </div>
 
-<script>
-  var contextPath = "${pageContext.request.contextPath}"
-</script>
+<input id="contextPath" type="hidden" value="${pageContext.request.contextPath}"/>
 
 <script src=<c:url value="/resources/dist/js/select2.min.js" />></script>
 

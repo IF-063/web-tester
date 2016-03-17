@@ -270,8 +270,7 @@
                             </td>
                             <td id=".expectedValue">
                               <form:input type="text" path="dbValidations[${status.index}].expectedValue" 
-                                class="form-control" placeholder="Expected value"
-                              />
+                                class="form-control" placeholder="Expected value" />
                               <form:errors path="dbValidations[${status.index}].expectedValue" 
                                 cssClass="help-block with-errors" />
                             </td>
@@ -310,10 +309,10 @@
     <!-- Row for Header template -->
     <tr class="dataRow">
       <td id=".name">
-        <input placeholder="Name" type="text" class="form-control" name="headers" required="required" />
+        <input placeholder="Name" type="text" class="form-control" name="headers" />
       </td>
       <td id=".value">
-        <input placeholder="Value" type="text" class="form-control" name="headers" required="required" />
+        <input placeholder="Value" type="text" class="form-control" name="headers" />
       </td>
       <td class="removeInstance cursorPointer icon-centered"><i class="fa fa-trash fa-lg"></i></td>
     </tr>
@@ -321,18 +320,20 @@
     <!-- Row for Variable template -->
     <tr class="dataRow">
       <td id=".name">
-        <input placeholder="Name" type="text" class="form-control" name="variables" required="required" />
+        <input placeholder="Name" type="text" class="form-control" name="variables" />
       </td>
       <td id=".value">
-        <input placeholder="Value" type="text" class="form-control" name="variables" required="required" />
+        <input placeholder="Value" type="text" class="form-control" name="variables" />
       </td>
-      <td id=".sql"><label class="control-label">
+      <td id=".sql">
+        <label class="control-label">
         <input type="checkbox" class="sql" value="true" /><input type="hidden" value="on" />
-          Sql</label>
+        Sql</label>
       </td>
-      <td id=".random"><label class="control-label">
+      <td id=".random">
+        <label class="control-label">
         <input class="random" type="checkbox" value="true" /><input type="hidden" value="on" />
-          Random</label>
+        Random</label>
       </td>
       <td id=".dataType">
         <select class="form-control enableIfRandom" disabled="disabled">
@@ -342,19 +343,17 @@
           </select>
       </td>
       <td id=".length">
-        <input placeholder="Length" class="form-control enableIfRandom" type="text" name="length" 
-          required="required" />
+        <input placeholder="Length" class="form-control enableIfRandom" type="text" name="length" />
       </td>
       <td class="removeInstance cursorPointer icon-centered"><i class="fa fa-trash fa-lg"></i></td>
     </tr>
 
     <!-- Row for DbValidation template -->
     <tr class="dataRow">
-      <td id=".sqlQuery"><input placeholder="SQL query" type="text" class="form-control" name="dbValidations" 
-        required="required" />
+      <td id=".sqlQuery"><input placeholder="SQL query" type="text" class="form-control" name="dbValidations" />
       </td>
-      <td id=".expectedValue"><input placeholder="Expected value" type="text" class="form-control" 
-        name="dbValidations" required="required" />
+      <td id=".expectedValue">
+        <input placeholder="Expected value" type="text" class="form-control" name="dbValidations" />
       </td>
       <td class="icon-centered removeInstance cursorPointer "><i class="fa fa-trash fa-lg"></i></td>
     </tr>

@@ -1,4 +1,6 @@
 $(function() {
+	
+  var contextPath = $('#contextPath').val();
 
   // enables tag autocomplete in filtering fields
   $('#applicationFilter, #serviceFilter, #labelFilter').select2({

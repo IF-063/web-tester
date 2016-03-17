@@ -22,7 +22,7 @@
         <div class="form-group">
           <form:label path="username" class="col-md-4 control-label">Email</form:label>
           <div class="col-md-4">
-            <form:input type="email" path="username" class="form-control input-md" required="required" />
+            <form:input type="text" path="username" class="form-control" />
             <form:errors path="username" class="help-block with-errors" />
           </div>
         </div>
@@ -30,7 +30,7 @@
         <div class="form-group">
           <form:label path="password" class="col-md-4 control-label">Password</form:label>
           <div class="col-md-4">
-            <form:input path="password" class="form-control input-md" required="required" />
+            <form:input path="password" class="form-control" />
             <form:errors path="password" class="help-block" />
           </div>
         </div>
@@ -38,14 +38,14 @@
         <div class="form-group">
           <form:label path="firstName" class="col-md-4 control-label">First name</form:label>
           <div class="col-md-4">
-            <form:input path="firstName" class="form-control input-md" />
+            <form:input path="firstName" class="form-control" />
           </div>
         </div>
 
         <div class="form-group">
           <form:label path="lastName" class="col-md-4 control-label">Last name</form:label>
           <div class="col-md-4">
-            <form:input path="lastName" class="form-control input-md" />
+            <form:input path="lastName" class="form-control" />
           </div>
         </div>
       </div>
@@ -65,4 +65,4 @@
 <script src=<c:url value="/resources/bower_components/jquery/dist/jquery.validate.min.js" />></script>
 
 <!-- Main page script -->
-<script src=<c:url value="/resources/js/account.js" />></script>
+<!-- <script src=<c:url value="/resources/js/account.js" />></script> -->

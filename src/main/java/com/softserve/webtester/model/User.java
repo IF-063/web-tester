@@ -23,12 +23,12 @@ public class User implements Serializable {
 
     private int id;
 
-    @Email
     @NotBlank
-    @Pattern(regexp = "^\\w+([\\.-]?\\w+)*@\\w+([\\.-]?\\w+)*(\\.\\w{2,3})+$")
+    @Size(max = 75)
+    @Pattern(regexp = "^\\w+([\\.-]?\\w+)*@\\w+([\\.-]?\\w+)*(\\.\\w{2,3})$")
+    @Email
     private String username;
 
-    @NotBlank
     @Size(min = 4, max = 32)
     private String password;
 

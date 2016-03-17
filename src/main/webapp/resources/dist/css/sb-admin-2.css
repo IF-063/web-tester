@@ -427,3 +427,7 @@ textarea {
     vertical-align: middle;	
     font-size: 18px;
 }
+
+.resultCountLabel {
+	padding-top: 10px;
+}

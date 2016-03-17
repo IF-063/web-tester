@@ -2,6 +2,8 @@ package com.softserve.webtester.model;
 
 import java.io.Serializable;
 
+import javax.validation.constraints.Size;
+
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -23,6 +25,7 @@ public class DbValidation implements Serializable {
     private String sqlQuery;
 
     @NotBlank
+    @Size(max = 255)
     private String expectedValue;
     private Request request;
 
