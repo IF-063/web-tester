@@ -41,3 +41,19 @@ $(".deleteEnvironment").click(function() {
     }
     return false;
 });
+
+$(document).ready(function() {
+    $('#environments').DataTable({
+      language: {
+        search: "Search by name:",
+        searchPlaceholder: "search..."
+      },
+      order: [
+        [0, 'asc']
+      ],
+      columnDefs: [
+        {targets: [6, 7], orderable: false,},
+        {targets: [2, 4, 6, 7], orderable: false,}
+      ]
+    });
+  });

@@ -24,7 +24,9 @@ $(function() {
     window.location.href = 'tests/collections';
   });
 
-
+  $('#environmentsBlock').click(function() {
+      window.location.href = 'configuration/environments';
+    });
 
 
 });
