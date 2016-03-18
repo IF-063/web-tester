@@ -39,47 +39,57 @@
         <h4>Showing ${fn:length(list)} Results</h4>
       </div>
 
-      <table class="table table-hover table-bordered table-condensed text-center panel-body" id="results">
-        <thead>
-        <tr>
-          <th><input id="selectAll" type="checkbox" title="Select all"></th>
-          <th>Request Name</th>
-          <th>Request Description</th>
-          <th>Application Name</th>
-          <th>Service Name</th>
-          <th>Start Time</th>
-          <th>Status</th>
-          <th>Message</th>
-          <th>See details</th>
-          <th>Delete</th>
-        </tr>
-        </thead>
+      <div class="panel-body">
+        <div class="table-responsive">
+          <table class="table table-hover table-bordered table-striped " id="results">
+            <thead>
+              <tr>
+                <th><input id="selectAll" type="checkbox" title="Select all"></th>
+                <th>Request Name</th>
+                <th>Request Description</th>
+                <th>Application Name</th>
+                <th>Service Name</th>
+                <th>Start Time</th>
+                <th>Status</th>
+                <th>Message</th>
+                <th>See details</th>
+                <th>Delete</th>
+              </tr>
+            </thead>
 
-        <tbody>
-        <c:forEach items="${list}" var="result">
-          <tr>
-            <td><input id="${result.id}" type="checkbox" name="operateSelect" /></td>
-            <td>${result.requestName}</td>
-            <td>${result.requestDescription}</td>
-            <td>${result.application.getName()}</td>
-            <td>${result.service.getName()}</td>
-            <td>${result.timeStart}</td>
-            <td>${(result.status==1)?'pass':'fail'}</td>
-            <td>${result.message}</td>
+            <tbody>
+            <c:forEach items="${list}" var="result">
+              <tr>
+                <td><input id="${result.id}" type="checkbox" name="operateSelect" /></td>
+                <td>${result.requestName}</td>
+                <td>${result.requestDescription}</td>
+                <td>${result.application.getName()}</td>
+                <td>${result.service.getName()}</td>
+                <td>${result.timeStart}</td>
+                <td>${(result.status==1)?'pass':'fail'}</td>
+                <td>${result.message}</td>
 
-            <td><a href=<c:url value="/results/requests/${result.id}" />>details</a></td>
-            <td>
-              <a class="btn btn-default" href="<c:url value="/results/requests/remove/${result.id}" />" >
-                <i class="fa fa-trash fa-lg"></i></a>
-            </td>
-          </tr>
-        </c:forEach>
-        </tbody>
-      </table>
+                <td class="td-centered"><a href=<c:url value="/results/requests/${result.id}" />>details</a></td>
+                <td class="td-centered">
+                  <a class="btn btn-default" href="<c:url value="/results/requests/remove/${result.id}" />" >
+                    <i class="fa fa-trash fa-lg"></i></a>
+                </td>
+              </tr>
+            </c:forEach>
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
     <button id ="deleteSelected" class="btn btn-default">Delete Selected</button>
   </div>
 </div>
 
-<script src=<c:url value="/resources/dist/js/select2.min.js" />></script>
+<input id="contextPath" type="hidden" value="${pageContext.request.contextPath}" />
+
+
 <script src=<c:url value="/resources/js/results/results.js" />></script>
+<script src=<c:url value="/resources/dist/js/select2.min.js" />></script>
+
+<script src=<c:url value="/resources/bower_components/bootstrap-dataTables/js/jquery.dataTables.min.js" />></script>
+<script src=<c:url value="/resources/bower_components/bootstrap-dataTables/js/dataTables.bootstrap.min.js" />></script>

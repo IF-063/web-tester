@@ -87,5 +87,5 @@
   </div>
 </div>
 
-<script src=<c:url value="/resources/dist/js/select2.min.js" />></script>
 <script src=<c:url value="/resources/js/results/resultsCollection.js" />></script>
+<script src=<c:url value="/resources/dist/js/select2.min.js" />></script>

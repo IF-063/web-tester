@@ -34,26 +34,27 @@ public class ResultHistoryCollectionController {
         return "collectionResult";
     }
 
-    @RequestMapping(value = "/remove/{id}", method = RequestMethod.GET)
-    public String removeCollectionResult(@PathVariable int id){
+    @RequestMapping("/remove/{id}")
+    public String removeResult(@PathVariable int id){
 
+        System.out.println("BEFORE DELETINGGGGGGGGGG");
         resultHistoryService.deteleByCollectionId(id);
-        System.out.println("after DELETIN "+id);
         return "redirect:/results/collections";
     }
 
     @RequestMapping(method = RequestMethod.DELETE, consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteCollectionRequests(@RequestBody int[] arr) {
+    public void deleteRequests(@RequestBody int[] arr) {
 
-        System.out.println("AAAAAAAAAA "+arr.length);
         resultHistoryService.deleteSelectedCollectionResults(arr);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public String showRequests(@PathVariable int id, @ModelAttribute ResultFilter resultFilter, Model model){
+    public String showRequests(@PathVariable("id") int id,
+                               @ModelAttribute ResultFilter resultFilter, Model model){
 
-        model.addAttribute("list",resultHistoryService.loadAllRequestsByRunId(id));
+        List<ResultHistory> list = resultHistoryService.loadAllRequestsByRunId(id);
+        model.addAttribute("list",list);
         return "requestResult";
     }
 }

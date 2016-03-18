@@ -103,6 +103,7 @@ public interface ResultHistoryMapper {
     })
     List<ResultHistory> loadAllRequestsByRunId(int id);
 
+
     @Select({"<script>SELECT DISTINCT r.id, r.runId, r.requestCollectionId, r.buildVersionId, r.status, r.message," +
             " r.timeStart FROM ResultHistory r ",
             "<if test='labels!=null and labels.length>0'>LEFT JOIN ResultHistory_Label rl ON r.id=rl.resultHistoryId ",
@@ -110,6 +111,7 @@ public interface ResultHistoryMapper {
             "WHERE r.requestCollectionId > 0",
             "<if test='status!=null'> AND r.status =#{status}</if>",
             "<if test='buildVersion!=null'> AND r.buildVersionId =#{buildVersion}</if>",
+
             "<if test='labels!=null and labels.length>0'> AND rl.labelId IN",
             "<foreach collection='labels' item='item' index='index' open='(' separator=',' close=')'>",
             "#{item}</foreach></if>",
@@ -130,6 +132,7 @@ public interface ResultHistoryMapper {
     List<ResultHistory> loadAllCollections(@Param(value = "status") String status,
                                            @Param(value = "labels") int[] labels,
                                            @Param(value = "buildVersion") Integer buildVersion);
+
 
     @Delete("<script>DELETE FROM ResultHistory WHERE id IN "
             + "<foreach item='item' index='index' collection='list' open='(' separator=',' close=')'>"
