@@ -7,10 +7,10 @@ $(function() {
         searchPlaceholder: "search..."
       },
       order: [
-        [0]
+        [0, 'asc']
       ],
       columnDefs: [{
-        targets: [1,2,3],
+        targets: [1,2],
         orderable: false,
       }]
     });

@@ -16,12 +16,11 @@
             </button>
           </div>
           <div class="panel body">
-            <table class="table table-striped table table-hover table-bordered table-condensed text-center panel-body" id="serviceTable">
+            <table class="table table-striped table table-hover table-bordered table-condensed text-left panel-body" id="serviceTable">
               <thead>
                 <tr>
-                  <th class="col-md-3">Name</th>
+                  <th class="col-md-4">Name</th>
                   <th class="col-md-7">Description</th>
-                  <th class="col-md-1">Modify</th>
                   <th class="col-md-1">Delete</th>
                 </tr>
               </thead>
@@ -29,17 +28,14 @@
                 <c:forEach items="${services}" var="service">
                   <tr>
                     <td>
-                      <c:out value="${service.name}"></c:out>
+                      <a href=<c:url value="/configuration/services/${service.id}" />>
+                        <c:out value="${service.name}"></c:out>
+                      </a>
                     </td>
                     <td>
                       <c:out value="${service.description}"></c:out>
                     </td>
-                    <td>
-                      <a href=<c:url value="/configuration/services/${service.id}" />>
-                         <span class="fa fa-pencil fa-lg"></span>
-                      </a>
-                    </td>
-                    <td>
+                    <td class="td-centered">
                       <a href=<c:url value="/configuration/services/delete/${service.id}" />>
                          <span class="fa fa-trash fa-lg"></span>
                       </a>
@@ -53,8 +49,6 @@
       </div>
     </div>
   </div>
-  
-  <script src=<c:url value="/resources/dist/js/select2.min.js" />></script>
 
 <script src=<c:url value="/resources/bower_components/bootstrap-dataTables/js/jquery.dataTables.min.js" />></script>
 
