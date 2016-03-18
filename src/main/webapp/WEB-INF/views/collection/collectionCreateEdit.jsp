@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
@@ -24,7 +23,7 @@
                 <p class="text-left">Name: *</p>
               </form:label>
               <div class="col-md-6">
-                <form:input path="name" class="form-control" />
+                <form:input path="name" class="form-control" cssErrorClass="error"/>
                 <form:errors path="name" cssClass="help-block with-errors" />
               </div>
             </div>
@@ -34,7 +33,7 @@
                 <p class="text-left">Description: *</p>
               </form:label>
               <div class="col-md-6">
-                <form:input path="description" class="form-control" />
+                <form:input path="description" class="form-control" cssErrorClass="error"/>
                 <form:errors path="description" cssClass="help-block with-errors" />
               </div>
             </div>
@@ -45,8 +44,7 @@
               </label>
               <div class="col-md-6">
                 <form:select path="labels" class="form-control select2-multiple multipleSelect" multiple="multiple" 
-                 items="${labels}" itemValue="id"
-                  itemLabel="name" />
+                 items="${labels}" itemValue="id" itemLabel="name" cssErrorClass="error"/>
                 <form:errors path="labels" cssClass="help-block with-errors" />
               </div>
             </div>
@@ -56,17 +54,17 @@
                 <p class="text-left">Requests: *</p>
               </label>
               <div class="col-md-6">
-                <form:select path="requests" class="form-control multiSelect col-md-6" multiple="multiple" 
-                 items="${requests}" itemValue="id" itemLabel="name" id="requests" />
+                <form:select path="requests" class="form-control multiSelect" multiple="multiple" 
+                 items="${requests}" itemValue="id" itemLabel="name" id="requests"/>
                 <form:errors path="requests" cssClass="help-block with-errors" />
               </div>
             </div>
 
             <div class="row">
-              <button type="submit" class="btn btn-success btn-lg">Save</button>
-              <button id="reset" class="btn btn-danger btn-lg">Reset</button>
-              <button id="clean" class="btn btn-warning btn-lg">Clean all</button>
-              <a href=<c:url value="/tests/collections" /> class="btn btn-default btn-lg">Cancel</a>
+              <button type="submit" class="btn btn-success">Save</button>
+              <button id="reset" class="btn btn-danger">Reset</button>
+              <button id="clean" class="btn btn-warning">Clean all</button>
+              <a href=<c:url value="/tests/collections" /> class="btn btn-default">Cancel</a>
             </div>
 
           </div>
