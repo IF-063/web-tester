@@ -7,7 +7,6 @@
 <script src=<c:url value="/resources/dist/js/codemirror-5.12/lib/codemirror.js" />></script>
 <script src=<c:url value="/resources/dist/js/codemirror-5.12/mode/javascript/javascript.js" />></script>
 <link href=<c:url value="/resources/dist/js/codemirror-5.12/lib/codemirror.css" /> rel="stylesheet" />
-<%--<link href=<c:url value="/resources/dist/js/codemirror-5.12/doc/docs.css" /> rel="stylesheet" />--%>
 <link href=<c:url value="/resources/dist/js/codemirror-5.12/addon/merge/merge.css" /> rel="stylesheet" />
 <script src=<c:url value="/resources/dist/js/codemirror-5.12/mode/xml/xml.js" />></script>
 <script src=<c:url value="/resources/dist/js/codemirror-5.12/mode/css/css.js" />></script>
@@ -15,7 +14,6 @@
 <script src=<c:url value="https://cdnjs.cloudflare.com/ajax/libs/diff_match_patch/20121119/diff_match_patch.js" />></script>
 <script src=<c:url value="/resources/dist/js/codemirror-5.12/addon/merge/merge.js" />></script>
 <script src=<c:url value="/resources/dist/js/code_mirror_custom.js" />></script>
-
 
 <div class="row">
   <div class="col-md-12">

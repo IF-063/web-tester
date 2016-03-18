@@ -1,4 +1,17 @@
 $(function() {
+
+    $(document).ready(function() {
+        $('#results').DataTable({
+            order: [
+                [1, 'asc']
+            ],
+            columnDefs: [{
+                targets: [0, 5, 6, 7, 8, 9 ],
+                orderable: false,
+            }]
+        });
+    });
+
     // enables tag autocomplete in filtering fields
     $('#buildVersionFilter, #labelFilter').select2({
         theme: 'bootstrap',

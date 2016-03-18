@@ -34,10 +34,9 @@ public class ResultHistoryCollectionController {
         return "collectionResult";
     }
 
-    @RequestMapping("/remove/{id}")
+    @RequestMapping(value="/remove/{id}", method = RequestMethod.GET)
     public String removeResult(@PathVariable int id){
 
-        System.out.println("BEFORE DELETINGGGGGGGGGG");
         resultHistoryService.deteleByCollectionId(id);
         return "redirect:/results/collections";
     }
@@ -53,8 +52,7 @@ public class ResultHistoryCollectionController {
     public String showRequests(@PathVariable("id") int id,
                                @ModelAttribute ResultFilter resultFilter, Model model){
 
-        List<ResultHistory> list = resultHistoryService.loadAllRequestsByRunId(id);
-        model.addAttribute("list",list);
+        model.addAttribute("list",resultHistoryService.loadAllRequestsByRunId(id));
         return "requestResult";
     }
 }

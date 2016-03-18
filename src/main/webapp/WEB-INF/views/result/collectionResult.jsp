@@ -5,6 +5,8 @@
 
 <link href=<c:url value="/resources/dist/css/select2.min.css" /> rel="stylesheet" />
 <link href=<c:url value="/resources/dist/css/select2-bootstrap.css" /> rel="stylesheet" />
+<link href=<c:url value="/resources/bower_components/bootstrap-dataTables/css/dataTables.bootstrap.min.css" />
+              rel="stylesheet" />
 
 <div class="row">
   <div class="col-md-12">
@@ -38,50 +40,54 @@
             </div>
           </fieldset>
         </form:form>
-        <h4>Showing ${fn:length(list)} Results</h4>
+        <h4>Showing ${fn:length(list)} Collection Results</h4>
       </div>
 
-      <table class="table table-hover table-bordered table-condensed text-center panel-body" id="results">
-        <thead>
-        <tr>
-          <th><input id="selectAll" type="checkbox" title="Select all"></th>
-          <th>Collection Name</th>
-          <th>Collection Description</th>
-          <th>Labels</th>
-          <th>Build Version name</th>
-          <th>Start Time</th>
-          <th>Status</th>
-          <th>Message</th>
-          <th>Request results</th>
-          <th>Delete</th>
-        </tr>
-        </thead>
+      <div class="panel-body">
+        <div class="table-responsive">
+          <table class="table table-hover table-bordered table-striped" id="results">
+            <thead>
+            <tr>
+              <th><input id="selectAll" type="checkbox" title="Select all"></th>
+              <th>Collection Name</th>
+              <th>Collection Description</th>
+              <th>Labels</th>
+              <th>Build Version Name</th>
+              <th>Start Time</th>
+              <th>Status</th>
+              <th>Message</th>
+              <th>Request results</th>
+              <th>Delete</th>
+            </tr>
+            </thead>
 
-        <tbody>
-        <c:forEach items="${list}" var="result">
-          <tr>
-            <td><input id="${result.id}" type="checkbox" name="operateSelect" /></td>
-            <td>${result.requestCollection.getName()}</td>
-            <td>${result.requestCollection.getDescription()}</td>
-            <td>
-              <c:forEach items="${result.labels}" var="label">
-                <span class="label label-info" style='margin:2px;padding:4px'/>${label.name}</span>
-              </c:forEach>
-            </td>
-            <td>${result.buildVersion.name}</td>
-            <td>${result.timeStart}</td>
-            <td>${(result.status==1)?'pass':'fail'}</td>
-            <td>${result.message}</td>
+            <tbody>
+            <c:forEach items="${list}" var="result">
+              <tr class="dataRow">
+                  <td><input id="${result.requestCollection.getId()}" type="checkbox" name="operateSelect" /></td>
+                  <td>${result.requestCollection.getName()}</td>
+                  <td>${result.requestCollection.getDescription()}</td>
+                  <td>
+                    <c:forEach items="${result.labels}" var="label">
+                      <span class="label label-info" style='margin:2px;padding:4px'/>${label.name}</span>
+                    </c:forEach>
+                  </td>
+                  <td class="td-centered">${result.buildVersion.name}</td>
+                  <td class="td-centered">${result.timeStart}</td>
+                  <td>${(result.status==1)?'pass':'fail'}</td>
+                  <td>${result.message}</td>
 
-            <td><a href=<c:url value="/results/collections/${result.runId}" />>request results</a></td>
-            <td>
-              <a class="btn btn-default" href="<c:url value="/results/collections/remove/${result.id}" />" >
-                <i class="fa fa-trash fa-lg"></i></a>
-            </td>
-          </tr>
-        </c:forEach>
-        </tbody>
-      </table>
+                  <td class="td-centered"><a href=<c:url value="/results/collections/${result.runId}" />>request results</a></td>
+                  <td class="td-centered">
+                    <a class="removeInstance cursorPointer fa fa-trash fa-lg"
+                       href="<c:url value="/results/collections/remove/${result.requestCollection.getId()}" />" ></a>
+                  </td>
+              </tr>
+            </c:forEach>
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
     <button id ="deleteSelected" class="btn btn-default">Delete Selected</button>
   </div>
@@ -89,3 +95,5 @@
 
 <script src=<c:url value="/resources/js/results/resultsCollection.js" />></script>
 <script src=<c:url value="/resources/dist/js/select2.min.js" />></script>
+<script src=<c:url value="/resources/bower_components/bootstrap-dataTables/js/jquery.dataTables.min.js" />></script>
+<script src=<c:url value="/resources/bower_components/bootstrap-dataTables/js/dataTables.bootstrap.min.js" />></script>

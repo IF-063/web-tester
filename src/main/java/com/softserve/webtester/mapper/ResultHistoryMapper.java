@@ -61,13 +61,13 @@ public interface ResultHistoryMapper {
     })
     ResultHistory loadById(int id);
 
-    @Select({ "<script>SELECT DISTINCT r.id, r.status, r.applicationId, r.serviceId, r.requestName, r.message," +
-            " r.requestDescription, r.timeStart FROM ResultHistory r WHERE r.id > 0",
-            "<if test='status!=null'> AND r.status =#{status}</if>",
-            "<if test='applications!=null and applications.length>0'> AND r.applicationId IN",
+    @Select({ "<script>SELECT DISTINCT id, status, applicationId, serviceId, requestName, message," +
+            " requestDescription, timeStart FROM ResultHistory WHERE id > 0",
+            "<if test='status!=null and status!=\"\"'> AND status =#{status}</if>",
+            "<if test='applications!=null and applications.length>0'> AND applicationId IN",
             "<foreach collection='applications' item='item' index='index' open='(' separator=',' close=')'>",
             "#{item}</foreach></if>",
-            "<if test='services!=null and services.length>0'> AND r.serviceId IN",
+            "<if test='services!=null and services.length>0'> AND serviceId IN",
             "<foreach collection='services' item='item' index='index' open='(' separator=',' close=')'>",
             "#{item}</foreach></if>",
             "</script>" })
@@ -103,13 +103,12 @@ public interface ResultHistoryMapper {
     })
     List<ResultHistory> loadAllRequestsByRunId(int id);
 
-
     @Select({"<script>SELECT DISTINCT r.id, r.runId, r.requestCollectionId, r.buildVersionId, r.status, r.message," +
             " r.timeStart FROM ResultHistory r ",
             "<if test='labels!=null and labels.length>0'>LEFT JOIN ResultHistory_Label rl ON r.id=rl.resultHistoryId ",
             "</if>",
             "WHERE r.requestCollectionId > 0",
-            "<if test='status!=null'> AND r.status =#{status}</if>",
+            "<if test='status!=null and status!=\"\"'> AND status =#{status}</if>",
             "<if test='buildVersion!=null'> AND r.buildVersionId =#{buildVersion}</if>",
 
             "<if test='labels!=null and labels.length>0'> AND rl.labelId IN",
@@ -132,7 +131,6 @@ public interface ResultHistoryMapper {
     List<ResultHistory> loadAllCollections(@Param(value = "status") String status,
                                            @Param(value = "labels") int[] labels,
                                            @Param(value = "buildVersion") Integer buildVersion);
-
 
     @Delete("<script>DELETE FROM ResultHistory WHERE id IN "
             + "<foreach item='item' index='index' collection='list' open='(' separator=',' close=')'>"

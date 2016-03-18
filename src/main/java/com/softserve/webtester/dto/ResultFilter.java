@@ -1,6 +1,7 @@
 package com.softserve.webtester.dto;
 
 import java.io.Serializable;
+import java.util.Arrays;
 
 public class ResultFilter implements Serializable {
 
@@ -34,5 +35,14 @@ public class ResultFilter implements Serializable {
 
     public void setServiceFilter(int[] serviceFilter) {
         this.serviceFilter = serviceFilter;
+    }
+
+    @Override
+    public String toString() {
+        return "ResultFilter{" +
+                "statusFilter='" + statusFilter + '\'' +
+                ", applicationFilter=" + Arrays.toString(applicationFilter) +
+                ", serviceFilter=" + Arrays.toString(serviceFilter) +
+                '}';
     }
 }

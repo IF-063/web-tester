@@ -5,6 +5,8 @@
 
 <link href=<c:url value="/resources/dist/css/select2.min.css" /> rel="stylesheet" />
 <link href=<c:url value="/resources/dist/css/select2-bootstrap.css" /> rel="stylesheet" />
+<link href=<c:url value="/resources/bower_components/bootstrap-dataTables/css/dataTables.bootstrap.min.css" />
+              rel="stylesheet" />
 
 <div class="row">
   <div class="col-md-12">
@@ -36,12 +38,12 @@
             </div>
           </fieldset>
         </form:form>
-        <h4>Showing ${fn:length(list)} Results</h4>
+        <h4>Showing ${fn:length(list)} Request Results</h4>
       </div>
 
       <div class="panel-body">
         <div class="table-responsive">
-          <table class="table table-hover table-bordered table-striped " id="results">
+          <table class="table table-hover table-bordered table-striped" id="results">
             <thead>
               <tr>
                 <th><input id="selectAll" type="checkbox" title="Select all"></th>
@@ -59,7 +61,7 @@
 
             <tbody>
             <c:forEach items="${list}" var="result">
-              <tr>
+              <tr class="dataRow">
                 <td><input id="${result.id}" type="checkbox" name="operateSelect" /></td>
                 <td>${result.requestName}</td>
                 <td>${result.requestDescription}</td>
@@ -71,8 +73,8 @@
 
                 <td class="td-centered"><a href=<c:url value="/results/requests/${result.id}" />>details</a></td>
                 <td class="td-centered">
-                  <a class="btn btn-default" href="<c:url value="/results/requests/remove/${result.id}" />" >
-                    <i class="fa fa-trash fa-lg"></i></a>
+                  <a class="removeInstance cursorPointer fa fa-trash fa-lg"
+                     href="<c:url value="/results/requests/remove/${result.id}" />" ></a>
                 </td>
               </tr>
             </c:forEach>
@@ -85,11 +87,7 @@
   </div>
 </div>
 
-<input id="contextPath" type="hidden" value="${pageContext.request.contextPath}" />
-
-
 <script src=<c:url value="/resources/js/results/results.js" />></script>
 <script src=<c:url value="/resources/dist/js/select2.min.js" />></script>
-
 <script src=<c:url value="/resources/bower_components/bootstrap-dataTables/js/jquery.dataTables.min.js" />></script>
 <script src=<c:url value="/resources/bower_components/bootstrap-dataTables/js/dataTables.bootstrap.min.js" />></script>
