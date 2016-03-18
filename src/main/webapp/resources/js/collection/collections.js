@@ -1,38 +1,38 @@
 $(function() {
-	
-	$(document).ready(function() {
-	    $('#collections').DataTable({
-	      language: {
-	        search: "Search by name:",
-	        searchPlaceholder: "search..."
-	      },
-	      order: [
-	        [1, 'asc']
-	      ],
-	      columnDefs: [{
-	        targets: [0, 2, 3, 4, 5, 6],
-	        orderable: false,
-	      }]
-	    });
-	  });
+
+  $(document).ready(function() {
+    $('#collections').DataTable({
+      language: {
+        search: "Search by name:",
+        searchPlaceholder: "search..."
+      },
+      order: [
+        [1, 'asc']
+      ],
+      columnDefs: [{
+        targets: [0, 2, 3, 4, 5, 6],
+        orderable: false,
+      }]
+    });
+  });
 
   // enables tag autocomplete in filtering fields
-  
+
   $('#labelFilter').select2({
-	theme: 'bootstrap',
-	width: '100%'
-  });	
-	
-  $('#selectAll').click(function() {
-	$('input[type="checkbox"][name="operateSelect"]').prop('checked', this.checked);
+    theme: 'bootstrap',
+    width: '100%'
   });
-	
+
+  $('#selectAll').click(function() {
+    $('input[type="checkbox"][name="operateSelect"]').prop('checked', this.checked);
+  });
+
   $(document).on('click', '.removeInstance', function() {
-	if (confirm('Do you really want to delete this Collection?')) {
-	  deleteRequestCollections([$(this).prop('id')]);
-	}
-	return false;
-  });	
+    if (confirm('Do you really want to delete this Collection?')) {
+      deleteRequestCollections([$(this).prop('id')]);
+    }
+    return false;
+  });
 
   $(document).on('click', '#deleteSelected', function() {
     var selected = [];
@@ -55,11 +55,11 @@ $(function() {
         for (var i = 0; i < input.length; i++) {
           $('#collections input[type="checkbox"][id=' + input[i] + ']').parents('tr').remove();
         }
-        
+
       },
       error: function(jqXHR) {
         alert('oyva.. code: ' + jqXHR.status);
       },
     });
-  };	
+  };
 });

@@ -28,8 +28,7 @@
             <div class="col-md-2">
 <!--               <label for="labelFilter" class="control-label">Labels</label> -->
               <form:select path="labelFilter" items="${labels}" class="form-control select2-multiple" 
-               multiple="multiple" data-placeholder="Labels"
-                itemLabel="name" itemValue="id" />
+               multiple="multiple" data-placeholder="Labels" itemLabel="name" itemValue="id" />
             </div>
 
             <div class="col-md-4">

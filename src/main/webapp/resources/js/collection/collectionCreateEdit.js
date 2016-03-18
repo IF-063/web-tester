@@ -8,8 +8,8 @@ $(function() {
   $('.multiSelect').multiSelect({
     dblClick: true,
     keepOrder: true,
-    selectableFooter: "<div id='select-all' class='row btn btn-default'>Select All</div>",
-    selectionFooter: "<div id='deselect-all' class='row btn btn-default'>Deselect all</div>"
+    selectableFooter: "<div id='select-all' class='btn btn-default'>Select All</div>",
+    selectionFooter: "<div id='deselect-all' class='btn btn-default'>Deselect all</div>"
   });
 
   $('#select-all').click(function(){

@@ -43,7 +43,7 @@
                 <p class="text-left">Labels:</p>
               </label>
               <div class="col-md-6">
-                <form:select path="labels" class="form-control select2-multiple multipleSelect" multiple="multiple" 
+                <form:select path="labels" class="select2-multiple multipleSelect" multiple="multiple" 
                  items="${labels}" itemValue="id" itemLabel="name" cssErrorClass="error"/>
                 <form:errors path="labels" cssClass="help-block with-errors" />
               </div>
@@ -54,7 +54,7 @@
                 <p class="text-left">Requests: *</p>
               </label>
               <div class="col-md-6">
-                <form:select path="requests" class="form-control multiSelect" multiple="multiple" 
+                <form:select path="requests" class="multiSelect" multiple="multiple" 
                  items="${requests}" itemValue="id" itemLabel="name" id="requests"/>
                 <form:errors path="requests" cssClass="help-block with-errors" />
               </div>
