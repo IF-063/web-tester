@@ -46,10 +46,19 @@ th {
     text-align: center;
 }
 
+.th6{
+    width: 700px;
+}
+
 section{
     display: block;
 }
 
 #view{
-    height: 250px;
+    height: auto;
+}
+
+.panel-default {
+    border-color: black;
+    padding: 10px;
 }

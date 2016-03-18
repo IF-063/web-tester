@@ -61,8 +61,16 @@ public interface ResultHistoryMapper {
     })
     ResultHistory loadById(int id);
 
-    @Select("SELECT id, status, applicationId, serviceId, requestName, message, requestDescription, timeStart " +
-            "FROM ResultHistory")
+    @Select({ "<script>SELECT DISTINCT r.id, r.status, r.applicationId, r.serviceId, r.requestName, r.message," +
+            " r.requestDescription, r.timeStart FROM ResultHistory r WHERE r.id > 0",
+            "<if test='status!=null'> AND r.status =#{status}</if>",
+            "<if test='applications!=null and applications.length>0'> AND r.applicationId IN",
+            "<foreach collection='applications' item='item' index='index' open='(' separator=',' close=')'>",
+            "#{item}</foreach></if>",
+            "<if test='services!=null and services.length>0'> AND r.serviceId IN",
+            "<foreach collection='services' item='item' index='index' open='(' separator=',' close=')'>",
+            "#{item}</foreach></if>",
+            "</script>" })
     @Results({
             @Result(id = true, property = "id", column = "id", jdbcType = JdbcType.INTEGER),
             @Result(property = "status", column = "status", jdbcType = JdbcType.VARCHAR),
@@ -75,7 +83,9 @@ public interface ResultHistoryMapper {
             @Result(property = "requestDescription", column = "requestDescription", jdbcType = JdbcType.VARCHAR),
             @Result(property = "timeStart", column = "timeStart", jdbcType = JdbcType.TIMESTAMP)
     })
-    List<ResultHistory> loadAll();
+    List<ResultHistory> loadAll(@Param(value = "status") String status,
+                                @Param(value = "applications") int[] applications,
+                                @Param(value = "services") int[] services);
 
     @Select("SELECT id, status, applicationId, serviceId, requestName, message, requestDescription, timeStart " +
             "FROM ResultHistory WHERE runId = #{id}")
@@ -93,8 +103,17 @@ public interface ResultHistoryMapper {
     })
     List<ResultHistory> loadAllRequestsByRunId(int id);
 
-    @Select("SELECT id, runId, requestCollectionId, buildVersionId, status, message, timeStart " +
-            "FROM ResultHistory WHERE requestCollectionId IS NOT NULL")
+    @Select({"<script>SELECT DISTINCT r.id, r.runId, r.requestCollectionId, r.buildVersionId, r.status, r.message," +
+            " r.timeStart FROM ResultHistory r ",
+            "<if test='labels!=null and labels.length>0'>LEFT JOIN ResultHistory_Label rl ON r.id=rl.resultHistoryId ",
+            "</if>",
+            "WHERE r.requestCollectionId > 0",
+            "<if test='status!=null'> AND r.status =#{status}</if>",
+            "<if test='buildVersion!=null'> AND r.buildVersionId =#{buildVersion}</if>",
+            "<if test='labels!=null and labels.length>0'> AND rl.labelId IN",
+            "<foreach collection='labels' item='item' index='index' open='(' separator=',' close=')'>",
+            "#{item}</foreach></if>",
+            "</script>" })
     @Results({
             @Result(id = true, property = "id", column = "id", jdbcType = JdbcType.INTEGER),
             @Result(property = "runId", column = "runId", jdbcType = JdbcType.INTEGER),
@@ -108,7 +127,9 @@ public interface ResultHistoryMapper {
             @Result(property = "message", column = "message", jdbcType = JdbcType.LONGVARCHAR),
             @Result(property = "timeStart", column = "timeStart", jdbcType = JdbcType.TIMESTAMP)
     })
-    List<ResultHistory> loadAllCollections();
+    List<ResultHistory> loadAllCollections(@Param(value = "status") String status,
+                                           @Param(value = "labels") int[] labels,
+                                           @Param(value = "buildVersion") Integer buildVersion);
 
     @Delete("<script>DELETE FROM ResultHistory WHERE id IN "
             + "<foreach item='item' index='index' collection='list' open='(' separator=',' close=')'>"
@@ -125,10 +146,4 @@ public interface ResultHistoryMapper {
 
     @Delete("DELETE FROM ResultHistory WHERE requestCollectionId = #{id}")
     int deteleByCollectionId(int id);
-
-    @Delete("DELETE FROM ResultHistory")
-    int deleteAll();
-
-    @Delete("DELETE FROM ResultHistory WHERE requestCollectionId IS NOT NULL")
-    int deleteAllCollectionResults();
 }

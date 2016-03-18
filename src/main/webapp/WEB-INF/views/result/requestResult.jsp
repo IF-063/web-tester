@@ -10,16 +10,39 @@
   <div class="col-md-12">
     <div class="panel panel-default">
       <div class="panel-heading">
+        <form:form modelAttribute="resultFilter" method="GET">
+          <fieldset>
+            <h4>Filters</h4>
+
+            <div class="col-md-2">
+              <form:input type="text" path="statusFilter" class="form-control" placeholder="status..." />
+            </div>
+
+            <div class="col-md-2">
+              <form:select path="applicationFilter" items="${applications}" class="form-control select2-multiple"
+                           multiple="multiple" data-placeholder="application name..." itemLabel="name" itemValue="id" />
+            </div>
+
+            <div class="col-md-2">
+              <form:select path="serviceFilter" items="${services}" class="form-control select2-multiple"
+                           multiple="multiple" data-placeholder="service name..." itemLabel="name" itemValue="id" />
+            </div>
+
+            <div class="col-md-4">
+              <div>
+                <a href="<c:url value="/results/requests/" />" class="btn btn-default">Reset</a>
+                <input type="submit" class="btn btn-success" value="Filter" />
+              </div>
+            </div>
+          </fieldset>
+        </form:form>
         <h4>Showing ${fn:length(list)} Results</h4>
-        <div>
-          <input type="search" class="light-table-filter" data-table="table table-hover table-bordered table-condensed text-center panel-body" placeholder="Filter">
-        </div>
       </div>
 
-      <table class="table table-hover table-bordered table-condensed text-center panel-body" id="requests">
+      <table class="table table-hover table-bordered table-condensed text-center panel-body" id="results">
         <thead>
         <tr>
-          <th></th>
+          <th><input id="selectAll" type="checkbox" title="Select all"></th>
           <th>Request Name</th>
           <th>Request Description</th>
           <th>Application Name</th>
@@ -35,33 +58,28 @@
         <tbody>
         <c:forEach items="${list}" var="result">
           <tr>
-            <td><input type="checkbox" name="operateSelect" id="${result.id}"/></td>
+            <td><input id="${result.id}" type="checkbox" name="operateSelect" /></td>
             <td>${result.requestName}</td>
             <td>${result.requestDescription}</td>
             <td>${result.application.getName()}</td>
             <td>${result.service.getName()}</td>
             <td>${result.timeStart}</td>
-            <td>${result.status}</td>
+            <td>${(result.status==1)?'pass':'fail'}</td>
             <td>${result.message}</td>
 
+            <td><a href=<c:url value="/results/requests/${result.id}" />>details</a></td>
             <td>
-              <a class="btn btn-primary btn-xs" href="<c:url value="/results/requests/${result.id}" />" >
-                <span class="glyphicon glyphicon-share-alt"></span>Show details</a>
-            </td>
-            <td>
-              <a class="btn btn-primary btn-xs" href="<c:url value="/results/requests/remove/${result.id}" />" >
-                <span class="glyphicon glyphicon-remove"></span>Delete</a>
+              <a class="btn btn-default" href="<c:url value="/results/requests/remove/${result.id}" />" >
+                <i class="fa fa-trash fa-lg"></i></a>
             </td>
           </tr>
         </c:forEach>
         </tbody>
       </table>
     </div>
-    <button id ="deleteSelected" class="btn btn-default">Delete Selected Results</button>
-    <a class="btn btn-default" href="<c:url value="/results/requests/remove_all"/>" >Delete All Results</a>
+    <button id ="deleteSelected" class="btn btn-default">Delete Selected</button>
   </div>
 </div>
 
-<script src=<c:url value="/resources/dist/js/result_filter.js" />></script>
 <script src=<c:url value="/resources/dist/js/select2.min.js" />></script>
 <script src=<c:url value="/resources/js/results/results.js" />></script>

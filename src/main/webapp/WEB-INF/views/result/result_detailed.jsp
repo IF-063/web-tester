@@ -6,9 +6,8 @@
 <link href=<c:url value="/resources/dist/css/result.css" /> rel="stylesheet" />
 <script src=<c:url value="/resources/dist/js/codemirror-5.12/lib/codemirror.js" />></script>
 <script src=<c:url value="/resources/dist/js/codemirror-5.12/mode/javascript/javascript.js" />></script>
-<script src=<c:url value="/resources/dist/js/codemirror-compressed.js" />></script>
 <link href=<c:url value="/resources/dist/js/codemirror-5.12/lib/codemirror.css" /> rel="stylesheet" />
-<link href=<c:url value="/resources/dist/js/codemirror-5.12/doc/docs.css" /> rel="stylesheet" />
+<%--<link href=<c:url value="/resources/dist/js/codemirror-5.12/doc/docs.css" /> rel="stylesheet" />--%>
 <link href=<c:url value="/resources/dist/js/codemirror-5.12/addon/merge/merge.css" /> rel="stylesheet" />
 <script src=<c:url value="/resources/dist/js/codemirror-5.12/mode/xml/xml.js" />></script>
 <script src=<c:url value="/resources/dist/js/codemirror-5.12/mode/css/css.js" />></script>
@@ -22,9 +21,10 @@
   <div class="col-md-12">
     <div class="panel panel-default">
       <table id="mytable" class="table-hover">
+        <h4>Details for ${result.requestName}:</h4>
         <tr>
           <th class="th">Status</th>
-          <td>${result.status}</td>
+          <td>${(result.status==1)?'pass':'fail'}</td>
         </tr>
         <tr>
           <th class="th">Application Name</th>
@@ -33,10 +33,6 @@
         <tr>
           <th class="th">Service Name</th>
           <td>${result.service.getName()}</td>
-        </tr>
-        <tr>
-          <th class="th">Request Name </th>
-          <td>${result.requestName}</td>
         </tr>
         <tr>
           <th class="th">Request Description</th>
@@ -115,9 +111,9 @@
           <td>
             <table class="table-bordered">
               <tr>
-                <th width="th2">SqlQuery</th>
-                <th class="th2">ExpectedValue</th>
-                <th class="th2">ActualValue</th>
+                <th class="th6">SqlQuery</th>
+                <th class="th">ExpectedValue</th>
+                <th class="th">ActualValue</th>
               </tr>
 
               <c:forEach items="${result.getDbValidationHistories()}" var="result">
@@ -159,7 +155,7 @@
           </td>
         </tr>
 
-        <art>
+        <tr>
           <table>
             <tr>
               <th class="th5">Expected Response</th>
@@ -167,7 +163,7 @@
             </tr>
           </table>
           <div id="view"></div>
-        </art>
+        </tr>
       </table>
     </div>
   </div>

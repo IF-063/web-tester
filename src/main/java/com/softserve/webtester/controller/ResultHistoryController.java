@@ -1,7 +1,9 @@
 package com.softserve.webtester.controller;
 
+import com.softserve.webtester.dto.ResultFilter;
 import com.softserve.webtester.model.Application;
 import com.softserve.webtester.model.ResultHistory;
+import com.softserve.webtester.service.MetaDataService;
 import com.softserve.webtester.service.ResultHistoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -23,12 +25,15 @@ public class ResultHistoryController {
     @Autowired
     private ResultHistoryService resultHistoryService;
 
-    @RequestMapping(method = RequestMethod.GET)
-    public String listResults(Model model) {
+    @Autowired
+    private MetaDataService metaDataService;
 
-        model.addAttribute("result", new ResultHistory());
-        List<ResultHistory> list = resultHistoryService.loadAll();
-        model.addAttribute("list", list);
+    @RequestMapping(method = RequestMethod.GET)
+    public String listResults(@ModelAttribute ResultFilter resultFilter, Model model) {
+
+        model.addAttribute("applications", metaDataService.applicationLoadAll());
+        model.addAttribute("services", metaDataService.serviceLoadAll());
+        model.addAttribute("list", resultHistoryService.loadAll(resultFilter));
         return "requestResult";
     }
 
@@ -46,22 +51,10 @@ public class ResultHistoryController {
         resultHistoryService.deleteSelectedResults(arr);
     }
 
-    @RequestMapping(value = "/remove_all", method = RequestMethod.GET)
-    public String removeAllResults(){
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    public String seeResult(@PathVariable int id, Model model){
 
-        resultHistoryService.deleteAll();
-        System.out.println("All results deleted");
-        return "redirect:/results/requests";
-    }
-
-    @RequestMapping("/{id}")
-    public String showResult(@PathVariable("id") int id, Model model){
-
-        System.out.println("SEE RESULT_ID "+id);
-        ResultHistory result = resultHistoryService.loadById(id);
-        model.addAttribute("result",result);
+        model.addAttribute("result",resultHistoryService.loadById(id));
         return "result_detailed";
     }
 }
-
-

@@ -1,5 +1,7 @@
 package com.softserve.webtester.service;
 
+import com.softserve.webtester.dto.ResultCollectionFilter;
+import com.softserve.webtester.dto.ResultFilter;
 import com.softserve.webtester.mapper.*;
 import com.softserve.webtester.model.*;
 import org.apache.commons.collections.CollectionUtils;
@@ -48,6 +50,7 @@ public class ResultHistoryService {
 
         try {
             ResultHistory result=resultHistoryMapper.loadById(id);
+            System.out.print(result);
             return result;
 
         } catch (DataAccessException e) {
@@ -60,18 +63,34 @@ public class ResultHistoryService {
     public List<ResultHistory> loadAll() {
 
         try {
-            return resultHistoryMapper.loadAll();
+            return resultHistoryMapper.loadAll(null, null, null);
         } catch (DataAccessException e) {
             LOGGER.error("Unable to load resultHistory instances", e);
             throw e;
         }
     }
 
-    // Loading resultHistory instance from ResultHistory table
-    public List<ResultHistory> loadAllCollections() {
+    public List<ResultHistory> loadAll(ResultFilter resultFilter) {
 
+        String status = resultFilter.getStatusFilter();
+        int[] applications = resultFilter.getApplicationFilter();
+        int[] services = resultFilter.getServiceFilter();
         try {
-            return resultHistoryMapper.loadAllCollections();
+            return resultHistoryMapper.loadAll(status, applications, services);
+        } catch (DataAccessException e) {
+            LOGGER.error("Unable to load request instances", e);
+            throw e;
+        }
+    }
+
+    // Loading resultHistory instance from ResultHistory table
+    public List<ResultHistory> loadAllCollections(ResultCollectionFilter resultCollectionFilter) {
+
+        String status = resultCollectionFilter.getStatusFilter();
+        Integer buildVersion = resultCollectionFilter.getBuildVersionFilter();
+        int[] labelFilter = resultCollectionFilter.getLabelFilter();
+        try {
+            return resultHistoryMapper.loadAllCollections(status, labelFilter, buildVersion);
         } catch (DataAccessException e) {
             LOGGER.error("Unable to load resultHistory instances", e);
             throw e;
@@ -110,7 +129,6 @@ public class ResultHistoryService {
         }
     }
 
-    @Transactional
     public int deleteSelectedResults(int[] arr) {
         try {
             return resultHistoryMapper.deleteSelectedResults(arr);
@@ -120,34 +138,11 @@ public class ResultHistoryService {
         }
     }
 
-    @Transactional
     public int deleteSelectedCollectionResults(int[] arr) {
         try {
             return resultHistoryMapper.deleteSelectedCollectionResults(arr);
         } catch (DataAccessException e) {
             LOGGER.error("Unable to delete result instances, results id: " + arr, e);
-            throw e;
-        }
-    }
-
-    // Deleting all resultHistory instances from ResultHistory table
-    public int deleteAll() {
-
-        try {
-            return resultHistoryMapper.deleteAll();
-        } catch (DataAccessException e) {
-            LOGGER.error("Unable to delete all resultHistory instances");
-            throw e;
-        }
-    }
-
-    // Deleting all resultHistory instances from ResultHistory table
-    public int deleteAllCollectionResults() {
-
-        try {
-            return resultHistoryMapper.deleteAllCollectionResults();
-        } catch (DataAccessException e) {
-            LOGGER.error("Unable to delete all resultHistory instances");
             throw e;
         }
     }

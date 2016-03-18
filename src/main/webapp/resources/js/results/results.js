@@ -1,4 +1,15 @@
 $(function() {
+    // enables tag autocomplete in filtering fields
+    $('#applicationFilter, #serviceFilter').select2({
+        theme: 'bootstrap',
+        width: '100%'
+    });
+
+    // selects all request on page
+    $('#selectAll').click(function() {
+        $('#results input[type="checkbox"][name="operateSelect"]').prop('checked', this.checked);
+    });
+
     // handles remove selected requests button click
     $(document).on('click', '#deleteSelected', function() {
         var selected = [];
