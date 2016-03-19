@@ -1,4 +1,7 @@
 $(function() {
+  
+  var contextPath = $('#contextPath').val();
+  var collectionsToSend = [];
 
   $(document).ready(function() {
     $('#collections').DataTable({
@@ -10,7 +13,7 @@ $(function() {
         [1, 'asc']
       ],
       columnDefs: [{
-        targets: [0, 2, 3, 4, 5, 6],
+        targets: [0, 2, 3, 4, 5, 6,7],
         orderable: false,
       }]
     });
@@ -62,4 +65,67 @@ $(function() {
       },
     });
   };
+  
+  // performs collection run
+  $(document).on('click', '.run', function() {
+    collectionsToSend = [$(this).prop('id')];
+    startTest();
+    return false;
+  });
+
+  // performs run of selected collections on page
+  $(document).on('click', '#runSelected', function() {;
+    collectionsToSend = [];
+    $('#collections input:checked[name="operateSelect"]').each(function() {
+      collectionsToSend.push($(this).prop('id'));
+    });
+    if (collectionsToSend.length != 0) {
+      startTest();
+    }
+    return false;
+  });
+
+  // performs run of all collections on page
+  $(document).on('click', '#runAll', function() {
+    collectionsToSend = [];
+    $('#collections input:checkbox:not(:checked)[name="disableSelect"]').each(function() {
+      collectionsToSend.push($(this).prop('id'));
+    });
+    if (collectionsToSend.length != 0) {
+      startTest();
+    }
+  });
+
+  // shows modal window with environments
+  function startTest() {
+    $('#runOptions').modal('show');
+  }
+
+  // confirm collection run
+  $('#confirmRunOptions').click(function(e) {
+    var envId = $('#environment').val();
+    var builVerId = $('#buildVersion').val();
+    sendTestData(envId, builVerId);
+    return false;
+  });
+
+  // sends test data to the server
+  function sendTestData(envId, builVerId) {
+    $.ajax({
+      type: 'POST',
+      url: contextPath + '/tests/collections/run',
+      data: {
+        environmentId: envId,
+        buildVersionId: builVerId,
+        requestCollectionIdArray: collectionsToSend
+      },
+      success: function(data, textStatus, jqXHR) {
+        window.location.replace(contextPath + '/results/collections/run/' + data);
+      },
+      error: function(jqXHR) {
+        alert(0);
+      },
+    });
+  }
+
 });

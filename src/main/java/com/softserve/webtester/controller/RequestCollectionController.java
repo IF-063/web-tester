@@ -1,8 +1,6 @@
 package com.softserve.webtester.controller;
 
 import java.util.Arrays;
-import java.util.Date;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -52,7 +50,7 @@ public class RequestCollectionController {
     
     @Autowired
     private EnvironmentService environmentService; 
-
+    
     @InitBinder("requestCollection")
     public void initBinder(WebDataBinder binder) {
         binder.addValidators(requestCollectionValidator);
@@ -69,6 +67,7 @@ public class RequestCollectionController {
     @RequestMapping(method = RequestMethod.GET)
     public String getAllRequestCollection(@ModelAttribute RequestCollectionFilterDTO requestCollectionFilterDTO, Model model) {
         model.addAttribute("labels", metaDataService.loadAllLabels());
+        model.addAttribute("buildVersions", metaDataService.loadAllBuildVersions());
         model.addAttribute("collectionList", requestCollectionService.loadAll(requestCollectionFilterDTO));
         model.addAttribute("environments", environmentService.loadAll());
         return "collection/collections";
@@ -167,9 +166,10 @@ public class RequestCollectionController {
     }
     
     @RequestMapping(value = "/run", method = RequestMethod.POST)
-    public @ResponseBody int runRequestCollection(@RequestParam int environmentId,
+    public @ResponseBody int runRequestCollection(@RequestParam int environmentId, @RequestParam int buildVersionId,
             @RequestParam(value = "requestCollectionIdArray[]") int[] requestCollectionIdArray) {
         System.out.println("e: " + environmentId);
+        System.out.println("bv: " + buildVersionId);
         System.out.println("collection: " + Arrays.toString(requestCollectionIdArray));
         System.out.println();
         return 1;

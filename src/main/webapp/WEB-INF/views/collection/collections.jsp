@@ -60,7 +60,8 @@
                 <th><input id="selectAll" type="checkbox" title="Select all"></th>
                 <th class="col-md-2">Name</th>
                 <th class="col-md-4">Description</th>
-                <th class="col-md-3">Labels</th>
+                <th class="col-md-2">Labels</th>
+                <th class="col-md-1">Run</th>
                 <th class="col-md-1">See results</th>
                 <th class="col-md-1">Disable</th>
                 <th class="col-md-1">Delete</th>
@@ -80,6 +81,7 @@
                       <span class="label label-info">${label.name}</span>
                     </c:forEach>
                   </td>
+                  <td class="td-centered"><i id="${requestCollection.id}" class="run cursorPointer fa fa-play"></i></td>
                   <td class="td-centered">
                     <a href=<c:url value="/results/requestCollections/${requestCollection.id}"/>>results</a>
                   </td>
@@ -94,6 +96,42 @@
             </tbody>
           </table>
         </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="runOptions" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-sm" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Run Options</h4>
+      </div>
+      <div class="modal-body">
+        <div>
+          <h4 class="modal-title">Select environment</h4>
+          <select id="environment" class="form-control">
+          <c:forEach items="${environments}" var="environment">
+            <option value="${environment.id}">${environment.name}</option>
+          </c:forEach>
+        </select>
+        </div>
+        <span aria-hidden="true">&nbsp;</span>
+        <div>
+          <h4 class="modal-title" id="environmentModalLabel">Select build version</h4>
+          <select id="buildVersion" class="form-control">
+          <option>0</option>
+          <c:forEach items="${buildVersions}" var="buildVersion">
+            <option value="${buildVersion.id}">${buildVersion.name}</option>
+          </c:forEach>
+        </select>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" id="confirmRunOptions" class="btn btn-primary">Start</button>
       </div>
     </div>
   </div>
