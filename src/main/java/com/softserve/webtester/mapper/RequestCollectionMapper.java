@@ -49,8 +49,8 @@ public interface RequestCollectionMapper {
             "<if test='labelFilter!=null and labelFilter.length>0'>LEFT JOIN RequestCollection_Label rcl "
             + "ON rc.id=rcl.requestCollectionId </if>",
             "WHERE rc.id > 0",
-            "<if test='requestCollectionNameFilter!=null'> AND rc.name LIKE "
-            + "CONCAT('%',#{requestCollectionNameFilter},'%') </if>",
+            "<if test='requestCollectionNameFilter!=null and requestCollectionNameFilter!=\"\"'>",
+            " AND lower(rc.name) LIKE CONCAT('%', lower(#{requestCollectionNameFilter}),'%')</if>",
             "<if test='labelFilter!=null and labelFilter.length>0'> AND rcl.labelId IN",
             "<foreach collection='labelFilter' item='item' index='index' open='(' separator=',' close=')'>",
             " #{item} </foreach></if>", "</script>" })

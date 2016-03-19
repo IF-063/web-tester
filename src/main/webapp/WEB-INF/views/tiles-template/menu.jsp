@@ -88,7 +88,7 @@
       </a>
       <ul class="dropdown-menu dropdown-alerts">
         <li>
-          <a href="#">
+          <a href="<c:url value="/reports/statistic" />">
             <i class="fa fa-bar-chart fa-fw"></i> Statistic
           </a>
         </li>

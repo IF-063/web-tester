@@ -35,6 +35,7 @@
         <value>/WEB-INF/tiles/services.xml</value>
         <value>/WEB-INF/tiles/environments.xml</value>
         <value>/WEB-INF/tiles/results.xml</value>
+        <value>/WEB-INF/tiles/statistic.xml</value>
       </list>
     </property>
   </bean>

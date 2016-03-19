@@ -1,5 +1,8 @@
 package com.softserve.webtester.controller;
 
+import java.util.Arrays;
+import java.util.Date;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -19,6 +22,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import com.softserve.webtester.dto.RequestCollectionFilterDTO;
 import com.softserve.webtester.model.RequestCollection;
+import com.softserve.webtester.service.EnvironmentService;
 import com.softserve.webtester.service.MetaDataService;
 import com.softserve.webtester.service.RequestCollectionService;
 import com.softserve.webtester.service.RequestService;
@@ -45,10 +49,14 @@ public class RequestCollectionController {
 
     @Autowired
     private CollectionValidator requestCollectionValidator;
+    
+    @Autowired
+    private EnvironmentService environmentService; 
 
     @InitBinder("requestCollection")
     public void initBinder(WebDataBinder binder) {
         binder.addValidators(requestCollectionValidator);
+        
     }
 
     /**
@@ -62,6 +70,7 @@ public class RequestCollectionController {
     public String getAllRequestCollection(@ModelAttribute RequestCollectionFilterDTO requestCollectionFilterDTO, Model model) {
         model.addAttribute("labels", metaDataService.loadAllLabels());
         model.addAttribute("collectionList", requestCollectionService.loadAll(requestCollectionFilterDTO));
+        model.addAttribute("environments", environmentService.loadAll());
         return "collection/collections";
     }
 
@@ -155,5 +164,14 @@ public class RequestCollectionController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void detele(@RequestBody int[] requestCollectionIdArray) {
         requestCollectionService.delete(requestCollectionIdArray);
+    }
+    
+    @RequestMapping(value = "/run", method = RequestMethod.POST)
+    public @ResponseBody int runRequestCollection(@RequestParam int environmentId,
+            @RequestParam(value = "requestCollectionIdArray[]") int[] requestCollectionIdArray) {
+        System.out.println("e: " + environmentId);
+        System.out.println("collection: " + Arrays.toString(requestCollectionIdArray));
+        System.out.println();
+        return 1;
     }
 }
