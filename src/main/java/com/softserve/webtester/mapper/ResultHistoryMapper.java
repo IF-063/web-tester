@@ -87,8 +87,8 @@ public interface ResultHistoryMapper {
                                 @Param(value = "applications") int[] applications,
                                 @Param(value = "services") int[] services);
 
-    @Select("SELECT id, status, applicationId, serviceId, requestName, message, requestDescription, timeStart " +
-            "FROM ResultHistory WHERE runId = #{id}")
+    @Select("SELECT id, status, applicationId, serviceId, runId, requestName, message, requestDescription, timeStart " +
+            "FROM ResultHistory WHERE requestCollectionId = #{id} GROUP BY runId")
     @Results({
             @Result(id = true, property = "id", column = "id", jdbcType = JdbcType.INTEGER),
             @Result(property = "status", column = "status", jdbcType = JdbcType.VARCHAR),
@@ -101,13 +101,13 @@ public interface ResultHistoryMapper {
             @Result(property = "requestDescription", column = "requestDescription", jdbcType = JdbcType.VARCHAR),
             @Result(property = "timeStart", column = "timeStart", jdbcType = JdbcType.TIMESTAMP)
     })
-    List<ResultHistory> loadAllRequestsByRunId(int id);
+    List<ResultHistory> loadAllRequestsByCollectionId(int id);
 
     @Select({"<script>SELECT DISTINCT r.id, r.runId, r.requestCollectionId, r.buildVersionId, r.status, r.message," +
             " r.timeStart FROM ResultHistory r ",
             "<if test='labels!=null and labels.length>0'>LEFT JOIN ResultHistory_Label rl ON r.id=rl.resultHistoryId ",
             "</if>",
-            "WHERE r.requestCollectionId > 0",
+            "WHERE r.requestCollectionId > 0 GROUP BY r.requestCollectionId",
             "<if test='status!=null and status!=\"\"'> AND status =#{status}</if>",
             "<if test='buildVersion!=null'> AND r.buildVersionId =#{buildVersion}</if>",
 

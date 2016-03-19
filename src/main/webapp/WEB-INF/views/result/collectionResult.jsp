@@ -77,7 +77,7 @@
                   <td>${(result.status==1)?'pass':'fail'}</td>
                   <td>${result.message}</td>
 
-                  <td class="td-centered"><a href=<c:url value="/results/collections/${result.runId}" />>request results</a></td>
+                  <td class="td-centered"><a href=<c:url value="/results/collections/${result.requestCollection.getId()}" />>request results</a></td>
                   <td class="td-centered">
                     <a class="removeInstance cursorPointer fa fa-trash fa-lg"
                        href="<c:url value="/results/collections/remove/${result.requestCollection.getId()}" />" ></a>

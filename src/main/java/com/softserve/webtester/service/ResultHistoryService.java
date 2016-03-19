@@ -97,10 +97,10 @@ public class ResultHistoryService {
         }
     }
 
-    public List<ResultHistory> loadAllRequestsByRunId(int id) {
+    public List<ResultHistory> loadAllRequestsByCollectionId(int id) {
 
         try {
-            return resultHistoryMapper.loadAllRequestsByRunId(id);
+            return resultHistoryMapper.loadAllRequestsByCollectionId(id);
         } catch (DataAccessException e) {
             LOGGER.error("Unable to load resultHistory instances", e);
             throw e;

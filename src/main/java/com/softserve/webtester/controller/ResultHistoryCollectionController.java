@@ -52,7 +52,7 @@ public class ResultHistoryCollectionController {
     public String showRequests(@PathVariable("id") int id,
                                @ModelAttribute ResultFilter resultFilter, Model model){
 
-        model.addAttribute("list",resultHistoryService.loadAllRequestsByRunId(id));
+        model.addAttribute("list",resultHistoryService.loadAllRequestsByCollectionId(id));
         return "requestResult";
     }
 }
