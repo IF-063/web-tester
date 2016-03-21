@@ -157,7 +157,6 @@ $(function() {
     $('#requests').submit();
   });  
   
-  
 //  $('#request').validate({
 //    onkeyup: function(element) {
 //      $(element).valid();

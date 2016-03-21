@@ -161,8 +161,8 @@
                                 placeholder="Value" cssErrorClass="error" />
                               <form:errors path="headers[${status.index}].value" cssClass="help-block with-errors" />
                             </td>
-                            <td class="removeInstance cursorPointer icon-centered">
-                              <i class="fa fa-trash fa-lg"></i>
+                            <td class="icon-centered">
+                              <i class="removeInstance cursorPointer fa fa-trash fa-lg"></i>
                             </td>
                           </tr>
                         </c:forEach>
@@ -228,8 +228,8 @@
                               <form:errors path="variables[${status.index}].length" 
                                 cssClass="help-block with-errors" />
                             </td>
-                            <td class="removeInstance cursorPointer icon-centered">
-                              <i class="fa fa-trash fa-lg"></i>
+                            <td class="icon-centered">
+                              <i class="removeInstance cursorPointer fa fa-trash fa-lg"></i>
                             </td>
                           </tr>
                         </c:forEach>
@@ -273,8 +273,8 @@
                               <form:errors path="dbValidations[${status.index}].expectedValue" 
                                 cssClass="help-block with-errors" />
                             </td>
-                            <td class="removeInstance cursorPointer icon-centered">
-                              <i class="fa fa-trash fa-lg"></i>
+                            <td class="icon-centered">
+                              <i class="removeInstance cursorPointer fa fa-trash fa-lg"></i>
                             </td>
                           </tr>
                         </c:forEach>
@@ -313,7 +313,7 @@
       <td id=".value">
         <input placeholder="Value" type="text" class="form-control" name="headers" />
       </td>
-      <td class="removeInstance cursorPointer icon-centered"><i class="fa fa-trash fa-lg"></i></td>
+      <td class="icon-centered"><i class="removeInstance cursorPointer fa fa-trash fa-lg"></i></td>
     </tr>
 
     <!-- Row for Variable template -->
@@ -344,7 +344,7 @@
       <td id=".length">
         <input placeholder="Length" class="form-control enableIfRandom" type="text" name="length" />
       </td>
-      <td class="removeInstance cursorPointer icon-centered"><i class="fa fa-trash fa-lg"></i></td>
+      <td class="icon-centered"><i class="removeInstance cursorPointer fa fa-trash fa-lg"></i></td>
     </tr>
 
     <!-- Row for DbValidation template -->
@@ -354,7 +354,7 @@
       <td id=".expectedValue">
         <input placeholder="Expected value" type="text" class="form-control" name="dbValidations" />
       </td>
-      <td class="icon-centered removeInstance cursorPointer "><i class="fa fa-trash fa-lg"></i></td>
+      <td class="icon-centered"><i class="removeInstance cursorPointer fa fa-trash fa-lg"></i></td>
     </tr>
   </table>
 </div>

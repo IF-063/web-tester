@@ -1,5 +1,8 @@
 $(function() {
 
+  var contextPath = $('#contextPath').val();
+  var requestsToSend = [];
+  
   $(document).ready(function() {
     $('#requests').DataTable({
       order: [
@@ -11,8 +14,6 @@ $(function() {
       }]
     });
   });
-
-  var contextPath = $('#contextPath').val();
 
   // enables tag autocomplete in filtering fields
   $('#applicationFilter, #serviceFilter, #labelFilter').select2({
@@ -29,8 +30,6 @@ $(function() {
   $('#requests #selectAll').click(function() {
     $('#requests input[type="checkbox"][name="operateSelect"]').prop('checked', this.checked);
   });
-
-  var requestsToSend = [];
 
   // performs request run
   $(document).on('click', '.run', function() {

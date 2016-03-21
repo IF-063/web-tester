@@ -19,34 +19,27 @@
             <h4>Filters</h4>
             <div class="shift-left">
             <div class="col-md-2">
-              <label for="requestNameFilter" class="control-label">Request name</label>
               <form:input type="text" path="requestNameFilter" class="form-control" placeholder="name includes" />
             </div>
 
             <div class="col-md-2">
-              <label for="applicationFilter" class="control-label">Applications</label>
               <form:select path="applicationFilter" items="${applications}" class="form-control select2-multiple" 
                 multiple="multiple" data-placeholder="applications" itemLabel="name" itemValue="id" />
             </div>
 
             <div class="col-md-2">
-              <label for="serviceFilter" class="control-label">Service</label>
               <form:select path="serviceFilter" items="${services}" class="form-control select2-multiple" 
                 multiple="multiple" data-placeholder="services" itemLabel="name" itemValue="id" />
             </div>
 
             <div class="col-md-2">
-              <label for="labelFilter" class="control-label">Labels</label>
               <form:select path="labelFilter" items="${labels}" class="form-control select2-multiple" 
                 multiple="multiple" data-placeholder="labels" itemLabel="name" itemValue="id" />
             </div>
 
             <div class="col-md-4">
-              <label aria-hidden="true">&nbsp;</label>
-              <div>
-                <a href=<c:url value="/tests/requests/" /> class="btn btn-default">Reset</a>
-                <input type="submit" class="btn btn-success" value="Filter" />
-              </div>
+              <a href=<c:url value="/tests/requests/" /> class="btn btn-default">Reset</a>
+              <input type="submit" class="btn btn-success" value="Filter" />
             </div>
             </div>
           </fieldset>
@@ -84,7 +77,7 @@
               <c:forEach items="${requests}" var="request">
                 <tr class="dataRow">
                   <td class="td-centered"><input id="${request.id}" type="checkbox" name="operateSelect"></td>
-                  <td><a href=<c:url value="/tests/requests/${request.id} " />>${request.name}</a>
+                  <td><a href=<c:url value="/tests/requests/${request.id}" />>${request.name}</a>
                   </td>
                   <td>${request.application.name}</td>
                   <td>${request.service.name}</td>
