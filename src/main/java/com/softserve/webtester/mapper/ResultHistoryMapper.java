@@ -104,13 +104,12 @@ public interface ResultHistoryMapper {
     List<ResultHistory> loadAllRequestsByCollectionId(int id);
 
     @Select({"<script>SELECT DISTINCT r.id, r.runId, r.requestCollectionId, r.buildVersionId, r.status, r.message," +
-            " r.timeStart FROM ResultHistory r ",
+            " r.timeStart FROM ResultHistory r WHERE r.requestCollectionId > 0 GROUP BY r.requestCollectionId",
+
             "<if test='labels!=null and labels.length>0'>LEFT JOIN ResultHistory_Label rl ON r.id=rl.resultHistoryId ",
             "</if>",
-            "WHERE r.requestCollectionId > 0 GROUP BY r.requestCollectionId",
             "<if test='status!=null and status!=\"\"'> AND status =#{status}</if>",
             "<if test='buildVersion!=null'> AND r.buildVersionId =#{buildVersion}</if>",
-
             "<if test='labels!=null and labels.length>0'> AND rl.labelId IN",
             "<foreach collection='labels' item='item' index='index' open='(' separator=',' close=')'>",
             "#{item}</foreach></if>",
@@ -147,4 +146,20 @@ public interface ResultHistoryMapper {
 
     @Delete("DELETE FROM ResultHistory WHERE requestCollectionId = #{id}")
     int deteleByCollectionId(int id);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }

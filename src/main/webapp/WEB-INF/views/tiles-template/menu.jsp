@@ -94,7 +94,7 @@
         </li>
         <li class="divider"></li>
         <li>
-          <a href="#">
+          <a href="<c:url value="/reports/graphics" />">
             <i class="fa fa-line-chart fa-fw"></i> Graphics
           </a>
         </li>

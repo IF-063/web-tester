@@ -1,5 +1,6 @@
 package com.softserve.webtester.service;
 
+import com.softserve.webtester.dto.GraphicData;
 import com.softserve.webtester.dto.ResultCollectionFilter;
 import com.softserve.webtester.dto.ResultFilter;
 import com.softserve.webtester.mapper.*;
@@ -77,6 +78,21 @@ public class ResultHistoryService {
         int[] services = resultFilter.getServiceFilter();
         try {
             return resultHistoryMapper.loadAll(status, applications, services);
+        } catch (DataAccessException e) {
+            LOGGER.error("Unable to load request instances", e);
+            throw e;
+        }
+    }
+
+    public List<ResultHistory> loadGraphicResponseTime(GraphicData graphicData) {
+
+        Integer serviceName = graphicData.getServiceName();
+        Integer buildVersionMin = graphicData.getBuildVersionMin();
+        Integer BuildVersionMax = graphicData.getBuildVersionMax();
+
+        try {
+            //return resultHistoryMapper.loadGraphicResponseTime(serviceName, buildVersionMin, BuildVersionMax);
+            return null;
         } catch (DataAccessException e) {
             LOGGER.error("Unable to load request instances", e);
             throw e;

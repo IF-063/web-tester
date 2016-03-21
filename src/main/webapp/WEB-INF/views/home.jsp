@@ -1,234 +1,155 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
-<div class="row">
-  <div class="col-md-12">
-    <h1 class="page-header">Configuration</h1>
+<nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+  <div class="navbar-header">
+    <a class="navbar-brand" href=<c:url value="/" />>Web-tester</a>
   </div>
-</div>
 
-<div class="row">
-
-  <div class="col-md-4">
-    <div class="panel custom-Purple4" id="applicationsBlock">
-      <div class="panel-heading">
-        <div class="row">
-          <div class="col-xs-3">
-            <i class="fa fa-cog fa-4x"></i>
-          </div>
-          <div class="col-xs-9 text-right">
-            <div class="huge">Applications</div>
-          </div>
-        </div>
-      </div>
-      <a href=<c:url value="/configuration/applications" />>
-        <div class="panel-footer">
-          <span class="pull-left"><font color= #551A8B>View page</font></span>
-          <span class="pull-right"><font color= #551A8B><i class="fa fa-arrow-circle-right"></i></font></span>
-          <div class="clearfix"></div>
-        </div>
+  <ul class="nav navbar-top-links navbar-left">
+    <li class="dropdown">
+      <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+        <i class="fa fa-cog fa-fw"></i> Configuration <i class="fa fa-caret-down"></i>
       </a>
-    </div>
-  </div>
+      <ul class="dropdown-menu dropdown-alerts">
+        <li>
+          <a href=<c:url value="/configuration/applications" />>
+            <i class="fa fa-wrench fa-fw"></i> Applications
+          </a>
+        </li>
+        <li class="divider"></li>
+        <li>
+          <a href=<c:url value="/configuration/services" />>
+            <i class="fa fa-wrench fa-fw"></i> Services
+          </a>
+        </li>
+        <li class="divider"></li>
+        <li>
+          <a href=<c:url value="/configuration/labels" />>
+            <i class="fa fa-wrench fa-fw"></i> Labels
+          </a>
+        </li>
+        <li class="divider"></li>
+        <li>
+          <a href=<c:url value="/configuration/buildVersions" />>
+            <i class="fa fa-wrench fa-fw"></i> Build versions
+          </a>
+        </li>
+        <li class="divider"></li>
+        <li>
+          <a href=<c:url value="/configuration/environments" />>
+            <i class="fa fa-wrench fa-fw"></i> Environments
+          </a>
+        </li>
+      </ul>
+    </li>
 
-  <div class="col-md-4">
-    <div class="panel custom-OliveDrab4" id="serviceBlock">
-      <div class="panel-heading">
-        <div class="row">
-          <div class="col-xs-3">
-            <i class="fa fa-cog fa-4x"></i>
-          </div>
-          <div class="col-xs-9 text-right">
-            <div class="huge">Services</div>
-          </div>
-        </div>
-      </div>
-      <a href=<c:url value="/configuration/services" />>
-        <div class="panel-footer">
-          <span class="pull-left"><font color= #698B22>View page</font></span>
-          <span class="pull-right"><font color= #698B22><i class="fa fa-arrow-circle-right"></i></font></span>
-          <div class="clearfix"></div>
-        </div>
+    <li class="dropdown">
+      <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+        <i class="fa fa-tasks fa-fw"></i> Tests <i class="fa fa-caret-down"></i>
       </a>
-    </div>
-  </div>
-</div>
+      <ul class="dropdown-menu dropdown-alerts">
+        <li>
+          <a href=<c:url value="/tests/requests" />>
+            <i class="fa fa-flag fa-fw"></i> Requests
+          </a>
+        </li>
+        <li class="divider"></li>
+        <li>
+          <a href=<c:url value="/tests/collections" />>
+            <i class="fa fa-flag fa-fw"></i> Collections
+          </a>
+        </li>
+      </ul>
+    </li>
 
-<div class="row">
-
-  <div class="col-md-4">
-    <div class="panel panel-red" id="labelsBlock">
-      <div class="panel-heading">
-        <div class="row">
-          <div class="col-xs-3">
-            <i class="fa fa-tasks fa-4x"></i>
-          </div>
-          <div class="col-xs-9 text-right">
-            <div class="huge">Labels</div>
-          </div>
-        </div>
-      </div>
-      <a href=<c:url value="/configuration/labels" />>
-        <div class="panel-footer">
-          <span class="pull-left">View page</span>
-          <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-          <div class="clearfix"></div>
-        </div>
+    <li class="dropdown">
+      <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+        <i class="fa fa-eye fa-fw"></i> Results <i class="fa fa-caret-down"></i>
       </a>
-    </div>
-  </div>
+      <ul class="dropdown-menu dropdown-alerts">
+        <li>
+          <a href=<c:url value="/results/requests" />>
+            <i class="fa fa-book fa-fw"></i> Requests
+          </a>
+        </li>
+        <li class="divider"></li>
+        <li>
+          <a href=<c:url value="/results/collections" />>
+            <i class="fa fa-book fa-fw"></i> Collections
+          </a>
+        </li>
+      </ul>
+    </li>
 
-  <div class="col-md-4">
-    <div class="panel panel-yellow" id="BuildVersionsBlock">
-      <div class="panel-heading">
-        <div class="row">
-          <div class="col-xs-3">
-            <i class="fa fa-tasks fa-4x"></i>
-          </div>
-          <div class="col-xs-9 text-right">
-            <div class="huge">BuildVersions</div>
-          </div>
-        </div>
+    <div class="row">
+      <div class="col-md-12">
+        <h1 class="page-header">Reports</h1>
       </div>
-      <a href=<c:url value="/configuration/buildVersions" />>
-        <div class="panel-footer">
-          <span class="pull-left">View page</span>
-          <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-          <div class="clearfix"></div>
-        </div>
-      </a>
     </div>
-  </div>
 
-</div>
-<div class="row">
-  <div class="col-md-4">
-    <div class="panel panel-info" id="environmentsBlock">
-      <div class="panel-heading">
-        <div class="row">
-          <div class="col-xs-3">
-            <i class="fa fa-cog fa-4x"></i>
-          </div>
-          <div class="col-xs-9 text-right">
-            <div class="huge">Environments</div>
-          </div>
-        </div>
-      </div>
-      <a href=<c:url value="/configuration/environments" />>
-        <div class="panel-footer">
-          <span class="pull-left">View page</span>
-          <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-          <div class="clearfix"></div>
-        </div>
-      </a>
-    </div>
-  </div>
-</div>
-
-<div class="row">
-  <div class="col-md-12">
-    <h1 class="page-header">Tests</h1>
-  </div>
-</div>
-
-<div class="row">
-
-  <div class="col-md-4">
-    <div class="panel panel-primary" id="requestBlock">
-      <div class="panel-heading">
-        <div class="row">
-          <div class="col-xs-3">
-            <i class="fa fa-tasks fa-4x"></i>
-          </div>
-          <div class="col-xs-9 text-right">
-             <div class="huge">Requests</div> 
-          </div>
-        </div>
-      </div>
-      <a href=<c:url value="/tests/requests" />>
-        <div class="panel-footer">
-          <span class="pull-left">View page</span>
-          <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-          <div class="clearfix"></div>
-        </div>
-      </a>
-    </div>
-  </div>
-  
-  <div class="col-md-4">
-    <div class="panel panel-green" id="collectionsBlock">
-      <div class="panel-heading">
-        <div class="row">
-          <div class="col-xs-3">
-            <i class="fa fa-tasks fa-4x"></i>
-          </div>
-          <div class="col-xs-9 text-right">
-             <div class="huge">Collections</div> 
-          </div>
-        </div>
-      </div>
-      <a href=<c:url value="/tests/collections" />>
-        <div class="panel-footer">
-          <span class="pull-left">View page</span>
-          <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-          <div class="clearfix"></div>
-        </div>
-      </a>
-    </div>
-  </div>
-
-
-  <div class="row">
-    <div class="col-md-12">
-      <h1 class="page-header">Results</h1>
-    </div>
-  </div>
-
-  <div class="row">
-
-    <div class="col-md-4">
-      <div class="panel panel-yellow" id="requestResultBlock">
-        <div class="panel-heading">
-          <div class="row">
-            <div class="col-xs-3">
-              <i class="fa fa-eye fa-4x"></i>
-            </div>
-            <div class="col-xs-9 text-right">
-              <div class="huge">Requests</div>
+    <div class="row">
+      <div class="col-md-4">
+        <div class="panel panel-blue" id="statisticBlock">
+          <div class="panel-heading">
+            <div class="row">
+              <div class="col-xs-3">
+                <i class="fa fa-calendar-o fa-4x"></i>
+              </div>
+              <div class="col-xs-9 text-right">
+                <div class="huge">Statistic</div>
+              </div>
             </div>
           </div>
+          <a href=<c:url value="/reports/statistic" />>
+            <div class="panel-footer">
+              <span class="pull-left">View page</span>
+              <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+              <div class="clearfix"></div>
+            </div>
+          </a>
         </div>
-        <a href=<c:url value="/results/requests" />>
-          <div class="panel-footer">
-            <span class="pull-left">View page</span>
-            <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-            <div class="clearfix"></div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="panel panel-blue" id="graphicBlock">
+          <div class="panel-heading">
+            <div class="row">
+              <div class="col-xs-3">
+                <i class="fa fa-calendar-o fa-4x"></i>
+              </div>
+              <div class="col-xs-9 text-right">
+                <div class="huge">Graphics</div>
+              </div>
+            </div>
           </div>
-        </a>
+          <a href=<c:url value="/reports/graphics" />>
+            <div class="panel-footer">
+              <span class="pull-left">View page</span>
+              <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+              <div class="clearfix"></div>
+            </div>
+          </a>
+        </div>
       </div>
     </div>
 
-    <div class="col-md-4">
-      <div class="panel panel-yellow" id="collectionResultBlock">
-        <div class="panel-heading">
-          <div class="row">
-            <div class="col-xs-3">
-              <i class="fa fa-eye fa-4x"></i>
-            </div>
-            <div class="col-xs-9 text-right">
-              <div class="huge">Collections</div>
-            </div>
-          </div>
-        </div>
-        <a href=<c:url value="/results/collections" />>
-          <div class="panel-footer">
-            <span class="pull-left">View page</span>
-            <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-            <div class="clearfix"></div>
-          </div>
-        </a>
-      </div>
-    </div>
-</div>
+  <ul class="nav navbar-top-links navbar-right">
 
-<!-- Main page script -->
-<script src=<c:url value="/resources/js/home.js" />></script>
+    <li class="dropdown">
+      <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+        <i class="fa fa-user fa-fw"></i> <i class="fa fa-caret-down"></i>
+      </a>
+      <ul class="dropdown-menu dropdown-user">
+        <li><a href=<c:url value="/account " />><i class="fa fa-user fa-fw"></i> User Profile</a>
+        </li>
+
+        <li class="divider"></li>
+        <li><a href=<c:url value="/logout " />><i class="fa fa-sign-out fa-fw"></i> Logout</a>
+        </li>
+      </ul>
+    </li>
+
+  </ul>
+
+</nav>
