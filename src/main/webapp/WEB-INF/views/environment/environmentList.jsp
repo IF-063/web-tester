@@ -14,7 +14,7 @@
                 <h3>Environments</h3>
                 <div class="alert fade in" id="success-error" style="display: none;">
                 </div>
-                <div class="row">
+                <div class="row shift-left">
                     <div class="col-md-12">
                         <a href=<c:url value="/configuration/environments/create" />
                             class="btn btn-success ">Create </a>
@@ -24,7 +24,7 @@
                 <!-- /.panel-heading -->
                 <div class="panel-body">
 
-                    <div class="dataTable_wrapper">
+                    <div class="table-responsive">
                         <table
                             class="table table-striped table-bordered table-hover"
                             id="environments">

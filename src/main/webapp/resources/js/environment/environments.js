@@ -52,7 +52,7 @@ $(document).ready(function() {
         [0, 'asc']
       ],
       columnDefs: [
-        {targets: [6, 7], orderable: false,},
+        {targets: [1, 2, 3, 4, 5, 6, 7], searchable: false,},
         {targets: [2, 4, 6, 7], orderable: false,}
       ]
     });
