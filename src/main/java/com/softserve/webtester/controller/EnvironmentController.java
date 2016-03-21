@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.softserve.webtester.model.Environment;
-import com.softserve.webtester.model.Environment.OrderedChecks;
 import com.softserve.webtester.model.EnvironmentDbType;
 import com.softserve.webtester.service.EnvironmentService;
 import com.softserve.webtester.validator.EnvironmentValidator;
@@ -56,7 +55,7 @@ public class EnvironmentController {
     }
 
     @RequestMapping(value = "/create", method = RequestMethod.POST)
-    public String createEnvironment(@Validated ({OrderedChecks.class}) @ModelAttribute Environment environment, BindingResult result, Model model) {
+    public String createEnvironment(@Validated @ModelAttribute Environment environment, BindingResult result, Model model) {
         if (result.hasErrors()) {
             model.addAttribute("pageTask", "Create");
             model.addAttribute("dbTypes", EnvironmentDbType.values());

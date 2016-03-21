@@ -2,12 +2,10 @@ package com.softserve.webtester.model;
 
 import java.io.Serializable;
 
-import javax.validation.GroupSequence;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
-import javax.validation.groups.Default;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
@@ -15,22 +13,12 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import org.hibernate.validator.constraints.NotBlank;
 
-import com.softserve.webtester.model.Environment.OrderedChecks;
-
 /**
  * POJO class represents Environment object which stores database connection
  * properties for request run.
  *
  */
-@GroupSequence({ Environment.class, OrderedChecks.class })
 public class Environment implements Serializable {
-
-    public interface Group1 {
-    }
-
-    @GroupSequence(value = { Default.class, Group1.class })
-    public interface OrderedChecks {
-    }
 
     private static final long serialVersionUID = 7500482567907122176L;
 
@@ -51,7 +39,7 @@ public class Environment implements Serializable {
      */
     @NotBlank
     @Size(max = 75)
-    @Pattern(regexp = "^(https?)://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]", groups = { Group1.class })
+    @Pattern(regexp = "^(https?)://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]")
     private String baseUrl;
 
     /**
@@ -72,7 +60,7 @@ public class Environment implements Serializable {
      * Port of the database
      */
     @NotBlank
-    @Pattern(regexp = "\\d{1,5}", groups = { Group1.class })
+    @Pattern(regexp = "\\d{1,5}")
     private String dbPort;
 
     /**
