@@ -9,7 +9,7 @@
 <div class="row">
 
   <div class="col-md-4">
-    <div class="panel custom-Purple4" id="applicationsBlock">
+    <div class="panel custom-Purple4 cursorPointer" id="applicationsBlock">
       <div class="panel-heading">
         <div class="row">
           <div class="col-xs-3">
@@ -31,7 +31,7 @@
   </div>
 
   <div class="col-md-4">
-    <div class="panel custom-OliveDrab4" id="serviceBlock">
+    <div class="panel custom-OliveDrab4 cursorPointer" id="serviceBlock">
       <div class="panel-heading">
         <div class="row">
           <div class="col-xs-3">
@@ -56,7 +56,7 @@
 <div class="row">
 
   <div class="col-md-4">
-    <div class="panel panel-red" id="labelsBlock">
+    <div class="panel panel-red cursorPointer" id="labelsBlock">
       <div class="panel-heading">
         <div class="row">
           <div class="col-xs-3">
@@ -78,7 +78,7 @@
   </div>
 
   <div class="col-md-4">
-    <div class="panel panel-yellow" id="BuildVersionsBlock">
+    <div class="panel panel-yellow cursorPointer" id="BuildVersionsBlock">
       <div class="panel-heading">
         <div class="row">
           <div class="col-xs-3">
@@ -102,7 +102,7 @@
 </div>
 <div class="row">
   <div class="col-md-4">
-    <div class="panel panel-info" id="environmentsBlock">
+    <div class="panel panel-info cursorPointer" id="environmentsBlock">
       <div class="panel-heading">
         <div class="row">
           <div class="col-xs-3">
@@ -133,7 +133,7 @@
 <div class="row">
 
   <div class="col-md-4">
-    <div class="panel panel-primary" id="requestBlock">
+    <div class="panel panel-primary cursorPointer" id="requestBlock">
       <div class="panel-heading">
         <div class="row">
           <div class="col-xs-3">
@@ -155,7 +155,7 @@
   </div>
   
   <div class="col-md-4">
-    <div class="panel panel-green" id="collectionsBlock">
+    <div class="panel panel-green cursorPointer" id="collectionsBlock">
       <div class="panel-heading">
         <div class="row">
           <div class="col-xs-3">
@@ -186,7 +186,7 @@
   <div class="row">
 
     <div class="col-md-4">
-      <div class="panel panel-yellow" id="requestResultBlock">
+      <div class="panel panel-yellow cursorPointer" id="requestResultBlock">
         <div class="panel-heading">
           <div class="row">
             <div class="col-xs-3">
@@ -208,7 +208,7 @@
     </div>
 
     <div class="col-md-4">
-      <div class="panel panel-yellow" id="collectionResultBlock">
+      <div class="panel panel-yellow cursorPointer" id="collectionResultBlock">
         <div class="panel-heading">
           <div class="row">
             <div class="col-xs-3">
@@ -240,7 +240,7 @@
   <div class="row">
 
     <div class="col-md-4">
-      <div class="panel panel-blue" id="requestResultBlock">
+      <div class="panel panel-blue cursorPointer" id="requestResultBlock">
         <div class="panel-heading">
           <div class="row">
             <div class="col-xs-3">
@@ -262,7 +262,7 @@
     </div>
 
     <div class="col-md-4">
-      <div class="panel panel-blue" id="collectionResultBlock">
+      <div class="panel panel-blue cursorPointer" id="collectionResultBlock">
         <div class="panel-heading">
           <div class="row">
             <div class="col-xs-3">
