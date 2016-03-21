@@ -244,7 +244,7 @@
         <div class="panel-heading">
           <div class="row">
             <div class="col-xs-3">
-              <i class="fa fa-eye fa-4x"></i>
+              <i class="fa fa-calendar-o fa-4x"></i>
             </div>
             <div class="col-xs-9 text-right">
               <div class="huge">Statistic</div>
@@ -266,7 +266,7 @@
         <div class="panel-heading">
           <div class="row">
             <div class="col-xs-3">
-              <i class="fa fa-eye fa-4x"></i>
+              <i class="fa fa-calendar-o fa-4x"></i>
             </div>
             <div class="col-xs-9 text-right">
               <div class="huge">Graphics</div>
