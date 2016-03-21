@@ -9,7 +9,6 @@
 <link href="<c:url value="/resources/bower_components/bootstrap-dataTables/css/dataTables.bootstrap.min.css" />" 
   rel="stylesheet" />
 
-
 <div class="row">
   <div class="col-md-12">
     <div class="panel panel-default">
@@ -57,7 +56,7 @@
           <table class="table table-hover table-bordered table-striped" id="collections">
             <thead>
               <tr>
-                <th><input id="selectAll" type="checkbox" title="Select all"></th>
+                <th><input id="selectAll" class="cursorPointer" type="checkbox" title="Select all"></th>
                 <th class="col-md-2">Name</th>
                 <th class="col-md-4">Description</th>
                 <th class="col-md-2">Labels</th>
@@ -70,8 +69,10 @@
             <tbody>
               <c:forEach items="${collectionList}" var="requestCollection">
                 <tr class="dataRow">
-                  <td class="td-centered"><input id="${requestCollection.id}" type="checkbox" name="operateSelect"></td>
-                  <td><a href=<c:url value="/tests/collections/${requestCollection.id}" />> ${requestCollection.name} </a>
+                  <td class="td-centered"><input id="${requestCollection.id}" class="cursorPointer" type="checkbox" 
+                   name="operateSelect"></td>
+                  <td><a href=<c:url value="/tests/collections/${requestCollection.id}"/>> 
+                   ${requestCollection.name} </a>
                   </td>
                   <td>
                     <c:out value="${requestCollection.description}"></c:out>
@@ -81,15 +82,18 @@
                       <span class="label label-info">${label.name}</span>
                     </c:forEach>
                   </td>
-                  <td class="td-centered"><i id="${requestCollection.id}" class="run cursorPointer fa fa-play"></i></td>
+                  <td class="td-centered">
+                    <i id="${requestCollection.id}" class="run fa fa-play cursorPointer"></i>
+                  </td>
                   <td class="td-centered">
                     <a href=<c:url value="/results/requestCollections/${requestCollection.id}"/>>results</a>
                   </td>
                   <td class="td-centered">
-                    <input id=<c:out value="${requestCollection.id}" /> type="checkbox" name="disableSelect">
+                    <input id=<c:out value="${requestCollection.id}" /> class="cursorPointer" type="checkbox" 
+                     name="disableSelect">
                   </td>
-                  <td id="${requestCollection.id}" class="removeInstance cursorPointer td-centered">
-                    <i class="fa fa-trash fa-lg"></i>
+                  <td id="${requestCollection.id}" class="removeInstance td-centered">
+                    <i class="fa fa-trash fa-lg cursorPointer"></i>
                   </td>
                 </tr>
               </c:forEach>
@@ -120,9 +124,9 @@
         </div>
         <span aria-hidden="true">&nbsp;</span>
         <div>
-          <h4 class="modal-title" id="environmentModalLabel">Select build version</h4>
+          <h4 class="modal-title">Select build version (optional)</h4>
           <select id="buildVersion" class="form-control">
-          <option>0</option>
+          <option value="0" label="Run without build version"></option>
           <c:forEach items="${buildVersions}" var="buildVersion">
             <option value="${buildVersion.id}">${buildVersion.name}</option>
           </c:forEach>
