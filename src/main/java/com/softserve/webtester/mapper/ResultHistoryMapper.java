@@ -146,20 +146,4 @@ public interface ResultHistoryMapper {
 
     @Delete("DELETE FROM ResultHistory WHERE requestCollectionId = #{id}")
     int deteleByCollectionId(int id);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }
