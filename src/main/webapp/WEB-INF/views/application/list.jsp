@@ -5,7 +5,6 @@
 <link href=<c:url value="/resources/bower_components/bootstrap-dataTables/css/dataTables.bootstrap.min.css" /> 
   rel="stylesheet" />
 
-  <div class="container">
     <div class="row">
       <div class="col-md-12">
         <div class="panel panel-default">
@@ -15,7 +14,7 @@
                Create
             </button>
           </div>
-          <div class="panel body">
+          <div class="panel-body">
             <table class="table table-striped table table-hover table-bordered table-condensed text-left panel-body" id="applicationTable">
               <thead>
                 <tr>
@@ -48,7 +47,6 @@
         </div>
       </div>
     </div>
-  </div>
 
 <script src=<c:url value="/resources/bower_components/bootstrap-dataTables/js/jquery.dataTables.min.js" />></script>
 

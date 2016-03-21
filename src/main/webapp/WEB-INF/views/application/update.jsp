@@ -10,13 +10,12 @@
 
   <title>${title}</title>
 </head>
-<div class="container">
   <div class="row">
     <div class="panel panel-default">
       <div class="panel-heading">
         <h3>${title}</h3>
       </div>
-      <div class="panel body">
+      <div class="panel-body">
         <div class="row"></div>
         <form:form cssClass="form-horizontal" action="" method="POST" modelAttribute="application">
           <form:hidden path="id" />
@@ -54,4 +53,3 @@
       </div>
     </div>
   </div>
-</div>
