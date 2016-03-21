@@ -14,6 +14,10 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/**
+ * Handles and retrieves {@link BuildVersion} pages depending on the URI template. A user must be log-in
+ * first he can access this page.
+ */
 @Controller
 @RequestMapping(value = "/configuration/buildVersions")
 public class BuildVersionsController {
@@ -29,6 +33,12 @@ public class BuildVersionsController {
         binder.addValidators(buildVersionValidator);
     }
 
+    /**
+     * Retrieves page with existing build versions
+     *
+     * @param model {@link Model} object
+     * @return view's name
+     */
     @RequestMapping(method = RequestMethod.GET)
     public String getBuildVersionsPage(Model model) {
         List<BuildVersion> buildVersions = metaDataService.loadAllBuildVersions();
@@ -36,6 +46,12 @@ public class BuildVersionsController {
         return "buildVersion/buildVersions";
     }
 
+    /**
+     * Retrieves page for creating new build version with empty build version instance
+     *
+     * @param model {@link Model} object
+     * @return view's name
+     */
     @RequestMapping(value = "/create", method = RequestMethod.GET)
     public String getCreatePage(Model model) {
         model.addAttribute("pageTask", "Create");
@@ -44,6 +60,13 @@ public class BuildVersionsController {
         return "buildVersion/createOrModify";
     }
 
+    /**
+     * Handles creating new build version
+     *
+     * @param buildVersion {@link BuildVersion} instance should be saved
+     * @param result {@link BindingResult} validation handle object
+     * @return if success, redirects to build versions main page, in case of validation errors returns to creating page
+     */
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     public String confirmCreate(@Validated @ModelAttribute BuildVersion buildVersion, BindingResult result) {
         if (result.hasErrors()) {
@@ -53,6 +76,13 @@ public class BuildVersionsController {
         return "redirect:/configuration/buildVersions";
     }
 
+    /**
+     * Retrieves build version modify page
+     *
+     * @param id identifier of modifing {@link BuildVersion} instance
+     * @param model {@link Model} object
+     * @return view's name
+     */
     @RequestMapping(value = "/modify/{id}", method = RequestMethod.GET)
     public String modifyBuildVersion(@PathVariable int id, Model model) {
         model.addAttribute("pageTask", "Modify");
@@ -61,6 +91,13 @@ public class BuildVersionsController {
         return "buildVersion/createOrModify";
     }
 
+    /**
+     * Handles build version updating
+     *
+     * @param buildVersion {@link BuildVersion} instance should be updated
+     * @param result {@link BindingResult} instance
+     * @return if success, redirects to build versions main page; in case of validation errors returns to modifing page
+     */
     @RequestMapping(value = "/modify/{id}", method = RequestMethod.POST)
     public String confirmModify(@Validated @ModelAttribute BuildVersion buildVersion, BindingResult result) {
         if (result.hasErrors()) {
@@ -70,6 +107,12 @@ public class BuildVersionsController {
         return "redirect:/configuration/buildVersions";
     }
 
+    /**
+     * Handles build version deleting
+     *
+     * @param id identifier of {@link BuildVersion} should be deleted
+     * @return redirects to build versions main page
+     */
     @RequestMapping(value = "delete/{id}", method = RequestMethod.GET)
     public String deleteBuildVersion(@PathVariable int id) {
         metaDataService.deleteBuildVersion(id);

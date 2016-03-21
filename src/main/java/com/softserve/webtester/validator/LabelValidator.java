@@ -8,6 +8,10 @@ import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 import org.springframework.validation.Errors;
 
+/**
+ * Implementation of {@link Validator} interface for additional checking {@link Label} instance. Checks the
+ * unique of label's parameter name and if name field is empty
+ */
 @Component
 public class LabelValidator implements Validator {
 

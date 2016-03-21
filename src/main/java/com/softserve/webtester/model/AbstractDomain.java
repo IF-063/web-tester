@@ -19,10 +19,10 @@ public class AbstractDomain {
 
     protected int id;
 
-    @Size(max = 24)
+    @Size(max = 75)
     protected String name;
 
-    @Size(max = 80)
+    @Size(max = 255)
     protected String description;
 
     protected boolean deleted;

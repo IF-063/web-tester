@@ -21,7 +21,7 @@ public class Label implements Serializable {
 
     private int id;
 
-    @Size(max = 24)
+    @Size(max = 75)
     private String name;
 
     public Label() { }

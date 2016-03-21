@@ -416,15 +416,11 @@ th {
  color: #ffffff;
 }
 
-textarea {
-    resize: none;
-}
-
 .td-centered {
 	text-align: center;
 }
 .icon-centered {
-    vertical-align: middle;	
+    vertical-align: middle;
     font-size: 18px;
 }
 
@@ -435,7 +431,7 @@ textarea {
 h3 {
 	margin-top: 10px;
 }
-input.error{
+input.error, textarea.error{
     background-color: #fff;
     background-image: none;
     border: 1px solid #ccc;
@@ -450,6 +446,7 @@ input.error{
     padding: 6px 12px;
     transition: border-color 0.15s ease-in-out 0s, box-shadow 0.15s ease-in-out 0s;
     width: 100%;
+    height: 100%;
 }
 .help-block{
  color: #a94442

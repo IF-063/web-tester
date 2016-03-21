@@ -8,6 +8,10 @@ import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 import org.springframework.validation.Errors;
 
+/**
+ * Implementation of {@link Validator} interface for additional checking {@link BuildVersion} instance. Checks the
+ * unique of build version's parameter name and if name, description fields are empty
+ */
 @Component
 public class BuildVersionValidator implements Validator {
 
