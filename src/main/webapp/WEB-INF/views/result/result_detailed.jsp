@@ -76,17 +76,22 @@
 
         <tr>
           <th class="th">Request Body</th>
-          <td><textarea rows="2" cols="90" name="text">${result.requestBody}</textarea></td>
+          <td><textarea class="form-control" rows="2" style="width: 500px" name="text">${result.requestBody}</textarea></td>
         </tr>
 
         <tr>
           <th class="th">Status Line</th>
-          <td><textarea rows="1" cols="90" name="text">${result.statusLine}</textarea></td>
+          <td><textarea class="form-control" rows="1" style="width: 500px" type="text">${result.statusLine}</textarea></td>
         </tr>
 
         <tr>
-          <th class="th">Response Time</th>
+          <th class="th">Expected Response Time</th>
           <td>${result.expectedResponseTime}</td>
+        </tr>
+
+        <tr>
+          <th class="th">Actual Response Time</th>
+          <td>${result.responseTime}</td>
         </tr>
 
         <tr>
@@ -101,7 +106,7 @@
 
         <tr>
           <th class="th">Message</th>
-          <td><textarea id="code" name="code" rows="1" cols="90">${result.message}</textarea></td>
+          <td><textarea class="form-control" id="code" name="code" rows="1" cols="90" style="width: 500px">${result.message}</textarea></td>
         </tr>
 
         <tr>

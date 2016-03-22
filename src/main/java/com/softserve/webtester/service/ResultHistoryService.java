@@ -84,15 +84,13 @@ public class ResultHistoryService {
         }
     }
 
-    public List<ResultHistory> loadGraphicResponseTime(GraphicData graphicData) {
+    public int[] loadResponseTime(GraphicData graphicData) {
 
-        Integer serviceName = graphicData.getServiceName();
-        Integer buildVersionMin = graphicData.getBuildVersionMin();
-        Integer BuildVersionMax = graphicData.getBuildVersionMax();
+        Integer serviceNameId = graphicData.getServiceName();
+        int[] buildVersionIds = graphicData.getBuildVersions();
 
         try {
-            //return resultHistoryMapper.loadGraphicResponseTime(serviceName, buildVersionMin, BuildVersionMax);
-            return null;
+            return resultHistoryMapper.loadResponseTime(serviceNameId, buildVersionIds);
         } catch (DataAccessException e) {
             LOGGER.error("Unable to load request instances", e);
             throw e;
@@ -103,10 +101,10 @@ public class ResultHistoryService {
     public List<ResultHistory> loadAllCollections(ResultCollectionFilter resultCollectionFilter) {
 
         String status = resultCollectionFilter.getStatusFilter();
-        Integer buildVersion = resultCollectionFilter.getBuildVersionFilter();
+        int[] buildVersions = resultCollectionFilter.getBuildVersionsFilter();
         int[] labelFilter = resultCollectionFilter.getLabelFilter();
         try {
-            return resultHistoryMapper.loadAllCollections(status, labelFilter, buildVersion);
+            return resultHistoryMapper.loadAllCollections(status, labelFilter, buildVersions);
         } catch (DataAccessException e) {
             LOGGER.error("Unable to load resultHistory instances", e);
             throw e;

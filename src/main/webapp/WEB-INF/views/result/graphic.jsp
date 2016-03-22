@@ -3,68 +3,62 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
-<link href=<c:url value="/resources/dist/css/graphic.css" /> rel="stylesheet" />
 <link href=<c:url value="/resources/dist/css/select2.min.css" /> rel="stylesheet" />
 <link href=<c:url value="/resources/dist/css/select2-bootstrap.css" /> rel="stylesheet" />
+<link href=<c:url value="/resources/bower_components/bootstrap-dataTables/css/dataTables.bootstrap.min.css" />
+              rel="stylesheet" />
 
-<div class="panel panel-default">
-  <div class="panel-heading">
-    <h3>Graphic building</h3>
-  </div>
-  <div class="panel body">
-    <div class="row">
-      <form:form modelAttribute="graphicData" method="GET" action="/web-tester/reports/graphics/showGraphic" class="form-horizontal">
-        <fieldset>
+<div class="row">
+  <div class="col-md-12">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3>Graphics</h3>
+        <form:form modelAttribute="graphicData" method="GET" action="/web-tester/reports/graphics/showGraphic">
+          <fieldset>
+            <div class="shift-left">
 
-          <div class="form-group">
-            <form:label path="serviceName" class="col-md-2 control-label1">
-              <p class="text-left1">Select Service name:</p>
-            </form:label>
-            <div class="col-md-4">
-              <form:select path="serviceName" class="form-control1" items="${services}" itemValue="id" itemLabel="name"
-                           cssErrorClass="error" />
-              <form:errors path="serviceName" cssClass="help-block with-errors" />
+              <div class="col-md-2">
+                <label for="serviceName" class="control-label">Service name</label>
+                <form:select path="serviceName" class="form-control" items="${services}" itemValue="id"
+                             itemLabel="name" cssErrorClass="error" />
+              </div>
+
+              <div class="col-md-2">
+                <label for="buildVersions" class="control-label">BuildVersion range</label>
+                <form:select path="buildVersions" items="${buildVersions}" class="form-control select2-multiple"
+                             multiple="multiple" data-placeholder="applications" itemLabel="name" itemValue="id" />
+              </div>
+
+              <div class="col-md-4">
+                <label aria-hidden="true">&nbsp;</label>
+                <div>
+                  <a href="<c:url value="/reports/graphics/" />" class="btn btn-default">Reset</a>
+                  <input type="submit" class="btn btn-success" value="Generate" />
+                </div>
+              </div>
             </div>
-          </div>
+          </fieldset>
+        </form:form>
+      </div>
 
-          <h5>Select Build Version range:</h5>
-          <div class="form-group">
-            <form:label path="buildVersionMin" class="col-md-2 control-label1">
-              <p class="text-left">MIN:</p>
-            </form:label>
-            <div class="col-md-4">
-              <form:select path="buildVersionMin" class="form-control1" items="${buildVersions}" itemValue="id" itemLabel="name"
-                           cssErrorClass="error" />
-              <form:errors path="buildVersionMin" cssClass="help-block with-errors" />
-            </div>
-          </div>
-
-          <div class="form-group">
-            <form:label path="buildVersionMax" class="col-md-2 control-label">
-              <p class="text-left">MAX:</p>
-            </form:label>
-            <div class="col-md-4">
-              <form:select path="buildVersionMax" class="form-control1" items="${buildVersions}" itemValue="id" itemLabel="name"
-                           cssErrorClass="error" />
-              <form:errors path="buildVersionMax" cssClass="help-block with-errors" />
-            </div>
-          </div>
-          <!--<button id ="deleteSelected" class="btn btn-primary">Generate</button>-->
-
-          <div>
-            <input type="submit" class="btn btn-success" value="Generate" />
-            <a href="<c:url value="/reports/graphics/" />" class="btn btn-default">Reset</a>
-          </div>
-        </fieldset>
-      </form:form>
-
-      <!--<td>
-        <a class="btn btn-primary" href="<c:url value="/reports/graphics/showGraphic" />" >
-          <span class="glyphicon glyphicon-share-alt"></span>Graphic building</a>
-      </td>-->
+      <div style="width:50%">
+        <div>
+          <canvas id="canvas" height="450" width="600"></canvas>
+        </div>
+      </div>
     </div>
   </div>
 </div>
 
 <script src=<c:url value="/resources/dist/js/select2.min.js" />></script>
 <script src=<c:url value="/resources/bower_components/jquery/dist/jquery.validate.min.js" />></script>
+
+<script src=<c:url value="/resources/dist/js/Chartjs/Chart.js" />></script>
+<script src=<c:url value="/resources/dist/js/Chartjs/myScript.js" />></script>
+<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.2/Chart.min.js"></script>-->
+<script src=<c:url value="/resources/bower_components/bootstrap-dataTables/js/jquery.dataTables.min.js" />></script>
+<script src=<c:url value="/resources/bower_components/bootstrap-dataTables/js/dataTables.bootstrap.min.js" />></script>
+
+
+
+

@@ -21,7 +21,7 @@
             </div>
 
             <div class="col-md-2">
-              <form:select path="buildVersionFilter" items="${buildVersions}" class="form-control select2-multiple"
+              <form:select path="buildVersionsFilter" items="${buildVersions}" class="form-control select2-multiple"
                            multiple="multiple" data-placeholder="buildVersions..." itemLabel="name" itemValue="id" />
             </div>
 

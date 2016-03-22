@@ -4,10 +4,10 @@ import java.io.Serializable;
 
 public class ResultCollectionFilter implements Serializable {
 
-    private static final long serialVersionUID = -9072422011057426510L;
+    private static final long serialVersionUID = -3133417511946682972L;
 
     private String statusFilter;
-    private Integer buildVersionFilter;
+    private int[] buildVersionsFilter;
     private int[] labelFilter;
 
     public ResultCollectionFilter() { }
@@ -20,12 +20,12 @@ public class ResultCollectionFilter implements Serializable {
         this.statusFilter = statusFilter;
     }
 
-    public Integer getBuildVersionFilter() {
-        return buildVersionFilter;
+    public int[] getBuildVersionsFilter() {
+        return buildVersionsFilter;
     }
 
-    public void setBuildVersionFilter(Integer buildVersionFilter) {
-        this.buildVersionFilter = buildVersionFilter;
+    public void setBuildVersionsFilter(int[] buildVersionsFilter) {
+        this.buildVersionsFilter = buildVersionsFilter;
     }
 
     public int[] getLabelFilter() {

@@ -3,11 +3,11 @@ import java.io.Serializable;
 
 public class GraphicData implements Serializable {
 
-    private static final long serialVersionUID = 8735689471532008238L;
+    private static final long serialVersionUID = -73533802241570478L;
 
     private Integer serviceName;
-    private Integer buildVersionMin;
-    private Integer buildVersionMax;
+    private int[] buildVersions;
+    private int[] applications;
 
     public GraphicData() { }
 
@@ -19,19 +19,19 @@ public class GraphicData implements Serializable {
         this.serviceName = serviceName;
     }
 
-    public Integer getBuildVersionMin() {
-        return buildVersionMin;
+    public int[] getBuildVersions() {
+        return buildVersions;
     }
 
-    public void setBuildVersionMin(Integer buildVersionMin) {
-        this.buildVersionMin = buildVersionMin;
+    public void setBuildVersions(int[] buildVersions) {
+        this.buildVersions = buildVersions;
     }
 
-    public Integer getBuildVersionMax() {
-        return buildVersionMax;
+    public int[] getApplications() {
+        return applications;
     }
 
-    public void setBuildVersionMax(Integer buildVersionMax) {
-        this.buildVersionMax = buildVersionMax;
+    public void setApplications(int[] applications) {
+        this.applications = applications;
     }
 }

@@ -24,7 +24,6 @@ public class GraphicController {
     @RequestMapping(method = RequestMethod.GET)
     public String graphicData(@ModelAttribute GraphicData graphicData, Model model) {
 
-        model.addAttribute("graphicData", new GraphicData());
         model.addAttribute("buildVersions", metaDataService.loadAllBuildVersions());
         model.addAttribute("services", metaDataService.serviceLoadAll());
         return "graphic";
@@ -34,10 +33,10 @@ public class GraphicController {
     public String showGraphic(@ModelAttribute GraphicData graphicData, Model model){
 
         System.out.println("ServiceId: "+graphicData.getServiceName());
-        System.out.println("BuildVersionMinId: "+graphicData.getBuildVersionMin());
-        System.out.println("BuildVersionMaxID: "+graphicData.getBuildVersionMax());
+        System.out.println("BuildVersionIds: "+graphicData.getBuildVersions().length);
 
-        model.addAttribute("list", resultHistoryService.loadGraphicResponseTime(graphicData));
-        return "graphicView";
+        //model.addAttribute("list", resultHistoryService.loadResponseTime(graphicData));
+        //return "graphicView";
+        return "redirect:/reports/graphics";
     }
 }

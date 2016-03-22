@@ -24,8 +24,8 @@ Chart.types.Line.extend({
 
 
 var data = {
-    //labels: ["January", "February", "March", "April", "May", "June", "July"],
-    labels: ["v1.0", "v1.1", "v1.2", "v1.3", "v2.1", "v2.2", "v2.3"],
+    //labels: ["v1.0", "v1.1", "v1.2", "v1.3", "v2.1", "v2.2", "v2.3"],
+    labels: [],
     datasets: [
         {
             label: "My Second dataset",
@@ -35,7 +35,8 @@ var data = {
             pointStrokeColor: "#fff",
             pointHighlightFill: "#fff",
             pointHighlightStroke: "rgba(151,187,205,1)",
-            data: [28, 48, 40, 45, 53, 58, 52]
+            //data: [28, 48, 40, 45, 53, 58, 52]
+            data: [0]
         }
     ]
 };

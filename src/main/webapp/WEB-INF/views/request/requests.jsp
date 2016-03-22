@@ -15,7 +15,7 @@
       <div class="panel-heading">
         <h3>Requests</h3>
         <form:form modelAttribute="requestFilterDTO" method="GET">
-          <fieldset>
+            <fieldset>
             <h4>Filters</h4>
             <div class="shift-left">
             <div class="col-md-2">
