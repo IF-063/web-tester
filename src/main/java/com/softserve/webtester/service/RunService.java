@@ -25,17 +25,24 @@ public class RunService {
 
     public List<ResultHistory> executor(Date date, List<Request> requestList, Environment environment) {
         List<ResultHistory> resultsHistory = new ArrayList<ResultHistory>();
-        
-        //Need to surround with try/catch
-        Connection dbCon = environmentService.getConnection(environment);
-        CloseableHttpClient httpClient = HttpClientBuilder.create().build();
-        
-        for (Request request : requestList) {
 
-            //Need to surround with try/catch
-            CloseableHttpResponse response = httpClient.execute((HttpUriRequest) getHttpRequest(request, dbCon));
+        // Need to surround with try/catch
+        Connection dbCon;
+        try {
+            dbCon = environmentService.getConnection(environment);
 
-        }       
+            CloseableHttpClient httpClient = HttpClientBuilder.create().build();
+
+            for (Request request : requestList) {
+
+                // Need to surround with try/catch
+                CloseableHttpResponse response = httpClient.execute((HttpUriRequest) getHttpRequest(request, dbCon));
+
+            }
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
 
         return resultsHistory;
     }
