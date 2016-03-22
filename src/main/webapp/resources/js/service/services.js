@@ -10,7 +10,7 @@ $(function() {
         [0, 'asc']
       ],
       columnDefs: [{
-        targets: [1,2],
+        targets: [1,2,3],
         orderable: false,
       }]
     });

@@ -1,4 +1,12 @@
 $(function() {
+	
+  $('#applicationsBlock').click(function() {
+	window.location.href = 'configuration/applications';
+  });
+  
+  $('#serviceBlock').click(function() {
+	window.location.href = 'configuration/services';
+  });
 
   $('#labelsBlock').click(function() {
     window.location.href = 'configuration/labels';

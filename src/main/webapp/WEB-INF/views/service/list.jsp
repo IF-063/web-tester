@@ -18,8 +18,9 @@
             <table class="table table-striped table table-hover table-bordered table-condensed text-left panel-body" id="serviceTable">
               <thead>
                 <tr>
-                  <th class="col-md-4">Name</th>
+                  <th class="col-md-3">Name</th>
                   <th class="col-md-7">Description</th>
+                  <th class="col-md-1">SLA</th>
                   <th class="col-md-1">Delete</th>
                 </tr>
               </thead>
@@ -33,6 +34,9 @@
                     </td>
                     <td>
                       <c:out value="${service.description}"></c:out>
+                    </td>
+                    <td class="td-centered">
+                      <c:out value="${sla}"></c:out>
                     </td>
                     <td class="td-centered">
                       <a href=<c:url value="/configuration/services/delete/${service.id}" />>

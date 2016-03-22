@@ -22,6 +22,7 @@
           <fieldset>
             <div class="row">
               <div class="form-group">
+              <div class="row">
                 <form:label path="name" cssClass="col-sm-2 control-label">
                   <p class="text-left">Name: *</p>
                 </form:label>
@@ -29,8 +30,10 @@
                   <form:input cssClass="form-control" path="name" cssErrorClass="error" />
                   <form:errors path="name" cssClass="help-block with-errors" />
                 </div>
+                </div>
               </div>
               <div class="form-group">
+              <div class="row">
                 <form:label path="description" cssClass="col-sm-2 control-label">
                   <p class="text-left">Description: *</p>
                 </form:label>
@@ -39,8 +42,17 @@
                   <form:errors path="description" cssClass="help-block with-errors" />
                 </div>
               </div>
+              </div>
               <div class="form-group">
-                <div class="col-sm-offset-2 col-sm-10"></div>
+              <div class="row">
+                <form:label path="description" cssClass="col-sm-2 control-label">
+                  <p class="text-left">SLA: </p>
+                </form:label>
+                <div class="col-sm-1">
+                  <form:input cssClass="form-control" path="sla" cssErrorClass="error" />
+                  <form:errors path="sla" cssClass="help-block with-errors" />
+                </div>
+              </div>
               </div>
               <div class="row">
                 <button type="submit" class="btn btn-success">Save</button>
