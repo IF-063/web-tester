@@ -77,11 +77,13 @@
               <c:forEach items="${requests}" var="request">
                 <tr class="dataRow">
                   <td class="td-centered"><input id="${request.id}" type="checkbox" name="operateSelect"></td>
-                  <td><a href=<c:url value="/tests/requests/${request.id}" />>${request.name}</a>
+                  <td><a href=<c:url value="/tests/requests/${request.id}" />>
+                    <c:out value="${request.name}" />
+                  </a>
                   </td>
-                  <td>${request.application.name}</td>
-                  <td>${request.service.name}</td>
-                  <td>${request.endpoint}</td>
+                  <td><c:out value="${request.application.name}" /></td>
+                  <td><c:out value="${request.service.name}" /></td>
+                  <td><c:out value="${request.endpoint}" /></td>
                   <td class="td-centered"><i id="${request.id}" class="run cursorPointer fa fa-play"></i></td>
                   <td class="td-centered"><a href=<c:url value="/results/requests/${request.id}" />>results</a>
                   </td>
