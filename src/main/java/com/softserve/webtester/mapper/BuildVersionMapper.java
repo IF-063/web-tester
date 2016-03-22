@@ -39,11 +39,10 @@ public interface BuildVersionMapper {
      * @return Set of BuildVersion instaces
      * @throws DataAccessException
      */
-    @Select("SELECT * FROM BuildVersion")
-    @Results({ @Result(property = "id", column = "id"),
-            @Result(property = "name", column = "name"),
-            @Result(property = "description", column = "description"),
-            @Result(property = "deleted", column = "deleted"),
+    @Select("SELECT id, name, description from BuildVersion WHERE deleted = 0")
+    @Results({ @Result(property = "id", column = "id", jdbcType = JdbcType.INTEGER),
+            @Result(property = "name", column = "name", jdbcType = JdbcType.VARCHAR),
+            @Result(property = "description", column = "description", jdbcType = JdbcType.VARCHAR)
     })
     List<BuildVersion> loadAllBuildVersions();
 
