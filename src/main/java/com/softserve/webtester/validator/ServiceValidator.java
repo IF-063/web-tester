@@ -24,6 +24,7 @@ public class ServiceValidator implements Validator {
     public void validate(Object target, Errors errors) {
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "name", "NotBlank.service.name");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "description", "NotBlank.service.description");
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "sla", "NotBlank.service.sla");
         Service service = (Service) target;
         if (!metaDataService.isServiceNameFree(service.getName(), service.getId())) {
             errors.rejectValue("name", null, "Name should be unique");

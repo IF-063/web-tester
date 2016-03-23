@@ -36,7 +36,7 @@
                       <c:out value="${service.description}"></c:out>
                     </td>
                     <td class="td-centered">
-                      <c:out value="${sla}"></c:out>
+                      <c:out value="${service.sla}"></c:out>
                     </td>
                     <td class="td-centered">
                       <a href=<c:url value="/configuration/services/delete/${service.id}" />>

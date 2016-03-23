@@ -12,7 +12,7 @@ import com.softserve.webtester.model.Service;
  * operations.
  * 
  * @author Roman Zolotar
- * @version 1.2
+ * @version 1.3
  */
 
 @Repository
@@ -21,27 +21,33 @@ public interface ServiceMapper {
     final String LOAD_ALL_WITHOUT_DELETED = "SELECT * FROM Service WHERE DELETED = 0";
     final String LOAD = "SELECT * FROM Service WHERE ID = #{id}";
     final String DELETE_BY_ID = "DELETE from Service WHERE ID = #{id}";
-    final String INSERT = "INSERT INTO Service (NAME, DESCRIPTION, DELETED) VALUES (#{name}, #{description}, #{deleted})";
-    final String UPDATE = "UPDATE Service SET DELETED = #{deleted}, NAME = #{name}, DESCRIPTION = #{description} WHERE ID = #{id}";
+    final String INSERT = "INSERT INTO Service (NAME, DESCRIPTION, SLA, DELETED) VALUES (#{name}, #{description}, #{sla}, #{deleted})";
+    final String UPDATE = "UPDATE Service SET DELETED = #{deleted}, NAME = #{name}, DESCRIPTION = #{description}, SLA = #{sla} WHERE ID = #{id}";
     final String IS_SERVICE_NAME_FREE = "SELECT IF(count(*) > 0, false, true) FROM Service WHERE name = #{name} AND id != #{exclusionId}";
 
     @Select(LOAD_ALL)
-    @Results(value = { @Result(property = "id", column = "ID"), @Result(property = "name", column = "NAME"),
+    @Results(value = { @Result(property = "id", column = "ID"), 
+            @Result(property = "name", column = "NAME"),
             @Result(property = "description", column = "DESCRIPTION"),
+            @Result(property = "sla", column = "SLA"),
             @Result(property = "deleted", column = "DELETED") })
 
     List<Service> loadAll();
 
     @Select(LOAD_ALL_WITHOUT_DELETED)
-    @Results(value = { @Result(property = "id", column = "ID"), @Result(property = "name", column = "NAME"),
+    @Results(value = { @Result(property = "id", column = "ID"), 
+            @Result(property = "name", column = "NAME"),
             @Result(property = "description", column = "DESCRIPTION"),
+            @Result(property = "sla", column = "SLA"),
             @Result(property = "deleted", column = "DELETED") })
 
     List<Service> loadAllWithoutDeleted();
 
     @Select(LOAD)
-    @Results(value = { @Result(property = "id", column = "ID"), @Result(property = "name", column = "NAME"),
+    @Results(value = { @Result(property = "id", column = "ID"), 
+            @Result(property = "name", column = "NAME"),
             @Result(property = "description", column = "DESCRIPTION"),
+            @Result(property = "sla", column = "SLA"),
             @Result(property = "deleted", column = "DELETED") })
 
     Service load(int id);

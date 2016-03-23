@@ -2,6 +2,8 @@ package com.softserve.webtester.model;
 
 import java.io.Serializable;
 
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.Digits;
 import javax.validation.constraints.Size;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
@@ -14,7 +16,7 @@ import org.apache.commons.lang3.builder.ToStringStyle;
  * The Service class represents {@code Service} entity stored in the database.
  *
  * @author Roman Zolotar
- * @version 1.2
+ * @version 1.3
  */
 
 public class Service implements Serializable {
@@ -28,6 +30,10 @@ public class Service implements Serializable {
 
     @Size(max = 255)
     private String description;
+    
+    @Digits(fraction = 0, integer = 9)
+    @DecimalMin("1")
+    private Integer sla;
 
     private boolean deleted;
 
@@ -56,6 +62,14 @@ public class Service implements Serializable {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+    
+    public Integer getSla(){
+        return sla;
+    }
+    
+    public void setSla(Integer sla){
+        this.sla = sla;
     }
 
     public boolean getDeleted() {

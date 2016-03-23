@@ -46,9 +46,9 @@
               <div class="form-group">
               <div class="row">
                 <form:label path="description" cssClass="col-sm-2 control-label">
-                  <p class="text-left">SLA: </p>
+                  <p class="text-left">SLA: *</p>
                 </form:label>
-                <div class="col-sm-1">
+                <div class="col-sm-2">
                   <form:input cssClass="form-control" path="sla" cssErrorClass="error" />
                   <form:errors path="sla" cssClass="help-block with-errors" />
                 </div>
