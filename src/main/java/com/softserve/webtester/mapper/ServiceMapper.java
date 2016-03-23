@@ -20,6 +20,7 @@ public interface ServiceMapper {
     final String LOAD_ALL = "SELECT * FROM Service";
     final String LOAD_ALL_WITHOUT_DELETED = "SELECT * FROM Service WHERE DELETED = 0";
     final String LOAD = "SELECT * FROM Service WHERE ID = #{id}";
+    final String LOADNAME = "SELECT NAME FROM Service WHERE ID = #{id}";    
     final String DELETE_BY_ID = "DELETE from Service WHERE ID = #{id}";
     final String INSERT = "INSERT INTO Service (NAME, DESCRIPTION, SLA, DELETED) VALUES (#{name}, #{description}, #{sla}, #{deleted})";
     final String UPDATE = "UPDATE Service SET DELETED = #{deleted}, NAME = #{name}, DESCRIPTION = #{description}, SLA = #{sla} WHERE ID = #{id}";
@@ -52,6 +53,9 @@ public interface ServiceMapper {
 
     Service load(int id);
 
+    @Select(LOADNAME)
+    String loadServiceName(int id);
+    
     @Update(UPDATE)
     void update(Service service);
 

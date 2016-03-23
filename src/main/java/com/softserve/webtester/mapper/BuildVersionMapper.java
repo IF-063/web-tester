@@ -35,6 +35,15 @@ public interface BuildVersionMapper {
     BuildVersion loadBuildVersionById(int id);
 
     /**
+     * Loads BuildVersion name from database by its identifier
+     * @param id
+     * @return BuildVersion name
+     * @throws DataAccessException
+     */
+    @Select("SELECT name FROM BuildVersion WHERE id = #{id} AND deleted = 0")
+    String loadBuildVersionName(int id);
+    
+    /**
      * Loads all {@link BuildVersion} instances from the database which aren't marked as "deleted"
      * @return Set of BuildVersion instaces
      * @throws DataAccessException

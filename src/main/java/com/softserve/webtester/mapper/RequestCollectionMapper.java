@@ -13,8 +13,6 @@ import org.apache.ibatis.annotations.Update;
 import org.apache.ibatis.type.JdbcType;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Repository;
-
-import com.softserve.webtester.model.Request;
 import com.softserve.webtester.model.RequestCollection;
 
 /**
