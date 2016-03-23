@@ -9,6 +9,7 @@ public class ReportDataDTO implements Serializable {
     private String serviceName;
     private int [] responseTime;
     private String [] buildVersionName;
+    
     public String getServiceName() {
         return serviceName;
     }

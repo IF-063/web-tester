@@ -8,6 +8,7 @@ public class ReportFilterDTO implements Serializable {
     
     private int serviceId;
     private int [] buildVersionId;
+    private int responseTimeFilterMarker;
     
     public int getServiceId() {
         return serviceId;
@@ -21,7 +22,12 @@ public class ReportFilterDTO implements Serializable {
     public void setBuildVersionId(int[] buildVersionId) {
         this.buildVersionId = buildVersionId;
     }
-    
+    public int getResponseTimeFilterMarker() {
+        return responseTimeFilterMarker;
+    }
+    public void setResponseTimeFilterMarker(int responseTimeFilterMarker) {
+        this.responseTimeFilterMarker = responseTimeFilterMarker;
+    }
     
 
 }
