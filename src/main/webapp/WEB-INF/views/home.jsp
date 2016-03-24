@@ -1,5 +1,8 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 
+<sec:authorize access="hasRole('ROLE_QA')">
 <div class="row">
   <div class="col-md-12">
     <h1 class="page-header">Configuration</h1>
@@ -7,7 +10,6 @@
 </div>
 
 <div class="row">
-
   <div class="col-md-4">
     <div class="panel custom-Purple4 cursorPointer" id="applicationsBlock">
       <div class="panel-heading">
@@ -54,7 +56,6 @@
 </div>
 
 <div class="row">
-
   <div class="col-md-4">
     <div class="panel panel-red cursorPointer" id="labelsBlock">
       <div class="panel-heading">
@@ -98,8 +99,8 @@
       </a>
     </div>
   </div>
-
 </div>
+
 <div class="row">
   <div class="col-md-4">
     <div class="panel panel-info cursorPointer" id="environmentsBlock">
@@ -131,7 +132,6 @@
 </div>
 
 <div class="row">
-
   <div class="col-md-4">
     <div class="panel panel-primary cursorPointer" id="requestBlock">
       <div class="panel-heading">
@@ -176,15 +176,15 @@
     </div>
   </div>
 
-
   <div class="row">
     <div class="col-md-12">
       <h1 class="page-header">Results</h1>
     </div>
   </div>
+  </div>
 
+  
   <div class="row">
-
     <div class="col-md-4">
       <div class="panel panel-yellow cursorPointer" id="requestResultBlock">
         <div class="panel-heading">
@@ -229,8 +229,9 @@
       </div>
     </div>
 </div>
+</sec:authorize>
 
-
+  <sec:authorize access="isAuthenticated()">
   <div class="row">
     <div class="col-md-12">
       <h1 class="page-header">Reports</h1>
@@ -238,7 +239,6 @@
   </div>
 
   <div class="row">
-
     <div class="col-md-4">
       <div class="panel panel-blue cursorPointer" id="requestResultBlock">
         <div class="panel-heading">
@@ -283,6 +283,7 @@
       </div>
     </div>
   </div>
+  </sec:authorize>
 
   <!-- Main page script -->
 <script src=<c:url value="/resources/js/home.js" />></script>
