@@ -61,7 +61,7 @@ public interface ResultHistoryMapper {
     })
     ResultHistory loadById(int id);
 
-    @Select({ "<script>SELECT DISTINCT id, status, applicationId, serviceId, requestName, message," +
+    @Select({"<script>SELECT DISTINCT id, status, applicationId, serviceId, requestName, message," +
             " requestDescription, timeStart FROM ResultHistory WHERE id > 0",
             "<if test='status!=null and status!=\"\"'> AND status =#{status}</if>",
             "<if test='applications!=null and applications.length>0'> AND applicationId IN",
@@ -70,7 +70,7 @@ public interface ResultHistoryMapper {
             "<if test='services!=null and services.length>0'> AND serviceId IN",
             "<foreach collection='services' item='item' index='index' open='(' separator=',' close=')'>",
             "#{item}</foreach></if>",
-            "</script>" })
+            "</script>"})
     @Results({
             @Result(id = true, property = "id", column = "id", jdbcType = JdbcType.INTEGER),
             @Result(property = "status", column = "status", jdbcType = JdbcType.VARCHAR),
@@ -118,7 +118,7 @@ public interface ResultHistoryMapper {
             "<foreach collection='labels' item='item' index='index' open='(' separator=',' close=')'>",
             "#{item}</foreach></if>",
             "GROUP BY r.requestCollectionId",
-            "</script>" })
+            "</script>"})
     @Results({
             @Result(id = true, property = "id", column = "id", jdbcType = JdbcType.INTEGER),
             @Result(property = "runId", column = "runId", jdbcType = JdbcType.INTEGER),
@@ -152,21 +152,50 @@ public interface ResultHistoryMapper {
     @Delete("DELETE FROM ResultHistory WHERE requestCollectionId = #{id}")
     int deteleByCollectionId(int id);
 
-
-
-
-    @Select("SELECT responseTime FROM ResultHistory WHERE serviceId = #{serviceNameId}"+
-
-            "<if test='buildVersionIds!=null and buildVersionIds.length>0'> AND buildVersionId IN"+
-            "<foreach collection='buildVersions' item='item' index='index' open='(' separator=',' close=')'>"+
-            "#{item}</foreach></if>"+
-
-            "GROUP BY serviceId, runId")
+    @Select({"<script>SELECT responseTime FROM ResultHistory WHERE serviceId = #{serviceNameId}" +
+            "<if test='buildVersionIds!=null and buildVersionIds.length>0'> AND buildVersionId IN" +
+            "<foreach collection='buildVersionIds' item='item' index='index' open='(' separator=',' close=')'>" +
+            "#{item}</foreach></if>" +
+            "</script>"})
     @Results({
             @Result(property = "responseTime", column = "responseTime", jdbcType = JdbcType.INTEGER)
     })
-    int [] loadResponseTime(@Param(value = "serviceNameId") Integer serviceNameId,
-                                   @Param(value = " buildVersionIds") int [] buildVersionIds);
+    List<ResultHistory> loadResponseTime(@Param(value = "serviceNameId") Integer serviceNameId,
+                                         @Param(value = "buildVersionIds") int[] buildVersionIds);
 
 
+
+
+
+
+
+
+
+
+
+
+
+    @Select({"<script>SELECT name FROM BuildVersion " +
+            "<if test='BuildVersionIds!=null and BuildVersionIds.length>0'> WHERE id IN" +
+            "<foreach item='item' index='index' collection='BuildVersionIds' open='(' separator=',' close=')'>" +
+            "#{item}</foreach></if>" +
+            "</script>"})
+    @Results({
+            @Result(property = "name", column = "name", jdbcType = JdbcType.VARCHAR)
+    })
+    List<BuildVersion> loadBuildVersNames(@Param("BuildVersionIds") int[] BuildVersionIds);
+
+
+    @Select("SELECT name FROM BuildVersion WHERE id =#{buildVersionId}")
+    @Results({
+            @Result(property = "name", column = "name", jdbcType = JdbcType.VARCHAR)
+    })
+    String loadBuildVersionName(int buildVersionId);
+
+
+
+    @Select("SELECT * FROM Service WHERE id =#{id}")
+    @Results({
+            @Result(property = "sla", column = "SLA")})
+    Service loadSLA(int id);
 }

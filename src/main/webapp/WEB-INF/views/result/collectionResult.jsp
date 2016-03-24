@@ -15,27 +15,26 @@
         <form:form modelAttribute="resultCollectionFilter" method="GET">
           <fieldset>
             <h4>Filters</h4>
-
-            <div class="col-md-2">
-              <form:input type="text" path="statusFilter" class="form-control" placeholder="status..." />
-            </div>
-
-            <div class="col-md-2">
-              <form:select path="buildVersionsFilter" items="${buildVersions}" class="form-control select2-multiple"
-                           multiple="multiple" data-placeholder="buildVersions..." itemLabel="name" itemValue="id" />
-            </div>
-
-            <div class="col-md-2">
-              <form:select path="labelFilter" items="${labels}" class="form-control select2-multiple"
-                           multiple="multiple" data-placeholder="labels..." itemLabel="name" itemValue="id" />
-            </div>
-
-            <div class="col-md-4">
-              <div>
-                <a href="<c:url value="/results/collections/" />" class="btn btn-default">Reset</a>
-                <input type="submit" class="btn btn-success" value="Filter" />
+              <div class="col-md-2">
+                  <form:input type="text" path="statusFilter" class="form-control" placeholder="status..." />
               </div>
-            </div>
+
+              <div class="col-md-2">
+                  <form:select path="buildVersionsFilter" items="${buildVersions}" class="form-control select2-multiple"
+                               multiple="multiple" data-placeholder="buildVersions..." itemLabel="name" itemValue="id" />
+              </div>
+
+              <div class="col-md-2">
+                  <form:select path="labelFilter" items="${labels}" class="form-control select2-multiple"
+                               multiple="multiple" data-placeholder="labels..." itemLabel="name" itemValue="id" />
+              </div>
+
+              <div class="col-md-4">
+                  <div>
+                      <a href="<c:url value="/results/collections/" />" class="btn btn-default">Reset</a>
+                      <input type="submit" class="btn btn-success" value="Filter" />
+                  </div>
+              </div>
           </fieldset>
         </form:form>
         <h4>Showing ${fn:length(list)} Collection Results</h4>

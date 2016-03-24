@@ -3,6 +3,9 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
+<link href=<c:url value="/resources/dist/css/select2.min.css" /> rel="stylesheet" />
+<link href=<c:url value="/resources/dist/css/select2-bootstrap.css" /> rel="stylesheet" />
+
 <link href=<c:url value="/resources/dist/css/result.css" /> rel="stylesheet" />
 <script src=<c:url value="/resources/dist/js/codemirror-5.12/lib/codemirror.js" />></script>
 <script src=<c:url value="/resources/dist/js/codemirror-5.12/mode/javascript/javascript.js" />></script>
@@ -15,102 +18,125 @@
 <script src=<c:url value="/resources/dist/js/codemirror-5.12/addon/merge/merge.js" />></script>
 <script src=<c:url value="/resources/dist/js/code_mirror_custom.js" />></script>
 
-<div class="row">
-  <div class="col-md-12">
-    <div class="panel panel-default">
-      <table id="mytable" class="table-hover">
-        <h4>Details for ${result.requestName}:</h4>
-        <tr>
-          <th class="th">Status</th>
-          <td>${(result.status==1)?'pass':'fail'}</td>
-        </tr>
-        <tr>
-          <th class="th">Application Name</th>
-          <td>${result.application.getName()}</td>
-        </tr>
-        <tr>
-          <th class="th">Service Name</th>
-          <td>${result.service.getName()}</td>
-        </tr>
-        <tr>
-          <th class="th">Request Description</th>
-          <td>${result.requestDescription}</td>
-        </tr>
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h3>Details for ${result.requestName}:</h3>
+  </div>
+  <div class="panel body">
+    <div class="row">
+      <div class="col-md-12">
+        <table id="mytable" class="table-hover">
+          <tr>
+            <th class="th">Status</th>
+            <td>${(result.status==1)?'pass':'fail'}</td>
+          </tr>
+          <raw>
 
-        <th class="th">Labels</th>
-        <td>
-          <c:forEach items="${result.getLabels()}" var="result">
-            <span class='label label-info' style='margin:4px;padding:4px'/>${result.name}</span>
-          </c:forEach>
-        </td>
-        </tr>
+          </raw>
+          <tr>
+            <th class="th">Application Name</th>
+            <td>${result.application.getName()}</td>
+          </tr>
+          <raw>
 
-        <tr>
-          <th class="th">URL</th>
-          <td>${result.url}</td>
-        </tr>
+          </raw>
+          <tr>
+            <th class="th">Service Name</th>
+            <td>${result.service.getName()}</td>
+          </tr>
+          <raw>
 
-        <tr>
-          <th class="th">Headers</th>
+          </raw>
+          <tr>
+            <th class="th">Request Description</th>
+            <td>${result.requestDescription}</td>
+          </tr>
+
+          <th class="th">Labels</th>
           <td>
-            <table class="table-bordered">
-              <tr>
-                <th class="th2">Name</th>
-                <th class="th2">Value</th>
-              </tr>
-
-              <c:forEach items="${result.getHeaderHistories()}" var="result">
-                <tr>
-                  <td>${result.name}</td>
-                  <td>${result.value}</td>
-                </tr>
-              </c:forEach>
-            </table>
+            <c:forEach items="${result.getLabels()}" var="result">
+              <span class='label label-info' style='margin:4px;padding:4px'/>${result.name}</span>
+            </c:forEach>
           </td>
-        </tr>
+          </tr>
 
-        <tr>
-          <th class="th">Response Type</th>
-          <td>${result.responseType}</td>
-        </tr>
+          <tr>
+            <th class="th">URL</th>
+            <td>${result.url}</td>
+          </tr>
 
-        <tr>
-          <th class="th">Request Body</th>
-          <td><textarea class="form-control" rows="2" style="width: 500px" name="text">${result.requestBody}</textarea></td>
-        </tr>
+          <tr>
+            <th class="th">Headers</th>
+            <td>
+              <table class="table-bordered">
+                <tr>
+                  <th class="th2">Name</th>
+                  <th class="th2">Value</th>
+                </tr>
 
-        <tr>
-          <th class="th">Status Line</th>
-          <td><textarea class="form-control" rows="1" style="width: 500px" type="text">${result.statusLine}</textarea></td>
-        </tr>
+                <c:forEach items="${result.getHeaderHistories()}" var="result">
+                  <tr>
+                    <td>${result.name}</td>
+                    <td>${result.value}</td>
+                  </tr>
+                </c:forEach>
+              </table>
+            </td>
+          </tr>
 
-        <tr>
-          <th class="th">Expected Response Time</th>
-          <td>${result.expectedResponseTime}</td>
-        </tr>
+          <tr>
+            <th class="th">Response Type</th>
+            <td>${result.responseType}</td>
+          </tr>
 
-        <tr>
-          <th class="th">Actual Response Time</th>
-          <td>${result.responseTime}</td>
-        </tr>
+          <tr>
+            <th class="th">Request Body</th>
+            <td><textarea class="form-control" rows="2" style="width: 500px" name="text">${result.requestBody}</textarea></td>
+          </tr>
 
-        <tr>
-          <th class="th">Start Time</th>
-          <td>${result.timeStart}</td>
-        </tr>
+          <tr>
+            <th class="th">Status Line</th>
+            <td><textarea class="form-control" rows="1" style="width: 500px" type="text">${result.statusLine}</textarea></td>
+          </tr>
 
-        <tr>
-          <th class="th">RunId</th>
-          <td>${result.runId}</td>
-        </tr>
+          <tr>
+            <th class="th">Expected Response Time</th>
+            <td>${result.expectedResponseTime}</td>
+          </tr>
 
-        <tr>
-          <th class="th">Message</th>
-          <td><textarea class="form-control" id="code" name="code" rows="1" cols="90" style="width: 500px">${result.message}</textarea></td>
-        </tr>
+          <tr>
+            <th class="th">Actual Response Time</th>
+            <td>${result.responseTime}</td>
+          </tr>
 
+          <tr>
+            <th class="th">Start Time</th>
+            <td>${result.timeStart}</td>
+          </tr>
+
+          <tr>
+            <th class="th">RunId</th>
+            <td>${result.runId}</td>
+          </tr>
+
+          <tr>
+            <th class="th">Message</th>
+            <td><textarea class="form-control" id="code" name="code" rows="1" cols="90" style="width: 500px">${result.message}</textarea></td>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h4>DB Validation Results</h4>
+  </div>
+  <div class="panel body">
+    <div class="row">
+      <div class="col-md-12">
         <tr>
-          <th class="th">DB Validation Results</th>
           <td>
             <table class="table-bordered">
               <tr>
@@ -129,45 +155,53 @@
             </table>
           </td>
         </tr>
+      </div>
+    </div>
+  </div>
+</div>
 
-        <tr>
-          <th class="th">Response Validation Results</th>
-          <td></td>
-        </tr>
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h4>Response Validation Results</h4>
+  </div>
+  <div class="panel body">
+    <div class="row">
+      <div class="col-md-12">
+        <table id="mytable" class="table-hover">
+          <tr id ="textar">
+            <th class="th">Response Validation Results</th>
+            <td>
+              <table class="table-bordered">
+                <tr>
+                  <th class="th2">Expected Response</th>
+                  <th class="th2">Actual Response</th>
+                </tr>
 
-        <tr id ="textar">
-          <th class="th">Response Validation Results</th>
-          <td>
-            <table class="table-bordered">
-              <tr>
-                <th class="th2">Expected Response</th>
-                <th class="th2">Actual Response</th>
-              </tr>
+                <tr>
+                  <td><textarea type=hidden id="code1" name="code" textarea rows="10" cols="50" name="text">${result.expectedResponse}</textarea></td>
+                  <td><textarea type=hidden id="code2" name="code" textarea rows="10" cols="50" name="text">${result.actualResponse}</textarea></td>
+                </tr>
+                <tr>
+                  <th>Message</th>
+                </tr>
+                <tr>
+                  <td><textarea rows="3" cols="50" name="text">${result.message}</textarea></td>
+                </tr>
+              </table>
+            </td>
+          </tr>
 
+          <tr>
+            <table>
               <tr>
-                <td><textarea type=hidden id="code1" name="code" textarea rows="10" cols="50" name="text">${result.expectedResponse}</textarea></td>
-                <td><textarea type=hidden id="code2" name="code" textarea rows="10" cols="50" name="text">${result.actualResponse}</textarea></td>
-              </tr>
-              <tr>
-                <th>Message</th>
-              </tr>
-              <tr>
-                <td><textarea rows="3" cols="50" name="text">${result.message}</textarea></td>
+                <th class="th5">Expected Response</th>
+                <th class="th5">Actual Response</th>
               </tr>
             </table>
-          </td>
-        </tr>
-
-        <tr>
-          <table>
-            <tr>
-              <th class="th5">Expected Response</th>
-              <th class="th5">Actual Response</th>
-            </tr>
-          </table>
-          <div id="view"></div>
-        </tr>
-      </table>
+            <div id="view"></div>
+          </tr>
+        </table>
+      </div>
     </div>
   </div>
 </div>

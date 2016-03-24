@@ -20,7 +20,7 @@
 
 <script src=<c:url value="/resources/dist/js/Chartjs/Chart.js" />></script>
 <script src=<c:url value="/resources/dist/js/Chartjs/myScript.js" />></script>
-<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.2/Chart.min.js"></script>-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.2/Chart.min.js"></script>
 
 <script src=<c:url value="/resources/dist/js/select2.min.js" />></script>
 <script src=<c:url value="/resources/bower_components/jquery/dist/jquery.validate.min.js" />></script>

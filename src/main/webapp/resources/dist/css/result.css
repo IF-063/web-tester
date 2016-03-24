@@ -1,28 +1,10 @@
-.btn-primary {
-    color: #fff;
-    background-color: #ff6a53;
-    border-color: #ff6a53;
-}
-
-.btn.btn-primary.btn-xs{
-    color: #fff;
-    background-color: #2259ff;
-    border-color: #2259ff;
-}
-
-.table-bordered {
-    border: 3px solid #ddd;
-    border-bottom-right-radius: 3px;
-    border-bottom-left-radius: 3px;
-}
-
 th {
-    text-decoration: underline;
     text-align: left;
+    width: 230px;
 }
 
 .th{
-    width: 200px;
+    width: 230px;
 }
 
 .th1{
@@ -50,15 +32,6 @@ th {
     width: 700px;
 }
 
-section{
-    display: block;
-}
-
 #view{
     height: auto;
-}
-
-.panel-default {
-    border-color: black;
-    padding: 10px;
 }

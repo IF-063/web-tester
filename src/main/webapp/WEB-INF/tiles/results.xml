@@ -18,14 +18,4 @@
         <put-attribute name="body" value="/WEB-INF/views/result/collectionResult.jsp" />
     </definition>
 
-    <definition name="graphic" extends="DefaultTemplate">
-        <put-attribute name="title" value="Reports" />
-        <put-attribute name="body" value="/WEB-INF/views/result/graphic.jsp" />
-    </definition>
-
-    <definition name="graphicView" extends="DefaultTemplate">
-        <put-attribute name="title" value="Reports" />
-        <put-attribute name="body" value="/WEB-INF/views/result/graphicView.jsp" />
-    </definition>
-
 </tiles-definitions>

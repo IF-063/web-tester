@@ -13,20 +13,25 @@
     <div class="panel panel-default">
       <div class="panel-heading">
         <h3>Graphics</h3>
-        <form:form modelAttribute="graphicData" method="GET" action="/web-tester/reports/graphics/showGraphic">
+        <form:form modelAttribute="reportFilterDTO" method="GET">
           <fieldset>
             <div class="shift-left">
 
               <div class="col-md-2">
-                <label for="serviceName" class="control-label">Service name</label>
-                <form:select path="serviceName" class="form-control" items="${services}" itemValue="id"
+                <label for="serviceId" class="control-label">Service name</label>
+                <form:select path="serviceId" class="form-control" items="${serviceName}" itemValue="id"
                              itemLabel="name" cssErrorClass="error" />
               </div>
 
               <div class="col-md-2">
-                <label for="buildVersions" class="control-label">BuildVersion range</label>
-                <form:select path="buildVersions" items="${buildVersions}" class="form-control select2-multiple"
-                             multiple="multiple" data-placeholder="applications" itemLabel="name" itemValue="id" />
+                <label for="buildVersionId" class="control-label">BuildVersion range</label>
+                <form:select path="buildVersionId" items="${buildVersions}" class="form-control select2-multiple"
+                             multiple="multiple" data-placeholder="buildVersion name..." itemLabel="name" itemValue="id" />
+              </div>
+
+              <div class="col-md-2">
+                <label for="responseTimeFilterMarker" class="control-label">ResponseTime type</label>
+                <form:input type="text" path="responseTimeFilterMarker" class="form-control" placeholder="status..." />
               </div>
 
               <div class="col-md-4">
@@ -43,6 +48,9 @@
 
       <div style="width:50%">
         <div>
+          <div>items="${times}"</div>
+          <div>items="${buildVersionNames}"</div>
+
           <canvas id="canvas" height="450" width="600"></canvas>
         </div>
       </div>
@@ -50,14 +58,13 @@
   </div>
 </div>
 
+<script src=<c:url value="/resources/js/graphics/graphics.js" />></script>
 <script src=<c:url value="/resources/dist/js/select2.min.js" />></script>
 <script src=<c:url value="/resources/bower_components/jquery/dist/jquery.validate.min.js" />></script>
 
 <script src=<c:url value="/resources/dist/js/Chartjs/Chart.js" />></script>
 <script src=<c:url value="/resources/dist/js/Chartjs/myScript.js" />></script>
 <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.2/Chart.min.js"></script>-->
-<script src=<c:url value="/resources/bower_components/bootstrap-dataTables/js/jquery.dataTables.min.js" />></script>
-<script src=<c:url value="/resources/bower_components/bootstrap-dataTables/js/dataTables.bootstrap.min.js" />></script>
 
 
 

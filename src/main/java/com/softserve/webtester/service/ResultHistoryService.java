@@ -1,6 +1,5 @@
 package com.softserve.webtester.service;
 
-import com.softserve.webtester.dto.GraphicData;
 import com.softserve.webtester.dto.ResultCollectionFilter;
 import com.softserve.webtester.dto.ResultFilter;
 import com.softserve.webtester.mapper.*;
@@ -31,6 +30,9 @@ public class ResultHistoryService {
 
     @Autowired
     private LabelMapper labelMapper;
+
+    @Autowired
+    private ServiceMapper serviceMapper;
 
     // Saving resultHistory instance in ResultHistory table
     public int save(ResultHistory resultHistory) {
@@ -76,6 +78,7 @@ public class ResultHistoryService {
         String status = resultFilter.getStatusFilter();
         int[] applications = resultFilter.getApplicationFilter();
         int[] services = resultFilter.getServiceFilter();
+
         try {
             return resultHistoryMapper.loadAll(status, applications, services);
         } catch (DataAccessException e) {
@@ -84,13 +87,32 @@ public class ResultHistoryService {
         }
     }
 
-    public int[] loadResponseTime(GraphicData graphicData) {
+   /* public Graphic loadAllGraphicData(GraphicData graphicData) {
 
-        Integer serviceNameId = graphicData.getServiceName();
-        int[] buildVersionIds = graphicData.getBuildVersions();
+        int serviceId = graphicData.getServiceId();
+        int[] buildVersionsIds = graphicData.getBuildVersionsIds();
+        String[] buildVersionsNames={"A", "B","C"};
+        int[] times = {1,2,3};
+        int sla = 3;
+
+        //int sla = resultHistoryMapper.loadSLA(serviceId).getSla();
+
+        Graphic graphic = new Graphic(serviceId, buildVersionsNames, times, sla);
+        try {
+            //List<BuildVersion> list1 = resultHistoryMapper.loadBuildVersNames(buildVersionsIds);
+            //List<ResultHistory> list2 = resultHistoryMapper.loadResponseTime(serviceId, buildVersionsIds);
+            //return resultHistoryMapper.loadAll(status, applications, services);
+            return graphic;
+        } catch (DataAccessException e) {
+            LOGGER.error("Unable to load request instances", e);
+            throw e;
+        }
+    }*/
+
+    public String loadBuildVersionName(int id) {
 
         try {
-            return resultHistoryMapper.loadResponseTime(serviceNameId, buildVersionIds);
+            return resultHistoryMapper.loadBuildVersionName(id);
         } catch (DataAccessException e) {
             LOGGER.error("Unable to load request instances", e);
             throw e;
