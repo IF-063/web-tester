@@ -3,16 +3,15 @@ $(function() {
   var contextPath = $('#contextPath').val();
   var requestsToSend = [];
   
-  $(document).ready(function() {
-    $('#requests').DataTable({
-      order: [
-        [1, 'asc']
-      ],
-      columnDefs: [{
-        targets: [0, 5, 6, 7, 8, 9],
-        orderable: false,
-      }]
-    });
+  // enables DataTable.js on requests table
+  $('#requests').DataTable({
+    order: [
+      [1, 'asc']
+    ],
+    columnDefs: [{
+      targets: [0, 5, 6, 7, 8, 9],
+      orderable: false,
+    }]
   });
 
   // enables tag autocomplete in filtering fields
@@ -120,7 +119,9 @@ $(function() {
       data: JSON.stringify(input),
       success: function(data, textStatus, jqXHR) {
         for (var i = 0; i < input.length; i++) {
-          $('#requests input[type="checkbox"][id=' + input[i] + ']').parents('tr').remove();
+          var tr =  $('#requests input[type="checkbox"][id=' + input[i] + ']').parents('tr');
+          $('#requests').dataTable().fnDeleteRow(tr[0]);
+          tr.remove();
         }
       },
       error: function(jqXHR) {
