@@ -1,11 +1,9 @@
 package com.softserve.webtester.controller;
 
-import java.util.Arrays;
-import java.util.Date;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -34,6 +32,7 @@ import com.softserve.webtester.model.VariableDataType;
 import com.softserve.webtester.service.EnvironmentService;
 import com.softserve.webtester.service.MetaDataService;
 import com.softserve.webtester.service.RequestService;
+import com.softserve.webtester.service.RunService;
 import com.softserve.webtester.validator.RequestValidator;
 
 /**
@@ -60,6 +59,9 @@ public class RequestController {
 
     @Autowired
     private ServiceEditor serviceEditor;
+    
+    @Autowired
+    private RunService runService;
 
     @Autowired
     private RequestValidator requestValidator;
@@ -209,14 +211,32 @@ public class RequestController {
      * @param requestIdArray identifiers of {@link Request} instance
      * @return identifier of requests run
      */
+//    @RequestMapping(value = "/run", method = RequestMethod.POST)
+//    public @ResponseBody int runRequests(@RequestParam int environmentId,
+//            @RequestParam(value = "requestIdArray[]") int[] requestIdArray) {
+//        System.out.println("start at: " + new Date());
+//        System.out.println("e: " + environmentId);
+//        System.out.println("rqsts: " + Arrays.toString(requestIdArray));
+//        System.out.println();
+//        return 1;
+//    }
+    
     @RequestMapping(value = "/run", method = RequestMethod.POST)
-    public @ResponseBody int runRequests(@RequestParam int environmentId,
+    public ResponseEntity<String> runRequests(@RequestParam int environmentId,
             @RequestParam(value = "requestIdArray[]") int[] requestIdArray) {
-        System.out.println("start at: " + new Date());
-        System.out.println("e: " + environmentId);
-        System.out.println("rqsts: " + Arrays.toString(requestIdArray));
-        System.out.println();
-        return 1;
+        String message = "";
+        HttpStatus status = HttpStatus.OK;
+      
+        try {
+            
+            message = " " + runService.executor(environmentId, requestIdArray) + "\n run was passed successfully";
+        } catch (Exception e) {
+            message = " " + ": finished with  error:" + e.getMessage();
+            status = HttpStatus.BAD_REQUEST;
+        }
+        ResponseEntity<String> responseEntity = new ResponseEntity<String>(message, status);
+        
+        return responseEntity;
     }
 
     /**
