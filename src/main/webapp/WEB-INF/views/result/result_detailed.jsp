@@ -53,7 +53,7 @@
           </td>
           </tr>
 
-          <tr>
+          <tr class="highlight">
             <th class="th">URL</th>
             <td>${result.url}</td>
           </tr>

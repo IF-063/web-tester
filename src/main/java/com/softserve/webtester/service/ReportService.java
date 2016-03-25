@@ -8,51 +8,35 @@ import org.springframework.stereotype.Service;
 import com.softserve.webtester.dto.ReportDataDTO;
 import com.softserve.webtester.dto.ReportFilterDTO;
 import com.softserve.webtester.mapper.ReportMapper;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class ReportService {
-    
+
     private static final Logger LOGGER = Logger.getLogger(ReportService.class);
-    
+
     @Autowired
     private ReportMapper reportMapper;
 
-    public ReportFinalData loadGraphicData(ReportFilterDTO reportFilterDTO){
+    @Transactional
+    public List<ReportDataDTO> loadGraphicData(ReportFilterDTO reportFilterDTO){
 
-        List<ReportDataDTO> list = loadFinalData(reportFilterDTO);
-
-        int[] times = new int[]{};
-        String[] buildVersions = new String[]{};
-        String serviceName = list.get(0).getServiceName();
-
-        for(int i=0;i<list.size();i++){
-            times[i] = list.get(i).getResponseTime();
-            buildVersions[i] = list.get(i).getBuildVersionName();
-        }
-        return new ReportFinalData(serviceName, times, buildVersions);
+        return loadFinalData(reportFilterDTO);
     }
 
     private List<ReportDataDTO> loadFinalData(ReportFilterDTO reportFilterDTO){
-
         int serviceId = reportFilterDTO.getServiceId();
-        int[] buildVersionIds = reportFilterDTO.getBuildVersionId();
+        int [] buildVersionIds = reportFilterDTO.getBuildVersionId();
         int responseTimeFilterMarker = reportFilterDTO.getResponseTimeFilterMarker();
-        System.out.println("serviceId: "+serviceId);
-        System.out.println("buildVersionIds: "+buildVersionIds);
-        System.out.println("responseTimeFilterMarker: "+responseTimeFilterMarker);
-
-        List<ReportDataDTO> list = new ArrayList<>();
-        if (responseTimeFilterMarker==1 && serviceId!=0 && buildVersionIds.length>1){
-            list = loadWithAvarageResponseTime(serviceId, buildVersionIds);
+        if (responseTimeFilterMarker==1){
+            return loadWithAvarageResponseTime(serviceId, buildVersionIds);
         }
-
-        if (responseTimeFilterMarker==2 && serviceId!=0 && buildVersionIds.length>1){
-            list = loadWithMaxResponseTime(serviceId, buildVersionIds);
+        else {
+            return loadWithMaxResponseTime(serviceId, buildVersionIds);
         }
-        return list;
     }
 
     private List<ReportDataDTO> loadWithAvarageResponseTime(int serviceId, int[] buildVersionIds) {
@@ -73,6 +57,3 @@ public class ReportService {
         }
     }
 }
-    
-    
-       
