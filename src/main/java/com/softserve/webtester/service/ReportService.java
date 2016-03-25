@@ -1,6 +1,5 @@
 package com.softserve.webtester.service;
 
-import com.softserve.webtester.dto.ReportFinalData;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -10,7 +9,6 @@ import com.softserve.webtester.dto.ReportFilterDTO;
 import com.softserve.webtester.mapper.ReportMapper;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service

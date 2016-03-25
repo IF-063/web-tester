@@ -51,6 +51,10 @@
           <div>items="${times}"</div>
           <div>items="${buildVersionNames}"</div>
 
+
+
+
+
           <canvas id="canvas" height="450" width="600"></canvas>
         </div>
       </div>
