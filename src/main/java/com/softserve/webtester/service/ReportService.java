@@ -22,30 +22,34 @@ public class ReportService {
 
     public ReportFinalData loadGraphicData(ReportFilterDTO reportFilterDTO){
 
-        List<ReportDataDTO> list = loadResponseTime(reportFilterDTO);
+        List<ReportDataDTO> list = loadFinalData(reportFilterDTO);
+
         int[] times = new int[]{};
         String[] buildVersions = new String[]{};
-        int timeMarker = reportFilterDTO.getResponseTimeFilterMarker();
+        String serviceName = list.get(0).getServiceName();
 
         for(int i=0;i<list.size();i++){
             times[i] = list.get(i).getResponseTime();
             buildVersions[i] = list.get(i).getBuildVersionName();
         }
-        return new ReportFinalData(timeMarker, times, buildVersions);
+        return new ReportFinalData(serviceName, times, buildVersions);
     }
 
-    private List<ReportDataDTO> loadResponseTime(ReportFilterDTO reportFilterDTO){
+    private List<ReportDataDTO> loadFinalData(ReportFilterDTO reportFilterDTO){
 
         int serviceId = reportFilterDTO.getServiceId();
         int[] buildVersionIds = reportFilterDTO.getBuildVersionId();
         int responseTimeFilterMarker = reportFilterDTO.getResponseTimeFilterMarker();
+        System.out.println("serviceId: "+serviceId);
+        System.out.println("buildVersionIds: "+buildVersionIds);
+        System.out.println("responseTimeFilterMarker: "+responseTimeFilterMarker);
 
         List<ReportDataDTO> list = new ArrayList<>();
         if (responseTimeFilterMarker==1 && serviceId!=0 && buildVersionIds.length>1){
             list = loadWithAvarageResponseTime(serviceId, buildVersionIds);
         }
 
-        else if (responseTimeFilterMarker==2 && serviceId!=0 && buildVersionIds.length>1){
+        if (responseTimeFilterMarker==2 && serviceId!=0 && buildVersionIds.length>1){
             list = loadWithMaxResponseTime(serviceId, buildVersionIds);
         }
         return list;

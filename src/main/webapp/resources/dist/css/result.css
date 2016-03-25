@@ -4,7 +4,10 @@ th {
 }
 
 .th{
-    width: 230px;
+    width: 230px
+    border-top: 10px solid;
+    border-bottom: 10px solid;
+    border-color: transparent;;
 }
 
 .th1{
@@ -34,4 +37,10 @@ th {
 
 #view{
     height: auto;
+}
+
+tr.highlight {
+    border-top: 10px solid;
+    border-bottom: 10px solid;
+    border-color: transparent;
 }

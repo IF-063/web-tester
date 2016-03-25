@@ -6,24 +6,24 @@ import java.util.Arrays;
 
 public class ReportFinalData implements Serializable {
 
-    private static final long serialVersionUID = -3515238733351663442L;
+    private static final long serialVersionUID = -2171163275081951223L;
 
-    private int responseTimeFilterMarker;
+    private String serviceName;;
     private int[] responseTimes;
     private String[] buildVersionNames;
 
-    public ReportFinalData(int responseTimeFilterMarker, int[] responseTimes, String[] buildVersionNames) {
-        this.responseTimeFilterMarker = responseTimeFilterMarker;
+    public ReportFinalData(String serviceName, int[] responseTimes, String[] buildVersionNames) {
+        this.serviceName = serviceName;
         this.responseTimes = responseTimes;
         this.buildVersionNames = buildVersionNames;
     }
 
-    public int getResponseTimeFilterMarker() {
-        return responseTimeFilterMarker;
+    public String getServiceName() {
+        return serviceName;
     }
 
-    public void setResponseTimeFilterMarker(int responseTimeFilterMarker) {
-        this.responseTimeFilterMarker = responseTimeFilterMarker;
+    public void setServiceName(String serviceName) {
+        this.serviceName = serviceName;
     }
 
     public int[] getResponseTimes() {
@@ -45,7 +45,7 @@ public class ReportFinalData implements Serializable {
     @Override
     public String toString() {
         return "ReportFinalData{" +
-                "responseTimeFilterMarker=" + responseTimeFilterMarker +
+                "serviceName='" + serviceName + '\'' +
                 ", responseTimes=" + Arrays.toString(responseTimes) +
                 ", buildVersionNames=" + Arrays.toString(buildVersionNames) +
                 '}';

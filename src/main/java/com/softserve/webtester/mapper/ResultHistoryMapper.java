@@ -117,7 +117,7 @@ public interface ResultHistoryMapper {
             "<if test='labels!=null and labels.length>0'> AND rl.labelId IN",
             "<foreach collection='labels' item='item' index='index' open='(' separator=',' close=')'>",
             "#{item}</foreach></if>",
-            "GROUP BY r.requestCollectionId",
+            "GROUP BY r.requestCollectionId, runId",
             "</script>"})
     @Results({
             @Result(id = true, property = "id", column = "id", jdbcType = JdbcType.INTEGER),
@@ -152,50 +152,9 @@ public interface ResultHistoryMapper {
     @Delete("DELETE FROM ResultHistory WHERE requestCollectionId = #{id}")
     int deteleByCollectionId(int id);
 
-    @Select({"<script>SELECT responseTime FROM ResultHistory WHERE serviceId = #{serviceNameId}" +
-            "<if test='buildVersionIds!=null and buildVersionIds.length>0'> AND buildVersionId IN" +
-            "<foreach collection='buildVersionIds' item='item' index='index' open='(' separator=',' close=')'>" +
-            "#{item}</foreach></if>" +
-            "</script>"})
-    @Results({
-            @Result(property = "responseTime", column = "responseTime", jdbcType = JdbcType.INTEGER)
-    })
-    List<ResultHistory> loadResponseTime(@Param(value = "serviceNameId") Integer serviceNameId,
-                                         @Param(value = "buildVersionIds") int[] buildVersionIds);
-
-
-
-
-
-
-
-
-
-
-
-
-
-    @Select({"<script>SELECT name FROM BuildVersion " +
-            "<if test='BuildVersionIds!=null and BuildVersionIds.length>0'> WHERE id IN" +
-            "<foreach item='item' index='index' collection='BuildVersionIds' open='(' separator=',' close=')'>" +
-            "#{item}</foreach></if>" +
-            "</script>"})
-    @Results({
-            @Result(property = "name", column = "name", jdbcType = JdbcType.VARCHAR)
-    })
-    List<BuildVersion> loadBuildVersNames(@Param("BuildVersionIds") int[] BuildVersionIds);
-
-
     @Select("SELECT name FROM BuildVersion WHERE id =#{buildVersionId}")
     @Results({
             @Result(property = "name", column = "name", jdbcType = JdbcType.VARCHAR)
     })
     String loadBuildVersionName(int buildVersionId);
-
-
-
-    @Select("SELECT * FROM Service WHERE id =#{id}")
-    @Results({
-            @Result(property = "sla", column = "SLA")})
-    Service loadSLA(int id);
 }

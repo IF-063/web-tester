@@ -5,7 +5,6 @@
 
 <link href=<c:url value="/resources/dist/css/select2.min.css" /> rel="stylesheet" />
 <link href=<c:url value="/resources/dist/css/select2-bootstrap.css" /> rel="stylesheet" />
-
 <link href=<c:url value="/resources/dist/css/result.css" /> rel="stylesheet" />
 <script src=<c:url value="/resources/dist/js/codemirror-5.12/lib/codemirror.js" />></script>
 <script src=<c:url value="/resources/dist/js/codemirror-5.12/mode/javascript/javascript.js" />></script>
@@ -26,28 +25,22 @@
     <div class="row">
       <div class="col-md-12">
         <table id="mytable" class="table-hover">
-          <tr>
+          <tr class="highlight">
             <th class="th">Status</th>
             <td>${(result.status==1)?'pass':'fail'}</td>
           </tr>
-          <raw>
 
-          </raw>
-          <tr>
+          <tr class="highlight">
             <th class="th">Application Name</th>
             <td>${result.application.getName()}</td>
           </tr>
-          <raw>
 
-          </raw>
-          <tr>
+          <tr class="highlight">
             <th class="th">Service Name</th>
             <td>${result.service.getName()}</td>
           </tr>
-          <raw>
 
-          </raw>
-          <tr>
+          <tr class="highlight">
             <th class="th">Request Description</th>
             <td>${result.requestDescription}</td>
           </tr>
@@ -65,7 +58,7 @@
             <td>${result.url}</td>
           </tr>
 
-          <tr>
+          <tr class="highlight">
             <th class="th">Headers</th>
             <td>
               <table class="table-bordered">
@@ -84,44 +77,44 @@
             </td>
           </tr>
 
-          <tr>
+          <tr class="highlight">
             <th class="th">Response Type</th>
             <td>${result.responseType}</td>
           </tr>
 
-          <tr>
+          <tr class="highlight">
             <th class="th">Request Body</th>
-            <td><textarea class="form-control" rows="2" style="width: 500px" name="text">${result.requestBody}</textarea></td>
+            <td><textarea class="form-control" rows="2" style="width: 500px;resize: none" name="text">${result.requestBody}</textarea></td>
           </tr>
 
-          <tr>
+          <tr class="highlight">
             <th class="th">Status Line</th>
-            <td><textarea class="form-control" rows="1" style="width: 500px" type="text">${result.statusLine}</textarea></td>
+            <td><textarea class="form-control" rows="1" style="width: 500px;resize: none" type="text">${result.statusLine}</textarea></td>
           </tr>
 
-          <tr>
+          <tr class="highlight">
             <th class="th">Expected Response Time</th>
             <td>${result.expectedResponseTime}</td>
           </tr>
 
-          <tr>
+          <tr class="highlight">
             <th class="th">Actual Response Time</th>
             <td>${result.responseTime}</td>
           </tr>
 
-          <tr>
+          <tr class="highlight">
             <th class="th">Start Time</th>
             <td>${result.timeStart}</td>
           </tr>
 
-          <tr>
+          <tr class="highlight">
             <th class="th">RunId</th>
             <td>${result.runId}</td>
           </tr>
 
           <tr>
             <th class="th">Message</th>
-            <td><textarea class="form-control" id="code" name="code" rows="1" cols="90" style="width: 500px">${result.message}</textarea></td>
+            <td><textarea class="form-control" id="text3" id="code" name="code" rows="1" cols="90" style="width:500px;resize: none">${result.message}</textarea></td>
           </tr>
         </table>
       </div>
@@ -136,7 +129,7 @@
   <div class="panel body">
     <div class="row">
       <div class="col-md-12">
-        <tr>
+        <tr class="highlight">
           <td>
             <table class="table-bordered">
               <tr>

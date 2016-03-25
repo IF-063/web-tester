@@ -34,7 +34,13 @@ public class GraphicReportController {
         model.addAttribute("buildVersions", metaDataService.loadAllBuildVersions());
 
         ReportFinalData reportFinalData = reportService.loadGraphicData(reportFilterDTO);
-        int[] times =  reportFinalData.getResponseTimes();
+
+        /*int sla = metaDataService.serviceLoad(reportFilterDTO.getServiceId()).getSla();
+        System.out.println("SLA: "+sla);
+        System.out.println("ResponseTimeFilterMarker: "+reportFilterDTO.getResponseTimeFilterMarker());
+        int[] times =  reportFinalData.getResponseTimes();*/
+
+
 
         //List<ReportDataDTO> list = reportService.loadResponseTime(reportFilterDTO);
         //model.addAttribute(reportService.loadResponseTime(reportFilterDTO));
