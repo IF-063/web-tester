@@ -78,6 +78,25 @@ $(function() {
   // changes elements enabled depending on state of isRandom checkbox 
   $(document).on('change', '.random', function() {
     $(this).closest('tr').find('.sql').prop('checked', 0);
+    
+    var isRandom =  $(this).prop('checked');
+    console.log('isRandom: ', isRandom);
+//    if (isRandom) {
+//    	 $(this).closest('tr').find('.value').removeClass('req');
+// 		console.log('remove');
+//    }
+//    else{
+//    	 $(this).closest('tr').find('.value').addClass('req');
+// 		console.log('add');
+//    }
+    
+    $(this).closest('tr').find($('.value')).toggleClass('req', !isRandom);
+    
+console.log($(this).closest('tr').find($('.value'))/*.prop('placeholder')*/);
+console.log('has: '+$(this).closest('tr').find($('.value')).hasClass('form-control'));
+    
+
+    
     setDisableIfRandom(this);
     disableAddButton(this);
   });
@@ -127,7 +146,7 @@ $(function() {
   function restrictIfEmpty(button) {
     var container = $(button).closest('.elementContainer');
     var count = 0;
-    container.find(':input[type=text]:visible:not(:disabled)').each(function() {
+    container.find(':input[type=text]:visible:not(:disabled):not(.req)').each(function() {
       if (!$.trim($(this).val())) {
         count++;
       }
