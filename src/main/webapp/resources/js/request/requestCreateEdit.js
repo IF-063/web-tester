@@ -78,25 +78,8 @@ $(function() {
   // changes elements enabled depending on state of isRandom checkbox 
   $(document).on('change', '.random', function() {
     $(this).closest('tr').find('.sql').prop('checked', 0);
-    
-    var isRandom =  $(this).prop('checked');
-    console.log('isRandom: ', isRandom);
-//    if (isRandom) {
-//    	 $(this).closest('tr').find('.value').removeClass('req');
-// 		console.log('remove');
-//    }
-//    else{
-//    	 $(this).closest('tr').find('.value').addClass('req');
-// 		console.log('add');
-//    }
-    
-    $(this).closest('tr').find($('.value')).toggleClass('req', !isRandom);
-    
-console.log($(this).closest('tr').find($('.value'))/*.prop('placeholder')*/);
-console.log('has: '+$(this).closest('tr').find($('.value')).hasClass('form-control'));
-    
-
-    
+    var elem = $($(this).closest('tr').find('td')[1]).find('input');
+    elem.toggleClass('req', $(this).prop('checked'));
     setDisableIfRandom(this);
     disableAddButton(this);
   });
