@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
@@ -65,7 +67,7 @@ public class RequestService {
      * @throws DuplicateKeyException if the request with the name exists in the database.
      * @throws DataAccessException
      */
-    @Transactional
+    @Transactional(isolation=Isolation.READ_COMMITTED)
     public int save(Request request) {
         try {
 
@@ -91,7 +93,7 @@ public class RequestService {
      * @throws ResourceNotFoundException if Request instance is null
      * @throws DataAccessException
      */
-    @Transactional
+    @Transactional(propagation=Propagation.NOT_SUPPORTED, isolation=Isolation.READ_COMMITTED)
     public Request load(int id) {
         try {
             Request request = requestMapper.load(id);
@@ -143,7 +145,7 @@ public class RequestService {
      * @return List of Request instances
      * @throws DataAccessException
      */
-    @Transactional
+    @Transactional(propagation=Propagation.NOT_SUPPORTED, isolation=Isolation.READ_COMMITTED)
     public List<Request> loadAll(String requestNameFilter, int[] applicationFilter, int[] serviceFilter,
             int[] labelFilter) {
         try {
@@ -162,7 +164,7 @@ public class RequestService {
      * @throws DuplicateKeyException if the request with the name exists in the database.
      * @throws DataAccessException
      */
-    @Transactional
+    @Transactional(isolation=Isolation.READ_COMMITTED)
     public int update(Request request) {
         try {
             int id = request.getId();
@@ -193,7 +195,7 @@ public class RequestService {
      * @return the number of rows affected by the statement
      * @throws DataAccessException
      */
-    @Transactional
+    @Transactional(isolation=Isolation.READ_COMMITTED)
     public int delete(int id) {
         try {
             return requestMapper.delete(id);
@@ -210,7 +212,7 @@ public class RequestService {
      * @return number of rows affected by the statement
      * @throws DataAccessException
      */
-    @Transactional
+    @Transactional(isolation=Isolation.READ_COMMITTED)
     public int delete(int[] requestIdArray) {
         try {
             return requestMapper.deleteRequests(requestIdArray);
@@ -228,7 +230,7 @@ public class RequestService {
      * @return true, if name is unique
      * @throws DataAccessException
      */
-    @Transactional
+    @Transactional(isolation=Isolation.READ_COMMITTED)
     public boolean isRequestNameFree(String name, int exclusionId) {
         try {
             return requestMapper.isRequestNameFree(name, exclusionId);
@@ -245,7 +247,7 @@ public class RequestService {
      * @return duplicate of existing Request instance
      * @throws DataAccessException
      */
-    @Transactional
+    @Transactional(propagation=Propagation.NOT_SUPPORTED, isolation=Isolation.READ_COMMITTED)
     public Request createDuplicate(int fromId) {
         try {
             Request request = load(fromId);
