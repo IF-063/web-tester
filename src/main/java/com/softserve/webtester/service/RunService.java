@@ -33,15 +33,13 @@ public class RunService {
     @Autowired
     public RequestService requestService;
 
-    public /*List<ResultHistory>*/ String executor(int environmentId, int[] requestIdArray) {
+    public /*int*/ String executor(int environmentId, int[] requestIdArray) {
         
         Environment environment = environmentService.load(environmentId);
         List<Request> requestList = new ArrayList<Request>();
         for (int i = 0; i < requestIdArray.length; i++) {
             requestList.add(requestService.load(requestIdArray[i]));
         }
-        
-        List<ResultHistory> resultsHistory = new ArrayList<ResultHistory>();
 
         // Need to surround with try/catch
         Connection dbCon;
@@ -64,7 +62,7 @@ public class RunService {
             e.printStackTrace();
         }
 
-        return null/*resultsHistory*/;
+        return null/*runId*/;
     }
 
     public HttpRequestBase getHttpRequest(Request request, String host, Connection dbCon) throws URISyntaxException {

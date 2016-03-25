@@ -84,6 +84,7 @@ $(function() {
       },
       success: function(data, textStatus, jqXHR) {
           alert(data);
+      //    window.location.replace(contextPath + '/results/requests/run/' + data);
       },
       error: function(jqXHR) {
         alert(0);

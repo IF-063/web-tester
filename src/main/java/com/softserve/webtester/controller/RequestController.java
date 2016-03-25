@@ -229,9 +229,9 @@ public class RequestController {
       
         try {
             
-            message = " " + runService.executor(environmentId, requestIdArray) + "\n run was passed successfully";
+            message = " " + runService.executor(environmentId, requestIdArray) + "\n run was created successfully";
         } catch (Exception e) {
-            message = " " + ": finished with  error:" + e.getMessage();
+            message = " " + "Creating request finished with  error:" + e.getMessage();
             status = HttpStatus.BAD_REQUEST;
         }
         ResponseEntity<String> responseEntity = new ResponseEntity<String>(message, status);
