@@ -28,10 +28,13 @@ import com.softserve.webtester.model.ResultHistory;
 public class RunService {
 
     @Autowired
-    public EnvironmentService environmentService;
+    private EnvironmentService environmentService;
+
+    @Autowired
+    private RequestService requestService;
     
     @Autowired
-    public RequestService requestService;
+    private BuildHttpRequestService buidHttpRequestService;
 
     public /*int*/ String executor(int environmentId, int[] requestIdArray) {
         
@@ -43,46 +46,31 @@ public class RunService {
 
         // Need to surround with try/catch
         Connection dbCon;
+        String host = environment.getBaseUrl();
         try {
             dbCon = environmentService.getConnection(environment);
 
             CloseableHttpClient httpClient = HttpClientBuilder.create().build();
 
-            String host = environment.getBaseUrl();
-
             for (Request request : requestList) {
 
                 // Need to surround with try/catch
-                /*CloseableHttpResponse response = httpClient
-                        .execute((HttpUriRequest) getHttpRequest(request, host, dbCon));*/
-                return getHttpRequest(request, host, dbCon).toString();
+                /*
+                 * CloseableHttpResponse response = httpClient
+                 * .execute((HttpUriRequest) getHttpRequest(request, host,
+                 * dbCon));
+                 */
+                return buidHttpRequestService.getHttpRequest(request, host, dbCon).toString();
             }
         } catch (Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
 
-        return null/*runId*/;
+        return null/* runId */;
     }
 
-    public HttpRequestBase getHttpRequest(Request request, String host, Connection dbCon) throws URISyntaxException {
 
-        HttpRequestBase httpRequest = request.getRequestMethod().getHttpRequest();
-
-        URI uri = new URIBuilder(host).setPath(request.getEndpoint()).build();
-        httpRequest.setURI(uri);
-        
-        for (Header header : request.getHeaders()) {
-            httpRequest.setHeader(header.getName(), header.getValue());
-        }
-        
-        if (httpRequest.getMethod().equals("POST")) {
-            
-            ((HttpEntityEnclosingRequestBase) httpRequest).setEntity(null);
-        }
-
-        return httpRequest;
-    }
 
     public ResultHistory parseHttpResponse(HttpResponse response) {
 

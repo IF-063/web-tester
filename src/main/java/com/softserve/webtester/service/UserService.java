@@ -5,6 +5,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.softserve.webtester.mapper.UserMapper;
@@ -18,7 +20,7 @@ import com.softserve.webtester.model.User;
  * @author Taras Oglabyak
  */
 @Service
-@Transactional
+@Transactional(propagation=Propagation.NOT_SUPPORTED, isolation=Isolation.READ_COMMITTED)
 public class UserService {
 
     private static final Logger LOGGER = Logger.getLogger(UserService.class);
@@ -50,6 +52,7 @@ public class UserService {
      * @throws DuplicateKeyException if the user with the username exists in the database.
      * @throws DataAccessException
      */
+    @Transactional(propagation=Propagation.REQUIRED)
     public int update(User user) {
         try {
             return userMapper.update(user);
@@ -67,7 +70,6 @@ public class UserService {
      * @return true, if username is unique
      * @throws DataAccessException
      */
-    @Transactional
     public boolean isUsernameFree(int id, String username) {
         try {
             return userMapper.isUserNameFree(id, username);

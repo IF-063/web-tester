@@ -82,8 +82,8 @@ public class RequestController {
      */
     @RequestMapping(method = RequestMethod.GET)
     public String getRequestsPage(@ModelAttribute RequestFilterDTO requestFilterDTO, Model model) {
-        model.addAttribute("applications", metaDataService.applicationLoadAll());
-        model.addAttribute("services", metaDataService.serviceLoadAll());
+        model.addAttribute("applications", metaDataService.applicationLoadAllWithoutDeleted());
+        model.addAttribute("services", metaDataService.serviceLoadAllWithoutDeleted());
         model.addAttribute("labels", metaDataService.loadAllLabels());
         model.addAttribute("environments", environmentService.loadAll());
         model.addAttribute("requests", requestService.loadAll(requestFilterDTO));
@@ -97,8 +97,8 @@ public class RequestController {
      */
     private ModelMap addMetaData() {
         ModelMap map = new ModelMap();
-        map.addAttribute("applications", metaDataService.applicationLoadAll());
-        map.addAttribute("services", metaDataService.serviceLoadAll());
+        map.addAttribute("applications", metaDataService.applicationLoadAllWithoutDeleted());
+        map.addAttribute("services", metaDataService.serviceLoadAllWithoutDeleted());
         map.addAttribute("requestMethods", com.softserve.webtester.model.RequestMethod.values());
         map.addAttribute("responseTypes", ResponseType.values());
         map.addAttribute("variableDataTypes", VariableDataType.values());

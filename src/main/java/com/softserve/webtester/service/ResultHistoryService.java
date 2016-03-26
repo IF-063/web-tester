@@ -87,28 +87,6 @@ public class ResultHistoryService {
         }
     }
 
-   /* public Graphic loadAllGraphicData(GraphicData graphicData) {
-
-        int serviceId = graphicData.getServiceId();
-        int[] buildVersionsIds = graphicData.getBuildVersionsIds();
-        String[] buildVersionsNames={"A", "B","C"};
-        int[] times = {1,2,3};
-        int sla = 3;
-
-        //int sla = resultHistoryMapper.loadSLA(serviceId).getSla();
-
-        Graphic graphic = new Graphic(serviceId, buildVersionsNames, times, sla);
-        try {
-            //List<BuildVersion> list1 = resultHistoryMapper.loadBuildVersNames(buildVersionsIds);
-            //List<ResultHistory> list2 = resultHistoryMapper.loadResponseTime(serviceId, buildVersionsIds);
-            //return resultHistoryMapper.loadAll(status, applications, services);
-            return graphic;
-        } catch (DataAccessException e) {
-            LOGGER.error("Unable to load request instances", e);
-            throw e;
-        }
-    }*/
-
     public String loadBuildVersionName(int id) {
 
         try {

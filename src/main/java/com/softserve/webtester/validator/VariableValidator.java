@@ -2,6 +2,7 @@ package com.softserve.webtester.validator;
 
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
+import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
 import com.softserve.webtester.model.Variable;
@@ -23,8 +24,11 @@ public class VariableValidator implements Validator {
     @Override
     public void validate(Object target, Errors errors) {
         Variable variable = (Variable) target;
-        if (variable.isRandom() && (variable.getLength() == null || variable.getLength() < 1)) {
+        if (variable.isRandom()) {
+            if (variable.getLength() == null || variable.getLength() < 1)
             errors.rejectValue("length", "Valid.variable.length", "not valid");
+        } else {
+            ValidationUtils.rejectIfEmptyOrWhitespace(errors, "value", "NotBlank.variables.value");
         }
     }
 }

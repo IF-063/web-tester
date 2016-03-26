@@ -5,11 +5,11 @@ import java.io.Serializable;
 public class ReportFilterDTO implements Serializable {
 
     private static final long serialVersionUID = -358128122616172034L;
-    
+
     private int serviceId;
     private int [] buildVersionId;
     private int responseTimeFilterMarker;
-    
+
     public int getServiceId() {
         return serviceId;
     }
@@ -28,6 +28,6 @@ public class ReportFilterDTO implements Serializable {
     public void setResponseTimeFilterMarker(int responseTimeFilterMarker) {
         this.responseTimeFilterMarker = responseTimeFilterMarker;
     }
-    
+
 
 }

@@ -24,8 +24,6 @@ public class Variable implements Serializable {
     @NotBlank
     @Size(max = 50)
     private String name;
-
-    @NotBlank
     private String value;
     private boolean sql;
     private boolean random;

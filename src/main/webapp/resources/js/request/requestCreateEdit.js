@@ -78,6 +78,8 @@ $(function() {
   // changes elements enabled depending on state of isRandom checkbox 
   $(document).on('change', '.random', function() {
     $(this).closest('tr').find('.sql').prop('checked', 0);
+    var elem = $($(this).closest('tr').find('td')[1]).find('input');
+    elem.toggleClass('req', $(this).prop('checked'));
     setDisableIfRandom(this);
     disableAddButton(this);
   });
@@ -127,7 +129,7 @@ $(function() {
   function restrictIfEmpty(button) {
     var container = $(button).closest('.elementContainer');
     var count = 0;
-    container.find(':input[type=text]:visible:not(:disabled)').each(function() {
+    container.find(':input[type=text]:visible:not(:disabled):not(.req)').each(function() {
       if (!$.trim($(this).val())) {
         count++;
       }
