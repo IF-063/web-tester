@@ -20,7 +20,7 @@ public class ReportService {
     private ReportMapper reportMapper;
 
     @Transactional
-    public List<ReportDataDTO> loadGraphicData(ReportFilterDTO reportFilterDTO){
+    public List<ReportDataDTO> loadReportData(ReportFilterDTO reportFilterDTO){
 
         return loadFinalData(reportFilterDTO);
     }

@@ -56,7 +56,9 @@ $(function() {
       data: JSON.stringify(input),
       success: function(data, textStatus, jqXHR) {
         for (var i = 0; i < input.length; i++) {
-          $('#collections input[type="checkbox"][id=' + input[i] + ']').parents('tr').remove();
+          var tr =  $('#collections input[type="checkbox"][id=' + input[i] + ']').parents('tr');
+          $('#collections').dataTable().fnDeleteRow(tr[0]);
+        tr.remove();
         }
 
       },

@@ -1,5 +1,6 @@
 package com.softserve.webtester.controller;
 
+import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,12 +26,13 @@ public class StatisticReportController {
     public String getStatistic(@ModelAttribute ReportFilterDTO reportFilterDTO, Model model){
         model.addAttribute("serviceName", metaDataService.serviceLoadAll());
         model.addAttribute("buildVersions", metaDataService.loadAllBuildVersions());
-        if (reportFilterDTO.getResponseTimeFilterMarker()==1){
-            model.addAttribute("statisticData", reportService.loadWithAvarageResponseTime(reportFilterDTO));
-        } else {
-            model.addAttribute("statisticData", reportService.loadWithMaximumResponseTime(reportFilterDTO));
-        }
+        if (reportFilterDTO.getServiceId() != 0 && ArrayUtils.isNotEmpty(reportFilterDTO.getBuildVersionId()) 
+            && reportFilterDTO.getResponseTimeFilterMarker() != 0){
+            model.addAttribute("statistic", reportService.loadReportData(reportFilterDTO));
+            
+            }
         return "statistic/statistics";
     }
+
 
 }
