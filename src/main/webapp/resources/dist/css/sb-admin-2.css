@@ -431,6 +431,7 @@ th {
 h3 {
 	margin-top: 10px;
 }
+
 input.error, textarea.error{
     background-color: #fff;
     background-image: none;
@@ -448,9 +449,35 @@ input.error, textarea.error{
     width: 100%;
     height: 100%;
 }
+
 .help-block{
  color: #a94442
 }
+
 .shift-left {
 	margin-left: -15px;
+}
+
+#loadingDiv {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 99999;
+    background-color: rgba(255,255,255,0.8);
+    visibility:hidden;
+}
+
+.centered {
+	padding-top: 10px;
+	text-align:center;
+}
+
+.centered * {
+    margin-top: 20px;
+}
+
+.centered img {
+    width: 150px;
 }

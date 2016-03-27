@@ -1,5 +1,26 @@
 $(function() {
 
+  if (navigator.userAgent.toLowerCase().indexOf('chrome') < 0) {
+    $('.interstitial-wrapper').remove();
+  }
+	
+  var loading = $('#loadingDiv');
+  $(document)
+    .ajaxStart(function () {
+      $('html, body').css({
+        'overflow': 'hidden',
+        'height': '100%'
+      });
+	  loading.css('visibility', 'visible');
+    })
+    .ajaxStop(function () {
+      $('html, body').css({
+        'overflow': 'auto',
+        'height': 'auto'
+      });
+      loading.hide();
+	});
+  
   var contextPath = $('#contextPath').val();
   var requestsToSend = [];
   
@@ -39,10 +60,9 @@ $(function() {
 
   // performs run of selected requests on page
   $(document).on('click', '#runSelected', function() {;
-    requestsToSend = [];
-    $('#requests input:checked[name="operateSelect"]').each(function() {
-      requestsToSend.push($(this).prop('id'));
-    });
+    requestsToSend = $('#requests input:checked[name="operateSelect"]').map(function() { 
+     return $(this).prop('id');
+    }).get();
     if (requestsToSend.length != 0) {
       startTest();
     }
@@ -51,10 +71,9 @@ $(function() {
 
   // performs run of all requests on page
   $(document).on('click', '#runAll', function() {
-    requestsToSend = [];
-    $('#requests input:checkbox:not(:checked)[name="disableSelect"]').each(function() {
-      requestsToSend.push($(this).prop('id'));
-    });
+    requestsToSend = $('#requests input:checkbox:not(:checked)[name="disableSelect"]').map(function() { 
+      return $(this).prop('id');
+    }).get();
     if (requestsToSend.length != 0) {
       startTest();
     }
@@ -68,6 +87,7 @@ $(function() {
   // confirm request run
   $('#confirmEnvironmentModal').click(function(e) {
     var envId = $('#environment').val();
+    $('#environmentModal').modal('hide')
     sendTestData(envId);
     return false;
   });
@@ -85,7 +105,7 @@ $(function() {
         window.location.replace(contextPath + '/results/requests/run/' + data);
       },
       error: function(jqXHR) {
-        alert(0);
+       alert(0);
       },
     });
   }
@@ -100,10 +120,9 @@ $(function() {
 
   // handles remove selected requests button click
   $(document).on('click', '#deleteSelected', function() {
-    var selected = [];
-    $('#requests input:checked[name="operateSelect"]').each(function() {
-      selected.push($(this).prop('id'));
-    });
+    var selected = selected = $('#requests input:checked[name="operateSelect"]').map(function() { 
+      return $(this).prop('id');
+    }).get();
     if (selected.length != 0 && confirm('Do you really want to delete the requests?')) {
       deleteRequests(selected);
     }

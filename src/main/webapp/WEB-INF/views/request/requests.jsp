@@ -3,11 +3,10 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <link href=<c:url value="/resources/dist/css/select2.min.css" /> rel="stylesheet" />
-
 <link href=<c:url value="/resources/dist/css/select2-bootstrap.css" /> rel="stylesheet" />
-
 <link href=<c:url value="/resources/bower_components/bootstrap-dataTables/css/dataTables.bootstrap.min.css" /> 
   rel="stylesheet" />
+<link href=<c:url value="/resources/dist/t-rex/css/main.css" /> rel="stylesheet" />
 
 <div class="row">
   <div class="col-md-12">
@@ -15,35 +14,34 @@
       <div class="panel-heading">
         <h3>Requests</h3>
         <form:form modelAttribute="requestFilterDTO" method="GET">
-            <fieldset>
+          <fieldset>
             <h4>Filters</h4>
             <div class="shift-left">
-            <div class="col-md-2">
-              <form:input type="text" path="requestNameFilter" class="form-control" placeholder="name includes" />
-            </div>
+              <div class="col-md-2">
+                <form:input type="text" path="requestNameFilter" class="form-control" placeholder="name includes" />
+              </div>
 
-            <div class="col-md-2">
-              <form:select path="applicationFilter" items="${applications}" class="form-control select2-multiple" 
-                multiple="multiple" data-placeholder="applications" itemLabel="name" itemValue="id" />
-            </div>
+              <div class="col-md-2">
+                <form:select path="applicationFilter" items="${applications}" class="form-control select2-multiple" 
+                  multiple="multiple" data-placeholder="applications" itemLabel="name" itemValue="id" />
+              </div>
 
-            <div class="col-md-2">
-              <form:select path="serviceFilter" items="${services}" class="form-control select2-multiple" 
-                multiple="multiple" data-placeholder="services" itemLabel="name" itemValue="id" />
-            </div>
+              <div class="col-md-2">
+                <form:select path="serviceFilter" items="${services}" class="form-control select2-multiple" 
+                  multiple="multiple" data-placeholder="services" itemLabel="name" itemValue="id" />
+              </div>
 
-            <div class="col-md-2">
-              <form:select path="labelFilter" items="${labels}" class="form-control select2-multiple" 
-                multiple="multiple" data-placeholder="labels" itemLabel="name" itemValue="id" />
-            </div>
+              <div class="col-md-2">
+                <form:select path="labelFilter" items="${labels}" class="form-control select2-multiple" 
+                  multiple="multiple" data-placeholder="labels" itemLabel="name" itemValue="id" />
+              </div>
 
-            <div class="col-md-4">
-              <a href=<c:url value="/tests/requests/" /> class="btn btn-default">Reset</a>
-              <input type="submit" class="btn btn-success" value="Filter" />
-            </div>
+              <div class="col-md-4">
+                <a href=<c:url value="/tests/requests/" /> class="btn btn-default">Reset</a>
+                <input type="submit" class="btn btn-success" value="Filter" />
+              </div>
             </div>
           </fieldset>
-
         </form:form>
 
         <div class="row shift-left">
@@ -77,9 +75,8 @@
               <c:forEach items="${requests}" var="request">
                 <tr class="dataRow">
                   <td class="td-centered"><input id="${request.id}" type="checkbox" name="operateSelect"></td>
-                  <td><a href=<c:url value="/tests/requests/${request.id}" />>
-                    <c:out value="${request.name}" />
-                  </a>
+                  <td>
+                    <a href=<c:url value="/tests/requests/${request.id}" />><c:out value="${request.name}" /></a>
                   </td>
                   <td><c:out value="${request.application.name}" /></td>
                   <td><c:out value="${request.service.name}" /></td>
@@ -129,10 +126,20 @@
 
 <input id="contextPath" type="hidden" value="${pageContext.request.contextPath}" />
 
-<script src=<c:url value="/resources/dist/js/select2.min.js" />></script>
+<div id="loadingDiv" class="offline">
+  <div id="main-frame-error" class="interstitial-wrapper">
+    <%@ include file="../t-rex.jsp" %>
+  </div>
+  <div class="centered">
+    <h1>Please, wait</h1>
+    <img alt="loading" src=<c:url value="/resources/ajax_loader.gif" /> >
+  </div>
+</div>
 
+<script src=<c:url value="/resources/dist/js/select2.min.js" />></script>
 <script src=<c:url value="/resources/bower_components/bootstrap-dataTables/js/jquery.dataTables.min.js" />></script>
 <script src=<c:url value="/resources/bower_components/bootstrap-dataTables/js/dataTables.bootstrap.min.js" />></script>
+<script src=<c:url value="/resources/dist/t-rex/js/game.js" />></script>
 
 <!-- Main page script -->
 <script src=<c:url value="/resources/js/request/requests.js" />></script>
