@@ -26,7 +26,7 @@
 
               <div class="col-md-2">
                 <label for="buildVersionId" class="control-label">BuildVersion range</label>
-                <form:select path="buildVersionId" id="BuildVersion" items="${buildVersions}" class="form-control select2-multiple"
+                <form:select path="buildVersionId" id="BuildVersion" onchange="valid()" items="${buildVersions}" class="form-control select2-multiple"
                   multiple="multiple" data-placeholder="buildVersion name..." itemValue="id" itemLabel="name" cssErrorClass="error" />
                 <form:errors path="buildVersionId" cssClass="help-block with-errors" />
               </div>
@@ -44,7 +44,7 @@
                 <label aria-hidden="true">&nbsp;</label>
                 <div>
                   <a href="<c:url value="/reports/graphics/" />" class="btn btn-default">Reset</a>
-                  <input type="submit" id="Submit" class="btn btn-success" value="Generate" />
+                  <input type="submit" disabled="disabled" id="Submit" class="btn btn-success" value="Generate" />
                 </div>
               </div>
               
@@ -67,27 +67,7 @@
     <span class="y">${row.responseTime}</span>
   </c:forEach>
   <span class="sla">${sla}</span>
-
 </div>
-<script>
-  (function() {
-    $('form > input').keyup(function() {
-
-      var empty = false;
-      $('form > input').each(function() {
-        if ($(this).val() === '') {
-          empty = true;
-        }
-      });
-
-      if (empty) {
-        $('#register').attr('disabled', 'disabled');
-      } else {
-        $('#register').removeAttr('disabled');
-      }
-    });
-  })();
-</script>
 
 <script src=<c:url value="/resources/js/graphics/graphics.js" />></script>
 <script src=<c:url value="/resources/dist/js/select2.min.js" />></script>

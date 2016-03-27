@@ -27,7 +27,6 @@ $(function() {
       var scale = this.scale;
       var xStart = Math.round(this.scale.xScalePaddingLeft);
       var linePositionY = this.scale.calculateY(sla);
-      console.log(this);
 
       // draw line
       this.chart.ctx.beginPath();

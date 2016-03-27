@@ -159,8 +159,5 @@ public interface ResultHistoryMapper {
     String loadBuildVersionName(int buildVersionId);
 
     @Select("SELECT MAX(runId) FROM ResultHistory")
-    @Results({
-            @Result(property = "id", column = "id", jdbcType = JdbcType.INTEGER)
-    })
     int getMaxId();
 }
