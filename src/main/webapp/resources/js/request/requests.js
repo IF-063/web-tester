@@ -36,7 +36,7 @@ $(function() {
   });
 
   // enables tag autocomplete in filtering fields
-  $('#applicationFilter, #serviceFilter, #labelFilter').select2({
+  $('.select2-multiple').select2({
     theme: 'bootstrap',
     width: '100%'
   });

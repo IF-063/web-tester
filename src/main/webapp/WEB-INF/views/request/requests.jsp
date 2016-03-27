@@ -56,7 +56,7 @@
       </div>
       <div class="panel-body">
         <div class="table-responsive">
-          <table class="table table-hover table-bordered table-striped " id="requests">
+          <table class="table table-hover table-bordered table-striped" id="requests">
             <thead>
               <tr>
                 <th><input id="selectAll" type="checkbox" title="Select all"></th>

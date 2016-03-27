@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <link href=<c:url value="/resources/dist/css/select2.min.css" /> rel="stylesheet" />
 <link href=<c:url value="/resources/dist/css/select2-bootstrap.css" /> rel="stylesheet" />
@@ -52,24 +53,26 @@
       <div class="panel-body">
         <div class="table-responsive">
           <table class="table table-hover table-bordered table-striped" id="statistics">
-          
             <thead>
               <tr>
-                <th class="col-md-2" >Service Name</th>
+                <th rowspan="2" class="col-md-2">Service Name</th>
+                <th colspan="${fn:length(statistic)}" class="col-md">Response time for buildVersions</th>
+                <th rowspan="2" class="col-md-2">Average for the last three releases</th>
+              </tr>
+              <tr>
                 <c:forEach items = "${statistic}" var = "statistic">
-                  <th class="col-md-2">Response time for buildVersion ${statistic.buildVersionName}</th>
+                  <th class="col-md-2">${statistic.buildVersionName}</th>
                 </c:forEach>
-                <th class="col-md-2">Average for the last three releases</th>
               </tr>
             </thead>
             <tbody>
-            <td class="td-centered">
-              <c:out value="${statistic.get(1).serviceName}"/>
-            </td>
-            <c:forEach items = "${statistic}" var = "statistic">
-              <td class="td-centered">${statistic.responseTime}</td>
-            </c:forEach>  
-            <td></td>     
+              <tr>
+                <td class="td-centered"><c:out value="${statistic.get(1).serviceName}"/></td>
+                <c:forEach items = "${statistic}" var = "statistic">
+                  <td class="td-centered data"><b>${statistic.responseTime}</b></td>
+                </c:forEach>  
+                <td>&nbsp;</td>  
+              </tr>    
             </tbody>
           </table>
         </div>
