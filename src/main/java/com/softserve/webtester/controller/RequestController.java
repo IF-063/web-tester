@@ -2,6 +2,7 @@ package com.softserve.webtester.controller;
 
 import java.util.Arrays;
 import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -216,6 +217,11 @@ public class RequestController {
         System.out.println("e: " + environmentId);
         System.out.println("rqsts: " + Arrays.toString(requestIdArray));
         System.out.println();
+        try {
+            TimeUnit.SECONDS.sleep(30);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         return 1;
     }
 
