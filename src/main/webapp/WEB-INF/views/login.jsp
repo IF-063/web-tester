@@ -51,9 +51,6 @@
                 <div class="form-group">
                   <input class="form-control" type="password" name="password" placeholder="enter password" value="">
                 </div>
-                <div class="checkbox">
-                  <label> <input name="remember_me" type="checkbox" value="Remember Me">Remember Me </label>
-                </div>
                 <input type="submit" class="btn btn-lg btn-success btn-block" value="Login" />
               </fieldset>
             </form>
