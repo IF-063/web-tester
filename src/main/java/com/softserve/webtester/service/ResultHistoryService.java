@@ -161,6 +161,15 @@ public class ResultHistoryService {
         }
     }
 
+    public int getMaxId() {
+        try {
+            return resultHistoryMapper.getMaxId();
+        } catch (DataAccessException e) {
+            LOGGER.error("Unable to retreive MAXid: " + e);
+            throw e;
+        }
+    }
+
     // Saving DbValidationHistories, headerHistories and labels for the resultHistory instance to the database
     private void saveResultHistoryComponents(ResultHistory resultHistory) {
 

@@ -25,18 +25,17 @@ $(function() {
 
     // handles remove selected requests button click
     $(document).on('click', '#deleteSelected', function() {
-        var selected = [];
-        $('input:checked[name="operateSelect"]').each(function() {
-            selected.push($(this).prop('id'));
-        });
+        var selected = selected = $('#results input:checked[name="operateSelect"]').map(function() {
+            return $(this).prop('id');
+        }).get();
         if (selected.length != 0 && confirm('Do you really want to delete the results?')) {
-            deleteRequests(selected);
+            deleteResults(selected);
         }
         return false;
     });
 
     // sends requests to delete to the server
-    function deleteRequests(input) {
+    function deleteResults(input) {
         console.log(input);
         $.ajax({
             type: 'DELETE',

@@ -30,13 +30,24 @@ $(function() {
             selected.push($(this).prop('id'));
         });
         if (selected.length != 0 && confirm('Do you really want to delete the results?')) {
+            deleteResults(selected);
+        }
+        return false;
+    });
+
+    // handles remove selected requests button click
+    $(document).on('click', '#deleteSelected', function() {
+        var selected = selected = $('#results input:checked[name="operateSelect"]').map(function() {
+            return $(this).prop('id');
+        }).get();
+        if (selected.length != 0 && confirm('Do you really want to delete the requests?')) {
             deleteRequests(selected);
         }
         return false;
     });
 
     // sends requests to delete to the server
-    function deleteRequests(input) {
+    function deleteResults(input) {
         console.log(input);
         $.ajax({
             type: 'DELETE',
