@@ -280,4 +280,26 @@ public class RequestService {
             labelMapper.saveByRequest(request);
         }
     }
+
+
+    @Transactional
+    public List<Request> loadArray(int[] requestIdArray) {
+        try {
+            return requestMapper.loadArray(requestIdArray);
+        } catch (DataAccessException e) {
+            LOGGER.error("Unable to load request instances", e);
+            throw e;
+        }
+    }
+
+
+    @Transactional
+    public List<Request> loadFullRequestsByRequestCollectionId(int id) {
+        try {
+            return requestMapper.loadFullRequestsByRequestCollectionId(id);
+        } catch (DataAccessException e) {
+            LOGGER.error("Unable to load request instances", e);
+            throw e;
+        }
+    }
 }
