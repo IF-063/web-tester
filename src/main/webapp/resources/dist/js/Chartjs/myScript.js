@@ -1,5 +1,7 @@
 $(function() {
 
+  var sla = $('.sla').text();
+
   var data = {
     labels: $('#data .x').map(function() { return $(this).text(); }).get(),
     datasets: [{
@@ -10,15 +12,41 @@ $(function() {
       pointStrokeColor: "#fff",
       pointHighlightFill: "#fff",
       pointHighlightStroke: "rgba(151,187,205,1)",
-      data: $('#data .y').map(function() { return $(this).text(); }).get()
+      data: $('#data .y').map(function() { return $(this).text(); }).get(),
+      borderColor: '#66f',
+      borderDash: [20, 30]
     }]
   };
 
-  var myLineChart = document.getElementById("canvas").getContext("2d");
-  window.myLine = new Chart(myLineChart).Line(data, {
+  var ctx = document.getElementById("canvas").getContext("2d");
+
+  Chart.types.Line.extend({
+    name: "LineWithLine",
+    draw: function () {
+      Chart.types.Line.prototype.draw.apply(this, arguments);
+      var scale = this.scale;
+      var xStart = Math.round(this.scale.xScalePaddingLeft);
+      var linePositionY = this.scale.calculateY(sla);
+      console.log(this);
+
+      // draw line
+      this.chart.ctx.beginPath();
+      this.chart.ctx.moveTo(xStart + 5, linePositionY);
+      this.chart.ctx.strokeStyle = '#ff0000';
+      this.chart.ctx.lineTo(this.scale.width, linePositionY);
+      this.chart.ctx.stroke();
+
+      // write SLA
+      this.chart.ctx.textAlign = 'center';
+      this.chart.ctx.fillText("SLA", scale.startPoint + 60, linePositionY-10);
+    }
+  });
+
+  new Chart(ctx).LineWithLine(data, {
     responsive: true,
     scaleLabel: function(f) {
       return f.value + 'ms';
-    }
+    },
+    datasetFill : false
   });
 });

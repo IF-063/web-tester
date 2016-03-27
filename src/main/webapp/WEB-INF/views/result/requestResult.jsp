@@ -17,10 +17,6 @@
             <h4>Filters</h4>
 
             <div class="col-md-2">
-              <form:input type="text" path="statusFilter" class="form-control" placeholder="status..." />
-            </div>
-
-            <div class="col-md-2">
               <form:select path="applicationFilter" items="${applications}" class="form-control select2-multiple"
                            multiple="multiple" data-placeholder="application name..." itemLabel="name" itemValue="id" />
             </div>
@@ -28,6 +24,13 @@
             <div class="col-md-2">
               <form:select path="serviceFilter" items="${services}" class="form-control select2-multiple"
                            multiple="multiple" data-placeholder="service name..." itemLabel="name" itemValue="id" />
+            </div>
+
+            <div class="col-md-2">
+              <div>
+                <form:radiobutton path="statusFilter" value="1"/>status pass
+                <form:radiobutton path="statusFilter" value="0"/>status fail
+              </div>
             </div>
 
             <div class="col-md-4">
@@ -38,7 +41,6 @@
             </div>
           </fieldset>
         </form:form>
-        <h4>Showing ${fn:length(list)} Request Results</h4>
       </div>
 
       <div class="panel-body">

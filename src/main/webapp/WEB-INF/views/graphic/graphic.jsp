@@ -19,26 +19,32 @@
 
               <div class="col-md-2">
                 <label for="serviceId" class="control-label">Service name</label>
-                <form:select path="serviceId" class="form-control" items="${serviceName}" itemValue="id" 
-                  itemLabel="name" cssErrorClass="error" />
+                <form:select path="serviceId" id="Service" items="${serviceName}" class="form-control select2-multiple"
+                             data-placeholder="buildVersion name..." itemValue="id" itemLabel="name" cssErrorClass="error" />
+                <form:errors path="serviceId" cssClass="help-block with-errors" />
               </div>
 
               <div class="col-md-2">
                 <label for="buildVersionId" class="control-label">BuildVersion range</label>
-                <form:select path="buildVersionId" items="${buildVersions}" class="form-control select2-multiple" 
-                  multiple="multiple" data-placeholder="buildVersion name..." itemLabel="name" itemValue="id" />
+                <form:select path="buildVersionId" id="BuildVersion" items="${buildVersions}" class="form-control select2-multiple"
+                  multiple="multiple" data-placeholder="buildVersion name..." itemValue="id" itemLabel="name" cssErrorClass="error" />
+                <form:errors path="buildVersionId" cssClass="help-block with-errors" />
               </div>
 
               <div class="col-md-2">
-                <label for="responseTimeFilterMarker" class="control-label">ResponseTime type</label>
-                <form:input type="text" path="responseTimeFilterMarker" class="form-control" placeholder="status..." />
+                <label for="responseTimeFilterMarker" class="control-label">ResponseTime</label>
+                <div>
+                  <form:radiobutton path="responseTimeFilterMarker" id="Time1" value="1" cssErrorClass="error"/>AVG
+                  <form:radiobutton path="responseTimeFilterMarker" id="Time2" value="2" cssErrorClass="error"/>MAX
+                  <form:errors path="responseTimeFilterMarker" cssClass="help-block with-errors" />
+                </div>
               </div>
 
               <div class="col-md-4">
                 <label aria-hidden="true">&nbsp;</label>
                 <div>
-                  <a href="<c:url value=" /reports/graphics/ " />" class="btn btn-default">Reset</a>
-                  <input type="submit" class="btn btn-success" value="Generate" />
+                  <a href="<c:url value="/reports/graphics/" />" class="btn btn-default">Reset</a>
+                  <input type="submit" id="Submit" class="btn btn-success" value="Generate" />
                 </div>
               </div>
               
@@ -60,7 +66,28 @@
     <span class="x">${row.buildVersionName}</span>
     <span class="y">${row.responseTime}</span>
   </c:forEach>
+  <span class="sla">${sla}</span>
+
 </div>
+<script>
+  (function() {
+    $('form > input').keyup(function() {
+
+      var empty = false;
+      $('form > input').each(function() {
+        if ($(this).val() === '') {
+          empty = true;
+        }
+      });
+
+      if (empty) {
+        $('#register').attr('disabled', 'disabled');
+      } else {
+        $('#register').removeAttr('disabled');
+      }
+    });
+  })();
+</script>
 
 <script src=<c:url value="/resources/js/graphics/graphics.js" />></script>
 <script src=<c:url value="/resources/dist/js/select2.min.js" />></script>

@@ -15,9 +15,6 @@
         <form:form modelAttribute="resultCollectionFilter" method="GET">
           <fieldset>
             <h4>Filters</h4>
-              <div class="col-md-2">
-                  <form:input type="text" path="statusFilter" class="form-control" placeholder="status..." />
-              </div>
 
               <div class="col-md-2">
                   <form:select path="buildVersionsFilter" items="${buildVersions}" class="form-control select2-multiple"
@@ -29,6 +26,13 @@
                                multiple="multiple" data-placeholder="labels..." itemLabel="name" itemValue="id" />
               </div>
 
+              <div class="col-md-2">
+                  <div>
+                      <form:radiobutton path="statusFilter" value="1"/>status pass
+                      <form:radiobutton path="statusFilter" value="0"/>status fail
+                  </div>
+              </div>
+
               <div class="col-md-4">
                   <div>
                       <a href="<c:url value="/results/collections/" />" class="btn btn-default">Reset</a>
@@ -37,7 +41,6 @@
               </div>
           </fieldset>
         </form:form>
-        <h4>Showing ${fn:length(list)} Collection Results</h4>
       </div>
 
       <div class="panel-body">

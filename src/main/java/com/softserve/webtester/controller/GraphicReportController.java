@@ -1,5 +1,6 @@
 package com.softserve.webtester.controller;
 
+import com.softserve.webtester.model.Service;
 import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -27,12 +28,15 @@ public class GraphicReportController {
         model.addAttribute("serviceName", metaDataService.serviceLoadAll());
         model.addAttribute("buildVersions", metaDataService.loadAllBuildVersions());
 
-        // for testing only
         if (reportFilterDTO.getServiceId() != 0 && ArrayUtils.isNotEmpty(reportFilterDTO.getBuildVersionId())
                 && reportFilterDTO.getResponseTimeFilterMarker() != 0) {
             model.addAttribute("graphicData", reportService.loadGraphicData(reportFilterDTO));
         }
-        
+
+        if(reportFilterDTO.getServiceId() != 0) {
+            model.addAttribute("sla", metaDataService.serviceLoad(reportFilterDTO.getServiceId()).getSla());
+            System.out.println("sla: "+metaDataService.serviceLoad(reportFilterDTO.getServiceId()).getSla());
+        }
         return "graphic";
     }
 }
