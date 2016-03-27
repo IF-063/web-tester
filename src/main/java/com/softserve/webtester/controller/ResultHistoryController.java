@@ -1,12 +1,9 @@
 package com.softserve.webtester.controller;
 
-import com.softserve.webtester.dto.ResultFilter;
-import com.softserve.webtester.model.Application;
-import com.softserve.webtester.model.ResultHistory;
+import com.softserve.webtester.dto.ResultFilterDTO;
 import com.softserve.webtester.service.MetaDataService;
 import com.softserve.webtester.service.ResultHistoryService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
@@ -24,11 +21,11 @@ public class ResultHistoryController {
     private MetaDataService metaDataService;
 
     @RequestMapping(method = RequestMethod.GET)
-    public String listResults(@ModelAttribute ResultFilter resultFilter, Model model) {
+    public String listResults(@ModelAttribute ResultFilterDTO resultFilterDTO, Model model) {
 
         model.addAttribute("applications", metaDataService.applicationLoadAll());
         model.addAttribute("services", metaDataService.serviceLoadAll());
-        model.addAttribute("list", resultHistoryService.loadAll(resultFilter));
+        model.addAttribute("list", resultHistoryService.loadAll(resultFilterDTO));
         return "requestResult";
     }
 

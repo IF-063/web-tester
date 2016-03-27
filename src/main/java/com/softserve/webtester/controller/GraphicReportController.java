@@ -30,12 +30,11 @@ public class GraphicReportController {
 
         if (reportFilterDTO.getServiceId() != 0 && ArrayUtils.isNotEmpty(reportFilterDTO.getBuildVersionId())
                 && reportFilterDTO.getResponseTimeFilterMarker() != 0) {
-            model.addAttribute("graphicData", reportService.loadGraphicData(reportFilterDTO));
+            model.addAttribute("graphicData", reportService.loadReportData(reportFilterDTO));
         }
 
         if(reportFilterDTO.getServiceId() != 0) {
             model.addAttribute("sla", metaDataService.serviceLoad(reportFilterDTO.getServiceId()).getSla());
-            System.out.println("sla: "+metaDataService.serviceLoad(reportFilterDTO.getServiceId()).getSla());
         }
         return "graphic";
     }

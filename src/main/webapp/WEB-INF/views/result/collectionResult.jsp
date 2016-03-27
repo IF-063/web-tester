@@ -12,7 +12,7 @@
   <div class="col-md-12">
     <div class="panel panel-default">
       <div class="panel-heading">
-        <form:form modelAttribute="resultCollectionFilter" method="GET">
+        <form:form modelAttribute="resultCollectionFilterDTO" method="GET">
           <fieldset>
             <h4>Filters</h4>
 

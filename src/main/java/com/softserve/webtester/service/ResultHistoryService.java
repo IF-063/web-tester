@@ -1,7 +1,7 @@
 package com.softserve.webtester.service;
 
-import com.softserve.webtester.dto.ResultCollectionFilter;
-import com.softserve.webtester.dto.ResultFilter;
+import com.softserve.webtester.dto.ResultCollectionFilterDTO;
+import com.softserve.webtester.dto.ResultFilterDTO;
 import com.softserve.webtester.mapper.*;
 import com.softserve.webtester.model.*;
 import org.apache.commons.collections.CollectionUtils;
@@ -73,11 +73,11 @@ public class ResultHistoryService {
         }
     }
 
-    public List<ResultHistory> loadAll(ResultFilter resultFilter) {
+    public List<ResultHistory> loadAll(ResultFilterDTO resultFilterDTO) {
 
-        String status = resultFilter.getStatusFilter();
-        int[] applications = resultFilter.getApplicationFilter();
-        int[] services = resultFilter.getServiceFilter();
+        String status = resultFilterDTO.getStatusFilter();
+        int[] applications = resultFilterDTO.getApplicationFilter();
+        int[] services = resultFilterDTO.getServiceFilter();
 
         try {
             return resultHistoryMapper.loadAll(status, applications, services);
@@ -98,11 +98,11 @@ public class ResultHistoryService {
     }
 
     // Loading resultHistory instance from ResultHistory table
-    public List<ResultHistory> loadAllCollections(ResultCollectionFilter resultCollectionFilter) {
+    public List<ResultHistory> loadAllCollections(ResultCollectionFilterDTO resultCollectionFilterDTO) {
 
-        String status = resultCollectionFilter.getStatusFilter();
-        int[] buildVersions = resultCollectionFilter.getBuildVersionsFilter();
-        int[] labelFilter = resultCollectionFilter.getLabelFilter();
+        String status = resultCollectionFilterDTO.getStatusFilter();
+        int[] buildVersions = resultCollectionFilterDTO.getBuildVersionsFilter();
+        int[] labelFilter = resultCollectionFilterDTO.getLabelFilter();
         try {
             return resultHistoryMapper.loadAllCollections(status, labelFilter, buildVersions);
         } catch (DataAccessException e) {
