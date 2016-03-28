@@ -29,7 +29,7 @@ public class StatisticReportController {
         if (reportFilterDTO.getServiceId() != 0 && ArrayUtils.isNotEmpty(reportFilterDTO.getBuildVersionId()) 
             && reportFilterDTO.getResponseTimeFilterMarker() != 0){
             model.addAttribute("statistic", reportService.loadReportData(reportFilterDTO));
-            
+            model.addAttribute("avarageResponseTime", reportService.loadAvarageResponseTimeForService(reportFilterDTO));
             }
         return "statistic/statistics";
     }

@@ -21,20 +21,19 @@ public class ReportService {
 
     @Transactional
     public List<ReportDataDTO> loadReportData(ReportFilterDTO reportFilterDTO){
-
-        return loadFinalData(reportFilterDTO);
-    }
-
-    private List<ReportDataDTO> loadFinalData(ReportFilterDTO reportFilterDTO){
         int serviceId = reportFilterDTO.getServiceId();
         int [] buildVersionIds = reportFilterDTO.getBuildVersionId();
-        int responseTimeFilterMarker = reportFilterDTO.getResponseTimeFilterMarker();
-        if (responseTimeFilterMarker==1){
+        if (reportFilterDTO.getResponseTimeFilterMarker()==1){
             return loadWithAvarageResponseTime(serviceId, buildVersionIds);
         }
         else {
             return loadWithMaxResponseTime(serviceId, buildVersionIds);
-        }
+        }   
+    }
+    
+    @Transactional
+    public int loadAvarageResponseTimeForService(ReportFilterDTO reportFilterDTO){
+        return reportMapper.loadAvarage(reportFilterDTO.getServiceId());
     }
 
     private List<ReportDataDTO> loadWithAvarageResponseTime(int serviceId, int[] buildVersionIds) {

@@ -71,7 +71,8 @@
                 <c:forEach items = "${statistic}" var = "statistic">
                   <td class="td-centered data"><b>${statistic.responseTime}</b></td>
                 </c:forEach>  
-                <td>&nbsp;</td>  
+                <td class="td-centered"><c:out value="${avarageResponseTime}"></c:out>
+                </td>  
               </tr>    
             </tbody>
           </table>
