@@ -8,6 +8,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -57,5 +58,17 @@ public class LoginLogoutController {
             new SecurityContextLogoutHandler().logout(request, response, auth);
         }
         return "redirect:/login?logout=true";
+    }
+    
+    /**
+     * Handles Access denied page.
+     * 
+     * @param model {@link Model} object
+     * @return name of error view
+     */
+    @RequestMapping(value = "/403", method = RequestMethod.GET)
+    public String error403(Model model) {
+        model.addAttribute("message", "You don't have permission to access this page");
+        return "error";
     }
 }

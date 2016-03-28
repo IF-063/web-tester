@@ -77,7 +77,6 @@ public class RequestService {
 
             // Save all dbValidations, variables, headers and labels for the request instance to the database
             saveRequestComponents(request);
-            LOGGER.info("Successfully saved request instance in the database, request id: " + id);
             return id;
         } catch (DataAccessException e) {
             LOGGER.error("Unable to save request instance, request id: " + request.getId(), e);
@@ -101,7 +100,7 @@ public class RequestService {
                 throw new ResourceNotFoundException("Request not found, id: " + id);
             return request;
         } catch (ResourceNotFoundException e) {
-            LOGGER.error("Request not found, id: " + id, e);
+            LOGGER.error("Request not found, id: " + id);
             throw e;
         } catch (DataAccessException e) {
             LOGGER.error("Unable to load request instance, request id: " + id, e);

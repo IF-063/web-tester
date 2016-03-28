@@ -47,6 +47,6 @@ public class GeneralController {
     @ExceptionHandler(ResourceNotFoundException.class)
     public String error404(ResourceNotFoundException e, Model model) {
         model.addAttribute("message", e.getMessage());
-        return "error/404";
+        return "error";
     }
 }

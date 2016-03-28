@@ -25,6 +25,7 @@
       always-use-default-target="true" 
       authentication-failure-url="/login?error=true" />
     <sec:csrf disabled="true" />
+    <sec:access-denied-handler error-page="/403"/> 
   </sec:http>
 
   <sec:authentication-manager alias="applicationAuthenticationManager">
