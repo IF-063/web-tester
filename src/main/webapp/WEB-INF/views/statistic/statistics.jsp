@@ -56,6 +56,7 @@
             <thead>
               <tr>
                 <th rowspan="2" class="col-md-2">Service Name</th>
+                <th rowspan="2" class="col-md-1">SLA</th>
                 <th colspan="${fn:length(statistic)}" class="col-md">Response time for buildVersions</th>
                 <th rowspan="2" class="col-md-2">Average for the last three releases</th>
               </tr>
@@ -68,6 +69,7 @@
             <tbody>
               <tr>
                 <td class="td-centered"><c:out value="${statistic.get(1).serviceName}"/></td>
+                <td class="td-centered"><c:out value="${sla}"/></td>
                 <c:forEach items = "${statistic}" var = "statistic">
                   <td class="td-centered data"><b>${statistic.responseTime}</b></td>
                 </c:forEach>  

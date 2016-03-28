@@ -30,7 +30,8 @@ public class StatisticReportController {
             && reportFilterDTO.getResponseTimeFilterMarker() != 0){
             model.addAttribute("statistic", reportService.loadReportData(reportFilterDTO));
             model.addAttribute("avarageResponseTime", reportService.loadAvarageResponseTimeForService(reportFilterDTO));
-            }
+            model.addAttribute("sla", metaDataService.serviceLoad(reportFilterDTO.getServiceId()).getSla());
+        }
         return "statistic/statistics";
     }
 
