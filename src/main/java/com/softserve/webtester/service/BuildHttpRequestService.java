@@ -8,6 +8,8 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.ParseException;
@@ -20,6 +22,7 @@ import org.apache.velocity.app.VelocityEngine;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.softserve.webtester.dto.RequestDTO;
 import com.softserve.webtester.model.Header;
 import com.softserve.webtester.model.Request;
 import com.softserve.webtester.model.Variable;
@@ -31,9 +34,10 @@ public class BuildHttpRequestService {
     @Autowired
     private VelocityEngine velocityEngine;
 
-    public HttpRequestBase getHttpRequest(Request request, String host, Connection dbCon)
+    public RequestDTO getHttpRequest(Request request, String host, Connection dbCon)
             throws URISyntaxException, SQLException, ParseException, IOException {
 
+        RequestDTO requestDTO = new RequestDTO();
         HttpRequestBase httpRequest = request.getRequestMethod().getHttpRequest();
 
         URI uri = new URIBuilder(host + request.getEndpoint()).build();
@@ -50,6 +54,7 @@ public class BuildHttpRequestService {
             
             if (request.getVariables() != null) {
                 VelocityContext context = new VelocityContext();
+                List<Variable> variableList = new ArrayList<Variable>();
                 for (Variable variable : request.getVariables()) {
                     if (variable.isSql()) {
                         String variableValue = null;
@@ -59,11 +64,16 @@ public class BuildHttpRequestService {
                         ResultSet rs = statement.executeQuery(sql);
                         variableValue = rs.getString(1);
                         context.put(variable.getName(), variableValue);
+                        variable.setValue(variableValue);
+                        variableList.add(variable);
                     } else if (variable.isRandom()) {
-                        String varValue = variable.getValue() + getRandomString(variable, variable.getLength());
-                        context.put(variable.getName(), varValue);
+                        String variableValue = variable.getValue() + getRandomString(variable, variable.getLength());
+                        context.put(variable.getName(), variableValue);
+                        variable.setValue(variableValue);
+                        variableList.add(variable);
                     } else {
                         context.put(variable.getName(), variable.getValue());
+                        variableList.add(variable);
                     }
                 }
                 StringWriter writer = new StringWriter();
@@ -71,15 +81,19 @@ public class BuildHttpRequestService {
                 HttpEntity entity = new StringEntity(writer.toString()/*,
                         ContentType.create(request.getResponseType().getTextValue(), Consts.UTF_8)*/);
                 httpEntityEnclosingRequest.setEntity(entity);
-                return httpEntityEnclosingRequest;
+                requestDTO.setHttpRequest(httpEntityEnclosingRequest);
+                requestDTO.setVariableList(variableList);
+                return requestDTO;
             } else {
                 HttpEntity entity = new StringEntity(request.getRequestBody());
                 httpEntityEnclosingRequest.setEntity(entity);
-                return httpEntityEnclosingRequest;
+                requestDTO.setHttpRequest(httpEntityEnclosingRequest);
+                return requestDTO;
             }
             
         }
-        return httpRequest;
+        requestDTO.setHttpRequest(httpRequest);
+        return requestDTO;
     }
 
     private String getRandomString(Variable variable, int length) {

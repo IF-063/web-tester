@@ -1,8 +1,11 @@
 package com.softserve.webtester.service;
 
-import com.softserve.webtester.dto.ResponseDTO;
-import com.softserve.webtester.model.Environment;
-import com.softserve.webtester.model.Request;
+import java.io.IOException;
+import java.sql.Connection;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpRequestBase;
@@ -11,11 +14,10 @@ import org.apache.http.impl.client.HttpClientBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
-import java.sql.Connection;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import com.softserve.webtester.dto.RequestDTO;
+import com.softserve.webtester.dto.ResponseDTO;
+import com.softserve.webtester.model.Environment;
+import com.softserve.webtester.model.Request;
 
 @Service
 public class RequestExecuteService {
@@ -43,7 +45,8 @@ public class RequestExecuteService {
 
                 List<HttpResponse> responses = new ArrayList<>();
                 List<Long> listResponseTime = new ArrayList<>();
-                HttpRequestBase requestBase = buildHttpRequestService.getHttpRequest(request, host, dbCon);
+                RequestDTO requestDTO = buildHttpRequestService.getHttpRequest(request, host, dbCon);
+                HttpRequestBase requestBase = requestDTO.getHttpRequest();
 
                 if (ifBuildVerExist) {
                     for (int i = 0; i < 5; i++) {
