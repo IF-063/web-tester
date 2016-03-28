@@ -7,6 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+
 import com.softserve.webtester.dto.ReportFilterDTO;
 import com.softserve.webtester.service.MetaDataService;
 import com.softserve.webtester.service.ReportService;
@@ -24,7 +25,7 @@ public class StatisticReportController {
     
     @RequestMapping(method = RequestMethod.GET)
     public String getStatistic(@ModelAttribute ReportFilterDTO reportFilterDTO, Model model){
-        model.addAttribute("serviceName", metaDataService.serviceLoadAll());
+        model.addAttribute("serviceName", metaDataService.serviceLoadAllWithoutDeleted());
         model.addAttribute("buildVersions", metaDataService.loadAllBuildVersions());
         if (reportFilterDTO.getServiceId() != 0 && ArrayUtils.isNotEmpty(reportFilterDTO.getBuildVersionId()) 
             && reportFilterDTO.getResponseTimeFilterMarker() != 0){

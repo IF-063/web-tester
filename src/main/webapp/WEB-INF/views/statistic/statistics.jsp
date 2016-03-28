@@ -68,7 +68,7 @@
             </thead>
             <tbody>
               <tr>
-                <td class="td-centered"><c:out value="${statistic.get(1).serviceName}"/></td>
+                <td class="td-centered"><c:out value="${statistic.get(0).serviceName}"/></td>
                 <td class="td-centered"><c:out value="${sla}"/></td>
                 <c:forEach items = "${statistic}" var = "statistic">
                   <td class="td-centered data"><b>${statistic.responseTime}</b></td>
