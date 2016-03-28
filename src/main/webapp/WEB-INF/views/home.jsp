@@ -240,7 +240,7 @@
 
   <div class="row">
     <div class="col-md-4">
-      <div class="panel panel-blue cursorPointer" id="requestResultBlock">
+      <div class="panel panel-blue cursorPointer" id="statisticReportBlock">
         <div class="panel-heading">
           <div class="row">
             <div class="col-xs-3">
@@ -262,7 +262,7 @@
     </div>
 
     <div class="col-md-4">
-      <div class="panel panel-blue cursorPointer" id="collectionResultBlock">
+      <div class="panel panel-blue cursorPointer" id="graphicReportBlock">
         <div class="panel-heading">
           <div class="row">
             <div class="col-xs-3">

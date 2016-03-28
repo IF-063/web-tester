@@ -34,7 +34,14 @@ $(function() {
 
   $('#environmentsBlock').click(function() {
       window.location.href = 'configuration/environments';
-    });
+  });
 
+  $('#statisticReportBlock').click(function() {
+      window.location.href = 'reports/statistic';
+  });
+  
+  $('#graphicReportBlock').click(function() {
+      window.location.href = 'reports/graphics';
+  });
 
 });
