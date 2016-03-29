@@ -2,10 +2,11 @@ package com.softserve.webtester.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletResponse;
+
 import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -55,9 +56,14 @@ public class StatisticReportController {
         return "statistic/statistics";
     }
     
-    @RequestMapping(value="/xls", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value="/xls", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void xls() {
-      System.out.println(1);
-    }
+    public void xlsP(HttpServletResponse response,  @ModelAttribute StatisticFilterDTO statisticFilterDTO) {
+//      File file= new File("2016.03.28.sql");
+//      response.setHeader("Content-Disposition", String.format("inline; filename=\"" + file.getName() +"\""));
+//      response.setContentType("application/x-download");
+//      response.setContentLength((int)file.length());
+//      InputStream inputStream = new BufferedInputStream(new FileInputStream(file));
+//      FileCopyUtils.copy(inputStream, response.getOutputStream());
+    }  
 }
