@@ -15,9 +15,11 @@ $(function() {
         do {
           prevValue = $(data[j]).text();
         } while (j-- > 0 && !prevValue);
-        var diff = element.text() - prevValue;
-        if (diff != 0) {
-          element.css('background-color', diff < 0 ? '#71c171' : '#d85e5a');
+        if (prevValue) {
+          var diff = element.text() - prevValue;
+          if (diff != 0) {
+            element.css('background-color', diff < 0 ? '#71c171' : '#d85e5a');
+          }
         }
       }
     }
