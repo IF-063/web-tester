@@ -7,7 +7,8 @@ import java.util.List;
 public class RequestResultDTO {
 
     private int collectionId;
-    private List<Request> requests;
+    private Request request;
+    private RequestDTO requestDTO;
     private List<ResponseDTO> responses;
 
     public RequestResultDTO() {
@@ -22,14 +23,22 @@ public class RequestResultDTO {
         this.collectionId = collectionId;
     }
 
-    public List<Request> getRequests() {
-        return requests;
+    public Request getRequest() {
+        return request;
     }
 
-    public void setRequests(List<Request> requests) {
-        this.requests = requests;
+    public void setRequest(Request request) {
+        this.request = request;
     }
 
+    public RequestDTO getRequestDTO() {
+        return requestDTO;
+    }
+
+    public void setRequestDTO(RequestDTO requestDTO) {
+        this.requestDTO = requestDTO;
+    }
+    
     public List<ResponseDTO> getResponses() {
         return responses;
     }
