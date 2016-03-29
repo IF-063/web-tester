@@ -35,6 +35,7 @@ import com.softserve.webtester.model.VariableDataType;
 import com.softserve.webtester.service.EnvironmentService;
 import com.softserve.webtester.service.MetaDataService;
 import com.softserve.webtester.service.RequestService;
+import com.softserve.webtester.service.RunService;
 import com.softserve.webtester.validator.RequestValidator;
 
 /**
@@ -64,6 +65,9 @@ public class RequestController {
 
     @Autowired
     private RequestValidator requestValidator;
+    
+    @Autowired
+    private RunService runService;
 
     @InitBinder("request")
     public void initBinder(WebDataBinder binder) {
@@ -217,11 +221,12 @@ public class RequestController {
         System.out.println("e: " + environmentId);
         System.out.println("rqsts: " + Arrays.toString(requestIdArray));
         System.out.println();
-        try {
-            TimeUnit.SECONDS.sleep(30);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        runService.run(environmentId, requestIdArray);
+//        try {
+//            TimeUnit.SECONDS.sleep(30);
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        }
         return 1;
     }
 
