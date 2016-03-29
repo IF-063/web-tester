@@ -2,6 +2,7 @@ package com.softserve.webtester.service;
 
 import java.util.List;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -11,7 +12,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.CollectionUtils;
 
 import com.softserve.webtester.dto.RequestFilterDTO;
 import com.softserve.webtester.exception.ResourceNotFoundException;
@@ -67,7 +67,7 @@ public class RequestService {
      * @throws DuplicateKeyException if the request with the name exists in the database.
      * @throws DataAccessException
      */
-    @Transactional(isolation=Isolation.READ_COMMITTED)
+    @Transactional(isolation = Isolation.READ_COMMITTED)
     public int save(Request request) {
         try {
 
@@ -92,7 +92,7 @@ public class RequestService {
      * @throws ResourceNotFoundException if Request instance is null
      * @throws DataAccessException
      */
-    @Transactional(propagation=Propagation.NOT_SUPPORTED, isolation=Isolation.READ_COMMITTED)
+    @Transactional(propagation = Propagation.NOT_SUPPORTED, isolation = Isolation.READ_COMMITTED)
     public Request load(int id) {
         try {
             Request request = requestMapper.load(id);
@@ -126,11 +126,10 @@ public class RequestService {
      * @throws DataAccessException
      */
     public List<Request> loadAll(RequestFilterDTO requestFilterDTO) {
-        String requestNameFilter = requestFilterDTO.getRequestNameFilter();
-        int[] applicationFilter = requestFilterDTO.getApplicationFilter();
-        int[] serviceFilter = requestFilterDTO.getServiceFilter();
-        int[] labelFilter = requestFilterDTO.getLabelFilter();
-        return loadAll(requestNameFilter, applicationFilter, serviceFilter, labelFilter);
+        return loadAll(requestFilterDTO.getRequestNameFilter(),
+                       requestFilterDTO.getApplicationFilter(),
+                       requestFilterDTO.getServiceFilter(),
+                       requestFilterDTO.getLabelFilter());
     }
 
     /**
@@ -144,9 +143,9 @@ public class RequestService {
      * @return List of Request instances
      * @throws DataAccessException
      */
-    @Transactional(propagation=Propagation.NOT_SUPPORTED, isolation=Isolation.READ_COMMITTED)
+    @Transactional(propagation = Propagation.NOT_SUPPORTED, isolation = Isolation.READ_COMMITTED)
     public List<Request> loadAll(String requestNameFilter, int[] applicationFilter, int[] serviceFilter,
-            int[] labelFilter) {
+                                 int[] labelFilter) {
         try {
             return requestMapper.loadAll(requestNameFilter, applicationFilter, serviceFilter, labelFilter);
         } catch (DataAccessException e) {
@@ -163,7 +162,7 @@ public class RequestService {
      * @throws DuplicateKeyException if the request with the name exists in the database.
      * @throws DataAccessException
      */
-    @Transactional(isolation=Isolation.READ_COMMITTED)
+    @Transactional(isolation = Isolation.READ_COMMITTED)
     public int update(Request request) {
         try {
             int id = request.getId();
@@ -194,7 +193,7 @@ public class RequestService {
      * @return the number of rows affected by the statement
      * @throws DataAccessException
      */
-    @Transactional(isolation=Isolation.READ_COMMITTED)
+    @Transactional(isolation = Isolation.READ_COMMITTED)
     public int delete(int id) {
         try {
             return requestMapper.delete(id);
@@ -211,7 +210,7 @@ public class RequestService {
      * @return number of rows affected by the statement
      * @throws DataAccessException
      */
-    @Transactional(isolation=Isolation.READ_COMMITTED)
+    @Transactional(isolation = Isolation.READ_COMMITTED)
     public int delete(int[] requestIdArray) {
         try {
             return requestMapper.deleteRequests(requestIdArray);
@@ -229,7 +228,7 @@ public class RequestService {
      * @return true, if name is unique
      * @throws DataAccessException
      */
-    @Transactional(isolation=Isolation.READ_COMMITTED)
+    @Transactional(isolation = Isolation.READ_COMMITTED)
     public boolean isRequestNameFree(String name, int exclusionId) {
         try {
             return requestMapper.isRequestNameFree(name, exclusionId);
@@ -246,7 +245,7 @@ public class RequestService {
      * @return duplicate of existing Request instance
      * @throws DataAccessException
      */
-    @Transactional(propagation=Propagation.NOT_SUPPORTED, isolation=Isolation.READ_COMMITTED)
+    @Transactional(propagation = Propagation.NOT_SUPPORTED, isolation = Isolation.READ_COMMITTED)
     public Request createDuplicate(int fromId) {
         try {
             Request request = load(fromId);
@@ -266,22 +265,21 @@ public class RequestService {
      * Saves all dbValidations, variables, headers and labels for the request instance to the database.
      */
     private void saveRequestComponents(Request request) {
-        if (!CollectionUtils.isEmpty(request.getDbValidations())) {
+        if (CollectionUtils.isNotEmpty(request.getDbValidations())) {
             dbValidationMapper.saveByRequest(request);
         }
-        if (!CollectionUtils.isEmpty(request.getVariables())) {
+        if (CollectionUtils.isNotEmpty(request.getVariables())) {
             variableMapper.saveByRequest(request);
         }
-        if (!CollectionUtils.isEmpty(request.getHeaders())) {
+        if (CollectionUtils.isNotEmpty(request.getHeaders())) {
             headerMapper.saveByRequest(request);
         }
-        if (!CollectionUtils.isEmpty(request.getLabels())) {
+        if (CollectionUtils.isNotEmpty(request.getLabels())) {
             labelMapper.saveByRequest(request);
         }
     }
 
-
-    @Transactional
+    @Transactional(propagation = Propagation.NOT_SUPPORTED, isolation = Isolation.READ_COMMITTED)
     public List<Request> loadArray(int[] requestIdArray) {
         try {
             return requestMapper.loadArray(requestIdArray);
@@ -291,8 +289,7 @@ public class RequestService {
         }
     }
 
-
-    @Transactional
+    @Transactional(propagation = Propagation.NOT_SUPPORTED, isolation = Isolation.READ_COMMITTED)
     public List<Request> loadFullRequestsByRequestCollectionId(int id) {
         try {
             return requestMapper.loadFullRequestsByRequestCollectionId(id);

@@ -5,8 +5,9 @@ import java.util.List;
 
 import com.softserve.webtester.model.BuildVersion;
 
-@SuppressWarnings("serial")
 public class StatisticFilterDTO implements Serializable {
+    
+    private static final long serialVersionUID = -8426535580134914033L;
     
     private int[] serviceId;
     private int[] buildVersionId;

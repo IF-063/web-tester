@@ -1,9 +1,6 @@
 package com.softserve.webtester.controller;
 
-import java.util.Arrays;
-import java.util.Date;
-import java.util.concurrent.TimeUnit;
-
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -47,7 +44,16 @@ import com.softserve.webtester.validator.RequestValidator;
 @Controller
 @RequestMapping(value = "/tests/requests")
 public class RequestController {
-
+    
+    private static final String APPLICATIONS = "applications";
+    private static final String SERVICES = "services";
+    private static final String LABELS = "labels";
+    private static final String ENVIRONMENTS = "environments";
+    private static final String REQUESTS = "requests";
+    private static final String REQUEST_METHODS = "requestMethods";
+    private static final String RESPONSE_TYPES = "responseTypes";
+    private static final String VARIABLE_DATATYPES = "variableDataTypes";
+    
     @Autowired
     private RequestService requestService;
 
@@ -85,11 +91,11 @@ public class RequestController {
      */
     @RequestMapping(method = RequestMethod.GET)
     public String getRequestsPage(@ModelAttribute RequestFilterDTO requestFilterDTO, Model model) {
-        model.addAttribute("applications", metaDataService.applicationLoadAllWithoutDeleted());
-        model.addAttribute("services", metaDataService.serviceLoadAllWithoutDeleted());
-        model.addAttribute("labels", metaDataService.loadAllLabels());
-        model.addAttribute("environments", environmentService.loadAll());
-        model.addAttribute("requests", requestService.loadAll(requestFilterDTO));
+        model.addAttribute(APPLICATIONS, metaDataService.applicationLoadAllWithoutDeleted());
+        model.addAttribute(SERVICES, metaDataService.serviceLoadAllWithoutDeleted());
+        model.addAttribute(LABELS, metaDataService.loadAllLabels());
+        model.addAttribute(ENVIRONMENTS, environmentService.loadAll());
+        model.addAttribute(REQUESTS, requestService.loadAll(requestFilterDTO));
         return "request/requests";
     }
 
@@ -100,12 +106,12 @@ public class RequestController {
      */
     private ModelMap addMetaData() {
         ModelMap map = new ModelMap();
-        map.addAttribute("applications", metaDataService.applicationLoadAllWithoutDeleted());
-        map.addAttribute("services", metaDataService.serviceLoadAllWithoutDeleted());
-        map.addAttribute("requestMethods", com.softserve.webtester.model.RequestMethod.values());
-        map.addAttribute("responseTypes", ResponseType.values());
-        map.addAttribute("variableDataTypes", VariableDataType.values());
-        map.addAttribute("labels", metaDataService.loadAllLabels());
+        map.addAttribute(APPLICATIONS, metaDataService.applicationLoadAllWithoutDeleted());
+        map.addAttribute(SERVICES, metaDataService.serviceLoadAllWithoutDeleted());
+        map.addAttribute(REQUEST_METHODS, com.softserve.webtester.model.RequestMethod.values());
+        map.addAttribute(RESPONSE_TYPES, ResponseType.values());
+        map.addAttribute(VARIABLE_DATATYPES, VariableDataType.values());
+        map.addAttribute(LABELS, metaDataService.loadAllLabels());
         return map;
     }
 
@@ -206,7 +212,6 @@ public class RequestController {
         requestService.delete(requestIdArray);
     }
 
-    // TODO Taras O. redirect to request run results
     /**
      * Handles requests run.
      * 
@@ -217,16 +222,7 @@ public class RequestController {
     @RequestMapping(value = "/run", method = RequestMethod.POST)
     public @ResponseBody int runRequests(@RequestParam int environmentId,
             @RequestParam(value = "requestIdArray[]") int[] requestIdArray) {
-        System.out.println("start at: " + new Date());
-        System.out.println("e: " + environmentId);
-        System.out.println("rqsts: " + Arrays.toString(requestIdArray));
-        System.out.println();
         runService.run(environmentId, requestIdArray);
-//        try {
-//            TimeUnit.SECONDS.sleep(30);
-//        } catch (InterruptedException e) {
-//            e.printStackTrace();
-//        }
         return 1;
     }
 
@@ -239,6 +235,6 @@ public class RequestController {
      */
     @RequestMapping(value = "/isRequestNameFree", method = RequestMethod.POST)
     public @ResponseBody boolean isRequestNameFree(@RequestParam String name, @RequestParam int exclusionId) {
-        return !"".equals(name) && requestService.isRequestNameFree(name, exclusionId);
+        return StringUtils.isNotBlank(name) && requestService.isRequestNameFree(name, exclusionId);
     }
 }

@@ -2,8 +2,14 @@ package com.softserve.webtester.mapper;
 
 import java.util.List;
 
-import com.softserve.webtester.model.ResultHistory;
-import org.apache.ibatis.annotations.*;
+import org.apache.ibatis.annotations.Delete;
+import org.apache.ibatis.annotations.Insert;
+import org.apache.ibatis.annotations.Options;
+import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Result;
+import org.apache.ibatis.annotations.Results;
+import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 import org.apache.ibatis.type.JdbcType;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Repository;
@@ -11,6 +17,7 @@ import org.springframework.stereotype.Repository;
 import com.softserve.webtester.model.Label;
 import com.softserve.webtester.model.Request;
 import com.softserve.webtester.model.RequestCollection;
+import com.softserve.webtester.model.ResultHistory;
 
 @Repository
 public interface LabelMapper {
@@ -129,8 +136,7 @@ public interface LabelMapper {
     @Select("SELECT l.id, l.name FROM Label l INNER JOIN Request_Label rl ON rl.labelId = l.id "
     	    + "WHERE rl.requestId = #{id}")
     @Results({ @Result(id = true, property = "id", column = "id", jdbcType = JdbcType.INTEGER),
-	       @Result(property = "name", column = "name", jdbcType = JdbcType.VARCHAR)
-    })
+               @Result(property = "name", column = "name", jdbcType = JdbcType.VARCHAR) })
     List<Label> loadByRequestId(int id);
 
     @Select("SELECT l.id, l.name FROM Label l INNER JOIN ResultHistory_Label rhl ON rhl.labelId = l.id "

@@ -59,22 +59,22 @@ public interface RequestMapper {
                @Result(property = "description", column = "description", jdbcType = JdbcType.VARCHAR),
                @Result(property = "requestMethod", column = "requestMethod", typeHandler = RequestMethodHandler.class),
                @Result(property = "application", column = "applicationId", 
-                   one = @One(select = "com.softserve.webtester.mapper.ApplicationMapper.load")),
+                       one = @One(select = "com.softserve.webtester.mapper.ApplicationMapper.load")),
                @Result(property = "service", column = "serviceId", 
-                   one = @One(select = "com.softserve.webtester.mapper.ServiceMapper.load")),
+                       one = @One(select = "com.softserve.webtester.mapper.ServiceMapper.load")),
                @Result(property = "labels", column = "id", 
-                   many = @Many(select = "com.softserve.webtester.mapper.LabelMapper.loadByRequestId")),
+                       many = @Many(select = "com.softserve.webtester.mapper.LabelMapper.loadByRequestId")),
                @Result(property = "endpoint", column = "endpoint", jdbcType = JdbcType.VARCHAR),
                @Result(property = "headers", column = "id", 
-                   many = @Many(select = "com.softserve.webtester.mapper.HeaderMapper.loadByRequestId")),
+                       many = @Many(select = "com.softserve.webtester.mapper.HeaderMapper.loadByRequestId")),
                @Result(property = "requestBody", column = "requestBody", jdbcType = JdbcType.LONGVARCHAR),
                @Result(property = "responseType", column = "responseType", typeHandler = ResponseTypeHandler.class),
                @Result(property = "expectedResponse", column = "expectedResponse", jdbcType = JdbcType.LONGVARCHAR),
                @Result(property = "timeout", column = "timeout", jdbcType = JdbcType.INTEGER),
                @Result(property = "variables", column = "id", 
-                   many = @Many(select = "com.softserve.webtester.mapper.VariableMapper.loadByRequestId")),
+                       many = @Many(select = "com.softserve.webtester.mapper.VariableMapper.loadByRequestId")),
                @Result(property = "dbValidations", column = "id", 
-                   many = @Many(select = "com.softserve.webtester.mapper.DbValidationMapper.loadByRequestId")) })
+                       many = @Many(select = "com.softserve.webtester.mapper.DbValidationMapper.loadByRequestId")) })
     Request load(int id);
 
     /**
@@ -105,9 +105,9 @@ public interface RequestMapper {
     @Results({ @Result(id = true, property = "id", column = "id", jdbcType = JdbcType.INTEGER),
                @Result(property = "name", column = "name", jdbcType = JdbcType.VARCHAR),
                @Result(property = "application", column = "applicationId", 
-                   one = @One(select = "com.softserve.webtester.mapper.ApplicationMapper.load")),
+                       one = @One(select = "com.softserve.webtester.mapper.ApplicationMapper.load")),
                @Result(property = "service", column = "serviceId", 
-                   one = @One(select = "com.softserve.webtester.mapper.ServiceMapper.load")),
+                       one = @One(select = "com.softserve.webtester.mapper.ServiceMapper.load")),
                @Result(property = "endpoint", column = "endpoint", jdbcType = JdbcType.VARCHAR) })
     List<Request> loadAll(@Param(value = "requestNameFilter") String requestNameFilter,
                           @Param(value = "applicationFilter") int[] applicationFilter,
@@ -119,9 +119,9 @@ public interface RequestMapper {
     @Results({ @Result(id = true, property = "id", column = "id", jdbcType = JdbcType.INTEGER),
                @Result(property = "name", column = "name", jdbcType = JdbcType.VARCHAR),
                @Result(property = "application", column = "applicationId", 
-                   one = @One(select = "com.softserve.webtester.mapper.ApplicationMapper.load")),
+                       one = @One(select = "com.softserve.webtester.mapper.ApplicationMapper.load")),
                @Result(property = "service", column = "serviceId", 
-                   one = @One(select = "com.softserve.webtester.mapper.ServiceMapper.load")),
+                       one = @One(select = "com.softserve.webtester.mapper.ServiceMapper.load")),
                @Result(property = "endpoint", column = "endpoint", jdbcType = JdbcType.VARCHAR) })
     List<Request> loadByRequestCollectionId(int id);
 
@@ -176,58 +176,56 @@ public interface RequestMapper {
 
 
     @Select("<script>SELECT id, name, description, requestMethod, applicationId, serviceId, endpoint, requestBody, "
-            + "responseType, expectedResponse, timeout FROM Request WHERE id IN <foreach item='item' index='index' " +
-            "collection='list' open='(' separator=',' close=')'>#{item}</foreach></script>")
+            + "responseType, expectedResponse, timeout FROM Request WHERE id IN <foreach item='item' index='index' "
+            + "collection='list' open='(' separator=',' close=')'>#{item}</foreach></script>")
     @Results({ @Result(id = true, property = "id", column = "id", jdbcType = JdbcType.INTEGER),
-            @Result(property = "name", column = "name", jdbcType = JdbcType.VARCHAR),
-            @Result(property = "description", column = "description", jdbcType = JdbcType.VARCHAR),
-            @Result(property = "requestMethod", column = "requestMethod", typeHandler = RequestMethodHandler.class),
-            @Result(property = "application", column = "applicationId",
-                    one = @One(select = "com.softserve.webtester.mapper.ApplicationMapper.load")),
-            @Result(property = "service", column = "serviceId",
-                    one = @One(select = "com.softserve.webtester.mapper.ServiceMapper.load")),
-            @Result(property = "labels", column = "id",
-                    many = @Many(select = "com.softserve.webtester.mapper.LabelMapper.loadByRequestId")),
-            @Result(property = "endpoint", column = "endpoint", jdbcType = JdbcType.VARCHAR),
-            @Result(property = "headers", column = "id",
-                    many = @Many(select = "com.softserve.webtester.mapper.HeaderMapper.loadByRequestId")),
-            @Result(property = "requestBody", column = "requestBody", jdbcType = JdbcType.LONGVARCHAR),
-            @Result(property = "responseType", column = "responseType", typeHandler = ResponseTypeHandler.class),
-            @Result(property = "expectedResponse", column = "expectedResponse", jdbcType = JdbcType.LONGVARCHAR),
-            @Result(property = "timeout", column = "timeout", jdbcType = JdbcType.INTEGER),
-            @Result(property = "variables", column = "id",
-                    many = @Many(select = "com.softserve.webtester.mapper.VariableMapper.loadByRequestId")),
-            @Result(property = "dbValidations", column = "id",
-                    many = @Many(select = "com.softserve.webtester.mapper.DbValidationMapper.loadByRequestId")) })
+               @Result(property = "name", column = "name", jdbcType = JdbcType.VARCHAR),
+               @Result(property = "description", column = "description", jdbcType = JdbcType.VARCHAR),
+               @Result(property = "requestMethod", column = "requestMethod", typeHandler = RequestMethodHandler.class),
+               @Result(property = "application", column = "applicationId",
+                       one = @One(select = "com.softserve.webtester.mapper.ApplicationMapper.load")),
+               @Result(property = "service", column = "serviceId",
+                       one = @One(select = "com.softserve.webtester.mapper.ServiceMapper.load")),
+               @Result(property = "labels", column = "id",
+                       many = @Many(select = "com.softserve.webtester.mapper.LabelMapper.loadByRequestId")),
+               @Result(property = "endpoint", column = "endpoint", jdbcType = JdbcType.VARCHAR),
+               @Result(property = "headers", column = "id",
+                       many = @Many(select = "com.softserve.webtester.mapper.HeaderMapper.loadByRequestId")),
+               @Result(property = "requestBody", column = "requestBody", jdbcType = JdbcType.LONGVARCHAR),
+               @Result(property = "responseType", column = "responseType", typeHandler = ResponseTypeHandler.class),
+               @Result(property = "expectedResponse", column = "expectedResponse", jdbcType = JdbcType.LONGVARCHAR),
+               @Result(property = "timeout", column = "timeout", jdbcType = JdbcType.INTEGER),
+               @Result(property = "variables", column = "id",
+                       many = @Many(select = "com.softserve.webtester.mapper.VariableMapper.loadByRequestId")),
+               @Result(property = "dbValidations", column = "id",
+                       many = @Many(select = "com.softserve.webtester.mapper.DbValidationMapper.loadByRequestId")) })
     List<Request> loadArray(@Param("list") int[] requestIdArray);
 
 
-    @Select("SELECT r.id, r.name, r.description, r.requestMethod, r.applicationId, r.serviceId, r.endpoint, " +
-            "r.requestBody, r.responseType, r.expectedResponse, r.timeout FROM Request r INNER JOIN " +
-            "RequestCollection_Request cr ON r.id = cr.requestId WHERE cr.requestCollectionId = #{id}")
-
+    @Select("SELECT r.id, r.name, r.description, r.requestMethod, r.applicationId, r.serviceId, r.endpoint, "
+            + "r.requestBody, r.responseType, r.expectedResponse, r.timeout FROM Request r INNER JOIN "
+            + "RequestCollection_Request cr ON r.id = cr.requestId WHERE cr.requestCollectionId = #{id}")
     @Results({ @Result(id = true, property = "id", column = "id", jdbcType = JdbcType.INTEGER),
-            @Result(property = "name", column = "name", jdbcType = JdbcType.VARCHAR),
-            @Result(property = "description", column = "description", jdbcType = JdbcType.VARCHAR),
-            @Result(property = "requestMethod", column = "requestMethod", typeHandler = RequestMethodHandler.class),
-            @Result(property = "application", column = "applicationId",
-                    one = @One(select = "com.softserve.webtester.mapper.ApplicationMapper.load")),
-            @Result(property = "service", column = "serviceId",
-                    one = @One(select = "com.softserve.webtester.mapper.ServiceMapper.load")),
-            @Result(property = "labels", column = "id",
-                    many = @Many(select = "com.softserve.webtester.mapper.LabelMapper.loadByRequestId")),
-            @Result(property = "endpoint", column = "endpoint", jdbcType = JdbcType.VARCHAR),
-            @Result(property = "headers", column = "id",
-                    many = @Many(select = "com.softserve.webtester.mapper.HeaderMapper.loadByRequestId")),
-            @Result(property = "requestBody", column = "requestBody", jdbcType = JdbcType.LONGVARCHAR),
-            @Result(property = "responseType", column = "responseType", typeHandler = ResponseTypeHandler.class),
-            @Result(property = "expectedResponse", column = "expectedResponse", jdbcType = JdbcType.LONGVARCHAR),
-            @Result(property = "timeout", column = "timeout", jdbcType = JdbcType.INTEGER),
-            @Result(property = "variables", column = "id",
-                    many = @Many(select = "com.softserve.webtester.mapper.VariableMapper.loadByRequestId")),
-            @Result(property = "dbValidations", column = "id",
-                    many = @Many(select = "com.softserve.webtester.mapper.DbValidationMapper.loadByRequestId")) })
-
+               @Result(property = "name", column = "name", jdbcType = JdbcType.VARCHAR),
+               @Result(property = "description", column = "description", jdbcType = JdbcType.VARCHAR),
+               @Result(property = "requestMethod", column = "requestMethod", typeHandler = RequestMethodHandler.class),
+               @Result(property = "application", column = "applicationId",
+                       one = @One(select = "com.softserve.webtester.mapper.ApplicationMapper.load")),
+               @Result(property = "service", column = "serviceId",
+                       one = @One(select = "com.softserve.webtester.mapper.ServiceMapper.load")),
+               @Result(property = "labels", column = "id",
+                       many = @Many(select = "com.softserve.webtester.mapper.LabelMapper.loadByRequestId")),
+               @Result(property = "endpoint", column = "endpoint", jdbcType = JdbcType.VARCHAR),
+               @Result(property = "headers", column = "id",
+                       many = @Many(select = "com.softserve.webtester.mapper.HeaderMapper.loadByRequestId")),
+               @Result(property = "requestBody", column = "requestBody", jdbcType = JdbcType.LONGVARCHAR),
+               @Result(property = "responseType", column = "responseType", typeHandler = ResponseTypeHandler.class),
+               @Result(property = "expectedResponse", column = "expectedResponse", jdbcType = JdbcType.LONGVARCHAR),
+               @Result(property = "timeout", column = "timeout", jdbcType = JdbcType.INTEGER),
+               @Result(property = "variables", column = "id",
+                       many = @Many(select = "com.softserve.webtester.mapper.VariableMapper.loadByRequestId")),
+               @Result(property = "dbValidations", column = "id",
+                       many = @Many(select = "com.softserve.webtester.mapper.DbValidationMapper.loadByRequestId")) })
     List<Request> loadFullRequestsByRequestCollectionId(int id);
 
 }

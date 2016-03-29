@@ -52,7 +52,7 @@ public class UserService {
      * @throws DuplicateKeyException if the user with the username exists in the database.
      * @throws DataAccessException
      */
-    @Transactional(propagation=Propagation.REQUIRED)
+    @Transactional(propagation = Propagation.REQUIRED)
     public int update(User user) {
         try {
             return userMapper.update(user);

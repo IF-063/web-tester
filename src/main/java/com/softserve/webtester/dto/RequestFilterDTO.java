@@ -13,11 +13,8 @@ public class RequestFilterDTO implements Serializable {
     private static final long serialVersionUID = 5474774865741817927L;
 
     private String RequestNameFilter;
-
     private int[] applicationFilter;
-
     private int[] serviceFilter;
-
     private int[] labelFilter;
 
     public RequestFilterDTO() { }

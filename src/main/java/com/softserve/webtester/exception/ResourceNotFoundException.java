@@ -1,7 +1,7 @@
 package com.softserve.webtester.exception;
 
 /**
- * Exception thrown when an attempt to load nonexistent data
+ * Exception thrown when an attempt to load nonexistent data.
  * 
  * @author Taras Oglabyak
  *

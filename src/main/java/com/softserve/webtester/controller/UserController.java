@@ -1,5 +1,6 @@
 package com.softserve.webtester.controller;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -80,6 +81,6 @@ public class UserController {
      */
     @RequestMapping(value = "/isUsernameFree", method = RequestMethod.POST)
     public @ResponseBody boolean isUsernameFree(@RequestParam int id, @RequestParam String username) {
-        return !"".equals(username) && userService.isUsernameFree(id, username);
+        return StringUtils.isNotBlank(username) && userService.isUsernameFree(id, username);
     }
 }
