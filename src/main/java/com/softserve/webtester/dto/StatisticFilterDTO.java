@@ -1,13 +1,17 @@
 package com.softserve.webtester.dto;
 
 import java.io.Serializable;
+import java.util.List;
+
+import com.softserve.webtester.model.BuildVersion;
 
 @SuppressWarnings("serial")
 public class StatisticFilterDTO implements Serializable {
-
+    
     private int[] serviceId;
     private int[] buildVersionId;
     private int responseTimeFilterMarker;
+    private List <BuildVersion> buildVersions;
 
     public int[] getServiceId() {
         return serviceId;
@@ -32,5 +36,12 @@ public class StatisticFilterDTO implements Serializable {
     public void setResponseTimeFilterMarker(int responseTimeFilterMarker) {
         this.responseTimeFilterMarker = responseTimeFilterMarker;
     }
+    
+    public List<BuildVersion> getBuildVersions() {
+        return buildVersions;
+    }
 
+    public void setBuildVersions(List<BuildVersion> buildVersions) {
+        this.buildVersions = buildVersions;
+    }
 }

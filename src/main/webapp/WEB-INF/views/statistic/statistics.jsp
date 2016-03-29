@@ -21,7 +21,7 @@
               <div class="col-md-3">
                 <label for="serviceId" class="control-label">Select service for statistic generation</label>
                 <form:select path="serviceId" items="${serviceName}" class="form-control select2-multiple"
-                 multiple="multiple" data-placeholder="s name" itemLabel="name" itemValue="id" />
+                 multiple="multiple" data-placeholder="s name" itemLabel="name" itemValue="id" />  
               </div>
 
               <div class="col-md-3">
@@ -63,7 +63,7 @@
               </tr>
               <tr>
                 <c:forEach items = "${statisticsBuildVersions}" var = "statisticsBuildVersion">
-                  <th class="col-md-2">${statisticsBuildVersion}</th>
+                  <th class="col-md-1">${statisticsBuildVersion}</th>
                 </c:forEach>
               </tr>
             </thead>
