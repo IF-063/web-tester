@@ -8,9 +8,11 @@ import java.util.List;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpEntityEnclosingRequestBase;
 import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.http.util.EntityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -56,6 +58,7 @@ public class RequestExecuteService {
                             long responseTime = stop.getTime() - start.getTime();
                             responses.add(response);
                             listResponseTime.add(responseTime);
+
                         } catch (IOException e) {
                             e.printStackTrace();
                         }

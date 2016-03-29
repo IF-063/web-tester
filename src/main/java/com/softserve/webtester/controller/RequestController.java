@@ -229,7 +229,7 @@ public class RequestController {
       
         try {
             
-            message = " " + runService.executor(environmentId, requestIdArray) + "\n run was created successfully";
+            message = " " + runService.run(environmentId, requestIdArray) + "\n run was created successfully";
         } catch (Exception e) {
             message = " " + "Creating request finished with  error:" + e.getMessage();
             status = HttpStatus.BAD_REQUEST;

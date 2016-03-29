@@ -12,24 +12,14 @@ public class RunService {
     @Autowired
     private ExecutorService executorService;
     
-    @Autowired
-    private ParseAndWriteIntoDBService parseAndWriteIntoDBService;
 
     public int run(int environmentId, int[] requestIdArray) {
+        executorService.execute(environmentId, requestIdArray);
 
-        int runId = resultHistoryService.getMaxId() + 1;
-
-        return parseAndWriteIntoDBService.parseAndWrite(executorService.execute(environmentId, requestIdArray));
-
-    }
-
-    public int run(int environmentId, int buildVersionId, int[] collectionIdArray) {
-
-        int runId = resultHistoryService.getMaxId() + 1;
-
-        return parseAndWriteIntoDBService.parseAndWrite(executorService.execute(environmentId,
-                buildVersionId, collectionIdArray));
+        return 1;
 
     }
+
+
 
 }
