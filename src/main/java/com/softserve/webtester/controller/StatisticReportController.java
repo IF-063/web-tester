@@ -59,6 +59,12 @@ public class StatisticReportController {
     @RequestMapping(value="/xls", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void xlsP(HttpServletResponse response,  @ModelAttribute StatisticFilterDTO statisticFilterDTO) {
+        List<BuildVersion> buildVersions = metaDataService.loadAllBuildVersions();
+        statisticFilterDTO.setBuildVersions(buildVersions);
+        if (ArrayUtils.isNotEmpty(statisticFilterDTO.getServiceId())
+                && ArrayUtils.isNotEmpty(statisticFilterDTO.getBuildVersionId())){
+        reportService.GenerateExcelReport(statisticFilterDTO);
+        }
 //      File file= new File("2016.03.28.sql");
 //      response.setHeader("Content-Disposition", String.format("inline; filename=\"" + file.getName() +"\""));
 //      response.setContentType("application/x-download");
