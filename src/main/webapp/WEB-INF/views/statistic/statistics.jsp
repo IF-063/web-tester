@@ -38,11 +38,12 @@
                 </form:select>            
               </div>
 
-              <div class="col-md-2">
+              <div class="col-md-3">
                 <label aria-hidden="true">&nbsp;</label>
                 <div>
                   <a href="<c:url value="/reports/statistic/" />" class="btn btn-default">Reset</a>
                   <input type="submit" class="btn btn-success" value="Generate" />
+                  <button id="exportXls" class="btn btn-default">Export to xls</button>
                 </div>
               </div>
             </div>

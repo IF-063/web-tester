@@ -24,5 +24,26 @@ $(function() {
       }
     }
   });
+  
+  $('#exportXls').click(function(e){
+
+	  $.ajax({
+	      type: 'POST',
+	      url: '/web-tester/reports/statistic/xls',
+	      contentType: 'application/json',
+	      data: {
+	       // environmentId: envId,
+	      //  requestIdArray: requestsToSend
+	      },
+	      success: function(data, textStatus, jqXHR) {
+	          alert(1);
+	      //    window.location.replace(contextPath + '/results/requests/run/' + data);
+	      },
+	      error: function(jqXHR) {
+	       alert(0);
+	      },
+	    });
+	  return false;
+  });
 
 });

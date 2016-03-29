@@ -1,14 +1,19 @@
 package com.softserve.webtester.controller;
 
 import java.util.List;
+
 import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseStatus;
+
 import com.softserve.webtester.dto.StatisticDataDTO;
 import com.softserve.webtester.dto.StatisticFilterDTO;
 import com.softserve.webtester.model.BuildVersion;
@@ -48,5 +53,11 @@ public class StatisticReportController {
         // model.addAttribute("sla", metaDataService.serviceLoad(reportFilterDTO.getServiceId()).getSla());
         // }
         return "statistic/statistics";
+    }
+    
+    @RequestMapping(value="/xls", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void xls() {
+      System.out.println(1);
     }
 }
