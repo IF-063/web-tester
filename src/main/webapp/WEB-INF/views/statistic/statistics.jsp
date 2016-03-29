@@ -50,7 +50,7 @@
         </form:form>
       </div>
 
-  <%--   <c:if test="${statistic!=null}" > --%>
+      <c:if test="${statistics!=null}"> 
       <div class="panel-body">
         <div class="table-responsive">
           <table class="table table-hover table-bordered table-striped" id="statistics">
@@ -69,7 +69,7 @@
             </thead>
             <tbody>
               <c:forEach items = "${statistics}" var = "statistic">
-                <tr>
+                <tr class="serviceStatistic">
                   <td class="td-centered"><c:out value="${statistic.serviceName}"/></td>
                   <td class="td-centered"><c:out value="${statistic.sla}"/></td>
                   <c:forEach items = "${statistic.responseTimes}" var = "responseTime">
@@ -82,7 +82,7 @@
           </table>
         </div>
       </div>
-     <%-- </c:if> --%>
+      </c:if> 
     </div>
   </div>
 </div>
