@@ -16,6 +16,7 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.softserve.webtester.exception.ResourceNotFoundException;
 import com.softserve.webtester.mapper.EnvironmentMapper;
 import com.softserve.webtester.model.Environment;
 
@@ -28,7 +29,7 @@ import com.softserve.webtester.model.Environment;
 @Transactional
 public class EnvironmentService {
 
-    private static final Logger LOGGER = Logger.getLogger(Environment.class);
+    private static final Logger LOGGER = Logger.getLogger(EnvironmentService.class);
 
     @Value("${environment.timemultiplier.default}")
     private float defaultTimeMultiplier;
@@ -46,12 +47,19 @@ public class EnvironmentService {
      */
     public Environment load(int id) {
         try {
-            return environmentMapper.load(id);
+            Environment environment = environmentMapper.load(id);
+            if (environment == null)
+                throw new ResourceNotFoundException("Environment not found, id: " + id);
+            return environment;
+        } catch (ResourceNotFoundException e) {
+            LOGGER.error("Environment not found, id: " + id, e);
+            throw e;
         } catch (DataAccessException e) {
-            LOGGER.error("Unable to load environment instance, id = " + id, e);
+            LOGGER.error("Unable to load environment instance, request id: " + id, e);
             throw e;
         }
     }
+
 
     /**
      * @see EnvironmentMapper#loadAll() method

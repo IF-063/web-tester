@@ -102,7 +102,8 @@ $(function() {
         requestIdArray: requestsToSend
       },
       success: function(data, textStatus, jqXHR) {
-        window.location.replace(contextPath + '/results/requests/run/' + data);
+          alert(data);
+      //    window.location.replace(contextPath + '/results/requests/run/' + data);
       },
       error: function(jqXHR) {
        alert(0);
