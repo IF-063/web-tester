@@ -1,6 +1,6 @@
 $(function() {
 
-  $('.multipleSelect').select2({
+  $('.select2-multiple').select2({
     theme: 'bootstrap',
     width: '100%'
   });

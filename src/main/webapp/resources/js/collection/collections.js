@@ -63,7 +63,7 @@ $(function() {
 
       },
       error: function(jqXHR) {
-        alert('oyva.. code: ' + jqXHR.status);
+        alert('Smth wrong... code: ' + jqXHR.status);
       },
     });
   };
