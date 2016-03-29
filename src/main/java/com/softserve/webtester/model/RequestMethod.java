@@ -1,5 +1,6 @@
 package com.softserve.webtester.model;
 
+import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpRequestBase;
@@ -11,7 +12,7 @@ import org.apache.http.client.methods.HttpRequestBase;
  */
 public enum RequestMethod {
 
-    POST(new HttpPost()), GET(new HttpGet());// PUT, DELETE, OPTIONS, HEAD, TRACE, CONNECT, PATCH;
+    POST(new HttpPost()), GET(new HttpGet()), DELETE(new HttpDelete()); // , PUT, OPTIONS, HEAD, TRACE, CONNECT, PATCH;
     
     private HttpRequestBase request;
     
