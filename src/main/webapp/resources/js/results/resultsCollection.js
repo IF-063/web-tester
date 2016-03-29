@@ -7,7 +7,7 @@ $(function() {
             ],
             columnDefs: [{
                 targets: [0, 5, 6, 7, 8, 9 ],
-                orderable: false,
+                orderable: false
             }]
         });
     });

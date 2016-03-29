@@ -7,7 +7,7 @@ $(function() {
             ],
             columnDefs: [{
                 targets: [0, 5, 6, 7, 8, 9 ],
-                orderable: false,
+                orderable: false
             }]
         });
     });
@@ -21,18 +21,6 @@ $(function() {
     // selects all request on page
     $('#selectAll').click(function() {
         $('#results input[type="checkbox"][name="operateSelect"]').prop('checked', this.checked);
-    });
-
-    // handles remove selected requests button click
-    $(document).on('click', '#deleteSelected', function() {
-        var selected = [];
-        $('input:checked[name="operateSelect"]').each(function() {
-            selected.push($(this).prop('id'));
-        });
-        if (selected.length != 0 && confirm('Do you really want to delete the results?')) {
-            deleteResults(selected);
-        }
-        return false;
     });
 
     // handles remove selected requests button click
