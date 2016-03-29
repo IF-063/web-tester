@@ -13,14 +13,15 @@
     <div class="panel panel-default">
       <div class="panel-heading">
         <h3>Statistic</h3>
-        <form:form modelAttribute="reportFilterDTO" method="GET">
+        <form:form modelAttribute="statisticFilterDTO" method="GET">
           <fieldset>
             <div class="shift-left">
 
+           
               <div class="col-md-3">
                 <label for="serviceId" class="control-label">Select service for statistic generation</label>
-                <form:select path="serviceId" class="form-control" items="${serviceName}" itemValue="id" 
-                  itemLabel="name" cssErrorClass="error" />
+                <form:select path="serviceId" items="${serviceName}" class="form-control select2-multiple"
+                 multiple="multiple" data-placeholder="s name" itemLabel="name" itemValue="id" />
               </div>
 
               <div class="col-md-3">
@@ -49,7 +50,7 @@
         </form:form>
       </div>
 
-    <c:if test="${statistic!=null}" >
+  <%--   <c:if test="${statistic!=null}" > --%>
       <div class="panel-body">
         <div class="table-responsive">
           <table class="table table-hover table-bordered table-striped" id="statistics">
@@ -57,30 +58,31 @@
               <tr>
                 <th rowspan="2" class="col-md-2">Service Name</th>
                 <th rowspan="2" class="col-md-1">SLA</th>
-                <th colspan="${fn:length(statistic)}" class="col-md">Response time for buildVersions</th>
+                <th colspan="${fn:length(statisticsBuildVersions)}" class="col-md">Response time for buildVersions</th>
                 <th rowspan="2" class="col-md-2">Average for the last three releases</th>
               </tr>
               <tr>
-                <c:forEach items = "${statistic}" var = "statistic">
-                  <th class="col-md-2">${statistic.buildVersionName}</th>
+                <c:forEach items = "${statisticsBuildVersions}" var = "statisticsBuildVersion">
+                  <th class="col-md-2">${statisticsBuildVersion}</th>
                 </c:forEach>
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td class="td-centered"><c:out value="${statistic.get(0).serviceName}"/></td>
-                <td class="td-centered"><c:out value="${sla}"/></td>
-                <c:forEach items = "${statistic}" var = "statistic">
-                  <td class="td-centered data"><b>${statistic.responseTime}</b></td>
-                </c:forEach>  
-                <td class="td-centered"><c:out value="${avarageResponseTime}"></c:out>
-                </td>  
-              </tr>    
+              <c:forEach items = "${statistics}" var = "statistic">
+                <tr>
+                  <td class="td-centered"><c:out value="${statistic.serviceName}"/></td>
+                  <td class="td-centered"><c:out value="${statistic.sla}"/></td>
+                  <c:forEach items = "${statistic.responseTimes}" var = "responseTime">
+                    <td class="td-centered data"><b>${responseTime}</b></td>
+                  </c:forEach>  
+                  <td class="td-centered"><c:out value="${statistic.averageResponseTime}"></c:out></td>  
+                </tr>
+              </c:forEach>
             </tbody>
           </table>
         </div>
       </div>
-      </c:if>
+     <%-- </c:if> --%>
     </div>
   </div>
 </div>
