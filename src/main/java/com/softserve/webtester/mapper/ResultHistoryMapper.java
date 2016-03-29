@@ -117,7 +117,7 @@ public interface ResultHistoryMapper {
             "<if test='labels!=null and labels.length>0'> AND rl.labelId IN",
             "<foreach collection='labels' item='item' index='index' open='(' separator=',' close=')'>",
             "#{item}</foreach></if>",
-            "GROUP BY r.requestCollectionId, runId",
+            "GROUP BY r.requestCollectionId",
             "</script>"})
     @Results({
             @Result(id = true, property = "id", column = "id", jdbcType = JdbcType.INTEGER),

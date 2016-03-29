@@ -36,8 +36,12 @@ $(function() {
       this.chart.ctx.stroke();
 
       // write SLA
-      this.chart.ctx.textAlign = 'center';
-      this.chart.ctx.fillText("SLA", scale.startPoint + 60, linePositionY-10);
+      this.chart.ctx.textAlign = 'left';
+      this.chart.ctx.fillText("SLA", scale.startPoint + 60, linePositionY+20);
+
+      // write SLA = sla ms
+      this.chart.ctx.textAlign = 'left';
+      this.chart.ctx.fillText("SLA = "+sla+"ms", scale.startPoint+linePositionY-linePositionY + 60, 20);
     }
   });
 

@@ -64,13 +64,13 @@
             <tbody>
             <c:forEach items="${list}" var="result">
               <tr class="dataRow">
-                <td><input id="${result.id}" type="checkbox" name="operateSelect" /></td>
+                <td class="td-centered"><input id="${result.id}" type="checkbox" name="operateSelect" /></td>
                 <td>${result.requestName}</td>
                 <td>${result.requestDescription}</td>
                 <td>${result.application.getName()}</td>
                 <td>${result.service.getName()}</td>
-                <td>${result.timeStart}</td>
-                <td>${(result.status==1)?'pass':'fail'}</td>
+                <td class="td-centered">${result.timeStart}</td>
+                <td class="td-centered">${(result.status==1)?'pass':'fail'}</td>
                 <td>${result.message}</td>
 
                 <td class="td-centered"><a href=<c:url value="/results/requests/${result.id}" />>details</a></td>

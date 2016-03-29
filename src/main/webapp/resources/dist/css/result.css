@@ -1,5 +1,5 @@
 th {
-    text-align: left;
+    text-align: center;
     width: 230px;
 }
 
@@ -7,7 +7,12 @@ th {
     width: 230px
     border-top: 10px solid;
     border-bottom: 10px solid;
-    border-color: transparent;;
+    border-color: transparent;
+    text-align: left;
+}
+
+.thh{
+    text-align: center;
 }
 
 .th1{
@@ -19,7 +24,8 @@ th {
 }
 
 .th3{
-    width: 300px;
+    width: 250px;
+    text-align: center;
 }
 
 .th4{
@@ -32,7 +38,7 @@ th {
 }
 
 .th6{
-    width: 700px;
+    width: 860px;
 }
 
 #view{

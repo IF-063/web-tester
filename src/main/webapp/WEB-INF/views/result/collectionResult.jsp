@@ -64,7 +64,7 @@
             <tbody>
             <c:forEach items="${list}" var="result">
               <tr class="dataRow">
-                  <td><input id="${result.requestCollection.getId()}" type="checkbox" name="operateSelect" /></td>
+                  <td class="td-centered"><input id="${result.requestCollection.getId()}" type="checkbox" name="operateSelect" /></td>
                   <td>${result.requestCollection.getName()}</td>
                   <td>${result.requestCollection.getDescription()}</td>
                   <td>
@@ -74,7 +74,7 @@
                   </td>
                   <td class="td-centered">${result.buildVersion.name}</td>
                   <td class="td-centered">${result.timeStart}</td>
-                  <td>${(result.status==1)?'pass':'fail'}</td>
+                  <td class="td-centered">${(result.status==1)?'pass':'fail'}</td>
                   <td>${result.message}</td>
 
                   <td class="td-centered"><a href=<c:url value="/results/collections/${result.requestCollection.getId()}" />>request results</a></td>

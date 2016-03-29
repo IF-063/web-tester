@@ -63,8 +63,8 @@
             <td>
               <table class="table-bordered">
                 <tr>
-                  <th class="th2">Name</th>
-                  <th class="th2">Value</th>
+                  <th class="th3">Name</th>
+                  <th class="th3">Value</th>
                 </tr>
 
                 <c:forEach items="${result.getHeaderHistories()}" var="result">
@@ -84,12 +84,12 @@
 
           <tr class="highlight">
             <th class="th">Request Body</th>
-            <td><textarea class="form-control" rows="2" style="width: 500px;resize: none" name="text">${result.requestBody}</textarea></td>
+            <td><textarea class="form-control" rows="2" style="width: 500px;resize: vertical" name="text">${result.requestBody}</textarea></td>
           </tr>
 
           <tr class="highlight">
             <th class="th">Status Line</th>
-            <td><textarea class="form-control" rows="1" style="width: 500px;resize: none" type="text">${result.statusLine}</textarea></td>
+            <td><textarea class="form-control" rows="1" style="width: 500px;resize: vertical" type="text">${result.statusLine}</textarea></td>
           </tr>
 
           <tr class="highlight">
@@ -114,7 +114,7 @@
 
           <tr>
             <th class="th">Message</th>
-            <td><textarea class="form-control" id="text3" id="code" name="code" rows="1" cols="90" style="width:500px;resize: none">${result.message}</textarea></td>
+            <td><textarea class="form-control" id="text3" id="code" name="code" rows="1" cols="90" style="width:500px;resize: vertical">${result.message}</textarea></td>
           </tr>
         </table>
       </div>
@@ -134,8 +134,8 @@
             <table class="table-bordered">
               <tr>
                 <th class="th6">SqlQuery</th>
-                <th class="th">ExpectedValue</th>
-                <th class="th">ActualValue</th>
+                <th class="thh">ExpectedValue</th>
+                <th class="thh">ActualValue</th>
               </tr>
 
               <c:forEach items="${result.getDbValidationHistories()}" var="result">
