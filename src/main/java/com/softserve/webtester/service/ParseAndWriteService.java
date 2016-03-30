@@ -37,7 +37,7 @@ public class ParseAndWriteService {
                     long responseTime = responseDTO.getResponseTime();
                     HttpResponse response = responseDTO.getResponse();
                     System.out.println("TIME   " + responseTime);
-                    System.out.println("RESPONSE" + response.toString());
+                    System.out.println("RESPONSE   " + response.toString());
                     try {
                         System.out.println(EntityUtils.toString(response.getEntity()));
                     } catch (ParseException | IOException e) {

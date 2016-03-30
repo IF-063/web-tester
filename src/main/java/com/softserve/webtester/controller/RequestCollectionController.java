@@ -1,6 +1,8 @@
 package com.softserve.webtester.controller;
 
 import java.util.Arrays;
+
+import com.softserve.webtester.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -20,10 +22,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import com.softserve.webtester.dto.RequestCollectionFilterDTO;
 import com.softserve.webtester.model.RequestCollection;
-import com.softserve.webtester.service.EnvironmentService;
-import com.softserve.webtester.service.MetaDataService;
-import com.softserve.webtester.service.RequestCollectionService;
-import com.softserve.webtester.service.RequestService;
 import com.softserve.webtester.validator.CollectionValidator;
 
 /**
@@ -35,7 +33,7 @@ import com.softserve.webtester.validator.CollectionValidator;
 @Controller
 @RequestMapping(value = "/tests/collections")
 public class RequestCollectionController {
-    
+
     private static final String LABEL = "labels";
     private static final String REQUESTS = "requests";
     private static final String COLLECTION = "requestCollection";
@@ -56,7 +54,10 @@ public class RequestCollectionController {
     private CollectionValidator requestCollectionValidator;
     
     @Autowired
-    private EnvironmentService environmentService; 
+    private EnvironmentService environmentService;
+
+    @Autowired
+    private RunService runService;
     
     @InitBinder("requestCollection")
     public void initBinder(WebDataBinder binder) {
@@ -89,7 +90,7 @@ public class RequestCollectionController {
     @RequestMapping(value = "/newCollection", method = RequestMethod.GET)
     public String getEmptyFormForRequestCollection(Model model) {
         model.addAttribute(LABEL, metaDataService.loadAllLabels());
-        model.addAttribute(REQUESTS, requestService.loadAll());        
+        model.addAttribute(REQUESTS, requestService.loadAll());
         model.addAttribute(COLLECTION, new RequestCollection());
         return "collection/collectionCreateEdit";
     }
@@ -175,6 +176,7 @@ public class RequestCollectionController {
     @RequestMapping(value = "/run", method = RequestMethod.POST)
     public @ResponseBody int runRequestCollection(@RequestParam int environmentId, @RequestParam int buildVersionId,
             @RequestParam(value = "requestCollectionIdArray[]") int[] requestCollectionIdArray) {
+        runService.run(environmentId, buildVersionId, requestCollectionIdArray);
         return 1;
     }
 }

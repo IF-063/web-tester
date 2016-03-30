@@ -6,10 +6,13 @@ import com.softserve.webtester.dto.RequestResultDTO;
 import com.softserve.webtester.dto.ResponseDTO;
 import com.softserve.webtester.model.Environment;
 import com.softserve.webtester.model.Request;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,12 +24,22 @@ import java.util.List;
 @Service
 public class RequestExecuteService {
 
+    //private static final Logger LOGGER = Logger.getLogger(RequestExecuteService.class);
+
     @Autowired
     private EnvironmentService environmentService;
 
     @Autowired
     private BuildHttpRequestService buildHttpRequestService;
 
+    /**
+     *
+     * @param environment
+     * @param requestList
+     * @param ifBuildVerExist
+     * @param collectionId
+     * @return
+     */
     public CollectionResultDTO executeRequests(Environment environment, List<Request> requestList,
                                                boolean ifBuildVerExist, int collectionId) {
 
@@ -34,11 +47,12 @@ public class RequestExecuteService {
         List<RequestResultDTO> requestResultDTOList = new ArrayList<RequestResultDTO>();
 
         Connection dbCon;
+        HttpClient httpClient;
 
         try {
             dbCon = environmentService.getConnection(environment);
 
-            CloseableHttpClient httpClient = HttpClientBuilder.create().build();
+            httpClient = HttpClientBuilder.create().build();
 
             String host = environment.getBaseUrl();
 
@@ -47,7 +61,7 @@ public class RequestExecuteService {
                 RequestDTO requestDTO = buildHttpRequestService.getHttpRequest(request, host, dbCon);
                 HttpRequestBase requestBase = requestDTO.getHttpRequest();
                 List<ResponseDTO> responseDTOList = new ArrayList<>();
-                ResponseDTO responseDTO = null;
+                ResponseDTO responseDTO;
 
                 if (ifBuildVerExist) {
                     for (int i = 0; i < 5; i++) {
@@ -69,16 +83,23 @@ public class RequestExecuteService {
             return collectionResultDTO;
 
         } catch (Exception e) {
-            e.printStackTrace();
+            //LOGGER.error("", e);
         }
 
         return null;
     }
 
-    private ResponseDTO executeOneRequest(CloseableHttpClient httpClient, HttpRequestBase requestBase) {
+    /**
+     *
+     * @param httpClient
+     * @param requestBase
+     * @return
+     */
+    private ResponseDTO executeOneRequest(HttpClient httpClient, HttpRequestBase requestBase) {
         ResponseDTO responseDTO = new ResponseDTO();
         long start = System.currentTimeMillis();
-        try (CloseableHttpResponse response = httpClient.execute(requestBase)) {
+        try {
+            HttpResponse response = httpClient.execute(requestBase);
             long responseTime = System.currentTimeMillis() - start;
             responseDTO.setResponseTime(responseTime);
             responseDTO.setResponse(response);
