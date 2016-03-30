@@ -75,7 +75,7 @@
                   </td>
                   <td class="td-centered">${result.buildVersion.name}</td>
                   <td class="td-centered">${result.timeStart}</td>
-                  <td class="td-centered">${statusCollection[status.index]=='1'?'PASS':'FAIL'}</td>
+                  <td class="td-centered">${STATUS_COLLECION[status.index]=='1'?'pass':'fail'}</td>
                   <td>${result.message}</td>
                   <td class="td-centered"><a href=<c:url value="/results/collections/${result.requestCollection.getId()}" />>request results</a></td>
                   <td class="td-centered">
