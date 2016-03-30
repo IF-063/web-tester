@@ -75,15 +75,8 @@
                   </td>
                   <td class="td-centered">${result.buildVersion.name}</td>
                   <td class="td-centered">${result.timeStart}</td>
-                  <td class="td-centered">
-                      <c:set var="s" value="statusCollection${status.index}" />
-                      <c:set var="s1" value="${s}" />
-                      <c:out value="${s1}" />
-                  </td>
-
-
+                  <td class="td-centered">${statusCollection[status.index]=='1'?'PASS':'FAIL'}</td>
                   <td>${result.message}</td>
-
                   <td class="td-centered"><a href=<c:url value="/results/collections/${result.requestCollection.getId()}" />>request results</a></td>
                   <td class="td-centered">
                     <a class="removeInstance cursorPointer fa fa-trash fa-lg"
