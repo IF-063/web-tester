@@ -33,18 +33,4 @@ public class ReportDataDTO implements Serializable {
     public void setBuildVersionName(String buildVersionName) {
         this.buildVersionName = buildVersionName;
     }
-
-    @Override
-    public String toString() {
-        StringBuilder builder = new StringBuilder();
-        builder.append("ReportDataDTO [serviceName=");
-        builder.append(serviceName);
-        builder.append(", responseTime=");
-        builder.append(responseTime);
-        builder.append(", buildVersionName=");
-        builder.append(buildVersionName);
-        builder.append("]");
-        return builder.toString();
-    }
-
 }

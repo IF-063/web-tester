@@ -99,9 +99,6 @@ public class RequestService {
             if (request == null)
                 throw new ResourceNotFoundException("Request not found, id: " + id);
             return request;
-        } catch (ResourceNotFoundException e) {
-            LOGGER.error("Request not found, id: " + id);
-            throw e;
         } catch (DataAccessException e) {
             LOGGER.error("Unable to load request instance, request id: " + id, e);
             throw e;

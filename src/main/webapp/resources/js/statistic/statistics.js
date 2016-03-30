@@ -24,19 +24,15 @@ $(function() {
       }
     }
   });
-
+  
   $('#exportXls').click(function(e) {
-    $.ajax({
-      type: 'GET',
-      url: '/web-tester/reports/statistic/xls?' + $('#statisticFilterDTO').serialize(),
-      success: function(data, textStatus, jqXHR) {
-        alert(1);
-      },
-      error: function(jqXHR) {
-        alert(0);
-      },
-    });
+    form=document.getElementById('statisticFilterDTO');
+    form.target='_blank';
+    form.action='/web-tester/reports/statistic/xls';
+    form.submit();
+    form.action='';
+    form.target='';
     return false;
   });
-
+  
 });
