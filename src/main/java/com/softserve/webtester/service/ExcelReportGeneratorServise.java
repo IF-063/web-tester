@@ -1,5 +1,6 @@
 package com.softserve.webtester.service;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -23,7 +24,7 @@ public class ExcelReportGeneratorServise {
     @Autowired
     ReportService reportService;
     
-    public void GenerateExcelReport(StatisticFilterDTO statisticFilterDTO) {
+    public byte[] GenerateExcelReport(StatisticFilterDTO statisticFilterDTO) {
         int k;
         List<String> buildVersionName = reportService.loadBuildVersionsName(statisticFilterDTO);
         List<StatisticDataDTO> statisticData = reportService.loadStatisticReportData(statisticFilterDTO);
@@ -70,17 +71,21 @@ public class ExcelReportGeneratorServise {
             cell.setCellStyle(style);
         }
         // Create file system using specific name
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
         try {
-            FileOutputStream out = new FileOutputStream(new File("createworkbook.xlsx"));
+            workbook.write(baos);
+            byte [] xls = baos.toByteArray();
+            baos.close();
+            return xls;
+            //FileOutputStream out = new FileOutputStream(new File("createworkbook.xlsx"));
             // write operation workbook using file out object
-            workbook.write(out);
-            out.close();
+            //workbook.write(out);  
+            //out.close();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
     
 }
