@@ -7,6 +7,7 @@ import java.util.stream.IntStream;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import com.softserve.webtester.dto.ReportDataDTO;
@@ -14,10 +15,19 @@ import com.softserve.webtester.dto.ReportFilterDTO;
 import com.softserve.webtester.dto.StatisticDataDTO;
 import com.softserve.webtester.dto.StatisticFilterDTO;
 import com.softserve.webtester.mapper.ReportMapper;
+import com.softserve.webtester.model.RequestCollection;
 
+/**
+ * ReportService class implements generating of data for statistic and graphic reports
+ * The service uses Spring DataSourceTransactionManager for managing transaction with the database and log4j for
+ * logging.
+ *
+ */
 @Service
 public class ReportService {
-
+    
+    private static final int AVARAGE = 1;
+    
     private static final Logger LOGGER = Logger.getLogger(ReportService.class);
 
     @Autowired
@@ -58,6 +68,13 @@ public class ReportService {
         }
     }
 
+    /**
+     * Generate data for statistic report
+     * 
+     * @param statisticFilterDTO DTO object using for filtering statistic data
+     * @return list of StatisticDataDTO objects
+     * @throws DataAccessException
+     */
     @Transactional
     public List<StatisticDataDTO> loadStatisticReportData(StatisticFilterDTO statisticFilterDTO) {
         int[] serviceId = statisticFilterDTO.getServiceId();
@@ -66,7 +83,7 @@ public class ReportService {
         List<StatisticDataDTO> result = new ArrayList<>(serviceId.length);
         for (int id : serviceId) {
             StatisticDataDTO dto = reportMapper.loadStatisticDataDTO(id);
-            if (statisticFilterDTO.getResponseTimeFilterMarker() == 1) {
+            if (statisticFilterDTO.getResponseTimeFilterMarker() == AVARAGE) {
                 dto.setResponseTimes(loadStatisticWithAverageResponseTime(id, buildVersionIds));
             } else {
                 dto.setResponseTimes(loadStatisticWithMaximumResponseTime(id, buildVersionIds));
@@ -76,6 +93,9 @@ public class ReportService {
         return result;
     }
 
+    /**
+     * Invoke this method to get average response time for each build version from the database
+     */
     @Transactional
     public List<Integer> loadStatisticWithAverageResponseTime(int serviceId, int[] buildVersionIds) {
         try {
@@ -86,6 +106,9 @@ public class ReportService {
         }
     }
 
+    /**
+     * Invoke this method to get maximum response time for each build version from the database
+     */
     @Transactional
     public List<Integer> loadStatisticWithMaximumResponseTime(int serviceId, int[] buildVersionIds) {
         try {
@@ -95,7 +118,13 @@ public class ReportService {
             throw e;
         }
     }
-
+   
+    /**
+     * Generate list of build versions names for statistic report
+     * 
+     * @param statisticFilterDTO DTO object using for filtering statistic data
+     * @return list of build versions names
+     */
     @Transactional
     public List<String> loadBuildVersionsName(StatisticFilterDTO statisticFilterDTO) {
         List<Integer> statisticsBuildVersionsId = IntStream.of(statisticFilterDTO.getBuildVersionId()).boxed()

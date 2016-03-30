@@ -5,6 +5,7 @@ $(function() {
     width: '100%'
   });
 
+  //handles background color changing depends on comparing values in table cells
   $('.serviceStatistic').each(function() {
     var data = $(this).find('.data');
     for (var i = 1; i < data.length; i++) {
@@ -25,6 +26,7 @@ $(function() {
     }
   });
   
+  //handles generating statistic report excel file
   $('#exportXls').click(function(e) {
     form=document.getElementById('statisticFilterDTO');
     form.target='_blank';

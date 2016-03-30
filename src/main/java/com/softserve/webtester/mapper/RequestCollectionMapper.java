@@ -25,10 +25,8 @@ public interface RequestCollectionMapper {
 
     /**
      * Saves {@link Request—ollection} instance to database
-     * 
-     * @param requestCollectionNameFilter using for filtering instances, which name starts with the parameter
+     *
      * @param requestCollection Request—ollection instance should be saved in the database
-     * @param labelFilter using for filtering instances, which labels identifier are in the array
      * @return number of rows affected by the statement
      * @throws DataAccessException
      */

@@ -17,12 +17,11 @@ import com.softserve.webtester.model.Request;
 import com.softserve.webtester.model.RequestCollection;
 
 /**
- * RequestCollectionService class implements CRUD operation on {@link RequestCollection} instance in the database.<br>
+ * RequestCollectionService class implements CRUD operation on {@link RequestCollection} instance in the database.
  * The service uses Spring DataSourceTransactionManager for managing transaction with the database and log4j for
  * logging.
  * 
  * @author Yura Lubinec
- * @version 1.0
  */
 @Service
 public class RequestCollectionService {

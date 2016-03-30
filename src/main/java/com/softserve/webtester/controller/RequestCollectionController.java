@@ -1,7 +1,5 @@
 package com.softserve.webtester.controller;
 
-import java.util.Arrays;
-
 import com.softserve.webtester.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,6 +19,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import com.softserve.webtester.dto.RequestCollectionFilterDTO;
+import com.softserve.webtester.model.Environment;
+import com.softserve.webtester.model.Request;
 import com.softserve.webtester.model.RequestCollection;
 import com.softserve.webtester.validator.CollectionValidator;
 
@@ -173,6 +173,14 @@ public class RequestCollectionController {
         requestCollectionService.delete(requestCollectionIdArray);
     }
     
+    /**
+     * Handles requestCollection run.
+     * 
+     * @param environmentId identifier of {@link Environment} instance
+     * @param buildVersionId identifier or {@link BuildVersion} istance
+     * @param requestCollectionIdArray identifiers of {@link RequestCollection} instance
+     * @return identifier of requests run
+     */
     @RequestMapping(value = "/run", method = RequestMethod.POST)
     public @ResponseBody int runRequestCollection(@RequestParam int environmentId, @RequestParam int buildVersionId,
             @RequestParam(value = "requestCollectionIdArray[]") int[] requestCollectionIdArray) {

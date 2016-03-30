@@ -45,7 +45,7 @@
                 <div>
                   <a href="<c:url value="/reports/statistic/ " />" class="btn btn-default">Reset</a>
                   <input type="submit" class="btn btn-success" value="Generate" />
-                  <button id="exportXls" class="btn btn-default">Export to xls</button>
+                  <button id="exportXls" class="btn btn-default">Export to excel</button>
                 </div>
               </div>
             </div>
@@ -92,13 +92,6 @@
           </div>
         </div>
       </c:if>
-
-<%--       <c:if test="${error==true}"> --%>
-<!--         <div class="alert alert-danger"> -->
-<!--           <strong>Error!</strong> Invalid username and password! -->
-<!--         </div> -->
-<%--       </c:if> --%>
-
     </div>
   </div>
 </div>

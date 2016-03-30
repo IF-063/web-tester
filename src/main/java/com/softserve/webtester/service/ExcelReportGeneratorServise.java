@@ -3,7 +3,6 @@ package com.softserve.webtester.service;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.List;
-
 import org.apache.log4j.Logger;
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
@@ -12,11 +11,22 @@ import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
-
+import org.springframework.transaction.annotation.Transactional;
 import com.softserve.webtester.dto.StatisticDataDTO;
 import com.softserve.webtester.dto.StatisticFilterDTO;
+import com.softserve.webtester.model.RequestCollection;
 
+
+/**
+ * ExcelReportGeneratorServise class implements generating of excel statistic reports
+ * The service uses Spring DataSourceTransactionManager for managing transaction with the database and log4j for
+ * logging.
+ * 
+ * @author Yura Lubinec
+ * @version 1.0
+ */
 @Service
 public class ExcelReportGeneratorServise {
 
@@ -25,6 +35,13 @@ public class ExcelReportGeneratorServise {
     @Autowired
     ReportService reportService;
 
+    /**
+     * Generate excel statistic reports
+     *
+     * @param statisticFilterDTO DTO object using for filtering statistic data instances
+     * @return byte array of Byte Output Stream 
+     */
+    @Transactional
     public byte[] generateExcelReport(StatisticFilterDTO statisticFilterDTO) {
 
         List<String> buildVersionName = reportService.loadBuildVersionsName(statisticFilterDTO);
