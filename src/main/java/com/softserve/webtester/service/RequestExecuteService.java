@@ -53,7 +53,7 @@ public class RequestExecuteService {
         try {
             dbCon = environmentService.getConnection(environment);
 
-            httpClient = HttpClientBuilder.create().build();
+            //httpClient = HttpClientBuilder.create().build();
 
             String host = environment.getBaseUrl();
 
@@ -66,11 +66,11 @@ public class RequestExecuteService {
 
                 if (ifBuildVerExist) {
                     for (int i = 0; i < 5; i++) {
-                        responseDTO = executeOneRequest(httpClient, requestBase);
+                        responseDTO = executeOneRequest(requestBase);
                         responseDTOList.add(responseDTO);
                     }
                 } else {
-                    responseDTO = executeOneRequest(httpClient, requestBase);
+                    responseDTO = executeOneRequest(requestBase);
                     responseDTOList.add(responseDTO);
                 }
                 requestResultDTO.setRequest(request);
@@ -102,9 +102,10 @@ public class RequestExecuteService {
      * @param requestBase interface for different types of request
      * @return ResponseDTO, object, which consists of response time and response
      */
-    private ResponseDTO executeOneRequest(HttpClient httpClient, HttpRequestBase requestBase) {
+    private ResponseDTO executeOneRequest(HttpRequestBase requestBase) {
         ResponseDTO responseDTO = new ResponseDTO();
         long start = System.currentTimeMillis();
+        HttpClient httpClient = HttpClientBuilder.create().build();
         try {
             HttpResponse response = httpClient.execute(requestBase);
             long responseTime = System.currentTimeMillis() - start;

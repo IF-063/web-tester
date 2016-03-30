@@ -25,6 +25,11 @@ import com.softserve.webtester.validator.EnvironmentValidator;
 @RequestMapping("/configuration/environments")
 public class EnvironmentController {
 
+	private static final String ENVIRONMENT_LIST = "environmentList";
+	private static final String PAGE_TASK = "pageTask";
+	private static final String ENVIRONMENT = "environment";
+	private static final String DB_TYPES = "dbTypes";
+	
     @Autowired
     private EnvironmentService environmentService;
 
@@ -39,26 +44,26 @@ public class EnvironmentController {
     @RequestMapping(method = RequestMethod.GET)
     public String getEnvironmentsPage(Model model) {
         List<Environment> environments = environmentService.loadAll();
-        model.addAttribute("environmentList", environments);
+        model.addAttribute(ENVIRONMENT_LIST, environments);
         return "environment/environmentList";
     }
 
     @RequestMapping(value = "/create", method = RequestMethod.GET)
     public String getEnvironmentCreatePage(Model model) {
 
-        model.addAttribute("pageTask", "Create");
+        model.addAttribute(PAGE_TASK, "Create");
         Environment environment = new Environment();
         environment.setTimeMultiplier(environmentService.getDefaultTimeMultiplier());
-        model.addAttribute("environment", environment);
-        model.addAttribute("dbTypes", EnvironmentDbType.values());
+        model.addAttribute(ENVIRONMENT, environment);
+        model.addAttribute(DB_TYPES, EnvironmentDbType.values());
         return "environment/environmentCreateOrUpdate";
     }
 
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     public String createEnvironment(@Validated @ModelAttribute Environment environment, BindingResult result, Model model) {
         if (result.hasErrors()) {
-            model.addAttribute("pageTask", "Create");
-            model.addAttribute("dbTypes", EnvironmentDbType.values());
+            model.addAttribute(PAGE_TASK, "Create");
+            model.addAttribute(DB_TYPES, EnvironmentDbType.values());
             return "environment/environmentCreateOrUpdate";
         }
         environmentService.save(environment);
@@ -67,19 +72,19 @@ public class EnvironmentController {
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public String getEnvironmentUpdatePage(@PathVariable int id, Model model) {
-        model.addAttribute("pageTask", "Update");
-        model.addAttribute("id", ((Integer) id).toString());
+        model.addAttribute(PAGE_TASK, "Update");
+        model.addAttribute("id", id);
         Environment environment = environmentService.load(id);
-        model.addAttribute("environment", environment);
-        model.addAttribute("dbTypes", EnvironmentDbType.values());
+        model.addAttribute(ENVIRONMENT, environment);
+        model.addAttribute(DB_TYPES, EnvironmentDbType.values());
         return "environment/environmentCreateOrUpdate";
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.POST)
     public String updateEnvironment(@Validated @ModelAttribute Environment environment, BindingResult result, Model model) {
         if (result.hasErrors()) {
-            model.addAttribute("pageTask", "Update");
-            model.addAttribute("dbTypes", EnvironmentDbType.values());
+            model.addAttribute(PAGE_TASK, "Update");
+            model.addAttribute(DB_TYPES, EnvironmentDbType.values());
             return "environment/environmentCreateOrUpdate";
         }
         environmentService.update(environment);

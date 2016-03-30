@@ -30,6 +30,7 @@ import com.softserve.webtester.model.Environment;
 public class EnvironmentService {
 
     private static final Logger LOGGER = Logger.getLogger(EnvironmentService.class);
+    private static final String CHECK_SQL = "SELECT 1 FROM DUAL";
 
     @Value("${environment.timemultiplier.default}")
     private float defaultTimeMultiplier;
@@ -51,11 +52,8 @@ public class EnvironmentService {
             if (environment == null)
                 throw new ResourceNotFoundException("Environment not found, id: " + id);
             return environment;
-        } catch (ResourceNotFoundException e) {
-            LOGGER.error("Environment not found, id: " + id, e);
-            throw e;
         } catch (DataAccessException e) {
-            LOGGER.error("Unable to load environment instance, request id: " + id, e);
+            LOGGER.error("Unable to load environment instance, environment id: " + id, e);
             throw e;
         }
     }
@@ -138,11 +136,6 @@ public class EnvironmentService {
         Connection connection = null;
 
         try {
-            //Setting Locale for thin jdbc oracle driver
-            /*if (environment.getDbType().name() == "ORACLE") {
-                Locale ukrainian = new Locale("uk", "UA");
-                Locale.setDefault(ukrainian);
-            }*/
             Class.forName(jdbcDriver);
             connection = DriverManager.getConnection(connectionUrl);
         } catch (SQLException se) {
@@ -155,28 +148,17 @@ public class EnvironmentService {
     }
 
     public String checkConnection(Environment environment) throws Exception {
-        Connection connection = null;
         Statement statement = null;
-        String sql = "Select 1 from dual";
         String result = null;
-        try {
-            connection = getConnection(environment);
+        try (Connection connection = getConnection(environment)) {
             statement = connection.createStatement();
-
-            ResultSet rs = statement.executeQuery(sql);
+            ResultSet rs = statement.executeQuery(CHECK_SQL);
             while (rs.next()) {
-                result = rs.getString("1");
+                result = rs.getString(1);
             }
         } catch (SQLException e) {
             throw e;
-        } finally {
-            if (statement != null) {
-                statement.close();
-            }
-            if (connection != null) {
-                connection.close();
-            }
-        }
+        } 
         return result;
     }
 }

@@ -31,14 +31,14 @@
                             <thead>
                                 <div class="row">
                                     <tr>
-                                        <th style="vertical-align: middle">Name</th>
-                                        <th style="vertical-align: middle">Base URL</th>
-                                        <th class="col-md-1" style="vertical-align: middle">Database Type</th>
-                                        <th style="vertical-align: middle">Database URL</th>
-                                        <th class="col-md-1" style="vertical-align: middle">Database port</th>
-                                        <th style="vertical-align: middle">Database name</th>
-                                        <th class="col-md-1" style="vertical-align: middle">Check Environment</th>
-                                        <th class="col-md-1" style="vertical-align: middle">Delete</th>
+                                        <th>Name</th>
+                                        <th>Base URL</th>
+                                        <th class="col-md-1">Database Type</th>
+                                        <th>Database URL</th>
+                                        <th class="col-md-1">Database port</th>
+                                        <th>Database name</th>
+                                        <th class="col-md-1">Check Environment</th>
+                                        <th class="col-md-1">Delete</th>
                                     </tr>
                                 </div>
                             </thead>

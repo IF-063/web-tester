@@ -32,7 +32,9 @@ $(".deleteEnvironment").click(function() {
             type : "POST",
             url : contextPath + '/configuration/environments/delete/' + currentTd.prop("id"),
             success : function() {
-                currentTd.parents("tr").remove();
+            	var tr = currentTd.parents("tr");
+            	$('#environments').dataTable().fnDeleteRow(tr);
+                tr.remove();
             },
             error : function(jqXHR) {
                 alert('Error (code: ' + jqXHR.status + ')');

@@ -25,12 +25,16 @@ import com.softserve.webtester.model.Request;
 import com.softserve.webtester.model.Variable;
 import com.softserve.webtester.model.VariableDataType;
 
+/**
+ * BuildHttpRequestService class allows create http requests based on Request and Environment
+ *
+ */
 @Service
 public class BuildHttpRequestService {
 
     @Autowired
     private RequestExecuteSupportService requestExecuteSupportService;
-
+    
     public RequestDTO getHttpRequest(Request request, String host, Connection dbCon)
             throws URISyntaxException, SQLException, ParseException, IOException {
 
@@ -69,10 +73,6 @@ public class BuildHttpRequestService {
                 String logString = "Request body";
                 HttpEntity entity = new StringEntity(requestExecuteSupportService
                         .getEvaluatedString(request.getRequestBody(), variableList, logString));
-                /*
-                 * ,ContentType.create(request.getResponseType().getTextValue(),
-                 * Consts.UTF_8));
-                 */
                 httpEntityEnclosingRequest.setEntity(entity);
                 requestDTO.setHttpRequest(httpEntityEnclosingRequest);
                 requestDTO.setVariableList(variableList);

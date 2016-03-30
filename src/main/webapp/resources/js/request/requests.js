@@ -94,7 +94,8 @@ $(function() {
 
   // sends test data to the server
   function sendTestData(envId) {
-    $.ajax({
+	  console.log(requestsToSend);
+	  $.ajax({
       type: 'POST',
       url: contextPath + '/tests/requests/run',
       data: {
