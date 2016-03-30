@@ -3,6 +3,7 @@ package com.softserve.webtester.service;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.List;
+
 import org.apache.log4j.Logger;
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
@@ -17,7 +18,10 @@ import com.softserve.webtester.dto.StatisticFilterDTO;
 
 @Service
 public class ExcelReportGeneratorServise {
+    
     private static final Logger LOGGER = Logger.getLogger(ExcelReportGeneratorServise.class);
+    
+    private static final String IFNULL = "-"; 
 
     @Autowired
     ReportService reportService;
@@ -60,7 +64,8 @@ public class ExcelReportGeneratorServise {
             cell.setCellStyle(style);
             for (j = 0; j < buildVersionName.size(); j++) {
                 cell = row.createCell(j + 2);
-                cell.setCellValue(statisticData.get(i).getResponseTimes().get(j));
+                Integer value = statisticData.get(i).getResponseTimes().get(j);
+                cell.setCellValue(value != null ? String.valueOf(value) : IFNULL);
                 cell.setCellStyle(style);
             }
             cell = row.createCell(2 + j);
