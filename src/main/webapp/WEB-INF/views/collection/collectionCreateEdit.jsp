@@ -44,8 +44,8 @@
               </label>
               <div class="col-md-6">
                 <form:select path="labels" class="select2-multiple" multiple="multiple" 
-                 items="${labels}" itemValue="id" itemLabel="name" cssErrorClass="error"/>
-                <form:errors path="labels" cssClass="help-block with-errors" />
+                 items="${labels}" itemValue="id" itemLabel="name" />
+                <form:errors path="labels" />
               </div>
             </div>
 

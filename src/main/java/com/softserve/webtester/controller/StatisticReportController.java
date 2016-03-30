@@ -15,6 +15,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -28,34 +29,36 @@ import com.softserve.webtester.service.ReportService;
 @Controller
 @RequestMapping(value = "/reports/statistic")
 public class StatisticReportController {
-    
+
     private static final String SERVICENAME = "serviceName";
     private static final String BUILDVERSIONS = "buildVersions";
     private static final String STATISTICBUILDVERSIONS = "statisticsBuildVersions";
     private static final String STATISTICS = "statistics";
-    
+    private static final String DATAFORMAT = "YYYY-MM-DD HH:mm:ss";
     private static final Logger LOGGER = Logger.getLogger(StatisticReportController.class);
-    
+
     @Autowired
     private MetaDataService metaDataService;
 
     @Autowired
     private ReportService reportService;
-    
+
     @Autowired
     private ExcelReportGeneratorServise excelReportGeneratorServise;
 
     @RequestMapping(method = RequestMethod.GET)
-    public String getStatistic(@ModelAttribute StatisticFilterDTO statisticFilterDTO, BindingResult result,
+    public String getStatistic(@Validated @ModelAttribute StatisticFilterDTO statisticFilterDTO, BindingResult result,
             Model model) {
         model.addAttribute(SERVICENAME, metaDataService.serviceLoadAllWithoutDeleted());
         List<BuildVersion> buildVersions = metaDataService.loadAllBuildVersions();
         statisticFilterDTO.setBuildVersions(buildVersions);
         model.addAttribute(BUILDVERSIONS, buildVersions);
-        if (ArrayUtils.isNotEmpty(statisticFilterDTO.getServiceId())
-            && ArrayUtils.isNotEmpty(statisticFilterDTO.getBuildVersionId())) {
-            model.addAttribute(STATISTICBUILDVERSIONS, reportService.loadBuildVersionsName(statisticFilterDTO));            
-            model.addAttribute(STATISTICS, reportService.loadStatisticReportData(statisticFilterDTO));
+        if (result.hasErrors()) {
+            return "statistic/statistics";
+        }
+        if (ArrayUtils.isNotEmpty(statisticFilterDTO.getServiceId())){
+        model.addAttribute(STATISTICBUILDVERSIONS, reportService.loadBuildVersionsName(statisticFilterDTO));
+        model.addAttribute(STATISTICS, reportService.loadStatisticReportData(statisticFilterDTO));
         }
         return "statistic/statistics";
     }
@@ -67,7 +70,7 @@ public class StatisticReportController {
         if (ArrayUtils.isNotEmpty(statisticFilterDTO.getServiceId())
                 && ArrayUtils.isNotEmpty(statisticFilterDTO.getBuildVersionId())) {
             byte[] data = excelReportGeneratorServise.generateExcelReport(statisticFilterDTO);
-            String fileName = new SimpleDateFormat("YYYY-MM-DD HH:mm:ss").format(new Date()) + ".xls";
+            String fileName = new SimpleDateFormat(DATAFORMAT).format(new Date()) + ".xls";
             response.setHeader("Content-Disposition", String.format("inline; filename=\"" + fileName + "\""));
             response.setContentType("application/x-download");
             try {

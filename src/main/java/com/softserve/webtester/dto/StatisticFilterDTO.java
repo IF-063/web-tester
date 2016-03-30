@@ -3,14 +3,20 @@ package com.softserve.webtester.dto;
 import java.io.Serializable;
 import java.util.List;
 
+import javax.validation.constraints.Size;
+
 import com.softserve.webtester.model.BuildVersion;
 
 public class StatisticFilterDTO implements Serializable {
     
     private static final long serialVersionUID = -8426535580134914033L;
     
+    @Size(min = 1, message = "Select at least 1 service ")
     private int[] serviceId;
+    
+    @Size(min = 1, max = 5)
     private int[] buildVersionId;
+    
     private int responseTimeFilterMarker;
     private List <BuildVersion> buildVersions;
 
