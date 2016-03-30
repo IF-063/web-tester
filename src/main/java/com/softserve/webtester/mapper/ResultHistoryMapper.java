@@ -88,7 +88,7 @@ public interface ResultHistoryMapper {
                                 @Param(value = "services") int[] services);
 
     @Select("SELECT id, status, applicationId, serviceId, runId, requestName, message, requestDescription, timeStart " +
-            "FROM ResultHistory WHERE requestCollectionId = #{id} GROUP BY runId")
+            "FROM ResultHistory WHERE requestCollectionId = #{id}")
     @Results({
             @Result(id = true, property = "id", column = "id", jdbcType = JdbcType.INTEGER),
             @Result(property = "status", column = "status", jdbcType = JdbcType.VARCHAR),
@@ -102,6 +102,22 @@ public interface ResultHistoryMapper {
             @Result(property = "timeStart", column = "timeStart", jdbcType = JdbcType.TIMESTAMP)
     })
     List<ResultHistory> loadAllRequestsByCollectionId(int id);
+
+    @Select("SELECT id, status, applicationId, serviceId, runId, requestName, message, requestDescription, timeStart " +
+            "FROM ResultHistory WHERE runId = #{id}")
+    @Results({
+            @Result(id = true, property = "id", column = "id", jdbcType = JdbcType.INTEGER),
+            @Result(property = "status", column = "status", jdbcType = JdbcType.VARCHAR),
+            @Result(property = "application", column = "applicationId",
+                    one = @One(select = "com.softserve.webtester.mapper.ApplicationMapper.load")),
+            @Result(property = "service", column = "serviceId",
+                    one = @One(select = "com.softserve.webtester.mapper.ServiceMapper.load")),
+            @Result(property = "requestName", column = "requestName", jdbcType = JdbcType.VARCHAR),
+            @Result(property = "message", column = "message", jdbcType = JdbcType.LONGVARCHAR),
+            @Result(property = "requestDescription", column = "requestDescription", jdbcType = JdbcType.VARCHAR),
+            @Result(property = "timeStart", column = "timeStart", jdbcType = JdbcType.TIMESTAMP)
+    })
+    List<ResultHistory> loadAllRequestsByRunId(int id);
 
     @Select({"<script>SELECT DISTINCT r.id, r.runId, r.requestCollectionId, r.buildVersionId, r.status, r.message," +
             " r.timeStart FROM ResultHistory r ",
@@ -117,7 +133,7 @@ public interface ResultHistoryMapper {
             "<if test='labels!=null and labels.length>0'> AND rl.labelId IN",
             "<foreach collection='labels' item='item' index='index' open='(' separator=',' close=')'>",
             "#{item}</foreach></if>",
-            "GROUP BY r.requestCollectionId",
+            "GROUP BY r.requestCollectionId, r.runId",
             "</script>"})
     @Results({
             @Result(id = true, property = "id", column = "id", jdbcType = JdbcType.INTEGER),
@@ -135,7 +151,6 @@ public interface ResultHistoryMapper {
     List<ResultHistory> loadAllCollections(@Param(value = "status") String status,
                                            @Param(value = "labels") int[] labels,
                                            @Param(value = "buildVersions") int[] buildVersions);
-
     @Delete("<script>DELETE FROM ResultHistory WHERE id IN "
             + "<foreach item='item' index='index' collection='list' open='(' separator=',' close=')'>"
             + "#{item}</foreach></script>")

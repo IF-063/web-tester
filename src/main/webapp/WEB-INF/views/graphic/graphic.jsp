@@ -34,11 +34,10 @@
 
               <div class="col-md-3">
                 <label for="responseTimeFilterMarker" class="control-label">Response Time</label>
-                <div>
-                  <form:radiobutton path="responseTimeFilterMarker" id="Time1" value="1" cssErrorClass="error"/>Average value
-                  <form:radiobutton path="responseTimeFilterMarker" id="Time2" value="2" cssErrorClass="error"/>Maximum value
-                  <form:errors path="responseTimeFilterMarker" cssClass="help-block with-errors" />
-                </div>
+                <form:select path="responseTimeFilterMarker" id="Time" class="form-control select2-multiple" cssErrorClass="error" >
+                  <form:option id="Time1" value="1">Avarage value</form:option>
+                  <form:option id="Time2" value="2">Maximum value</form:option>
+                </form:select>
               </div>
 
               <div class="col-md-2">

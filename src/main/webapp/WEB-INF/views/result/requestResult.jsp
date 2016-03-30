@@ -28,8 +28,10 @@
 
             <div class="col-md-2">
               <div>
-                <form:radiobutton path="statusFilter" value="1"/>status pass
-                <form:radiobutton path="statusFilter" value="0"/>status fail
+                <label>
+                <form:radiobutton path="statusFilter" value="1"/>status pass</label>
+                <label>
+                <form:radiobutton path="statusFilter" value="0"/>status fail</label>
               </div>
             </div>
 

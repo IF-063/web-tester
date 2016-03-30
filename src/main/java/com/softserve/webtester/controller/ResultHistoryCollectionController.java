@@ -2,6 +2,7 @@ package com.softserve.webtester.controller;
 
 import com.softserve.webtester.dto.ResultCollectionFilterDTO;
 import com.softserve.webtester.dto.ResultFilterDTO;
+import com.softserve.webtester.model.ResultHistory;
 import com.softserve.webtester.service.MetaDataService;
 import com.softserve.webtester.service.ResultHistoryService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,8 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Controller
 @RequestMapping(value = "/results/collections")
@@ -48,7 +51,12 @@ public class ResultHistoryCollectionController {
     public String showRequests(@PathVariable("id") int id,
                                @ModelAttribute ResultFilterDTO resultFilterDTO, Model model){
 
-        model.addAttribute("list",resultHistoryService.loadAllRequestsByCollectionId(id));
+        List<ResultHistory> list= resultHistoryService.loadAllRequestsByCollectionId(id);
+        model.addAttribute("list",list);
+
+        for(ResultHistory resultHistory:list){
+            if(resultHistory.getStatus().equals("0")) model.addAttribute("statusCollection", 0);
+        }
         return "requestResult";
     }
 }

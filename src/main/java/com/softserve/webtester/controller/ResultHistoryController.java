@@ -29,6 +29,16 @@ public class ResultHistoryController {
         return "requestResult";
     }
 
+    @RequestMapping(value = "/run/{id}", method = RequestMethod.GET)
+    public String listResultsByRuId(@ModelAttribute ResultFilterDTO resultFilterDTO,@PathVariable int id, Model model) {
+
+        model.addAttribute("applications", metaDataService.applicationLoadAll());
+        model.addAttribute("services", metaDataService.serviceLoadAll());
+        resultFilterDTO.setRunId(id);
+        model.addAttribute("list", resultHistoryService.loadAllRequestsByRunId(resultFilterDTO));
+        return "requestResult";
+    }
+
     @RequestMapping("/remove/{id}")
     public String removeResult(@PathVariable int id){
 

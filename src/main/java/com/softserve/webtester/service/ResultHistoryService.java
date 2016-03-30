@@ -31,9 +31,6 @@ public class ResultHistoryService {
     @Autowired
     private LabelMapper labelMapper;
 
-    @Autowired
-    private ServiceMapper serviceMapper;
-
     // Saving resultHistory instance in ResultHistory table
     public int save(ResultHistory resultHistory) {
 
@@ -52,8 +49,7 @@ public class ResultHistoryService {
     public ResultHistory loadById(int id) {
 
         try {
-            ResultHistory result=resultHistoryMapper.loadById(id);
-            System.out.print(result);
+            ResultHistory result = resultHistoryMapper.loadById(id);
             return result;
 
         } catch (DataAccessException e) {
@@ -115,6 +111,17 @@ public class ResultHistoryService {
 
         try {
             return resultHistoryMapper.loadAllRequestsByCollectionId(id);
+        } catch (DataAccessException e) {
+            LOGGER.error("Unable to load resultHistory instances", e);
+            throw e;
+        }
+    }
+
+    public List<ResultHistory> loadAllRequestsByRunId(ResultFilterDTO resultFilterDTO) {
+        int runId = resultFilterDTO.getRunId();
+
+        try {
+            return resultHistoryMapper.loadAllRequestsByRunId(runId);
         } catch (DataAccessException e) {
             LOGGER.error("Unable to load resultHistory instances", e);
             throw e;

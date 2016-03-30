@@ -28,8 +28,10 @@
 
               <div class="col-md-2">
                   <div>
-                      <form:radiobutton path="statusFilter" value="1"/>status pass
-                      <form:radiobutton path="statusFilter" value="0"/>status fail
+                      <label>
+                          <form:radiobutton path="statusFilter" value="1"/>status pass</label>
+                      <label>
+                      <form:radiobutton path="statusFilter" value="0"/>status fail</label>
                   </div>
               </div>
 
@@ -74,7 +76,7 @@
                   </td>
                   <td class="td-centered">${result.buildVersion.name}</td>
                   <td class="td-centered">${result.timeStart}</td>
-                  <td class="td-centered">${(result.status==1)?'pass':'fail'}</td>
+                  <td class="td-centered">${(statusCollection==1)?'pass':'fail'}</td>
                   <td>${result.message}</td>
 
                   <td class="td-centered"><a href=<c:url value="/results/collections/${result.requestCollection.getId()}" />>request results</a></td>

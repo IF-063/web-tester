@@ -10,6 +10,7 @@ public class ResultFilterDTO implements Serializable {
     private String statusFilter;
     private int[] applicationFilter;
     private int[] serviceFilter;
+    private int runId;
 
     public ResultFilterDTO() { }
 
@@ -35,5 +36,13 @@ public class ResultFilterDTO implements Serializable {
 
     public void setServiceFilter(int[] serviceFilter) {
         this.serviceFilter = serviceFilter;
+    }
+
+    public int getRunId() {
+        return runId;
+    }
+
+    public void setRunId(int runId) {
+        this.runId = runId;
     }
 }

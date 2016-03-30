@@ -61,12 +61,16 @@ $(function() {
 });
 
 //enable and disable button Generate
-$("#Time1, #Time2").on("change", function(){
+$("#Time").on("change", function(){
+    enableDisableButton();
+});
+
+$("#Service").on("change", function(){
     enableDisableButton();
 });
 
 function enableDisableButton(){
-    if($("#BuildVersion").val() && $("#Time1, #Time2").is(":checked") == true){
+    if($("#Service").val() && $("#BuildVersion").val() && $("#Time").val()){
         $("#Submit").prop("disabled", false);
         $("#Submit").prop("title", "Generating a new graphic");
     } else {
