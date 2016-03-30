@@ -27,7 +27,13 @@ public class RunService {
     @Autowired
     private ParseAndWriteService parseAndWriteService;
 
-
+    /**
+     * method which responsible for running request or requests list
+     *
+     * @param environmentId for getting environment data from DB
+     * @param requestIdArray list of request id to get request objects from DB
+     * @return run id to show results
+     */
     public int run(int environmentId, int[] requestIdArray) {
 
         Environment environment = environmentService.load(environmentId);
@@ -38,6 +44,14 @@ public class RunService {
 
     }
 
+    /**
+     * method which responsible for running collections of requests
+     *
+     * @param environmentId for getting environment data from DB
+     * @param buildVersionId tell us to run request contained in collection for 5 times
+     * @param collectionIdArray array of collection id, for getting list of request objects from DB
+     * @return run id to show results
+     */
     public int run(int environmentId, int buildVersionId, int[] collectionIdArray) {
 
         Environment environment = environmentService.load(environmentId);

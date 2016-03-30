@@ -3,6 +3,7 @@ package com.softserve.webtester.service;
 import java.io.IOException;
 import java.util.List;
 
+
 import com.softserve.webtester.dto.*;
 import org.apache.http.HttpResponse;
 import org.apache.http.ParseException;
@@ -11,7 +12,7 @@ import org.springframework.stereotype.Service;
 
 import com.softserve.webtester.model.Environment;
 import com.softserve.webtester.model.Request;
-import org.apache.http.HttpResponse;
+
 
 @Service
 public class ParseAndWriteService {
