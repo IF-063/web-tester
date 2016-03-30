@@ -53,10 +53,9 @@ public class RequestCollectionService {
     public int save(RequestCollection requestCollection) {
         try {
             requestCollectionMapper.save(requestCollection);
-            int id = requestCollection.getId();
             saveRequestsToCollection(requestCollection);
             saveLabelsToCollection(requestCollection);
-            return id;
+            return requestCollection.getId();
         } catch (DataAccessException e) {
             LOGGER.error("Unable to save RequestCollection instance" + requestCollection.getId(), e);
             throw e;
