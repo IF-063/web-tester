@@ -1,10 +1,9 @@
 package com.softserve.webtester.service;
 
 import java.io.ByteArrayOutputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
-
+import org.apache.log4j.Logger;
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
 import org.apache.poi.hssf.usermodel.HSSFRow;
@@ -18,6 +17,7 @@ import com.softserve.webtester.dto.StatisticFilterDTO;
 
 @Service
 public class ExcelReportGeneratorServise {
+    private static final Logger LOGGER = Logger.getLogger(ExcelReportGeneratorServise.class);
 
     @Autowired
     ReportService reportService;
@@ -74,10 +74,8 @@ public class ExcelReportGeneratorServise {
             xls = baos.toByteArray();
             baos.close();
             workbook.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
         } catch (IOException e) {
-            e.printStackTrace();
+            LOGGER.error("Unable to write data to byte array output stream", e);
         }
         return xls;
     }
