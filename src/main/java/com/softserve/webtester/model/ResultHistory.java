@@ -24,7 +24,6 @@ public class ResultHistory implements Serializable {
     private String requestDescription;
     private String url;
     private String responseType;
-    //private ResponseType responseType;
     private String requestBody;
     private String statusLine;
     private String timeStart;

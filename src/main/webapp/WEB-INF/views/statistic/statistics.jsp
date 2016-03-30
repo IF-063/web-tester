@@ -34,7 +34,7 @@
                 <label for="responseTimeFilterMarker" class="control-label">Select response time type for report</label>
                 <form:select path="responseTimeFilterMarker" class="form-control"  cssErrorClass="error" >
                 <form:option value="1">With avarage ResponseTime</form:option>
-                <form:option value="2">With maximum ResponseTime</form:option>             
+                <form:option value="2">With maximum ResponseTime</form:option>
                 </form:select>            
               </div>
 

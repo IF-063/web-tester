@@ -24,7 +24,7 @@
   <div class="panel body">
     <div class="row">
       <div class="col-md-12">
-        <table id="mytable" class="table-hover">
+        <table class="table-hover">
           <tr class="highlight">
             <th class="th">Status</th>
             <td>${(result.status==1)?'pass':'fail'}</td>
@@ -48,7 +48,7 @@
           <th class="th">Labels</th>
           <td>
             <c:forEach items="${result.getLabels()}" var="result">
-              <span class='label label-info' style='margin:4px;padding:4px'/>${result.name}</span>
+              <span class='label label-info' id='label'/>${result.name}</span>
             </c:forEach>
           </td>
           </tr>
@@ -84,12 +84,12 @@
 
           <tr class="highlight">
             <th class="th">Request Body</th>
-            <td><textarea class="form-control" rows="2" style="width: 500px;resize: vertical" name="text">${result.requestBody}</textarea></td>
+            <td><textarea class="form-control" id ="t1" rows="2" name="text">${result.requestBody}</textarea></td>
           </tr>
 
           <tr class="highlight">
             <th class="th">Status Line</th>
-            <td><textarea class="form-control" rows="1" style="width: 500px;resize: vertical" type="text">${result.statusLine}</textarea></td>
+            <td><textarea class="form-control" id ="t2" rows="1" name="text">${result.statusLine}</textarea></td>
           </tr>
 
           <tr class="highlight">
@@ -114,7 +114,7 @@
 
           <tr>
             <th class="th">Message</th>
-            <td><textarea class="form-control" id="text3" id="code" name="code" rows="1" cols="90" style="width:500px;resize: vertical">${result.message}</textarea></td>
+            <td><textarea class="form-control" id ="t3" name="text" rows="1" cols="90">${result.message}</textarea></td>
           </tr>
         </table>
       </div>
@@ -160,7 +160,7 @@
   <div class="panel body">
     <div class="row">
       <div class="col-md-12">
-        <table id="mytable" class="table-hover">
+        <table class="table-hover">
           <tr id ="textar">
             <th class="th">Response Validation Results</th>
             <td>

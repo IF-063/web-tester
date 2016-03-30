@@ -7,6 +7,7 @@
 <link href=<c:url value="/resources/dist/css/select2-bootstrap.css" /> rel="stylesheet" />
 <link href=<c:url value="/resources/bower_components/bootstrap-dataTables/css/dataTables.bootstrap.min.css" />
   rel="stylesheet" />
+<link href=<c:url value="/resources/dist/css/graphic.css" /> rel="stylesheet" />
 
 <div class="row">
   <div class="col-md-12">
@@ -55,17 +56,16 @@
       </div>
 
       <div class="panel-body">
-        <div id="title" style="width:100%;">
+        <div class="inner">
           <c:if test="${not empty graphicData}">
-            <h4 style="text-align: center">Performance by ${(reportFilterDTO.getResponseTimeFilterMarker() == 1)
-            ?'Average':'Maximum'} value of response time</h4>
+            <h4 >Performance by ${(reportFilterDTO.getResponseTimeFilterMarker() == 1)?'Average':'Maximum'} value of response time</h4>
           </c:if>
         </div>
       </div>
 
       <div class="panel-body">
-        <div style="width:50%; margin: 0 auto;">
-          <div style="width:100%">
+        <div id="outer">
+          <div class="inner">
             <canvas id="canvas" height="450" width="600"></canvas>
           </div>
         </div>
@@ -82,9 +82,6 @@
   <span class="sla">${sla}</span>
 </div>
 
-<script src=<c:url value="/resources/js/graphics/graphics.js" />></script>
-<script src=<c:url value="/resources/js/graphics/enableDisableButton.js" />></script>
+<script src=<c:url value="/resources/js/graphic/graphic.js" />></script>
+<script src=<c:url value="/resources/js/graphic/Chart.js" />></script>
 <script src=<c:url value="/resources/dist/js/select2.min.js" />></script>
-
-<script src=<c:url value="/resources/dist/js/Chartjs/Chart.js" />></script>
-<script src=<c:url value="/resources/dist/js/Chartjs/myScript.js" />></script>

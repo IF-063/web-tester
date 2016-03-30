@@ -50,3 +50,13 @@ tr.highlight {
     border-bottom: 10px solid;
     border-color: transparent;
 }
+
+#t1,#t2,#t3{
+    width: 500px;
+    resize: vertical;
+}
+
+#label{
+    margin: 4px;
+    padding: 4px;
+}
