@@ -1,9 +1,7 @@
 package com.softserve.webtester.service;
 
 import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.List;
 
@@ -20,11 +18,11 @@ import com.softserve.webtester.dto.StatisticFilterDTO;
 
 @Service
 public class ExcelReportGeneratorServise {
-    
+
     @Autowired
     ReportService reportService;
-    
-    public byte[] GenerateExcelReport(StatisticFilterDTO statisticFilterDTO) {
+
+    public byte[] generateExcelReport(StatisticFilterDTO statisticFilterDTO) {
         int k;
         List<String> buildVersionName = reportService.loadBuildVersionsName(statisticFilterDTO);
         List<StatisticDataDTO> statisticData = reportService.loadStatisticReportData(statisticFilterDTO);
@@ -48,9 +46,8 @@ public class ExcelReportGeneratorServise {
         cell = row.createCell(2 + k);
         cell.setCellValue("Average for the last three releases");
         cell.setCellStyle(style);
-        for (int l = 0; l <=2+k; l++){
+        for (int l = 0; l <= 2 + k; l++) {
             spreadsheet.autoSizeColumn(l);
-            
         }
         for (int i = 0; i < statisticData.size(); i++) {
             int j;
@@ -70,22 +67,18 @@ public class ExcelReportGeneratorServise {
             cell.setCellValue(statisticData.get(i).getAverageResponseTime());
             cell.setCellStyle(style);
         }
-        // Create file system using specific name
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        byte[] xls = null;
         try {
             workbook.write(baos);
-            byte [] xls = baos.toByteArray();
+            xls = baos.toByteArray();
             baos.close();
-            return xls;
-            //FileOutputStream out = new FileOutputStream(new File("createworkbook.xlsx"));
-            // write operation workbook using file out object
-            //workbook.write(out);  
-            //out.close();
+            workbook.close();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
+        return xls;
     }
-    
 }
