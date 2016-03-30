@@ -208,4 +208,5 @@ public interface ResultHistoryMapper {
 
     @Select("SELECT MAX(runId) FROM ResultHistory")
     int getMaxId();
+
 }

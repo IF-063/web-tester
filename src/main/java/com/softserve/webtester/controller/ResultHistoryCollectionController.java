@@ -43,15 +43,15 @@ public class ResultHistoryCollectionController {
         return "collectionResult";
     }
 
-
     @RequestMapping(value = "/run/{id}", method = RequestMethod.GET)
-    public String listCollectionResultsByRuId(@ModelAttribute ResultCollectionFilterDTO resultCollectionFilterDTO,@PathVariable int id, Model model) {
+    public String listCollectionResultsByRuId(@ModelAttribute ResultCollectionFilterDTO resultCollectionFilterDTO,
+                                              @PathVariable int id, Model model) {
 
         model.addAttribute("buildVersions", metaDataService.loadAllBuildVersions());
         model.addAttribute("labels", metaDataService.loadAllLabels());
         resultCollectionFilterDTO.setRunId(id);
         model.addAttribute("list", resultHistoryService.loadAllCollectionsByRunId(resultCollectionFilterDTO));
-        return "requestResult";
+        return "collectionResult";
     }
 
     @RequestMapping(value="/remove/{id}", method = RequestMethod.GET)
