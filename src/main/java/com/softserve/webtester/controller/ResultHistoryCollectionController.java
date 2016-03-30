@@ -21,6 +21,8 @@ public class ResultHistoryCollectionController {
     @Autowired
     private ResultHistoryService resultHistoryService;
 
+    private static final String STATUS_COLLECION = "statusCollection";
+
     @Autowired
     private MetaDataService metaDataService;
 
@@ -29,8 +31,27 @@ public class ResultHistoryCollectionController {
 
         model.addAttribute("buildVersions", metaDataService.loadAllBuildVersions());
         model.addAttribute("labels", metaDataService.loadAllLabels());
-        model.addAttribute("list", resultHistoryService.loadAllCollections(resultCollectionFilterDTO));
+
+
+        List<ResultHistory> list=resultHistoryService.loadAllCollections(resultCollectionFilterDTO);
+        model.addAttribute("list", list);
+
+        for (int i = 0; i < list.size(); i++) {
+            model.addAttribute(STATUS_COLLECION+i, list.get(i).getStatus());
+            System.out.println(STATUS_COLLECION+i+ "   "+ list.get(i).getStatus());
+        }
         return "collectionResult";
+    }
+
+
+    @RequestMapping(value = "/run/{id}", method = RequestMethod.GET)
+    public String listCollectionResultsByRuId(@ModelAttribute ResultCollectionFilterDTO resultCollectionFilterDTO,@PathVariable int id, Model model) {
+
+        model.addAttribute("buildVersions", metaDataService.loadAllBuildVersions());
+        model.addAttribute("labels", metaDataService.loadAllLabels());
+        resultCollectionFilterDTO.setRunId(id);
+        model.addAttribute("list", resultHistoryService.loadAllCollectionsByRunId(resultCollectionFilterDTO));
+        return "requestResult";
     }
 
     @RequestMapping(value="/remove/{id}", method = RequestMethod.GET)
@@ -51,12 +72,7 @@ public class ResultHistoryCollectionController {
     public String showRequests(@PathVariable("id") int id,
                                @ModelAttribute ResultFilterDTO resultFilterDTO, Model model){
 
-        List<ResultHistory> list= resultHistoryService.loadAllRequestsByCollectionId(id);
-        model.addAttribute("list",list);
-
-        for(ResultHistory resultHistory:list){
-            if(resultHistory.getStatus().equals("0")) model.addAttribute("statusCollection", 0);
-        }
+        model.addAttribute("list",resultHistoryService.loadAllRequestsByCollectionId(id));
         return "requestResult";
     }
 }

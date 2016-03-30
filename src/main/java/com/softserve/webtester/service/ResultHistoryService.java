@@ -35,6 +35,13 @@ public class ResultHistoryService {
     public int save(ResultHistory resultHistory) {
 
         try {
+            if (!resultHistory.getBuildVersion().equals(null)) {
+                resultHistoryMapper.save(resultHistory);
+            } else if (!resultHistory.getRequestCollection().equals(null)) {
+                resultHistoryMapper.saveCollection(resultHistory);
+            } else {
+                resultHistoryMapper.saveRequest(resultHistory);
+            }
             resultHistoryMapper.save(resultHistory);
             int id = resultHistory.getId();
             LOGGER.info("ResultHistory saved successfully, resultHistory details = " + resultHistory);
@@ -122,6 +129,17 @@ public class ResultHistoryService {
 
         try {
             return resultHistoryMapper.loadAllRequestsByRunId(runId);
+        } catch (DataAccessException e) {
+            LOGGER.error("Unable to load resultHistory instances", e);
+            throw e;
+        }
+    }
+
+    public List<ResultHistory> loadAllCollectionsByRunId(ResultCollectionFilterDTO resultCollectionFilterDTO) {
+        int runId = resultCollectionFilterDTO.getRunId();
+
+        try {
+            return resultHistoryMapper.loadAllCollectionsByRunId(runId);
         } catch (DataAccessException e) {
             LOGGER.error("Unable to load resultHistory instances", e);
             throw e;

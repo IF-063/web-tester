@@ -30,7 +30,7 @@ public class ResultHistoryController {
     }
 
     @RequestMapping(value = "/run/{id}", method = RequestMethod.GET)
-    public String listResultsByRuId(@ModelAttribute ResultFilterDTO resultFilterDTO,@PathVariable int id, Model model) {
+    public String listResultsByRuId(@ModelAttribute ResultFilterDTO resultFilterDTO, int id, Model model) {
 
         model.addAttribute("applications", metaDataService.applicationLoadAll());
         model.addAttribute("services", metaDataService.serviceLoadAll());

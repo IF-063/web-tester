@@ -9,8 +9,7 @@ public class ResultCollectionFilterDTO implements Serializable {
     private String statusFilter;
     private int[] buildVersionsFilter;
     private int[] labelFilter;
-
-    public ResultCollectionFilterDTO() { }
+    private int runId;
 
     public String getStatusFilter() {
         return statusFilter;
@@ -34,5 +33,13 @@ public class ResultCollectionFilterDTO implements Serializable {
 
     public void setLabelFilter(int[] labelFilter) {
         this.labelFilter = labelFilter;
+    }
+
+    public int getRunId() {
+        return runId;
+    }
+
+    public void setRunId(int runId) {
+        this.runId = runId;
     }
 }
