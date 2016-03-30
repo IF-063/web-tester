@@ -6,21 +6,12 @@ import java.util.List;
 
 public class RequestResultDTO {
 
-    private int collectionId;
     private Request request;
     private RequestDTO requestDTO;
     private List<ResponseDTO> responses;
 
     public RequestResultDTO() {
 
-    }
-
-    public int getCollectionId() {
-        return collectionId;
-    }
-
-    public void setCollectionId(int collectionId) {
-        this.collectionId = collectionId;
     }
 
     public Request getRequest() {
@@ -38,7 +29,7 @@ public class RequestResultDTO {
     public void setRequestDTO(RequestDTO requestDTO) {
         this.requestDTO = requestDTO;
     }
-    
+
     public List<ResponseDTO> getResponses() {
         return responses;
     }

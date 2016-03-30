@@ -9,7 +9,7 @@ public class ResultsDTO {
     private int runId;
     private int buildVersionId;
     private Environment environment;
-    private List<RequestResultDTO> requestResults;
+    private List<CollectionResultDTO> collectionResultDTOList;
 
     public ResultsDTO() {
 
@@ -39,11 +39,11 @@ public class ResultsDTO {
         this.environment = environment;
     }
 
-    public List<RequestResultDTO> getRequestResults() {
-        return requestResults;
+    public List<CollectionResultDTO> getCollectionResultDTOList() {
+        return collectionResultDTOList;
     }
 
-    public void setRequestResults(List<RequestResultDTO> requestResults) {
-        this.requestResults = requestResults;
+    public void setCollectionResultDTOList(List<CollectionResultDTO> collectionResultDTOList) {
+        this.collectionResultDTOList = collectionResultDTOList;
     }
 }

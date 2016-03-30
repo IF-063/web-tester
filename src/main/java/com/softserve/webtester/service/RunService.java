@@ -1,6 +1,6 @@
 package com.softserve.webtester.service;
 
-import com.softserve.webtester.dto.RequestResultDTO;
+import com.softserve.webtester.dto.CollectionResultDTO;
 import com.softserve.webtester.dto.ResultsDTO;
 import com.softserve.webtester.model.Environment;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,8 +43,6 @@ public class RunService {
         Environment environment = environmentService.load(environmentId);
 
         int runId = resultHistoryService.getMaxId() + 1;
-        
-        int result = parseAndWriteService.parseAndWrite(execute(environment, buildVersionId, collectionIdArray, runId));
 
         return parseAndWriteService.parseAndWrite(execute(environment, buildVersionId, collectionIdArray, runId));
 
@@ -58,10 +56,14 @@ public class RunService {
         resultsDTO.setBuildVersionId(0);
         resultsDTO.setRunId(runId);
 
-        List<RequestResultDTO> requestResultDTOList = new ArrayList<>();
-        requestResultDTOList.addAll(requestExecuteService.executeRequests(environment,
-                requestService.loadArray(requestIdArray), false, 0));
-        resultsDTO.setRequestResults(requestResultDTOList);
+        List<CollectionResultDTO> collectionResultDTOList = new ArrayList<>();
+
+        CollectionResultDTO collectionResultDTO = requestExecuteService.executeRequests(environment,
+                requestService.loadArray(requestIdArray), false, 0);
+
+        collectionResultDTOList.add(collectionResultDTO);
+
+        resultsDTO.setCollectionResultDTOList(collectionResultDTOList);
 
         return resultsDTO;
     }
@@ -74,13 +76,16 @@ public class RunService {
         resultsDTO.setBuildVersionId(buildVersionId);
         resultsDTO.setRunId(runId);
 
-        List<RequestResultDTO> requestResultDTOList = new ArrayList<>();
+        List<CollectionResultDTO> collectionResultDTOList = new ArrayList<>();
+
         for (int i = 0; i < collectionIdArray.length; i++) {
-            requestResultDTOList.addAll(requestExecuteService.executeRequests(environment,
+            CollectionResultDTO collectionResultDTO = requestExecuteService.executeRequests(environment,
                     requestService.loadFullRequestsByRequestCollectionId(collectionIdArray[i]),
-                    (buildVersionId!=0), collectionIdArray[i]));
+                    (buildVersionId!=0), collectionIdArray[i]);
+            collectionResultDTOList.add(collectionResultDTO);
         }
-        resultsDTO.setRequestResults(requestResultDTOList);
+
+        resultsDTO.setCollectionResultDTOList(collectionResultDTOList);
 
         return resultsDTO;
     }

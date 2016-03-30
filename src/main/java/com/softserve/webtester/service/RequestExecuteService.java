@@ -1,5 +1,6 @@
 package com.softserve.webtester.service;
 
+import com.softserve.webtester.dto.CollectionResultDTO;
 import com.softserve.webtester.dto.RequestDTO;
 import com.softserve.webtester.dto.RequestResultDTO;
 import com.softserve.webtester.dto.ResponseDTO;
@@ -26,8 +27,10 @@ public class RequestExecuteService {
     @Autowired
     private BuildHttpRequestService buildHttpRequestService;
 
-    public List<RequestResultDTO> executeRequests(Environment environment, List<Request> requestList, boolean ifBuildVerExist,
-                                             int collectionId) {
+    public CollectionResultDTO executeRequests(Environment environment, List<Request> requestList,
+                                               boolean ifBuildVerExist, int collectionId) {
+
+        CollectionResultDTO collectionResultDTO = new CollectionResultDTO();
         List<RequestResultDTO> requestResultDTOList = new ArrayList<RequestResultDTO>();
 
         Connection dbCon;
@@ -39,17 +42,14 @@ public class RequestExecuteService {
 
             String host = environment.getBaseUrl();
 
-            List<ResponseDTO> responseDTOList = new ArrayList<>();
-
             for (Request request : requestList) {
                 RequestResultDTO requestResultDTO = new RequestResultDTO();
                 RequestDTO requestDTO = buildHttpRequestService.getHttpRequest(request, host, dbCon);
                 HttpRequestBase requestBase = requestDTO.getHttpRequest();
+                List<ResponseDTO> responseDTOList = new ArrayList<>();
                 ResponseDTO responseDTO = null;
 
                 if (ifBuildVerExist) {
-                    long time = 0;
-                    int count = 0;
                     for (int i = 0; i < 5; i++) {
                         responseDTO = executeOneRequest(httpClient, requestBase);
                         responseDTOList.add(responseDTO);
@@ -60,12 +60,13 @@ public class RequestExecuteService {
                 }
                 requestResultDTO.setRequest(request);
                 requestResultDTO.setRequestDTO(requestDTO);
-                requestResultDTO.setCollectionId(collectionId);
                 requestResultDTO.setResponses(responseDTOList);
                 requestResultDTOList.add(requestResultDTO);
             }
 
-            return requestResultDTOList;
+            collectionResultDTO.setCollectionId(collectionId);
+            collectionResultDTO.setRequestResultDTOList(requestResultDTOList);
+            return collectionResultDTO;
 
         } catch (Exception e) {
             e.printStackTrace();

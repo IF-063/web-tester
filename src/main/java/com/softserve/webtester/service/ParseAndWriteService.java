@@ -3,16 +3,15 @@ package com.softserve.webtester.service;
 import java.io.IOException;
 import java.util.List;
 
+import com.softserve.webtester.dto.*;
 import org.apache.http.HttpResponse;
 import org.apache.http.ParseException;
 import org.apache.http.util.EntityUtils;
 import org.springframework.stereotype.Service;
 
-import com.softserve.webtester.dto.RequestResultDTO;
-import com.softserve.webtester.dto.ResponseDTO;
-import com.softserve.webtester.dto.ResultsDTO;
 import com.softserve.webtester.model.Environment;
 import com.softserve.webtester.model.Request;
+import org.apache.http.HttpResponse;
 
 @Service
 public class ParseAndWriteService {
@@ -23,28 +22,34 @@ public class ParseAndWriteService {
         Environment environment = resultsDTO.getEnvironment();
         int buildVersionId = resultsDTO.getBuildVersionId();
 
-        List<RequestResultDTO> requestResultDTOList = resultsDTO.getRequestResults();
+        List<CollectionResultDTO> collectionResultDTOList = resultsDTO.getCollectionResultDTOList();
 
-        for (RequestResultDTO list : requestResultDTOList) {
+        for (CollectionResultDTO collectionList : collectionResultDTOList) {
 
-            int collectionId = list.getCollectionId();
-            Request requestt = list.getRequest();
-            List<ResponseDTO> responseDTOList = list.getResponses();
+            int collectionId = collectionList.getCollectionId();
+            List<RequestResultDTO> requestResultDTOList = collectionList.getRequestResultDTOList();
 
-            for (ResponseDTO responseDTO : responseDTOList) {
-                HttpResponse response = responseDTO.getResponse();
-                long responseTime = responseDTO.getResponseTime();
-                System.out.println("TIME   " + responseTime);
-                try {
-                    System.out.println(EntityUtils.toString(response.getEntity()));
-                } catch (ParseException | IOException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
+            for (RequestResultDTO requestResult : requestResultDTOList) {
+                Request request = requestResult.getRequest();
+                RequestDTO requestDTO = requestResult.getRequestDTO();
+                List<ResponseDTO> responseDTOList = requestResult.getResponses();
+                for (ResponseDTO responseDTO : responseDTOList) {
+                    long responseTime = responseDTO.getResponseTime();
+                    HttpResponse response = responseDTO.getResponse();
+                    System.out.println("TIME   " + responseTime);
+                    System.out.println("RESPONSE" + response.toString());
+                    try {
+                        System.out.println(EntityUtils.toString(response.getEntity()));
+                    } catch (ParseException | IOException e) {
+                        // TODO Auto-generated catch block
+                        e.printStackTrace();
+                    }
+
+                    // do what you need with all data as request, response, responseTime, collectionId,
+                    // buildVersionId, environment, runId
                 }
-
-                // do what you need with all data as request, response, responseTime, collectionId,
-                // buildVersionId, environment, runId
             }
+
         }
 
         return runId;
