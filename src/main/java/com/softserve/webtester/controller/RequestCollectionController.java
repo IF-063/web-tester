@@ -35,6 +35,13 @@ import com.softserve.webtester.validator.CollectionValidator;
 @Controller
 @RequestMapping(value = "/tests/collections")
 public class RequestCollectionController {
+    
+    private static final String LABEL = "labels";
+    private static final String REQUESTS = "requests";
+    private static final String COLLECTION = "requestCollection";
+    private static final String BUILDVERSION = "buildVersions";
+    private static final String ÑOLLECTIONLIST = "collectionList";
+    private static final String ENVIRONMENTS = "environments";
 
     @Autowired
     private RequestCollectionService requestCollectionService;
@@ -66,10 +73,10 @@ public class RequestCollectionController {
      */
     @RequestMapping(method = RequestMethod.GET)
     public String getAllRequestCollection(@ModelAttribute RequestCollectionFilterDTO requestCollectionFilterDTO, Model model) {
-        model.addAttribute("labels", metaDataService.loadAllLabels());
-        model.addAttribute("buildVersions", metaDataService.loadAllBuildVersions());
-        model.addAttribute("collectionList", requestCollectionService.loadAll(requestCollectionFilterDTO));
-        model.addAttribute("environments", environmentService.loadAll());
+        model.addAttribute(LABEL, metaDataService.loadAllLabels());
+        model.addAttribute(BUILDVERSION, metaDataService.loadAllBuildVersions());
+        model.addAttribute(ÑOLLECTIONLIST, requestCollectionService.loadAll(requestCollectionFilterDTO));
+        model.addAttribute(ENVIRONMENTS, environmentService.loadAll());
         return "collection/collections";
     }
 
@@ -81,9 +88,9 @@ public class RequestCollectionController {
      */
     @RequestMapping(value = "/newCollection", method = RequestMethod.GET)
     public String getEmptyFormForRequestCollection(Model model) {
-        model.addAttribute("labels", metaDataService.loadAllLabels());
-        model.addAttribute("requests", requestService.loadAll());        
-        model.addAttribute("requestCollection", new RequestCollection());
+        model.addAttribute(LABEL, metaDataService.loadAllLabels());
+        model.addAttribute(REQUESTS, requestService.loadAll());        
+        model.addAttribute(COLLECTION, new RequestCollection());
         return "collection/collectionCreateEdit";
     }
 
@@ -99,8 +106,8 @@ public class RequestCollectionController {
     public String saveRequestCollection(@Validated @ModelAttribute RequestCollection requestCollection,
             BindingResult result, Model model) {
         if (result.hasErrors()) {
-            model.addAttribute("labels", metaDataService.loadAllLabels());
-            model.addAttribute("requests", requestService.loadAll());
+            model.addAttribute(LABEL, metaDataService.loadAllLabels());
+            model.addAttribute(REQUESTS, requestService.loadAll());
             return "collection/collectionCreateEdit";
         }
         requestCollectionService.save(requestCollection);
@@ -116,9 +123,9 @@ public class RequestCollectionController {
      */ 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public String getRequestCollection(@PathVariable int id, Model model) {
-        model.addAttribute("labels", metaDataService.loadAllLabels());
-        model.addAttribute("requests", requestService.loadAll());
-        model.addAttribute("requestCollection", requestCollectionService.load(id));
+        model.addAttribute(LABEL, metaDataService.loadAllLabels());
+        model.addAttribute(REQUESTS, requestService.loadAll());
+        model.addAttribute(COLLECTION, requestCollectionService.load(id));
         return "collection/collectionCreateEdit";
     }
 
@@ -135,8 +142,8 @@ public class RequestCollectionController {
     public String EditRequestCollection(@PathVariable int id,
             @Validated @ModelAttribute RequestCollection requestCollection, BindingResult result, Model model) {
         if (result.hasErrors()) {
-            model.addAttribute("labels", metaDataService.loadAllLabels());
-            model.addAttribute("requests", requestService.loadAll());
+            model.addAttribute(LABEL, metaDataService.loadAllLabels());
+            model.addAttribute(REQUESTS, requestService.loadAll());
             return "collection/collectionCreateEdit";
         }
         requestCollectionService.update(requestCollection);
@@ -168,10 +175,6 @@ public class RequestCollectionController {
     @RequestMapping(value = "/run", method = RequestMethod.POST)
     public @ResponseBody int runRequestCollection(@RequestParam int environmentId, @RequestParam int buildVersionId,
             @RequestParam(value = "requestCollectionIdArray[]") int[] requestCollectionIdArray) {
-        System.out.println("e: " + environmentId);
-        System.out.println("bv: " + buildVersionId);
-        System.out.println("collection: " + Arrays.toString(requestCollectionIdArray));
-        System.out.println();
         return 1;
     }
 }

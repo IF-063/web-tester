@@ -1,6 +1,8 @@
 package com.softserve.webtester.service;
 
 import java.util.List;
+
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -11,7 +13,6 @@ import com.softserve.webtester.dto.RequestCollectionFilterDTO;
 import com.softserve.webtester.mapper.LabelMapper;
 import com.softserve.webtester.mapper.RequestCollectionMapper;
 import com.softserve.webtester.mapper.RequestMapper;
-import com.softserve.webtester.model.Label;
 import com.softserve.webtester.model.Request;
 import com.softserve.webtester.model.RequestCollection;
 
@@ -171,8 +172,7 @@ public class RequestCollectionService {
      */
     private void saveLabelsToCollection(RequestCollection requestCollection) {
         try {
-            List<Label> labels = requestCollection.getLabels();
-            if (labels != null && !labels.isEmpty()) {
+            if (CollectionUtils.isNotEmpty(requestCollection.getLabels())) {
                 labelMapper.saveByRequestCollection(requestCollection);
             }
         } catch (DataAccessException e) {
