@@ -48,6 +48,9 @@ public class RequestService {
 
     @Autowired
     private LabelMapper labelMapper;
+    
+    @Autowired
+    private RequestExecuteSupportService requestExecuteSupportService;
 
     @Value("${request.timeout.default:25}")
     private int defaultTimeout;
@@ -71,6 +74,9 @@ public class RequestService {
     public int save(Request request) {
         try {
 
+            // format Request body field and expected response field
+            formatRequestBody(request);
+
             // Save request instance to Request table
             requestMapper.save(request);
             int id = request.getId();
@@ -83,6 +89,8 @@ public class RequestService {
             throw e;
         }
     }
+    
+
 
     /**
      * Loads {@link Request} instance with headers, dbValidations, labels and variables.
@@ -163,6 +171,9 @@ public class RequestService {
     public int update(Request request) {
         try {
             int id = request.getId();
+
+            // format Request body field and expected response field
+            formatRequestBody(request);
 
             // Update request instance in Request table
             requestMapper.update(request);
@@ -294,5 +305,15 @@ public class RequestService {
             LOGGER.error("Unable to load request instances", e);
             throw e;
         }
+    }
+    
+    /**
+     * Formats {@link Request} body field and expected response field
+     * 
+     * @param request {@link Request} instance, which fields should be formatted
+     */
+    private void formatRequestBody(Request request) {
+        request.setRequestBody(requestExecuteSupportService.format(request.getRequestBody()));
+        request.setExpectedResponse(requestExecuteSupportService.format(request.getExpectedResponse()));
     }
 }
