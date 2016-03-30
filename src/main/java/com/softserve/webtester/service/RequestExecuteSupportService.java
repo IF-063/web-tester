@@ -26,6 +26,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
+import com.google.gson.JsonSyntaxException;
 import com.softserve.webtester.model.Variable;
 
 @Service
@@ -103,8 +104,9 @@ public class RequestExecuteSupportService {
             transformer.transform(xmlInput, xmlOutput);
             return xmlOutput.getWriter().toString();
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            LOGGER.error("Unable to parse XML: " + input);
         }
+        return input;
     }
 
     /**
@@ -114,9 +116,14 @@ public class RequestExecuteSupportService {
      * @return formatted string object
      */
     private String prettyFormatJSON(String input) {
-        Gson gson = new GsonBuilder().setPrettyPrinting().create();
-        JsonParser jp = new JsonParser();
-        JsonElement je = jp.parse(input);
-        return gson.toJson(je);
+        try {
+            Gson gson = new GsonBuilder().setPrettyPrinting().create();
+            JsonParser jp = new JsonParser();
+            JsonElement je = jp.parse(input);
+            return gson.toJson(je);
+        } catch (JsonSyntaxException e) {
+            LOGGER.error("Unable to parse JSON: " + input);
+        }
+        return input;
     }
 }
