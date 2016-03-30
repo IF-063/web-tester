@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import com.softserve.webtester.dto.StatisticFilterDTO;
 import com.softserve.webtester.model.BuildVersion;
+import com.softserve.webtester.service.ExcelReportGeneratorServise;
 import com.softserve.webtester.service.MetaDataService;
 import com.softserve.webtester.service.ReportService;
 
@@ -31,6 +32,9 @@ public class StatisticReportController {
 
     @Autowired
     private ReportService reportService;
+    
+    @Autowired
+    private ExcelReportGeneratorServise excelReportGeneratorServise;
 
     @RequestMapping(method = RequestMethod.GET)
     public String getStatistic(@ModelAttribute StatisticFilterDTO statisticFilterDTO, BindingResult result,
@@ -54,7 +58,7 @@ public class StatisticReportController {
         statisticFilterDTO.setBuildVersions(buildVersions);
         if (ArrayUtils.isNotEmpty(statisticFilterDTO.getServiceId())
             && ArrayUtils.isNotEmpty(statisticFilterDTO.getBuildVersionId())) {
-            reportService.GenerateExcelReport(statisticFilterDTO);
+            excelReportGeneratorServise.GenerateExcelReport(statisticFilterDTO);
         }
         // File file= new File("2016.03.28.sql");
         // response.setHeader("Content-Disposition", String.format("inline; filename=\"" + file.getName() +"\""));

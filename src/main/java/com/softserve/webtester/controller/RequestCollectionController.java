@@ -40,7 +40,7 @@ public class RequestCollectionController {
     private static final String REQUESTS = "requests";
     private static final String COLLECTION = "requestCollection";
     private static final String BUILDVERSION = "buildVersions";
-    private static final String ÑOLLECTIONLIST = "collectionList";
+    private static final String COLLECTIONLIST = "collectionList";
     private static final String ENVIRONMENTS = "environments";
 
     @Autowired
@@ -75,7 +75,7 @@ public class RequestCollectionController {
     public String getAllRequestCollection(@ModelAttribute RequestCollectionFilterDTO requestCollectionFilterDTO, Model model) {
         model.addAttribute(LABEL, metaDataService.loadAllLabels());
         model.addAttribute(BUILDVERSION, metaDataService.loadAllBuildVersions());
-        model.addAttribute(ÑOLLECTIONLIST, requestCollectionService.loadAll(requestCollectionFilterDTO));
+        model.addAttribute(COLLECTIONLIST, requestCollectionService.loadAll(requestCollectionFilterDTO));
         model.addAttribute(ENVIRONMENTS, environmentService.loadAll());
         return "collection/collections";
     }
