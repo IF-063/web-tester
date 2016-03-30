@@ -1,5 +1,26 @@
 $(function() {
-  
+
+  if (navigator.userAgent.toLowerCase().indexOf('chrome') < 0) {
+    $('.interstitial-wrapper').remove();
+  }
+
+  var loading = $('#loadingDiv');
+  $(document)
+    .ajaxStart(function() {
+      $('html, body').css({
+        'overflow': 'hidden',
+        'height': '100%'
+      });
+      loading.css('visibility', 'visible');
+    })
+    .ajaxStop(function() {
+      $('html, body').css({
+        'overflow': 'auto',
+        'height': 'auto'
+      });
+      loading.hide();
+    });
+
   var contextPath = $('#contextPath').val();
   var collectionsToSend = [];
 
@@ -13,7 +34,7 @@ $(function() {
         [1, 'asc']
       ],
       columnDefs: [{
-        targets: [0, 2, 3, 4, 5, 6,7],
+        targets: [0, 2, 3, 4, 5, 6, 7],
         orderable: false,
       }]
     });
@@ -56,9 +77,9 @@ $(function() {
       data: JSON.stringify(input),
       success: function(data, textStatus, jqXHR) {
         for (var i = 0; i < input.length; i++) {
-          var tr =  $('#collections input[type="checkbox"][id=' + input[i] + ']').parents('tr');
+          var tr = $('#collections input[type="checkbox"][id=' + input[i] + ']').parents('tr');
           $('#collections').dataTable().fnDeleteRow(tr[0]);
-        tr.remove();
+          tr.remove();
         }
 
       },
@@ -67,7 +88,7 @@ $(function() {
       },
     });
   };
-  
+
   // performs collection run
   $(document).on('click', '.run', function() {
     collectionsToSend = [$(this).prop('id')];

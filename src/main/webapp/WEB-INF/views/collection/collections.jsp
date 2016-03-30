@@ -3,11 +3,10 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <link href="<c:url value="/resources/dist/css/select2.min.css" />" rel="stylesheet" />
-
 <link href="<c:url value="/resources/dist/css/select2-bootstrap.css" />" rel="stylesheet" />
-
 <link href="<c:url value="/resources/bower_components/bootstrap-dataTables/css/dataTables.bootstrap.min.css" />" 
   rel="stylesheet" />
+<link href=<c:url value="/resources/dist/t-rex/css/main.css" /> rel="stylesheet" />
 
 <div class="row">
   <div class="col-md-12">
@@ -19,19 +18,16 @@
             <h4>Filters</h4>
             <div class="shift-left">
             <div class="col-md-2">
-<!--               <label for="requestCollectionNameFilter" class="control-label">Collection name</label> -->
               <form:input type="text" path="requestCollectionNameFilter" class="form-control" 
                placeholder="Collection name" />
             </div>
 
             <div class="col-md-2">
-<!--               <label for="labelFilter" class="control-label">Labels</label> -->
               <form:select path="labelFilter" items="${labels}" class="form-control select2-multiple" 
                multiple="multiple" data-placeholder="Labels" itemLabel="name" itemValue="id" />
             </div>
 
             <div class="col-md-4">
-<!--               <label aria-hidden="true">&nbsp;</label> -->
               <div>
                 <a href=<c:url value="/tests/collections/" /> class="btn btn-default">Reset</a>
                 <input type="submit" class="btn btn-success" value="Filter" />
@@ -143,13 +139,20 @@
 
 <input id="contextPath" type="hidden" value="${pageContext.request.contextPath}" />
 
+<div id="loadingDiv" class="offline">
+  <div id="main-frame-error" class="interstitial-wrapper">
+    <%@ include file="../t-rex.jsp" %>
+  </div>
+  <div class="centered">
+    <h1>Please, wait</h1>
+    <img alt="loading" src=<c:url value="/resources/ajax_loader.gif" /> >
+  </div>
+</div>
 
-<!-- Multiselect script -->
 <script src=<c:url value="/resources/dist/js/select2.min.js" />></script>
-
 <script src=<c:url value="/resources/bower_components/bootstrap-dataTables/js/jquery.dataTables.min.js" />></script>
-
 <script src=<c:url value="/resources/bower_components/bootstrap-dataTables/js/dataTables.bootstrap.min.js" />></script>
+<script src=<c:url value="/resources/dist/t-rex/js/game.js" />></script>
 
 <!-- Main page script -->
 <script src=<c:url value="/resources/js/collection/collections.js" />></script>
