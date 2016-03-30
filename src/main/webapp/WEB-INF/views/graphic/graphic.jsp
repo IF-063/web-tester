@@ -35,8 +35,8 @@
               <div class="col-md-3">
                 <label for="responseTimeFilterMarker" class="control-label">Response Time</label>
                 <form:select path="responseTimeFilterMarker" id="Time" class="form-control select2-multiple" cssErrorClass="error" >
-                  <form:option id="Time1" value="1">Avarage value</form:option>
-                  <form:option id="Time2" value="2">Maximum value</form:option>
+                  <form:option value="1">Avarage value</form:option>
+                  <form:option value="2">Maximum value</form:option>
                 </form:select>
               </div>
 

@@ -1,7 +1,10 @@
 package com.softserve.webtester.model;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 import java.util.List;
+
+import oracle.sql.TIMESTAMP;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -26,7 +29,7 @@ public class ResultHistory implements Serializable {
     private String responseType;
     private String requestBody;
     private String statusLine;
-    private String timeStart;
+    private Timestamp timeStart;
     private int expectedResponseTime;
     private int responseTime;
     private String expectedResponse;
@@ -40,37 +43,6 @@ public class ResultHistory implements Serializable {
     private List<DbValidationHistory> dbValidationHistories;
 
     public ResultHistory() {
-    }
-
-    public ResultHistory(int id, String status, Application application, Service service, Request request,
-                         String requestName, String requestDescription, String url, String responseType,
-                         String requestBody, String statusLine, String timeStart, int expectedResponseTime,
-                         int responseTime, String expectedResponse, String actualResponse, String message, int runId,
-                         RequestCollection requestCollection, BuildVersion buildVersion, List<Label> labels,
-                         List<HeaderHistory> headerHistories, List<DbValidationHistory> dbValidationHistories) {
-        this.id = id;
-        this.status = status;
-        this.application = application;
-        this.service = service;
-        this.request = request;
-        this.requestName = requestName;
-        this.requestDescription = requestDescription;
-        this.url = url;
-        this.responseType = responseType;
-        this.requestBody = requestBody;
-        this.statusLine = statusLine;
-        this.timeStart = timeStart;
-        this.expectedResponseTime = expectedResponseTime;
-        this.responseTime = responseTime;
-        this.expectedResponse = expectedResponse;
-        this.actualResponse = actualResponse;
-        this.message = message;
-        this.runId = runId;
-        this.requestCollection = requestCollection;
-        this.buildVersion = buildVersion;
-        this.labels = labels;
-        this.headerHistories = headerHistories;
-        this.dbValidationHistories = dbValidationHistories;
     }
 
     public int getId() {
@@ -161,11 +133,11 @@ public class ResultHistory implements Serializable {
         this.statusLine = statusLine;
     }
 
-    public String getTimeStart() {
+    public Timestamp getTimeStart() {
         return timeStart;
     }
 
-    public void setTimeStart(String timeStart) {
+    public void setTimeStart(Timestamp timeStart) {
         this.timeStart = timeStart;
     }
 
