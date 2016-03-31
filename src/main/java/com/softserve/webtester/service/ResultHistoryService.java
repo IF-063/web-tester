@@ -31,7 +31,12 @@ public class ResultHistoryService {
     @Autowired
     private LabelMapper labelMapper;
 
-    // Saving resultHistory instance in ResultHistory table
+    /**
+     * saving ResultHistory instance in DB if BuildVersion doesn't equal null, or BuildVersion and requestCollection
+     * don't equal null or if BuildVersion and requestCollection instances equal null.
+     * @param resultHistory
+     * @return
+     */
     public int save(ResultHistory resultHistory) {
 
         try {
@@ -42,7 +47,6 @@ public class ResultHistoryService {
             } else {
                 resultHistoryMapper.saveRequest(resultHistory);
             }
-            resultHistoryMapper.save(resultHistory);
             int id = resultHistory.getId();
             LOGGER.info("ResultHistory saved successfully, resultHistory details = " + resultHistory);
             return id;
@@ -52,7 +56,11 @@ public class ResultHistoryService {
         }
     }
 
-    // Loading resultHistory instance from ResultHistory table
+    /**
+     * Loading resultHistory instance bt its id from ResultHistory table
+     * @param id
+     * @return
+     */
     public ResultHistory loadById(int id) {
 
         try {
@@ -65,7 +73,10 @@ public class ResultHistoryService {
         }
     }
 
-    // Loading resultHistory instance from ResultHistory table
+    /**
+     * Loading resultHistory instance from ResultHistory table without using resultFilterDTO filter instance
+     * @return
+     */
     public List<ResultHistory> loadAll() {
 
         try {
@@ -76,6 +87,11 @@ public class ResultHistoryService {
         }
     }
 
+    /**
+     * Loading resultHistory instance from ResultHistory table using resultFilterDTO filter instance
+     * @param resultFilterDTO
+     * @return
+     */
     public List<ResultHistory> loadAll(ResultFilterDTO resultFilterDTO) {
 
         String status = resultFilterDTO.getStatusFilter();
@@ -90,6 +106,11 @@ public class ResultHistoryService {
         }
     }
 
+    /**
+     * Loading BuildVersion instance by its name
+     * @param id
+     * @return
+     */
     public String loadBuildVersionName(int id) {
 
         try {
@@ -100,7 +121,11 @@ public class ResultHistoryService {
         }
     }
 
-    // Loading resultHistory instance from ResultHistory table
+    /**
+     * Loading resultHistory instance having collections from ResultHistory table
+     * @param resultCollectionFilterDTO
+     * @return
+     */
     public List<ResultHistory> loadAllCollections(ResultCollectionFilterDTO resultCollectionFilterDTO) {
 
         String status = resultCollectionFilterDTO.getStatusFilter();
@@ -114,6 +139,11 @@ public class ResultHistoryService {
         }
     }
 
+    /**
+     * Loading resultHistory instance referring to the collection with certain id from ResultHistory table
+     * @param id
+     * @return
+     */
     public List<ResultHistory> loadAllRequestsByCollectionId(int id) {
 
         try {
@@ -124,6 +154,11 @@ public class ResultHistoryService {
         }
     }
 
+    /**
+     * Loading requests by runId id from ResultHistory table
+     * @param resultFilterDTO
+     * @return
+     */
     public List<ResultHistory> loadAllRequestsByRunId(ResultFilterDTO resultFilterDTO) {
         int runId = resultFilterDTO.getRunId();
 
@@ -135,6 +170,11 @@ public class ResultHistoryService {
         }
     }
 
+    /**
+     * Loading collections by runId id from ResultHistory table
+     * @param resultCollectionFilterDTO
+     * @return
+     */
     public List<ResultHistory> loadAllCollectionsByRunId(ResultCollectionFilterDTO resultCollectionFilterDTO) {
         int runId = resultCollectionFilterDTO.getRunId();
 
@@ -146,7 +186,11 @@ public class ResultHistoryService {
         }
     }
 
-    // Deleting resultHistory instance ByRequestId from ResultHistory table
+    /**
+     * Deleting resultHistory instance by requestId from ResultHistory table
+     * @param id
+     * @return
+     */
     public int delete(int id) {
 
         try {
@@ -157,7 +201,11 @@ public class ResultHistoryService {
         }
     }
 
-    // Deleting resultHistory instance ByCollectionId from ResultHistory table
+    /**
+     * Deleting resultHistory instance by collectionId from ResultHistory table
+     * @param id
+     * @return
+     */
     public int deteleByCollectionId(int id) {
 
         try {
@@ -168,6 +216,11 @@ public class ResultHistoryService {
         }
     }
 
+    /**
+     * Deleting requests by id array from ResultHistory table
+     * @param arr
+     * @return
+     */
     public int deleteSelectedResults(int[] arr) {
         try {
             return resultHistoryMapper.deleteSelectedResults(arr);
@@ -177,6 +230,11 @@ public class ResultHistoryService {
         }
     }
 
+    /**
+     * Deleting collections by id array from ResultHistory table
+     * @param arr
+     * @return
+     */
     public int deleteSelectedCollectionResults(int[] arr) {
         try {
             return resultHistoryMapper.deleteSelectedCollectionResults(arr);
@@ -186,6 +244,10 @@ public class ResultHistoryService {
         }
     }
 
+    /**
+     * Deleting max runId from ResultHistory table
+     * @return
+     */
     public int getMaxId() {
         try {
             return resultHistoryMapper.getMaxId();
@@ -195,7 +257,10 @@ public class ResultHistoryService {
         }
     }
 
-    // Saving DbValidationHistories, headerHistories and labels for the resultHistory instance to the database
+    /**
+     * Saving DbValidationHistories, headerHistories and labels for the resultHistory instance to the database
+     * @param resultHistory
+     */
     private void saveResultHistoryComponents(ResultHistory resultHistory) {
 
         List<DbValidationHistory> dbValidationHistories = resultHistory.getDbValidationHistories();

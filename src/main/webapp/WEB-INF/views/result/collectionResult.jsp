@@ -26,7 +26,7 @@
                                multiple="multiple" data-placeholder="labels..." itemLabel="name" itemValue="id" />
               </div>
 
-              <div class="col-md-2">
+              <div class="col-md-2" style="display: none;>
                   <form:select path="statusFilter" class="form-control select2-multiple" cssErrorClass="error" >
                       <form:option value="1">status pass</form:option>
                       <form:option value="0">status fail</form:option>
