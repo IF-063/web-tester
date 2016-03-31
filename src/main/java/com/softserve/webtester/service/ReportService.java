@@ -4,18 +4,18 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
-import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import com.softserve.webtester.dto.ReportDataDTO;
 import com.softserve.webtester.dto.ReportFilterDTO;
 import com.softserve.webtester.dto.StatisticDataDTO;
 import com.softserve.webtester.dto.StatisticFilterDTO;
 import com.softserve.webtester.mapper.ReportMapper;
-import com.softserve.webtester.model.RequestCollection;
 
 /**
  * ReportService class implements generating of data for statistic and graphic reports
@@ -26,7 +26,7 @@ import com.softserve.webtester.model.RequestCollection;
 @Service
 public class ReportService {
     
-    private static final int AVARAGE = 1;
+    private static final int AVERAGE = 1;
     
     private static final Logger LOGGER = Logger.getLogger(ReportService.class);
 
@@ -42,7 +42,7 @@ public class ReportService {
     public List<ReportDataDTO> loadReportData(ReportFilterDTO reportFilterDTO) {
         int serviceId = reportFilterDTO.getServiceId();
         int[] buildVersionIds = reportFilterDTO.getBuildVersionId();
-        if (reportFilterDTO.getResponseTimeFilterMarker() == 1) {
+        if (reportFilterDTO.getResponseTimeFilterMarker() == AVERAGE) {
             return loadWithAvarageResponseTime(serviceId, buildVersionIds);
         } else {
             return loadWithMaxResponseTime(serviceId, buildVersionIds);
@@ -94,7 +94,7 @@ public class ReportService {
         List<StatisticDataDTO> result = new ArrayList<>(serviceId.length);
         for (int id : serviceId) {
             StatisticDataDTO dto = reportMapper.loadStatisticDataDTO(id);
-            if (statisticFilterDTO.getResponseTimeFilterMarker() == AVARAGE) {
+            if (statisticFilterDTO.getResponseTimeFilterMarker() == AVERAGE) {
                 dto.setResponseTimes(loadStatisticWithAverageResponseTime(id, buildVersionIds));
             } else {
                 dto.setResponseTimes(loadStatisticWithMaximumResponseTime(id, buildVersionIds));

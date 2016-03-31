@@ -1,6 +1,7 @@
 package com.softserve.webtester.mapper;
 
 import java.util.List;
+
 import org.apache.ibatis.annotations.One;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Result;
@@ -9,6 +10,7 @@ import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.type.JdbcType;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Repository;
+
 import com.softserve.webtester.dto.ReportDataDTO;
 import com.softserve.webtester.dto.StatisticDataDTO;
 import com.softserve.webtester.model.RequestCollection;
@@ -75,7 +77,7 @@ public interface ReportMapper {
     @Select({ "SELECT AVG(responseTime) from (SELECT AVG(responseTime) as responseTime FROM ResultHistory"
             + " WHERE serviceId = #{serviceId} GROUP BY buildVersionId ORDER BY buildVersionId DESC LIMIT 3) as temp;"
            })
-    int loadAvarage(int serviceId);
+    int loadAverage(int serviceId);
 
     /**
      * Loads average response time for each build version testing run of {@link RequestCollection} for the service 
