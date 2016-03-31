@@ -28,12 +28,17 @@ $(function() {
   
   //handles generating statistic report excel file
   $('#exportXls').click(function(e) {
-    form=document.getElementById('statisticFilterDTO');
-    form.target='_blank';
-    form.action='/web-tester/reports/statistic/xls';
-    form.submit();
-    form.action='';
-    form.target='';
+    var serviceIdCount = $("#serviceId :selected").length;
+    var buildVersionIdCount = $("#buildVersionId :selected").length;
+    var isValid = (serviceIdCount > 0) && (buildVersionIdCount > 0) && (buildVersionIdCount < 6);
+    if (isValid) {
+      form=document.getElementById('statisticFilterDTO');
+      form.target='_blank';
+      form.action='/web-tester/reports/statistic/xls';
+      form.submit();
+      form.action='';
+      form.target='';    	
+    }
     return false;
   });
   
