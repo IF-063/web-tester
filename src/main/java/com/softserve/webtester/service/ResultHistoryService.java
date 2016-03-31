@@ -32,16 +32,16 @@ public class ResultHistoryService {
     private LabelMapper labelMapper;
 
     /**
-     * Saving collection with buildVersion, without buildVersion and only request.
+     * Saving collection with buildVersion, without buildVersion and only request
      * @param resultHistory
      * @return
      */
     public int save(ResultHistory resultHistory) {
 
         try {
-            if (!resultHistory.getBuildVersion().equals(null)) {
+            if (resultHistory.getBuildVersion()!=null) {
                 resultHistoryMapper.save(resultHistory);
-            } else if (!resultHistory.getRequestCollection().equals(null)) {
+            } else if (resultHistory.getRequestCollection()!=null) {
                 resultHistoryMapper.saveCollection(resultHistory);
             } else {
                 resultHistoryMapper.saveRequest(resultHistory);
@@ -96,12 +96,9 @@ public class ResultHistoryService {
         String status = resultFilterDTO.getStatusFilter();
         int[] applications = resultFilterDTO.getApplicationFilter();
         int[] services = resultFilterDTO.getServiceFilter();
-        System.out.println("START!!!!!!!!!");
 
         try {
             List<ResultHistory> list = resultHistoryMapper.loadAll(status, applications, services);
-            System.out.println("AFTER!!!!!!!!!");
-            System.out.println();
             return list;
         } catch (DataAccessException e) {
             LOGGER.error("Unable to load request instances", e);

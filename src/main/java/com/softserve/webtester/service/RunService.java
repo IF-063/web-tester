@@ -3,10 +3,13 @@ package com.softserve.webtester.service;
 import com.softserve.webtester.dto.CollectionResultDTO;
 import com.softserve.webtester.dto.ResultsDTO;
 import com.softserve.webtester.model.Environment;
+
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -26,6 +29,8 @@ public class RunService {
     
     @Autowired
     private ParseAndWriteService parseAndWriteService;
+    
+    private static final Logger LOGGER = Logger.getLogger(RunService.class);
 
     /**
      * method which responsible for running request or requests list of requests and parsing, writing into DB results
@@ -39,6 +44,7 @@ public class RunService {
         Environment environment = environmentService.load(environmentId);
 
         int runId = resultHistoryService.getMaxId() + 1;
+        LOGGER.info("Generated run id: " + runId);
 
         return parseAndWriteService.parseAndWrite(execute(environment, requestIdArray, runId));
 
@@ -57,7 +63,8 @@ public class RunService {
         Environment environment = environmentService.load(environmentId);
 
         int runId = resultHistoryService.getMaxId() + 1;
-
+        LOGGER.info("Generated run id: " + runId);
+        
         return parseAndWriteService.parseAndWrite(execute(environment, buildVersionId, collectionIdArray, runId));
 
     }
@@ -71,7 +78,7 @@ public class RunService {
      * @return ResultsDTO instance
      */
     private ResultsDTO execute(Environment environment, int [] requestIdArray, int runId) {
-
+        LOGGER.info("Start requests executing: " + Arrays.toString(requestIdArray));
         ResultsDTO resultsDTO = new ResultsDTO();
 
         resultsDTO.setEnvironment(environment);
@@ -100,7 +107,7 @@ public class RunService {
      * @return ResultsDTO instance
      */
     private ResultsDTO execute(Environment environment, int buildVersionId, int [] collectionIdArray, int runId) {
-
+        LOGGER.info("Start collections executing: " + Arrays.toString(collectionIdArray));
         ResultsDTO resultsDTO = new ResultsDTO();
 
         resultsDTO.setEnvironment(environment);
