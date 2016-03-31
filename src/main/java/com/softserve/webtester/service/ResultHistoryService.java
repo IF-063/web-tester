@@ -32,8 +32,7 @@ public class ResultHistoryService {
     private LabelMapper labelMapper;
 
     /**
-     * saving ResultHistory instance in DB if BuildVersion doesn't equal null, or BuildVersion and requestCollection
-     * don't equal null or if BuildVersion and requestCollection instances equal null.
+     * Saving collection with buildVersion, without buildVersion and only request.
      * @param resultHistory
      * @return
      */
@@ -97,9 +96,13 @@ public class ResultHistoryService {
         String status = resultFilterDTO.getStatusFilter();
         int[] applications = resultFilterDTO.getApplicationFilter();
         int[] services = resultFilterDTO.getServiceFilter();
+        System.out.println("START!!!!!!!!!");
 
         try {
-            return resultHistoryMapper.loadAll(status, applications, services);
+            List<ResultHistory> list = resultHistoryMapper.loadAll(status, applications, services);
+            System.out.println("AFTER!!!!!!!!!");
+            System.out.println();
+            return list;
         } catch (DataAccessException e) {
             LOGGER.error("Unable to load request instances", e);
             throw e;

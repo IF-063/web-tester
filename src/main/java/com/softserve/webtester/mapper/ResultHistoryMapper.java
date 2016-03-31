@@ -15,17 +15,7 @@ import java.util.List;
 @Repository
 public interface ResultHistoryMapper {
 
-    /**saving ResultHistory instance in DB if BuildVersion doesn't equal null.
-     */
-    @Insert("INSERT INTO ResultHistory VALUES(NULL, #{status}, #{application.id}, #{serviceId}, #{request.id}," +
-            " #{requestName}, #{requestDescription}, #{url}, #{responseType}, #{requestBody}, " +
-            "#{statusLine}, #{timeStart}, #{expectedResponseTime}, #{responseTime}, #{expectedResponse}," +
-            " #{actualResponse}, #{message}, #{runId}, #{buildVersion.id}")
-
-    @Options(useGeneratedKeys = true, keyProperty = "id")
-    int save(ResultHistory resultHistory);
-
-    /**saving ResultHistory instance in DB if BuildVersion and requestCollection don't equal null.
+    /**Saving collection with buildVersion.
      */
     @Insert("INSERT INTO ResultHistory VALUES(NULL, #{status}, #{application.id}, #{serviceId}, #{request.id}," +
             " #{requestName}, #{requestDescription}, #{url}, #{responseType}, #{requestBody}, " +
@@ -33,10 +23,20 @@ public interface ResultHistoryMapper {
             " #{actualResponse}, #{message}, #{runId}, #{requestCollection.id}, #{buildVersion.id}")
 
     @Options(useGeneratedKeys = true, keyProperty = "id")
+    int save(ResultHistory resultHistory);
+
+    /**Saving collection without buildVersion
+     */
+    @Insert("INSERT INTO ResultHistory VALUES(NULL, #{status}, #{application.id}, #{serviceId}, #{request.id}," +
+            " #{requestName}, #{requestDescription}, #{url}, #{responseType}, #{requestBody}, " +
+            "#{statusLine}, #{timeStart}, #{expectedResponseTime}, #{responseTime}, #{expectedResponse}," +
+            " #{actualResponse}, #{message}, #{runId}, #{requestCollection.id}")
+
+    @Options(useGeneratedKeys = true, keyProperty = "id")
     int saveCollection(ResultHistory resultHistory);
 
 
-    /**saving ResultHistory instance in DB if BuildVersion and requestCollection instances equal null.
+    /**Saving only request.
      */
     @Insert("INSERT INTO ResultHistory VALUES(NULL, #{status}, #{application.id}, #{serviceId}, #{request.id}," +
             " #{requestName}, #{requestDescription}, #{url}, #{responseType}, #{requestBody}, " +
