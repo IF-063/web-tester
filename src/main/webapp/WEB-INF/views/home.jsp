@@ -10,7 +10,7 @@
 </div>
 
 <div class="row">
-  <div class="col-md-4">
+  <div class="col-md-5">
     <div class="panel custom-Purple4 cursorPointer" id="applicationsBlock">
       <div class="panel-heading">
         <div class="row">
@@ -32,7 +32,7 @@
     </div>
   </div>
 
-  <div class="col-md-4">
+  <div class="col-md-5">
     <div class="panel custom-OliveDrab4 cursorPointer" id="serviceBlock">
       <div class="panel-heading">
         <div class="row">
@@ -56,7 +56,7 @@
 </div>
 
 <div class="row">
-  <div class="col-md-4">
+  <div class="col-md-5">
     <div class="panel panel-red cursorPointer" id="labelsBlock">
       <div class="panel-heading">
         <div class="row">
@@ -78,7 +78,7 @@
     </div>
   </div>
 
-  <div class="col-md-4">
+  <div class="col-md-5">
     <div class="panel panel-yellow cursorPointer" id="BuildVersionsBlock">
       <div class="panel-heading">
         <div class="row">
@@ -102,7 +102,7 @@
 </div>
 
 <div class="row">
-  <div class="col-md-4">
+  <div class="col-md-5">
     <div class="panel panel-info cursorPointer" id="environmentsBlock">
       <div class="panel-heading">
         <div class="row">
@@ -132,7 +132,7 @@
 </div>
 
 <div class="row">
-  <div class="col-md-4">
+  <div class="col-md-5">
     <div class="panel panel-primary cursorPointer" id="requestBlock">
       <div class="panel-heading">
         <div class="row">
@@ -154,7 +154,7 @@
     </div>
   </div>
   
-  <div class="col-md-4">
+  <div class="col-md-5">
     <div class="panel panel-green cursorPointer" id="collectionsBlock">
       <div class="panel-heading">
         <div class="row">
@@ -185,7 +185,7 @@
 
   
   <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-5">
       <div class="panel panel-yellow cursorPointer" id="requestResultBlock">
         <div class="panel-heading">
           <div class="row">
@@ -207,7 +207,7 @@
       </div>
     </div>
 
-    <div class="col-md-4">
+    <div class="col-md-5">
       <div class="panel panel-yellow cursorPointer" id="collectionResultBlock">
         <div class="panel-heading">
           <div class="row">
@@ -239,7 +239,7 @@
   </div>
 
   <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-5">
       <div class="panel panel-blue cursorPointer" id="statisticReportBlock">
         <div class="panel-heading">
           <div class="row">
@@ -261,7 +261,7 @@
       </div>
     </div>
 
-    <div class="col-md-4">
+    <div class="col-md-5">
       <div class="panel panel-blue cursorPointer" id="graphicReportBlock">
         <div class="panel-heading">
           <div class="row">

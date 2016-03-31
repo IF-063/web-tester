@@ -222,8 +222,7 @@ public class RequestController {
     @RequestMapping(value = "/run", method = RequestMethod.POST)
     public @ResponseBody int runRequests(@RequestParam int environmentId,
             @RequestParam(value = "requestIdArray[]") int[] requestIdArray) {
-        runService.run(environmentId, requestIdArray);
-        return 1;
+        return runService.run(environmentId, requestIdArray);
     }
 
     /**

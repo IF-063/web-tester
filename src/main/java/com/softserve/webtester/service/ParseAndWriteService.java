@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.List;
 
-import com.softserve.webtester.dto.*;
 import org.apache.http.HttpResponse;
 import org.apache.http.ParseException;
 import org.apache.http.client.methods.HttpEntityEnclosingRequestBase;
@@ -13,6 +12,12 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.softserve.webtester.dto.CollectionResultDTO;
+import com.softserve.webtester.dto.RequestDTO;
+import com.softserve.webtester.dto.RequestResultDTO;
+import com.softserve.webtester.dto.ResponseDTO;
+import com.softserve.webtester.dto.ResultsDTO;
+import com.softserve.webtester.model.BuildVersion;
 import com.softserve.webtester.model.DbValidation;
 import com.softserve.webtester.model.DbValidationHistory;
 import com.softserve.webtester.model.Environment;
@@ -20,6 +25,7 @@ import com.softserve.webtester.model.EnvironmentHistory;
 import com.softserve.webtester.model.Header;
 import com.softserve.webtester.model.HeaderHistory;
 import com.softserve.webtester.model.Request;
+import com.softserve.webtester.model.RequestCollection;
 import com.softserve.webtester.model.ResultHistory;
 
 @Service
@@ -85,8 +91,10 @@ public class ParseAndWriteService {
                     resultHistory.setResponseTime((int) responseDTO.getResponseTime());
                     
                     try {
-                        resultHistory.setRequestBody(EntityUtils
+                        if (((HttpEntityEnclosingRequestBase) requestDTO.getHttpRequest()).getEntity()!= null) {
+                            resultHistory.setRequestBody(EntityUtils
                                 .toString(((HttpEntityEnclosingRequestBase) requestDTO.getHttpRequest()).getEntity()));
+                        }
                         resultHistory.setExpectedResponse(requestExecuteSupportService.getEvaluatedString(
                                 request.getExpectedResponse(), requestDTO.getVariableList(), VELOCITY_LOG));
                         resultHistory.setActualResponse(EntityUtils.toString(responseDTO.getResponse().getEntity()));
@@ -95,12 +103,16 @@ public class ParseAndWriteService {
                     }
                     resultHistory.setMessage(responseDTO.getResponse().getStatusLine().getReasonPhrase().toString());
                     resultHistory.setRunId(runId);
-                    if (collectionList.getCollectionId() != 0)
-                        resultHistory
-                                .setRequestCollection(requestCollectionService.load(collectionList.getCollectionId()));
-                    if (resultsDTO.getBuildVersionId() != 0)
-                        resultHistory
-                                .setBuildVersion(metaDataService.loadBuildVersionById(resultsDTO.getBuildVersionId()));
+                    if (collectionList.getCollectionId() != 0) {
+                        int collId = collectionList.getCollectionId();
+                        RequestCollection reqColl = requestCollectionService.load(collId);
+                        resultHistory.setRequestCollection(reqColl);
+                    }
+                    if (resultsDTO.getBuildVersionId() != 0) {
+                        int bulverId = resultsDTO.getBuildVersionId();
+                        BuildVersion bv = metaDataService.loadBuildVersionById(bulverId);
+                        resultHistory.setBuildVersion(bv);
+                        }
                     LOGGER.info(resultHistory);
                     
                     

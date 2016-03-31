@@ -184,7 +184,6 @@ public class RequestCollectionController {
     @RequestMapping(value = "/run", method = RequestMethod.POST)
     public @ResponseBody int runRequestCollection(@RequestParam int environmentId, @RequestParam int buildVersionId,
             @RequestParam(value = "requestCollectionIdArray[]") int[] requestCollectionIdArray) {
-        runService.run(environmentId, buildVersionId, requestCollectionIdArray);
-        return 1;
+        return runService.run(environmentId, buildVersionId, requestCollectionIdArray);
     }
 }
