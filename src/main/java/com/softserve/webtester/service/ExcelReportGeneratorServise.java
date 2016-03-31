@@ -3,6 +3,7 @@ package com.softserve.webtester.service;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.List;
+
 import org.apache.log4j.Logger;
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
@@ -11,12 +12,11 @@ import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import com.softserve.webtester.dto.StatisticDataDTO;
 import com.softserve.webtester.dto.StatisticFilterDTO;
-import com.softserve.webtester.model.RequestCollection;
 
 
 /**
@@ -51,22 +51,19 @@ public class ExcelReportGeneratorServise {
         try (HSSFWorkbook workbook = new HSSFWorkbook()) {
             HSSFSheet spreadsheet = workbook.createSheet("StatisticReport");
             HSSFCellStyle style = workbook.createCellStyle();
-
-            style.setAlignment(HSSFCellStyle.ALIGN_CENTER);
-            style.setVerticalAlignment(HSSFCellStyle.ALIGN_CENTER);
-            for (int l = 0; l <= 2 + bvListsize; l++) {
-                spreadsheet.autoSizeColumn(l);
-            }
-            spreadsheet.addMergedRegion(new CellRangeAddress(0, 0, 2, bvListsize + 1));
             
+            style.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+            spreadsheet.addMergedRegion(new CellRangeAddress(0, 0, 2, bvListsize + 1));
             spreadsheet.addMergedRegion(new CellRangeAddress(0, 1, 0, 0));
             spreadsheet.addMergedRegion(new CellRangeAddress(0, 1, 1, 1));
             spreadsheet.addMergedRegion(new CellRangeAddress(0, 1, bvListsize + 2, buildVersionName.size() + 2));
-
             
+            for (int l = 1; l <= 2 + bvListsize; l++) {
+                spreadsheet.autoSizeColumn(l);
+            }
+                        
             HSSFRow row = spreadsheet.createRow(0);
             HSSFCell cell = row.createCell(0);
-
             cell.setCellValue("Service Name");
             cell.setCellStyle(style);
             cell = row.createCell(1);
@@ -79,12 +76,13 @@ public class ExcelReportGeneratorServise {
             cell.setCellValue("Average for the last three releases");
             cell.setCellStyle(style);
             row = spreadsheet.createRow(1);
+            
             for (int k = 0; k < bvListsize; k++) {
                 cell = row.createCell(2 + k);
                 cell.setCellValue(buildVersionName.get(k));
                 cell.setCellStyle(style);
             }
-
+            
             for (int i = 0; i < statisticData.size(); i++) {
                 row = spreadsheet.createRow(i + 2);
                 cell = row.createCell(0);
@@ -101,12 +99,12 @@ public class ExcelReportGeneratorServise {
                 }
                 cell = row.createCell(2 + bvListsize);
                 cell.setCellValue(statisticData.get(i).getAverageResponseTime());
-                cell.setCellStyle(style);
+                cell.setCellStyle(style);                             
             }
-            
-            for (int l = 0; l <= 2 + bvListsize; l++) {
-                spreadsheet.autoSizeColumn(l, true);
-            }
+        
+                spreadsheet.autoSizeColumn(0, true);
+                spreadsheet.autoSizeColumn(1, true);
+                spreadsheet.autoSizeColumn(2 + bvListsize, true);
             
             try (ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
                 workbook.write(baos);

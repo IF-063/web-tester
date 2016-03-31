@@ -4,8 +4,10 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
+
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +19,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+
 import com.softserve.webtester.dto.StatisticFilterDTO;
 import com.softserve.webtester.model.BuildVersion;
 import com.softserve.webtester.model.RequestCollection;
@@ -82,10 +85,10 @@ public class StatisticReportController {
      */
     @RequestMapping(value = "/xls", method = RequestMethod.GET)
     public void xlsP(HttpServletResponse response, @ModelAttribute StatisticFilterDTO statisticFilterDTO) {
-        List<BuildVersion> buildVersions = metaDataService.loadAllBuildVersions();
-        statisticFilterDTO.setBuildVersions(buildVersions);
         if (ArrayUtils.isNotEmpty(statisticFilterDTO.getServiceId())
             && ArrayUtils.isNotEmpty(statisticFilterDTO.getBuildVersionId())) {
+            List<BuildVersion> buildVersions = metaDataService.loadAllBuildVersions();
+            statisticFilterDTO.setBuildVersions(buildVersions);
             byte[] data = excelReportGeneratorServise.generateExcelReport(statisticFilterDTO);
             String fileName = new SimpleDateFormat(DATAFORMAT).format(new Date()) + ".xls";
             response.setHeader("Content-Disposition", String.format("inline; filename=\"" + fileName + "\""));

@@ -17,22 +17,21 @@
           <fieldset>
             <div class="shift-left">
 
-
-              <div class="col-md-3">
+              <div class="col-md-4">
                 <label for="serviceId" class="control-label">Select service for statistic generation</label>
                 <form:select path="serviceId" items="${serviceName}" class="form-control select2-multiple" multiple="multiple" data-placeholder="service name"
-                  itemLabel="name" itemValue="id"/>
-                 <form:errors path="serviceId" cssClass="help-block with-errors" />
+                  itemLabel="name" itemValue="id" />
+                <form:errors path="serviceId" cssClass="help-block with-errors" />
               </div>
 
-              <div class="col-md-3">
+              <div class="col-md-4">
                 <label for="buildVersionId" class="control-label">Select build version</label>
                 <form:select path="buildVersionId" items="${buildVersions}" class="form-control select2-multiple" multiple="multiple" data-placeholder="Build version name"
-                  itemLabel="name" itemValue="id"/>
-                 <form:errors path="buildVersionId" cssClass="help-block with-errors" />
+                  itemLabel="name" itemValue="id" />
+                <form:errors path="buildVersionId" cssClass="help-block with-errors" />
               </div>
 
-              <div class="col-md-3">
+              <div class="col-md-4">
                 <label for="responseTimeFilterMarker" class="control-label">Select response time type for report</label>
                 <form:select path="responseTimeFilterMarker" class="form-control" cssErrorClass="error">
                   <form:option value="1">With avarage ResponseTime</form:option>
@@ -40,16 +39,17 @@
                 </form:select>
               </div>
 
-              <div class="col-md-3">
-                <label aria-hidden="true">&nbsp;</label>
-                <div>
-                  <a href="<c:url value="/reports/statistic/ " />" class="btn btn-default">Reset</a>
-                  <input type="submit" class="btn btn-success" value="Generate" />
-                  <button id="exportXls" class="btn btn-default">Export to excel</button>
-                </div>
-              </div>
+
             </div>
           </fieldset>
+          <div>
+            <label aria-hidden="true">&nbsp;</label>
+            <div>
+              <a href="<c:url value=" /reports/statistic/ " />" class="btn btn-default">Reset</a>
+              <input type="submit" class="btn btn-success" value="Generate" />
+              <button id="exportXls" class="btn btn-default">Export to excel</button>
+            </div>
+          </div>
         </form:form>
       </div>
 
