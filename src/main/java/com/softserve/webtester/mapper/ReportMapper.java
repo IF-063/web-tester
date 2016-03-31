@@ -132,6 +132,6 @@ public interface ReportMapper {
     @Results({ @Result(property = "serviceName", column = "name", jdbcType = JdbcType.VARCHAR),
                @Result(property = "sla", column = "sla", jdbcType = JdbcType.INTEGER),
                @Result(property = "averageResponseTime", column = "id", 
-                       one = @One(select = "com.softserve.webtester.mapper.ReportMapper.loadAvarage")) })
+                       one = @One(select = "com.softserve.webtester.mapper.ReportMapper.loadAverage")) })
     StatisticDataDTO loadStatisticDataDTO(int id);
 }
