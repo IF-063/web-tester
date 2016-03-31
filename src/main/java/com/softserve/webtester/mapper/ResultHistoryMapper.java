@@ -17,32 +17,29 @@ public interface ResultHistoryMapper {
 
     /**Saving collection with buildVersion.
      */
-    @Insert("INSERT INTO ResultHistory VALUES(NULL, #{status}, #{application.id}, #{serviceId}, #{request.id}," +
+    @Insert("INSERT INTO ResultHistory VALUES(NULL, 0, #{application.id}, #{service.id}, #{request.id}," +
             " #{requestName}, #{requestDescription}, #{url}, #{responseType}, #{requestBody}, " +
             "#{statusLine}, #{timeStart}, #{expectedResponseTime}, #{responseTime}, #{expectedResponse}," +
-            " #{actualResponse}, #{message}, #{runId}, #{requestCollection.id}, #{buildVersion.id}")
-
+            " #{actualResponse}, #{message}, #{runId}, #{requestCollection.id}, #{buildVersion.id})")
     @Options(useGeneratedKeys = true, keyProperty = "id")
     int save(ResultHistory resultHistory);
 
     /**Saving collection without buildVersion
      */
-    @Insert("INSERT INTO ResultHistory VALUES(NULL, #{status}, #{application.id}, #{serviceId}, #{request.id}," +
+    @Insert("INSERT INTO ResultHistory VALUES(NULL, 0, #{application.id}, #{service.id}, #{request.id}," +
             " #{requestName}, #{requestDescription}, #{url}, #{responseType}, #{requestBody}, " +
             "#{statusLine}, #{timeStart}, #{expectedResponseTime}, #{responseTime}, #{expectedResponse}," +
-            " #{actualResponse}, #{message}, #{runId}, #{requestCollection.id}")
-
+            " #{actualResponse}, #{message}, #{runId}, #{requestCollection.id}, null)")
     @Options(useGeneratedKeys = true, keyProperty = "id")
     int saveCollection(ResultHistory resultHistory);
 
 
     /**Saving only request.
      */
-    @Insert("INSERT INTO ResultHistory VALUES(NULL, #{status}, #{application.id}, #{serviceId}, #{request.id}," +
+    @Insert("INSERT INTO ResultHistory VALUES(NULL, 0, #{application.id}, #{service.id}, #{request.id}," +
             " #{requestName}, #{requestDescription}, #{url}, #{responseType}, #{requestBody}, " +
             "#{statusLine}, #{timeStart}, #{expectedResponseTime}, #{responseTime}, #{expectedResponse}," +
-            " #{actualResponse}, #{message}, #{runId}")
-
+            " #{actualResponse}, #{message}, #{runId}, NULL, NULL)")
     @Options(useGeneratedKeys = true, keyProperty = "id")
     int saveRequest(ResultHistory resultHistory);
 

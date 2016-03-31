@@ -39,9 +39,9 @@ public class ResultHistoryService {
     public int save(ResultHistory resultHistory) {
 
         try {
-            if (!resultHistory.getBuildVersion().equals(null)) {
+            if (resultHistory.getBuildVersion()!=null) {
                 resultHistoryMapper.save(resultHistory);
-            } else if (!resultHistory.getRequestCollection().equals(null)) {
+            } else if (resultHistory.getRequestCollection()!=null) {
                 resultHistoryMapper.saveCollection(resultHistory);
             } else {
                 resultHistoryMapper.saveRequest(resultHistory);

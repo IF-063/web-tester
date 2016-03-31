@@ -7,7 +7,10 @@ import java.util.List;
 import com.softserve.webtester.dto.*;
 import org.apache.http.HttpResponse;
 import org.apache.http.ParseException;
+import org.apache.http.client.methods.HttpEntityEnclosingRequestBase;
 import org.apache.http.util.EntityUtils;
+import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.softserve.webtester.model.DbValidation;
@@ -21,32 +24,44 @@ import com.softserve.webtester.model.ResultHistory;
 
 @Service
 public class ParseAndWriteService {
+    
+    @Autowired
+    private RequestExecuteSupportService requestExecuteSupportService;
+    
+    @Autowired
+    private ResultHistoryService resultHistoryService;
+    
+    @Autowired
+    private RequestCollectionService requestCollectionService;
+    
+    @Autowired
+    private RequestExecuteService requestExecuteService;
+    
+    @Autowired
+    private EnvironmentService environmentService;
+    
+    @Autowired
+    private MetaDataService metaDataService;
+    
+    private static final Logger LOGGER = Logger.getLogger(ParseAndWriteService.class);
+    
+    private static String VELOCITY_LOG=""; 
 
     public int parseAndWrite(ResultsDTO resultsDTO) {
 
         int runId = resultsDTO.getRunId();
         Environment environment = resultsDTO.getEnvironment();
         int buildVersionId = resultsDTO.getBuildVersionId();
-
         List<CollectionResultDTO> collectionResultDTOList = resultsDTO.getCollectionResultDTOList();
-
         ResultHistory resultHistory = new ResultHistory();
         EnvironmentHistory environmentHistory = new EnvironmentHistory();
         HeaderHistory headerHistory = new HeaderHistory();
         DbValidationHistory dbValidationHistory = new DbValidationHistory();
-        MetaDataService metaDataService = new MetaDataService();
         Header headers = new Header();
         DbValidation dbValidation = new DbValidation();
-        RequestExecuteService requestExecuteService = new RequestExecuteService();
-        RequestCollectionService requestCollectionService = new RequestCollectionService();
-        ResultHistoryService resultHistoryService = new ResultHistoryService();
-        EnvironmentService environmentService = new EnvironmentService();
-
         for (CollectionResultDTO collectionList : collectionResultDTOList) {
-
             int collectionId = collectionList.getCollectionId();
             List<RequestResultDTO> requestResultDTOList = collectionList.getRequestResultDTOList();
-
             for (RequestResultDTO requestResult : requestResultDTOList) {
                 Request request = requestResult.getRequest();
                 RequestDTO requestDTO = requestResult.getRequestDTO();
@@ -54,9 +69,9 @@ public class ParseAndWriteService {
                 for (ResponseDTO responseDTO : responseDTOList) {
                     long responseTime = responseDTO.getResponseTime();
                     HttpResponse response = responseDTO.getResponse();
-                    System.out.println("TIME   " + responseTime);
-                    System.out.println("RESPONSE   " + response.toString());
-
+                    LOGGER.info("TIME   " + responseTime);
+                    LOGGER.info("RESPONSE   " + response.toString());
+                    resultHistory.setStatus("1");
                     resultHistory.setApplication(request.getApplication());
                     resultHistory.setService(request.getService());
                     resultHistory.setRequest(request);
@@ -64,17 +79,19 @@ public class ParseAndWriteService {
                     resultHistory.setRequestDescription(request.getDescription());
                     resultHistory.setUrl(requestDTO.getHttpRequest().getURI().toString());
                     resultHistory.setResponseType(request.getResponseType().toString());
-                    resultHistory.setRequestBody(request.getRequestBody());
                     resultHistory.setStatusLine(responseDTO.getResponse().getStatusLine().toString());
                     resultHistory.setTimeStart(new Timestamp(System.currentTimeMillis()));
                     resultHistory.setExpectedResponseTime(request.getTimeout());
                     resultHistory.setResponseTime((int) responseDTO.getResponseTime());
-                    resultHistory.setExpectedResponse(request.getExpectedResponse());
+                    
                     try {
+                        resultHistory.setRequestBody(EntityUtils
+                                .toString(((HttpEntityEnclosingRequestBase) requestDTO.getHttpRequest()).getEntity()));
+                        resultHistory.setExpectedResponse(requestExecuteSupportService.getEvaluatedString(
+                                request.getExpectedResponse(), requestDTO.getVariableList(), VELOCITY_LOG));
                         resultHistory.setActualResponse(EntityUtils.toString(responseDTO.getResponse().getEntity()));
                     } catch (ParseException | IOException e1) {
-                        // TODO Auto-generated catch block
-                        e1.printStackTrace();
+                        LOGGER.info(e1);
                     }
                     resultHistory.setMessage(responseDTO.getResponse().getStatusLine().getReasonPhrase().toString());
                     resultHistory.setRunId(runId);
@@ -84,8 +101,13 @@ public class ParseAndWriteService {
                     if (resultsDTO.getBuildVersionId() != 0)
                         resultHistory
                                 .setBuildVersion(metaDataService.loadBuildVersionById(resultsDTO.getBuildVersionId()));
-                    System.out.println(resultHistory);
-
+                    LOGGER.info(resultHistory);
+                    
+                    
+                    
+                    resultHistoryService.save(resultHistory);
+                    
+                    
                 }
             }
 
