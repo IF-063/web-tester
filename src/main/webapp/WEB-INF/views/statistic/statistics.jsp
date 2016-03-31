@@ -45,7 +45,7 @@
           <div>
             <label aria-hidden="true">&nbsp;</label>
             <div>
-              <a href="<c:url value=" /reports/statistic/ " />" class="btn btn-default">Reset</a>
+              <a href="<c:url value="/reports/statistic/ " />" class="btn btn-default">Reset</a>
               <input type="submit" class="btn btn-success" value="Generate" />
               <button id="exportXls" class="btn btn-default">Export to excel</button>
             </div>
@@ -95,10 +95,6 @@
     </div>
   </div>
 </div>
-                  
-
-
-<input id="contextPath" type="hidden" value="${pageContext.request.contextPath}" />
 
 <script src=<c:url value="/resources/dist/js/select2.min.js" />></script>
 
