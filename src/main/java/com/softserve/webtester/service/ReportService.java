@@ -54,7 +54,7 @@ public class ReportService {
      */
     @Transactional
     public int loadAvarageResponseTimeForService(ReportFilterDTO reportFilterDTO) {
-        return reportMapper.loadAvarage(reportFilterDTO.getServiceId());
+        return reportMapper.loadAverage(reportFilterDTO.getServiceId());
     }
 
     public List<ReportDataDTO> loadWithAvarageResponseTime(int serviceId, int[] buildVersionIds) {
