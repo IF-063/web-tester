@@ -26,7 +26,7 @@
                                multiple="multiple" data-placeholder="labels..." itemLabel="name" itemValue="id" />
               </div>
 
-              <div class="col-md-2" id="f3" style="display: none">
+              <div class="col-md-2" id="f3">
                   <form:select path="statusFilter" class="form-control select2-multiple" cssErrorClass="error" >
                       <form:option value="1">status pass</form:option>
                       <form:option value="0">status fail</form:option>
@@ -76,7 +76,7 @@
                   <td class="td-centered">${result.timeStart}</td>
                   <td class="td-centered">${statusCollection[status.index]=='1'?'pass':'fail'}</td>
                   <td>${result.message}</td>
-                  <td class="td-centered"><a href=<c:url value="/results/collections/${result.requestCollection.getId()}" /> onclick="return disableFilters()">request results</a></td>
+                  <td class="td-centered"><a href=<c:url value="/results/collections/${result.requestCollection.getId()}" />>request results</a></td>
                   <td class="td-centered">
                     <a class="removeInstance cursorPointer fa fa-trash fa-lg"
                        href="<c:url value="/results/collections/remove/${result.requestCollection.getId()}" />" ></a>
