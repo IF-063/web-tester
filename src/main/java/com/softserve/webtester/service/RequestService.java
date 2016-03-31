@@ -287,6 +287,12 @@ public class RequestService {
         }
     }
 
+    /**
+     * loads request list from DB
+     *
+     * @param requestIdArray identifiers of requests to get
+     * @return list of request instances
+     */
     @Transactional(propagation = Propagation.NOT_SUPPORTED, isolation = Isolation.READ_COMMITTED)
     public List<Request> loadArray(int[] requestIdArray) {
         try {
@@ -297,6 +303,13 @@ public class RequestService {
         }
     }
 
+
+    /**
+     * loads request list from DB
+     *
+     * @param id identifiers of collection which contains list of requests
+     * @return list of request instances
+     */
     @Transactional(propagation = Propagation.NOT_SUPPORTED, isolation = Isolation.READ_COMMITTED)
     public List<Request> loadFullRequestsByRequestCollectionId(int id) {
         try {

@@ -175,6 +175,12 @@ public interface RequestMapper {
     boolean isRequestNameFree(@Param("name") String name, @Param("exclusionId") int exclusionId);
 
 
+    /**
+     * Loads {@link Request} instances from the database by request id array
+     *
+     * @param requestIdArray identifier of Request instance should be selected
+     * @return list of request instances
+     */
     @Select("<script>SELECT id, name, description, requestMethod, applicationId, serviceId, endpoint, requestBody, "
             + "responseType, expectedResponse, timeout FROM Request WHERE id IN <foreach item='item' index='index' "
             + "collection='list' open='(' separator=',' close=')'>#{item}</foreach></script>")
@@ -202,6 +208,12 @@ public interface RequestMapper {
     List<Request> loadArray(@Param("list") int[] requestIdArray);
 
 
+    /**
+     * Loads {@link Request} instances from the database by collection id
+     *
+     * @param id identifier of collection for getting requests instances from it
+     * @return list of request instances
+     */
     @Select("SELECT r.id, r.name, r.description, r.requestMethod, r.applicationId, r.serviceId, r.endpoint, "
             + "r.requestBody, r.responseType, r.expectedResponse, r.timeout FROM Request r INNER JOIN "
             + "RequestCollection_Request cr ON r.id = cr.requestId WHERE cr.requestCollectionId = #{id}")

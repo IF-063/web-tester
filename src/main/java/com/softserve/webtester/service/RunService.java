@@ -28,7 +28,7 @@ public class RunService {
     private ParseAndWriteService parseAndWriteService;
 
     /**
-     * method which responsible for running request or requests list
+     * method which responsible for running request or requests list of requests and parsing, writing into DB results
      *
      * @param environmentId for getting environment data from DB
      * @param requestIdArray list of request id to get request objects from DB
@@ -45,7 +45,7 @@ public class RunService {
     }
 
     /**
-     * method which responsible for running collections of requests
+     * method which responsible for running collections of requests and parsing, writing into DB results
      *
      * @param environmentId for getting environment data from DB
      * @param buildVersionId tell us to run request contained in collection for 5 times
@@ -62,6 +62,14 @@ public class RunService {
 
     }
 
+    /**
+     * execute request or requests list
+     *
+     * @param environment data for running requests
+     * @param requestIdArray array of request id to get request objects from DB
+     * @param runId for getting run results from DB
+     * @return ResultsDTO instance
+     */
     private ResultsDTO execute(Environment environment, int [] requestIdArray, int runId) {
 
         ResultsDTO resultsDTO = new ResultsDTO();
@@ -82,6 +90,15 @@ public class RunService {
         return resultsDTO;
     }
 
+    /**
+     * execute collection or collections list
+     *
+     * @param environment data for running requests
+     * @param buildVersionId tell us to run request contained in collection for 5 times
+     * @param collectionIdArray array of collection id to get requests lists from DB
+     * @param runId for getting run results from DB
+     * @return ResultsDTO instance
+     */
     private ResultsDTO execute(Environment environment, int buildVersionId, int [] collectionIdArray, int runId) {
 
         ResultsDTO resultsDTO = new ResultsDTO();

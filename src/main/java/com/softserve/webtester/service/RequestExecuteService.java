@@ -24,6 +24,7 @@ import java.util.List;
 @Service
 public class RequestExecuteService {
 
+    private static final int SAMPLE_FOR_BUILD_VERSION = 5;
     private static final Logger LOGGER = Logger.getLogger(RequestExecuteService.class);
 
     @Autowired
@@ -45,15 +46,12 @@ public class RequestExecuteService {
                                                boolean ifBuildVerExist, int collectionId) {
 
         CollectionResultDTO collectionResultDTO = new CollectionResultDTO();
-        List<RequestResultDTO> requestResultDTOList = new ArrayList<RequestResultDTO>();
+        List<RequestResultDTO> requestResultDTOList = new ArrayList<>();
 
         Connection dbCon;
-        HttpClient httpClient;
 
         try {
             dbCon = environmentService.getConnection(environment);
-
-            //httpClient = HttpClientBuilder.create().build();
 
             String host = environment.getBaseUrl();
 
@@ -65,7 +63,7 @@ public class RequestExecuteService {
                 ResponseDTO responseDTO;
 
                 if (ifBuildVerExist) {
-                    for (int i = 0; i < 5; i++) {
+                    for (int i = 0; i < SAMPLE_FOR_BUILD_VERSION; i++) {
                         responseDTO = executeOneRequest(requestBase);
                         responseDTOList.add(responseDTO);
                     }
@@ -97,8 +95,7 @@ public class RequestExecuteService {
     }
 
     /**
-     *
-     * @param httpClient base for running requests
+     * method runs one request
      * @param requestBase interface for different types of request
      * @return ResponseDTO, object, which consists of response time and response
      */
