@@ -35,6 +35,11 @@ public class BuildHttpRequestService {
     @Autowired
     private RequestExecuteSupportService requestExecuteSupportService;
     
+    
+    /**
+     * Create instance RequestDTO which contains instance of HttpRequest and list of generated Variable
+     * @param request
+     */
     public RequestDTO getHttpRequest(Request request, String host, Connection dbCon)
             throws URISyntaxException, SQLException, ParseException, IOException {
 
@@ -89,6 +94,9 @@ public class BuildHttpRequestService {
         return requestDTO;
     }
 
+    /**
+     * Return generated String given length
+     */
     private String getRandomString(Variable variable, int length) {
         String randomString = null;
         randomString = variable.getDataType().getRandomStream(length)

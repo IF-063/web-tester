@@ -37,6 +37,11 @@ public class RequestExecuteSupportService {
     @Autowired
     private VelocityEngine velocityEngine;
     
+    /**
+     * Get value from executed SQL query on given connection builded on Environment 
+     * @param input connection and query
+     * @return string value
+     */
     public String getExecutedQueryValue(Connection dbCon, String sqlQuery) throws SQLException {
         String result = null;
         try {
@@ -56,6 +61,11 @@ public class RequestExecuteSupportService {
         }
     }
     
+    /**
+     * Get evaluated a String containing Velocity Template Language using list of Variable, and returns the result as a String.
+     * @param input instance should be formatted, data to build context and data for logging
+     * @return formatted string object
+     */
     public String getEvaluatedString (String source, List<Variable> varibleList, String logString){
         VelocityContext context = new VelocityContext();
         for (Variable var : varibleList) {
