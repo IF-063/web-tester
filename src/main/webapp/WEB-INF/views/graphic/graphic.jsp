@@ -57,7 +57,7 @@
       <div class="panel-body">
         <div class="inner">
           <c:if test="${not empty graphicData}">
-            <h4 >Performance by ${(reportFilterDTO.getResponseTimeFilterMarker() == 1)?'Average':'Maximum'} value of response time</h4>
+            <h4 >Performance by ${reportFilterDTO.responseTimeFilterMarker == 1?'Average':'Maximum'} value of response time</h4>
           </c:if>
         </div>
       </div>

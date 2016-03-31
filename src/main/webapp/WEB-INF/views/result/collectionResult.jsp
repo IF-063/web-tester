@@ -16,23 +16,22 @@
           <fieldset>
             <h4>Filters</h4>
 
-              <div class="col-md-2">
+              <div class="col-md-2" id="f1">
                   <form:select path="buildVersionsFilter" items="${buildVersions}" class="form-control select2-multiple"
                                multiple="multiple" data-placeholder="buildVersions..." itemLabel="name" itemValue="id" />
               </div>
 
-              <div class="col-md-2">
+              <div class="col-md-2" id="f2">
                   <form:select path="labelFilter" items="${labels}" class="form-control select2-multiple"
                                multiple="multiple" data-placeholder="labels..." itemLabel="name" itemValue="id" />
               </div>
 
-              <div class="col-md-2" style="display: none;>
+              <div class="col-md-2" id="f3" style="display: none">
                   <form:select path="statusFilter" class="form-control select2-multiple" cssErrorClass="error" >
                       <form:option value="1">status pass</form:option>
                       <form:option value="0">status fail</form:option>
                   </form:select>
               </div>
-
 
               <div class="col-md-4">
                   <div>
@@ -75,9 +74,9 @@
                   </td>
                   <td class="td-centered">${result.buildVersion.name}</td>
                   <td class="td-centered">${result.timeStart}</td>
-                  <td class="td-centered">${STATUS_COLLECION[status.index]=='1'?'pass':'fail'}</td>
+                  <td class="td-centered">${statusCollection[status.index]=='1'?'pass':'fail'}</td>
                   <td>${result.message}</td>
-                  <td class="td-centered"><a href=<c:url value="/results/collections/${result.requestCollection.getId()}" />>request results</a></td>
+                  <td class="td-centered"><a href=<c:url value="/results/collections/${result.requestCollection.getId()}" /> onclick="return disableFilters()">request results</a></td>
                   <td class="td-centered">
                     <a class="removeInstance cursorPointer fa fa-trash fa-lg"
                        href="<c:url value="/results/collections/remove/${result.requestCollection.getId()}" />" ></a>
@@ -97,3 +96,4 @@
 <script src=<c:url value="/resources/dist/js/select2.min.js" />></script>
 <script src=<c:url value="/resources/bower_components/bootstrap-dataTables/js/jquery.dataTables.min.js" />></script>
 <script src=<c:url value="/resources/bower_components/bootstrap-dataTables/js/dataTables.bootstrap.min.js" />></script>
+<script src=<c:url value="/resources/js/results/InvisibleButton.js" />></script>

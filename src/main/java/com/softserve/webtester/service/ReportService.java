@@ -33,6 +33,11 @@ public class ReportService {
     @Autowired
     private ReportMapper reportMapper;
 
+    /**
+     * Generating data for graphic building
+     * @param reportFilterDTO
+     * @return
+     */
     @Transactional
     public List<ReportDataDTO> loadReportData(ReportFilterDTO reportFilterDTO) {
         int serviceId = reportFilterDTO.getServiceId();
@@ -44,6 +49,9 @@ public class ReportService {
         }
     }
 
+    /**
+     * Geting average response time for each collection with build version
+     */
     @Transactional
     public int loadAvarageResponseTimeForService(ReportFilterDTO reportFilterDTO) {
         return reportMapper.loadAvarage(reportFilterDTO.getServiceId());
@@ -58,6 +66,9 @@ public class ReportService {
         }
     }
 
+    /**
+     * Geting maximum response time for each collection with build version
+     */
     @Transactional
     public List<ReportDataDTO> loadWithMaxResponseTime(int serviceId, int[] buildVersionIds) {
         try {
