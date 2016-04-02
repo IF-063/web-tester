@@ -25,13 +25,13 @@ import com.softserve.webtester.dto.StatisticFilterDTO;
  * logging.
  * 
  * @author Yura Lubinec
- * @version 1.0
  */
 @Service
 public class ExcelReportGeneratorServise {
 
     private static final Logger LOGGER = Logger.getLogger(ExcelReportGeneratorServise.class);
-
+    
+    private static final int STATIC_COLUMNS_NUMBER = 2;
     @Autowired
     ReportService reportService;
 
@@ -51,17 +51,20 @@ public class ExcelReportGeneratorServise {
         try (HSSFWorkbook workbook = new HSSFWorkbook()) {
             HSSFSheet spreadsheet = workbook.createSheet("StatisticReport");
             HSSFCellStyle style = workbook.createCellStyle();
-            
             style.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+            
+            //create merged regions in the spreadsheet
             spreadsheet.addMergedRegion(new CellRangeAddress(0, 0, 2, bvListsize + 1));
             spreadsheet.addMergedRegion(new CellRangeAddress(0, 1, 0, 0));
             spreadsheet.addMergedRegion(new CellRangeAddress(0, 1, 1, 1));
             spreadsheet.addMergedRegion(new CellRangeAddress(0, 1, bvListsize + 2, buildVersionName.size() + 2));
             
-            for (int l = 1; l <= 2 + bvListsize; l++) {
+            //set auto size for non merged columns
+            for (int l = 0; l <= STATIC_COLUMNS_NUMBER + bvListsize; l++) {
                 spreadsheet.autoSizeColumn(l);
             }
-                        
+            
+            //create cells for the the table heading
             HSSFRow row = spreadsheet.createRow(0);
             HSSFCell cell = row.createCell(0);
             cell.setCellValue("Service Name");
@@ -77,14 +80,16 @@ public class ExcelReportGeneratorServise {
             cell.setCellStyle(style);
             row = spreadsheet.createRow(1);
             
+            //create cells with build versions name data
             for (int k = 0; k < bvListsize; k++) {
-                cell = row.createCell(2 + k);
+                cell = row.createCell(STATIC_COLUMNS_NUMBER + k);
                 cell.setCellValue(buildVersionName.get(k));
                 cell.setCellStyle(style);
             }
             
+            //create rows and cells with table body data
             for (int i = 0; i < statisticData.size(); i++) {
-                row = spreadsheet.createRow(i + 2);
+                row = spreadsheet.createRow(i + STATIC_COLUMNS_NUMBER);
                 cell = row.createCell(0);
                 cell.setCellValue(statisticData.get(i).getServiceName());
                 cell.setCellStyle(style);
@@ -92,7 +97,7 @@ public class ExcelReportGeneratorServise {
                 cell.setCellValue(statisticData.get(i).getSla());
                 cell.setCellStyle(style);
                 for (int j = 0; j < bvListsize; j++) {
-                    cell = row.createCell(j + 2);
+                    cell = row.createCell(j + STATIC_COLUMNS_NUMBER);
                     Integer value = statisticData.get(i).getResponseTimes().get(j);
                     cell.setCellValue(value != null ? value : 0);
                     cell.setCellStyle(style);
@@ -101,10 +106,11 @@ public class ExcelReportGeneratorServise {
                 cell.setCellValue(statisticData.get(i).getAverageResponseTime());
                 cell.setCellStyle(style);                             
             }
-        
-                spreadsheet.autoSizeColumn(0, true);
-                spreadsheet.autoSizeColumn(1, true);
-                spreadsheet.autoSizeColumn(2 + bvListsize, true);
+            
+            //set auto size for merged regions 
+            spreadsheet.autoSizeColumn(0, true);
+            spreadsheet.autoSizeColumn(1, true);
+            spreadsheet.autoSizeColumn(STATIC_COLUMNS_NUMBER + bvListsize, true);
             
             try (ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
                 workbook.write(baos);

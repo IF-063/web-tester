@@ -34,7 +34,7 @@
               <div class="col-md-4">
                 <label for="responseTimeFilterMarker" class="control-label">Select response time type for report</label> 
                 <form:select path="responseTimeFilterMarker" class="form-control" items="${responseTimeType}" 
-                itemLabel="text"/>
+                  itemLabel="text"/>
               </div>
 
             </div>

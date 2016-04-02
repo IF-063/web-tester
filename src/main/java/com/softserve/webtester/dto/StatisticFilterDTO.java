@@ -12,7 +12,7 @@ public class StatisticFilterDTO implements Serializable {
     
     private static final long serialVersionUID = -8426535580134914033L;
     
-    @Size(min = 1, message = "Select at least 1 service ")
+    @Size(min = 1)
     private int[] serviceId;
     
     @Size(min = 1, max = 5)
