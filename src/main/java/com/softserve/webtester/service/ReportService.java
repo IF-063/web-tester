@@ -50,7 +50,7 @@ public class ReportService {
     }
 
     /**
-     * Geting average response time for each collection with build version
+     * Getting average response time for each collection with build version
      */
     @Transactional
     public int loadAvarageResponseTimeForService(ReportFilterDTO reportFilterDTO) {
@@ -67,7 +67,7 @@ public class ReportService {
     }
 
     /**
-     * Geting maximum response time for each collection with build version
+     * Getting maximum response time for each collection with build version
      */
     @Transactional
     public List<ReportDataDTO> loadWithMaxResponseTime(int serviceId, int[] buildVersionIds) {
@@ -94,10 +94,13 @@ public class ReportService {
         List<StatisticDataDTO> result = new ArrayList<>(serviceId.length);
         for (int id : serviceId) {
             StatisticDataDTO dto = reportMapper.loadStatisticDataDTO(id);
-            if (statisticFilterDTO.getResponseTimeFilterMarker() == AVERAGE) {
+            switch (statisticFilterDTO.getResponseTimeFilterMarker()) {
+            case AVERAGE:
                 dto.setResponseTimes(loadStatisticWithAverageResponseTime(id, buildVersionIds));
-            } else {
+                break;
+            case MAX:    
                 dto.setResponseTimes(loadStatisticWithMaximumResponseTime(id, buildVersionIds));
+                break;
             }
             result.add(dto);
         }

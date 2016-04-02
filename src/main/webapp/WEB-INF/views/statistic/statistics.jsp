@@ -30,15 +30,12 @@
                   itemLabel="name" itemValue="id" />
                 <form:errors path="buildVersionId" cssClass="help-block with-errors" />
               </div>
-
+              
               <div class="col-md-4">
-                <label for="responseTimeFilterMarker" class="control-label">Select response time type for report</label>
-                <form:select path="responseTimeFilterMarker" class="form-control" cssErrorClass="error">
-                  <form:option value="1">With avarage ResponseTime</form:option>
-                  <form:option value="2">With maximum ResponseTime</form:option>
-                </form:select>
+                <label for="responseTimeFilterMarker" class="control-label">Select response time type for report</label> 
+                <form:select path="responseTimeFilterMarker" class="form-control" items="${responseTimeType}" 
+                itemLabel="text"/>
               </div>
-
 
             </div>
           </fieldset>

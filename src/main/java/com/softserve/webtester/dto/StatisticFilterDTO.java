@@ -6,6 +6,7 @@ import java.util.List;
 import javax.validation.constraints.Size;
 
 import com.softserve.webtester.model.BuildVersion;
+import com.softserve.webtester.model.ResponseTimeType;
 
 public class StatisticFilterDTO implements Serializable {
     
@@ -17,7 +18,7 @@ public class StatisticFilterDTO implements Serializable {
     @Size(min = 1, max = 5)
     private int[] buildVersionId;
     
-    private int responseTimeFilterMarker;
+    private ResponseTimeType responseTimeFilterMarker;
     private List <BuildVersion> buildVersions;
 
     public int[] getServiceId() {
@@ -36,11 +37,11 @@ public class StatisticFilterDTO implements Serializable {
         this.buildVersionId = buildVersionId;
     }
 
-    public int getResponseTimeFilterMarker() {
+    public ResponseTimeType getResponseTimeFilterMarker() {
         return responseTimeFilterMarker;
     }
 
-    public void setResponseTimeFilterMarker(int responseTimeFilterMarker) {
+    public void setResponseTimeFilterMarker(ResponseTimeType responseTimeFilterMarker) {
         this.responseTimeFilterMarker = responseTimeFilterMarker;
     }
     

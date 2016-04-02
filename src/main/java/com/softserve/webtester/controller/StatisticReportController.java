@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import com.softserve.webtester.dto.StatisticFilterDTO;
 import com.softserve.webtester.model.BuildVersion;
 import com.softserve.webtester.model.RequestCollection;
+import com.softserve.webtester.model.ResponseTimeType;
 import com.softserve.webtester.service.ExcelReportGeneratorServise;
 import com.softserve.webtester.service.MetaDataService;
 import com.softserve.webtester.service.ReportService;
@@ -41,7 +42,9 @@ public class StatisticReportController {
     private static final String STATISTICBUILDVERSIONS = "statisticsBuildVersions";
     private static final String STATISTICS = "statistics";
     private static final String DATAFORMAT = "YYYY-MM-DD HH:mm:ss";
+    private static final String RESPONSETIMETYPE = "responseTimeType";
     private static final Logger LOGGER = Logger.getLogger(StatisticReportController.class);
+    
 
     @Autowired
     private MetaDataService metaDataService;
@@ -67,6 +70,7 @@ public class StatisticReportController {
         List<BuildVersion> buildVersions = metaDataService.loadAllBuildVersions();
         statisticFilterDTO.setBuildVersions(buildVersions);
         model.addAttribute(BUILDVERSIONS, buildVersions);
+        model.addAttribute(RESPONSETIMETYPE, ResponseTimeType.values());
         if (result.hasErrors()) {
             return "statistic/statistics";
         }
