@@ -65,7 +65,6 @@ public class ParseAndWriteService {
         EnvironmentHistory environmentHistory = new EnvironmentHistory();
         HeaderHistory headerHistory = new HeaderHistory();
         DbValidationHistory dbValidationHistory = new DbValidationHistory();
-        // Header header = new Header();
         DbValidation dbValidation = new DbValidation();
 
         for (CollectionResultDTO collectionList : collectionResultDTOList) {
@@ -142,14 +141,12 @@ public class ParseAndWriteService {
                     environmentHistory.setResultHistory(resultHistory);
                     environmentHistory.setBaseURL(environment.getBaseUrl());
                     environmentHistory.setDbName(environment.getDbName());
-                    environmentHistory.setDbPort(environment.getDbPort());
+                    //environmentHistory.setDbPort(environment.getDbPort());
                     environmentHistory.setDbURL(environment.getDbUrl());
                     environmentHistory.setName(environment.getName());
                     environmentHistory.setEnvironment(environment);
-                    System.out.println(environmentHistory);
 
-                    // resultHistoryService.save(resultHistory);
-                    // resultHistoryService.saveResultHistoryComponents(resultHistory);
+                    resultHistoryService.save(resultHistory);
                     LOGGER.info("HEADERS   " + headerHistory);
 
                 }
