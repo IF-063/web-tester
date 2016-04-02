@@ -27,7 +27,7 @@
         <table class="table-hover">
           <tr class="highlight">
             <th class="th">Status</th>
-            <td>${(result.status==1)?'pass':'fail'}</td>
+            <td>${(result.status==true)?'pass':'fail'}</td>
           </tr>
 
           <tr class="highlight">

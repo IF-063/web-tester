@@ -30,7 +30,7 @@
               <form:select path="statusFilter" class="form-control select2-multiple" cssErrorClass="error" >
                 <form:option value="1">status pass</form:option>
                 <form:option value="0">status fail</form:option>
-              </form:select>
+              </form:select> 
             </div>
 
             <div class="col-md-4">
@@ -70,7 +70,7 @@
                 <td>${result.application.getName()}</td>
                 <td>${result.service.getName()}</td>
                 <td class="td-centered">${result.timeStart}</td>
-                <td class="td-centered">${(result.status==1)?'pass':'fail'}</td>
+                <td class="td-centered">${(result.status==true)?'pass':'fail'}</td>
                 <td>${result.message}</td>
 
                 <td class="td-centered"><a href=<c:url value="/results/requests/${result.id}" />>details</a></td>
@@ -84,7 +84,7 @@
           </table>
         </div>
       </div>
-    </div>
+    </div> 
     <button id ="deleteSelected" class="btn btn-default">Delete Selected</button>
   </div>
 </div>

@@ -19,7 +19,7 @@ public class ResultHistory implements Serializable {
     private static final long serialVersionUID = 2316323598058491701L;
 
     private int id;
-    private String status;
+    private boolean status;
     private Application application;
     private Service service;
     private Request request;
@@ -53,11 +53,11 @@ public class ResultHistory implements Serializable {
         this.id = id;
     }
 
-    public String getStatus() {
+    public boolean getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(boolean status) {
         this.status = status;
     }
 

@@ -261,7 +261,7 @@ public class ResultHistoryService {
      * Saving DbValidationHistories, headerHistories and labels for the resultHistory instance to the database
      * @param resultHistory
      */
-    private void saveResultHistoryComponents(ResultHistory resultHistory) {
+    public void saveResultHistoryComponents(ResultHistory resultHistory) {
 
         List<DbValidationHistory> dbValidationHistories = resultHistory.getDbValidationHistories();
         if (CollectionUtils.isNotEmpty(dbValidationHistories)) {

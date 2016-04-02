@@ -36,7 +36,7 @@ public interface ResultHistoryMapper {
 
     /**Saving only request.
      */
-    @Insert("INSERT INTO ResultHistory VALUES(NULL, 0, #{application.id}, #{service.id}, #{request.id}," +
+    @Insert("INSERT INTO ResultHistory VALUES(NULL, #{status}, #{application.id}, #{service.id}, #{request.id}," +
             " #{requestName}, #{requestDescription}, #{url}, #{responseType}, #{requestBody}, " +
             "#{statusLine}, #{timeStart}, #{expectedResponseTime}, #{responseTime}, #{expectedResponse}," +
             " #{actualResponse}, #{message}, #{runId}, NULL, NULL)")
