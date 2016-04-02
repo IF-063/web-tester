@@ -20,7 +20,7 @@ import org.hibernate.validator.constraints.NotBlank;
  */
 public class Environment implements Serializable {
 
-    private static final long serialVersionUID = 7500482567907122176L;
+    private static final long serialVersionUID = 2341324368509837076L;
 
     /**
      * Auto generated unique primary key
@@ -61,7 +61,7 @@ public class Environment implements Serializable {
      */
     @NotBlank
     @Pattern(regexp = "\\d{1,5}")
-    private String dbPort;
+    private int dbPort;
 
     /**
      * Name of the database to which the connection is established
@@ -139,11 +139,11 @@ public class Environment implements Serializable {
         this.dbUrl = dbUrl;
     }
 
-    public String getDbPort() {
+    public int getDbPort() {
         return dbPort;
     }
 
-    public void setDbPort(String dbPort) {
+    public void setDbPort(int dbPort) {
         this.dbPort = dbPort;
     }
 

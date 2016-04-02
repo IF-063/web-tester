@@ -90,6 +90,9 @@ public class EnvironmentSqlProvider {
         }.toString();
     }
     
+    /**
+     * @return SQL query for checking the unique of environment's name
+     */
     public String isNameFree() {
         return new SQL() {
             {

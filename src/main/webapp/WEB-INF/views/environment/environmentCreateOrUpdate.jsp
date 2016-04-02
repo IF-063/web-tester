@@ -52,8 +52,7 @@
                         <div class="form-group">
                             <label for="dbType"
                                 class="col-sm-2 control-label">
-                                <p class="text-left">Database Type:
-                                    *</p>
+                                <p class="text-left">Database Type: *</p>
                             </label>
                             <div class="col-sm-4">
                                 <form:select path="dbType"
@@ -81,8 +80,7 @@
                         <div class="form-group">
                             <label for="dbPort"
                                 class="col-sm-2 control-label">
-                                <p class="text-left">Database port:
-                                    *</p>
+                                <p class="text-left">Database port: *</p>
                             </label>
                             <div class="col-sm-4">
                                 <form:input path="dbPort" type="number"
@@ -96,8 +94,7 @@
                         <div class="form-group">
                             <label for="dbName"
                                 class="col-sm-2 control-label">
-                                <p class="text-left">Database name:
-                                    *</p>
+                                <p class="text-left">Database name: *</p>
                             </label>
                             <div class="col-sm-4">
                                 <form:input path="dbName" type="text"
@@ -111,8 +108,7 @@
                         <div class="form-group">
                             <label for="dbUsername"
                                 class="col-sm-2 control-label">
-                                <p class="text-left">Database
-                                    username: *</p>
+                                <p class="text-left">Database username: *</p>
                             </label>
                             <div class="col-sm-4">
                                 <form:input path="dbUsername"
@@ -127,8 +123,7 @@
                         <div class="form-group">
                             <label for="dbPassword"
                                 class="col-sm-2 control-label">
-                                <p class="text-left">Database
-                                    password: *</p>
+                                <p class="text-left">Database password: *</p>
                             </label>
                             <div class="col-sm-4">
                                 <form:input path="dbPassword"
@@ -143,8 +138,7 @@
                         <div class="form-group">
                             <label for="timeMultiplier"
                                 class="col-sm-2 control-label">
-                                <p class="text-left">Response time
-                                    multiplier: *</p>
+                                <p class="text-left">Response time multiplier: *</p>
                             </label>
                             <div class="col-sm-4">
                                 <form:input path="timeMultiplier"

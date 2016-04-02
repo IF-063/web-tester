@@ -126,7 +126,10 @@ public class EnvironmentService {
             throw e;
         }
     }
-
+    /**
+     * Establish connection to DB based on Environment parameters
+     * @throws Exception
+     */
     public Connection getConnection(Environment environment) throws Exception {
         String jdbcDriver = environment.getDbType().getDbDriver();
         String connectionUrl = String.format(environment.getDbType().getConnectionPattern(), environment.getDbUrl(),
@@ -138,15 +141,18 @@ public class EnvironmentService {
         try {
             Class.forName(jdbcDriver);
             connection = DriverManager.getConnection(connectionUrl);
-        } catch (SQLException se) {
-            throw se;
-        } catch (Exception e) {
+        } catch (Exception e ) {
+            LOGGER.error("Unable to establish connection, environment name: " + environment.getName(), e);
             throw e;
-        }
+        } 
 
         return connection;
     }
 
+    /**
+     * Checks established connection to DB based on Environment parameters
+     * @throws Exception
+     */
     public String checkConnection(Environment environment) throws Exception {
         Statement statement = null;
         String result = null;
