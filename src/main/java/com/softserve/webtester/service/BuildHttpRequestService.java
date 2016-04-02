@@ -26,7 +26,8 @@ import com.softserve.webtester.model.Variable;
 import com.softserve.webtester.model.VariableDataType;
 
 /**
- * BuildHttpRequestService class allows create http requests based on Request and Environment
+ * BuildHttpRequestService class allows create http requests based on Request
+ * and Environment
  *
  */
 @Service
@@ -34,14 +35,15 @@ public class BuildHttpRequestService {
 
     @Autowired
     private RequestExecuteSupportService requestExecuteSupportService;
-    
-    
+
     /**
-     * Create instance RequestDTO which contains instance of HttpRequest and list of generated Variable
+     * Create instance RequestDTO which contains instance of HttpRequest and
+     * list of generated Variable
+     * 
      * @param request
+     * @throws Exception
      */
-    public RequestDTO getHttpRequest(Request request, String host, Connection dbCon)
-            throws URISyntaxException, SQLException, ParseException, IOException {
+    public RequestDTO getHttpRequest(Request request, String host, Connection dbCon) throws Exception {
 
         RequestDTO requestDTO = new RequestDTO();
         HttpRequestBase httpRequest = request.getRequestMethod().getHttpRequest();
@@ -54,41 +56,26 @@ public class BuildHttpRequestService {
                 httpRequest.setHeader(header.getName(), header.getValue());
             }
         }
-
-        if (httpRequest.getMethod().equals("POST")) {
-            HttpEntityEnclosingRequestBase httpEntityEnclosingRequest = (HttpEntityEnclosingRequestBase) httpRequest;
-
-            if (request.getVariables() != null) {
-                VelocityContext context = new VelocityContext();
-                List<Variable> variableList = new ArrayList<Variable>();
-                for (Variable variable : request.getVariables()) {
-                    if (variable.isSql()) {
-                        String variableValue = requestExecuteSupportService.getExecutedQueryValue(dbCon,
-                                variable.getValue());
-                        variable.setValue(variableValue);
-                        variableList.add(variable);
-                    } else if (variable.isRandom()) {
-                        String variableValue = variable.getValue() + getRandomString(variable, variable.getLength());
-                        variable.setValue(variableValue);
-                        variableList.add(variable);
-                    } else {
-                        variableList.add(variable);
-                    }
-                }
+        if (request.getVariables() != null) {
+            List<Variable> variableList = getListVarables(request, dbCon);
+            requestDTO.setVariableList(variableList);
+            if (httpRequest.getMethod().equals("POST")) {
+                HttpEntityEnclosingRequestBase httpEntityEnclosingRequest = (HttpEntityEnclosingRequestBase) httpRequest;
                 String logString = "Request body";
                 HttpEntity entity = new StringEntity(requestExecuteSupportService
                         .getEvaluatedString(request.getRequestBody(), variableList, logString));
                 httpEntityEnclosingRequest.setEntity(entity);
                 requestDTO.setHttpRequest(httpEntityEnclosingRequest);
-                requestDTO.setVariableList(variableList);
                 return requestDTO;
-            } else {
+            }
+        } else {
+            if (httpRequest.getMethod().equals("POST")) {
+                HttpEntityEnclosingRequestBase httpEntityEnclosingRequest = (HttpEntityEnclosingRequestBase) httpRequest;
                 HttpEntity entity = new StringEntity(request.getRequestBody());
                 httpEntityEnclosingRequest.setEntity(entity);
                 requestDTO.setHttpRequest(httpEntityEnclosingRequest);
                 return requestDTO;
             }
-
         }
         requestDTO.setHttpRequest(httpRequest);
         return requestDTO;
@@ -107,4 +94,26 @@ public class BuildHttpRequestService {
         return randomString;
     }
 
+    /**
+     * Provides list instances of Variable for later use in building HttpRequest
+     * body or expected HttpResponse body or SQL queries for DB validation
+     * @throws Exception
+     */
+    private List<Variable> getListVarables(Request request, Connection dbCon) throws Exception {
+        List<Variable> variableList = new ArrayList<Variable>();
+        for (Variable variable : request.getVariables()) {
+            if (variable.isSql()) {
+                String variableValue = requestExecuteSupportService.getExecutedQueryValue(dbCon, variable.getValue());
+                variable.setValue(variableValue);
+                variableList.add(variable);
+            } else if (variable.isRandom()) {
+                String variableValue = variable.getValue() + getRandomString(variable, variable.getLength());
+                variable.setValue(variableValue);
+                variableList.add(variable);
+            } else {
+                variableList.add(variable);
+            }
+        }
+        return variableList;
+    }
 }
