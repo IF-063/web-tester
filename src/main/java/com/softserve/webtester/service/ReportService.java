@@ -26,8 +26,6 @@ import com.softserve.webtester.mapper.ReportMapper;
 @Service
 public class ReportService {
     
-    private static final int AVERAGE = 1;
-    
     private static final Logger LOGGER = Logger.getLogger(ReportService.class);
 
     @Autowired
@@ -40,13 +38,18 @@ public class ReportService {
      */
     @Transactional
     public List<ReportDataDTO> loadReportData(ReportFilterDTO reportFilterDTO) {
+        List<ReportDataDTO> list = null;
         int serviceId = reportFilterDTO.getServiceId();
         int[] buildVersionIds = reportFilterDTO.getBuildVersionId();
-        if (reportFilterDTO.getResponseTimeFilterMarker() == AVERAGE) {
-            return loadWithAvarageResponseTime(serviceId, buildVersionIds);
-        } else {
-            return loadWithMaxResponseTime(serviceId, buildVersionIds);
+        switch (reportFilterDTO.getResponseTimeFilterMarker()) {
+        case AVERAGE:
+            list = loadWithAvarageResponseTime(serviceId, buildVersionIds);
+            break;
+        case MAX:
+            list = loadWithMaxResponseTime(serviceId, buildVersionIds);
+            break;
         }
+        return list;
     }
 
     /**

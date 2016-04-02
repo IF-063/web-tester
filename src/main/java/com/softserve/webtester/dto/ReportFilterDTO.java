@@ -2,13 +2,15 @@ package com.softserve.webtester.dto;
 
 import java.io.Serializable;
 
+import com.softserve.webtester.model.ResponseTimeType;
+
 public class ReportFilterDTO implements Serializable {
 
     private static final long serialVersionUID = -358128122616172034L;
 
     private int serviceId;
     private int [] buildVersionId;
-    private int responseTimeFilterMarker;
+    private ResponseTimeType responseTimeFilterMarker;
 
     public int getServiceId() {
         return serviceId;
@@ -22,10 +24,10 @@ public class ReportFilterDTO implements Serializable {
     public void setBuildVersionId(int[] buildVersionId) {
         this.buildVersionId = buildVersionId;
     }
-    public int getResponseTimeFilterMarker() {
+    public ResponseTimeType getResponseTimeFilterMarker() {
         return responseTimeFilterMarker;
     }
-    public void setResponseTimeFilterMarker(int responseTimeFilterMarker) {
+    public void setResponseTimeFilterMarker(ResponseTimeType responseTimeFilterMarker) {
         this.responseTimeFilterMarker = responseTimeFilterMarker;
     }
 

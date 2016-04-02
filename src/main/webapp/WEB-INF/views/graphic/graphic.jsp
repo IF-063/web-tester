@@ -20,7 +20,7 @@
 
               <div class="col-md-4">
                 <label for="serviceId" class="control-label">Select service for statistic generation</label>
-                <form:select path="serviceId" id="Service" items="${serviceName}" class="form-control select2-multiple"
+                <form:select path="serviceId" id="Service" items="${serviceName}" class="form-control"
                              itemValue="id" itemLabel="name" cssErrorClass="error" />
                 <form:errors path="serviceId" cssClass="help-block with-errors" />
               </div>
@@ -31,17 +31,17 @@
                   multiple="multiple" data-placeholder="Build version name" itemValue="id" itemLabel="name" cssErrorClass="error" />
                 <form:errors path="buildVersionId" cssClass="help-block with-errors" />
               </div>
-
+                        
               <div class="col-md-4">
-                <label for="responseTimeFilterMarker" class="control-label">Select response time type for report</label>
-                <form:select path="responseTimeFilterMarker" id="Time" class="form-control" cssErrorClass="error" >
-                  <form:option value="1">With avarage ResponseTime</form:option>
-                  <form:option value="2">With maximum ResponseTime</form:option>
-                </form:select>
+                <label for="responseTimeFilterMarker" class="control-label">Select response time type for report</label> 
+                <form:select path="responseTimeFilterMarker" class="form-control" items="${responseTimeType}" 
+                  itemLabel="text"/>
               </div>
+              
             </div>
           </fieldset>
-          <div class>
+          
+          <div>
             <label aria-hidden="true">&nbsp;</label>
             <div>
               <a href="<c:url value="/reports/graphics/" />" class="btn btn-default">Reset</a>

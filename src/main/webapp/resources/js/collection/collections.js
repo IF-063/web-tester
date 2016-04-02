@@ -41,7 +41,6 @@ $(function() {
   });
 
   // enables tag autocomplete in filtering fields
-
   $('#labelFilter').select2({
     theme: 'bootstrap',
     width: '100%'
@@ -51,6 +50,7 @@ $(function() {
     $('input[type="checkbox"][name="operateSelect"]').prop('checked', this.checked);
   });
 
+  //handles deleting single collection
   $(document).on('click', '.removeInstance', function() {
     if (confirm('Do you really want to delete this Collection?')) {
       deleteRequestCollections([$(this).prop('id')]);
@@ -58,6 +58,7 @@ $(function() {
     return false;
   });
 
+  //handles deleting of all selected collections 
   $(document).on('click', '#deleteSelected', function() {
     var selected = [];
     $('#collections input:checked[name="operateSelect"]').each(function() {
@@ -68,7 +69,8 @@ $(function() {
     }
     return false;
   });
-
+  
+  //delete collections  
   function deleteRequestCollections(input) {
     $.ajax({
       type: 'DELETE',
