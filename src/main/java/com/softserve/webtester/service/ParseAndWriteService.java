@@ -83,10 +83,11 @@ public class ParseAndWriteService {
 
                     LOGGER.info("TIME   " + responseTime);
                     LOGGER.info("RESPONSE   " + response.toString());
-                    
+
                     if (responseDTO.getResponse().getStatusLine().getStatusCode() == 200) {
                         resultHistory.setStatus(true);
-                    }else resultHistory.setStatus(false);
+                    } else
+                        resultHistory.setStatus(false);
 
                     resultHistory.setApplication(request.getApplication());
                     resultHistory.setService(request.getService());
@@ -101,10 +102,12 @@ public class ParseAndWriteService {
                     resultHistory.setResponseTime((int) responseDTO.getResponseTime());
 
                     try {
-                        if (!requestDTO.getHttpRequest().getMethod().equals("GET")){
+                        if (requestDTO.getHttpRequest().getMethod().equals("GET")) {
+                            resultHistory.setRequestBody(null);
+                        } else
                             resultHistory.setRequestBody(EntityUtils.toString(
                                     ((HttpEntityEnclosingRequestBase) requestDTO.getHttpRequest()).getEntity()));
-                        }
+
                         resultHistory.setExpectedResponse(requestExecuteSupportService.getEvaluatedString(
                                 request.getExpectedResponse(), requestDTO.getVariableList(), VELOCITY_LOG));
                         resultHistory.setActualResponse(EntityUtils.toString(responseDTO.getResponse().getEntity()));
@@ -135,10 +138,19 @@ public class ParseAndWriteService {
                         }
 
                     }
-                    resultHistoryService.save(resultHistory);
-                    //resultHistoryService.saveResultHistoryComponents(resultHistory);
+
+                    environmentHistory.setResultHistory(resultHistory);
+                    environmentHistory.setBaseURL(environment.getBaseUrl());
+                    environmentHistory.setDbName(environment.getDbName());
+                    environmentHistory.setDbPort(environment.getDbPort());
+                    environmentHistory.setDbURL(environment.getDbUrl());
+                    environmentHistory.setName(environment.getName());
+                    environmentHistory.setEnvironment(environment);
+                    System.out.println(environmentHistory);
+
+                    // resultHistoryService.save(resultHistory);
+                    // resultHistoryService.saveResultHistoryComponents(resultHistory);
                     LOGGER.info("HEADERS   " + headerHistory);
-                    System.out.println(resultHistory);
 
                 }
             }
