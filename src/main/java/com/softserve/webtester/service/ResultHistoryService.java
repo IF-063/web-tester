@@ -107,21 +107,6 @@ public class ResultHistoryService {
     }
 
     /**
-     * Loading BuildVersion instance by its name
-     * @param id
-     * @return
-     */
-    public String loadBuildVersionName(int id) {
-
-        try {
-            return resultHistoryMapper.loadBuildVersionName(id);
-        } catch (DataAccessException e) {
-            LOGGER.error("Unable to load request instances", e);
-            throw e;
-        }
-    }
-
-    /**
      * Loading resultHistory instance having collections from ResultHistory table
      * @param resultCollectionFilterDTO
      * @return
@@ -149,6 +134,7 @@ public class ResultHistoryService {
         int[] applications = resultFilterDTO.getApplicationFilter();
         int[] services = resultFilterDTO.getServiceFilter();
         System.out.println("RUN_ID: "+runId);
+        System.out.println("ID: "+id);
         try {
             return resultHistoryMapper.loadAllRequestsByCollectionId(status, applications, services, id, runId);
         } catch (DataAccessException e) {

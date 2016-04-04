@@ -15,8 +15,12 @@ import com.softserve.webtester.service.ReportService;
 @Controller
 @RequestMapping(value = "/reports/graphics")
 public class GraphicReportController {
-    
+
+    private static final String SERVICENAME = "serviceName";
+    private static final String BUILDVERSIONS = "buildVersions";
     private static final String RESPONSETIMETYPE = "responseTimeType";
+    private static final String GRAPHICDATA = "graphicData";
+    private static final String SLA = "sla";
 
     @Autowired
     private MetaDataService metaDataService;
@@ -24,18 +28,24 @@ public class GraphicReportController {
     @Autowired
     private ReportService reportService;
 
+    /**
+     * Retrieves page with graphic data report.
+     * @param reportFilterDTO DTO object is using for filtering statistic data
+     * @param model {@link Model} object
+     * @return 'graphic' view
+     */
     @RequestMapping(method = RequestMethod.GET)
     public String getGraphic(@ModelAttribute ReportFilterDTO reportFilterDTO, Model model) {
-        model.addAttribute("serviceName", metaDataService.serviceLoadAll());
-        model.addAttribute("buildVersions", metaDataService.loadAllBuildVersions());
+        model.addAttribute(SERVICENAME, metaDataService.serviceLoadAll());
+        model.addAttribute(BUILDVERSIONS, metaDataService.loadAllBuildVersions());
         model.addAttribute(RESPONSETIMETYPE, ResponseTimeType.values());
 
         if (reportFilterDTO.getServiceId() != 0 && ArrayUtils.isNotEmpty(reportFilterDTO.getBuildVersionId())) {
-            model.addAttribute("graphicData", reportService.loadReportData(reportFilterDTO));
+            model.addAttribute(GRAPHICDATA, reportService.loadReportData(reportFilterDTO));
         }
 
         if(reportFilterDTO.getServiceId() != 0) {
-            model.addAttribute("sla", metaDataService.serviceLoad(reportFilterDTO.getServiceId()).getSla());
+            model.addAttribute(SLA, metaDataService.serviceLoad(reportFilterDTO.getServiceId()).getSla());
         }
         return "graphic";
     }

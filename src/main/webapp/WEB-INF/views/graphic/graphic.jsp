@@ -21,14 +21,14 @@
               <div class="col-md-4">
                 <label for="serviceId" class="control-label">Select service for statistic generation</label>
                 <form:select path="serviceId" id="Service" items="${serviceName}" class="form-control"
-                             itemValue="id" itemLabel="name" cssErrorClass="error" />
+                             itemValue="id" itemLabel="name" />
                 <form:errors path="serviceId" cssClass="help-block with-errors" />
               </div>
 
               <div class="col-md-4">
                 <label for="buildVersionId" class="control-label">Select build version</label>
                 <form:select path="buildVersionId" id="BuildVersion" onchange="enableDisableButton()" items="${buildVersions}" class="form-control select2-multiple"
-                  multiple="multiple" data-placeholder="Build version name" itemValue="id" itemLabel="name" cssErrorClass="error" />
+                  multiple="multiple" data-placeholder="Build version name" itemValue="id" itemLabel="name" />
                 <form:errors path="buildVersionId" cssClass="help-block with-errors" />
               </div>
                         

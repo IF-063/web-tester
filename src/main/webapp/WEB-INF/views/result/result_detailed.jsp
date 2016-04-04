@@ -84,12 +84,12 @@
 
           <tr class="highlight">
             <th class="th">Request Body</th>
-            <td><textarea class="form-control" id ="t1" rows="2" name="text">${result.requestBody}</textarea></td>
+            <td><textarea readonly class="form-control" id="t1" rows="2" name="text">${result.requestBody}</textarea></td>
           </tr>
 
           <tr class="highlight">
             <th class="th">Status Line</th>
-            <td><textarea class="form-control" id ="t2" rows="1" name="text">${result.statusLine}</textarea></td>
+            <td><textarea readonly class="form-control" id="t2" rows="1" name="text">${result.statusLine}</textarea></td>
           </tr>
 
           <tr class="highlight">
@@ -114,7 +114,7 @@
 
           <tr>
             <th class="th">Message</th>
-            <td><textarea class="form-control" id ="t3" name="text" rows="1" cols="90">${result.message}</textarea></td>
+            <td><textarea readonly class="form-control" id="t3" name="text" rows="1" cols="90">${result.message}</textarea></td>
           </tr>
         </table>
       </div>

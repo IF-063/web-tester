@@ -3,6 +3,7 @@ package com.softserve.webtester.mapper;
 import com.softserve.webtester.model.*;
 import org.apache.ibatis.annotations.*;
 import org.apache.ibatis.type.JdbcType;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Repository;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -15,7 +16,8 @@ import java.util.List;
 @Repository
 public interface ResultHistoryMapper {
 
-    /**Saving collection with buildVersion.
+    /**
+     * Saving collection with buildVersion.
      */
     @Insert("INSERT INTO ResultHistory VALUES(NULL, 0, #{application.id}, #{service.id}, #{request.id}," +
             " #{requestName}, #{requestDescription}, #{url}, #{responseType}, #{requestBody}, " +
@@ -24,7 +26,8 @@ public interface ResultHistoryMapper {
     @Options(useGeneratedKeys = true, keyProperty = "id")
     int save(ResultHistory resultHistory);
 
-    /**Saving collection without buildVersion
+    /**
+     * Saving collection without buildVersion
      */
     @Insert("INSERT INTO ResultHistory VALUES(NULL, 0, #{application.id}, #{service.id}, #{request.id}," +
             " #{requestName}, #{requestDescription}, #{url}, #{responseType}, #{requestBody}, " +
@@ -33,8 +36,8 @@ public interface ResultHistoryMapper {
     @Options(useGeneratedKeys = true, keyProperty = "id")
     int saveCollection(ResultHistory resultHistory);
 
-
-    /**Saving only request.
+    /**
+     * Saving only request.
      */
     @Insert("INSERT INTO ResultHistory VALUES(NULL, #{status}, #{application.id}, #{service.id}, #{request.id}," +
             " #{requestName}, #{requestDescription}, #{url}, #{responseType}, #{requestBody}, " +
@@ -43,6 +46,12 @@ public interface ResultHistoryMapper {
     @Options(useGeneratedKeys = true, keyProperty = "id")
     int saveRequest(ResultHistory resultHistory);
 
+    /**
+     * Loading {@link ResultHistory} instance from DB by its identifier.
+     * @param id identifies ResultHistory instance
+     * @return ResultHistory instance
+     * @throws DataAccessException
+     */
     @Select("SELECT id, status, applicationId, serviceId, requestId, requestName, requestDescription, url," +
             "responseType, requestBody, statusLine, timeStart, expectedResponseTime, responseTime, expectedResponse, actualResponse, message," +
             " runId, requestCollectionId, buildVersionId FROM ResultHistory WHERE id = #{id}")
@@ -81,6 +90,15 @@ public interface ResultHistoryMapper {
     })
     ResultHistory loadById(int id);
 
+    /**
+     * Loading all {@link ResultHistory} instances from DB.<br>
+     * This method loads only main information about ResultHistory instance.
+     * @param status using for filtering instances, which status identifier are in the array
+     * @param applications using for filtering instances, which application identifier are in the array
+     * @param services using for filtering instances, which service identifier are in the array
+     * @return List of ResultHistory instances
+     * @throws DataAccessException
+     */
     @Select({"<script>SELECT DISTINCT id, status, applicationId, serviceId, requestName, message," +
             " requestDescription, timeStart FROM ResultHistory WHERE id > 0",
             "<if test='status!=null and status!=\"\"'> AND status =#{status}</if>",
@@ -107,12 +125,24 @@ public interface ResultHistoryMapper {
                                 @Param(value = "applications") int[] applications,
                                 @Param(value = "services") int[] services);
 
+    /**
+     * Loading all {@link ResultHistory} instances by requestCollectionId and runId from DB.<br>
+     * @param status using for filtering instances, which status identifier are in the array
+     * @param applications using for filtering instances, which application identifier are in the array
+     * @param services using for filtering instances, which service identifier are in the array
+     * @param id using for selecting instances by requestCollectionId
+     * @param runId using for selecting instances by runId
+     * @return List of ResultHistory instances
+     * @throws DataAccessException
+     */
     @Select({"<script>SELECT DISTINCT id, status, applicationId, serviceId, runId, requestName, message, requestDescription, timeStart " +
             "FROM ResultHistory WHERE requestCollectionId = #{id} AND runId = #{runId}",
             "<if test='status!=null and status!=\"\"'> AND status =#{status}</if>",
+
             "<if test='applications!=null and applications.length>0'> AND applicationId IN",
             "<foreach collection='applications' item='item' index='index' open='(' separator=',' close=')'>",
             "#{item}</foreach></if>",
+
             "<if test='services!=null and services.length>0'> AND serviceId IN",
             "<foreach collection='services' item='item' index='index' open='(' separator=',' close=')'>",
             "#{item}</foreach></if>",
@@ -135,6 +165,14 @@ public interface ResultHistoryMapper {
                                                       @Param(value = "id") int id,
                                                       @Param(value = "runId") int runId);
 
+    /**
+     * Loading all {@link ResultHistory} instances from DB.<br>
+     * @param status using for filtering instances, which status identifier are in the array
+     * @param labels using for filtering instances, which labels identifier are in the array
+     * @param buildVersions using for filtering instances, which buildVersions identifier are in the array
+     * @return List of ResultHistory instances
+     * @throws DataAccessException
+     */
     @Select({"<script>SELECT r.id, r.runId, r.requestCollectionId, r.buildVersionId, MIN(r.status) AS status, r.message," +
             " r.timeStart FROM ResultHistory r ",
             "<if test='labels!=null and labels.length>0'>LEFT JOIN ResultHistory_Label rl ON r.id=rl.resultHistoryId ",
@@ -167,11 +205,12 @@ public interface ResultHistoryMapper {
     List<ResultHistory> loadAllCollections(@Param(value = "status") boolean status,
                                            @Param(value = "labels") int[] labels,
                                            @Param(value = "buildVersions") int[] buildVersions);
-    @Delete("<script>DELETE FROM ResultHistory WHERE id IN "
-            + "<foreach item='item' index='index' collection='list' open='(' separator=',' close=')'>"
-            + "#{item}</foreach></script>")
-    int deleteSelectedResults(@Param("list") int[] arr);
 
+    /**
+     * Loading all {@link ResultHistory} instances by runId from DB.<br>
+     * @param id using for selecting instances by RunId
+     * @throws DataAccessException
+     */
     @Select("SELECT id, status, applicationId, serviceId, runId, requestName, message, requestDescription, timeStart " +
             "FROM ResultHistory WHERE runId = #{id}")
     @Results({
@@ -188,6 +227,11 @@ public interface ResultHistoryMapper {
     })
     List<ResultHistory> loadAllRequestsByRunId(int id);
 
+    /**
+     * Loading all {@link ResultHistory} instances by runId from DB.<br>
+     * @param id using for selecting instances by RunId
+     * @throws DataAccessException
+     */
     @Select({"SELECT id, runId, requestCollectionId, buildVersionId, status, message," +
             " timeStart FROM ResultHistory WHERE runId = #{id}"})
     @Results({
@@ -205,23 +249,49 @@ public interface ResultHistoryMapper {
     })
     List<ResultHistory> loadAllCollectionsByRunId(int id);
 
+
+    /**
+     * Deleting {@link ResultHistory} instances from DB.
+     * @param arr identifiers ResultHistory instances to be deleted
+     * @return number of rows affected by the statement
+     * @throws DataAccessException
+     */
+    @Delete("<script>DELETE FROM ResultHistory WHERE id IN "
+            + "<foreach item='item' index='index' collection='list' open='(' separator=',' close=')'>"
+            + "#{item}</foreach></script>")
+    int deleteSelectedResults(@Param("list") int[] arr);
+
+    /**
+     * Deleting {@link ResultHistory} instances from DB.
+     * @param arr identifiers ResultHistory instances to be deleted
+     * @return number of rows affected by the statement
+     * @throws DataAccessException
+     */
     @Delete("<script>DELETE FROM ResultHistory WHERE requestCollectionId IN "
             + "<foreach item='item' index='index' collection='list' open='(' separator=',' close=')'>"
             + "#{item}</foreach></script>")
     int deleteSelectedCollectionResults(@Param("list") int[] arr);
 
+    /**
+     * Deleting {@link ResultHistory} instance by its identifier from DB.<br>
+     * @param id identifies ResultHistory instance
+     * @throws DataAccessException
+     */
     @Delete("DELETE FROM ResultHistory WHERE id = #{id}")
     int detele(int id);
 
+    /**
+     * Deleting {@link ResultHistory} instance by its identifier from DB.<br>
+     * @param id identifies ResultHistory instance
+     * @throws DataAccessException
+     */
     @Delete("DELETE FROM ResultHistory WHERE requestCollectionId = #{id}")
     int deteleByCollectionId(int id);
 
-    @Select("SELECT name FROM BuildVersion WHERE id =#{buildVersionId}")
-    @Results({
-            @Result(property = "name", column = "name", jdbcType = JdbcType.VARCHAR)
-    })
-    String loadBuildVersionName(int buildVersionId);
-
+    /**
+     * Selecting {@link ResultHistory} max value of runId field from DB.<br>
+     * @throws DataAccessException
+     */
     @Select("SELECT MAX(runId) FROM ResultHistory")
     int getMaxId();
 }
