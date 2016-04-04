@@ -373,6 +373,24 @@ table.dataTable thead .sorting:after {
     color: #1a99d9;
 }
 
+.panel-pink {
+    border-color: #FFC0CB;
+}
+
+.panel-pink .panel-heading {
+    border-color: #FF69B4;
+    color: #fff;
+    background-color: #FF69B4;
+}
+
+.panel-pink a {
+    color: #FF69B4;
+}
+
+.panel-pink a:hover {
+    color: #FF1493;
+}
+
 th {
 	text-align: center;
 }

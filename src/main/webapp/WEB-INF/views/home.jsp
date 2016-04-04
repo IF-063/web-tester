@@ -61,7 +61,7 @@
       <div class="panel-heading">
         <div class="row">
           <div class="col-xs-3">
-            <i class="fa fa-tasks fa-4x"></i>
+            <i class="fa fa-cog fa-4x"></i>
           </div>
           <div class="col-xs-9 text-right">
             <div class="huge">Labels</div>
@@ -83,7 +83,7 @@
       <div class="panel-heading">
         <div class="row">
           <div class="col-xs-3">
-            <i class="fa fa-tasks fa-4x"></i>
+            <i class="fa fa-cog fa-4x"></i>
           </div>
           <div class="col-xs-9 text-right">
             <div class="huge">BuildVersions</div>
@@ -103,7 +103,7 @@
 
 <div class="row">
   <div class="col-md-5">
-    <div class="panel panel-info cursorPointer" id="environmentsBlock">
+    <div class="panel panel-pink cursorPointer" id="environmentsBlock">
       <div class="panel-heading">
         <div class="row">
           <div class="col-xs-3">
