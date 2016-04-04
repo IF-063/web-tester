@@ -75,7 +75,8 @@ public interface ReportMapper {
      * @throws DataAccessException
      */
     @Select({ "SELECT AVG(responseTime) from (SELECT AVG(responseTime) as responseTime FROM ResultHistory"
-            + " WHERE serviceId = #{serviceId} GROUP BY buildVersionId ORDER BY buildVersionId DESC LIMIT 3) as temp;"
+            + " WHERE serviceId = #{serviceId} AND buildVersionId in (select b.id from BuildVersion b where b.deleted = 0)"
+            + " GROUP BY buildVersionId ORDER BY buildVersionId DESC LIMIT 3) as temp;"
            })
     int loadAverage(int serviceId);
 
@@ -92,10 +93,10 @@ public interface ReportMapper {
         "from (select avg(t1.responseTime) as res, t1.buildVersionId ",
         "from ResultHistory t1 where t1.serviceId = #{serviceId} and t1.buildVersionId in",
         "<foreach collection='buildVersionId' item='item' index='index' open='(' separator=',' close=')'>",
-        " #{item} </foreach>", " group by t1.buildVersionId) list ", "right join ",
+        " #{item} </foreach>", " group by t1.buildVersionId) list right join ",
         "(select b.id from BuildVersion b where b.id in",
         "<foreach collection='buildVersionId' item='item' index='index' open='(' separator=',' close=')'>",
-        " #{item} </foreach>", ") q ",
+        " #{item} </foreach> ) q ",
         "on q.id=list.buildVersionId;</script>" })
     List<Integer> loadAvgStatistic(@Param(value = "serviceId") int serviceId,
                                    @Param(value = "buildVersionId") int[] buildVersionId);
@@ -113,10 +114,10 @@ public interface ReportMapper {
         "from (select max(t1.responseTime) as res, t1.buildVersionId ",
         "from ResultHistory t1 where t1.serviceId = #{serviceId} and t1.buildVersionId in",
         "<foreach collection='buildVersionId' item='item' index='index' open='(' separator=',' close=')'>",
-        " #{item} </foreach>", " group by t1.buildVersionId) list ", "right join ",
+        " #{item} </foreach>", " group by t1.buildVersionId) list right join ",
         "(select b.id from BuildVersion b where b.id in",
         "<foreach collection='buildVersionId' item='item' index='index' open='(' separator=',' close=')'>",
-        " #{item} </foreach>", ") q ",
+        " #{item} </foreach> ) q ",
         "on q.id=list.buildVersionId;</script>" })
     List<Integer> loadMaxStatistic(@Param(value = "serviceId") int serviceId,
                                    @Param(value = "buildVersionId") int[] buildVersionId);
