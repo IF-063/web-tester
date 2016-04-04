@@ -6,7 +6,7 @@ $(function() {
         labels: $('#data .x').map(function() { return $(this).text(); }).get(),
         datasets: [{
             label: "My Second dataset",
-            fillColor: "rgba(151,187,205,0.2)",
+            fillColor: "rgba(151,187,205,1)",
             strokeColor: "rgba(151,187,205,1)",
             pointColor: "rgba(151,187,205,1)",
             pointStrokeColor: "#fff",
@@ -20,10 +20,10 @@ $(function() {
 
     var ctx = document.getElementById("canvas").getContext("2d");
 
-    Chart.types.Line.extend({
+    Chart.types.Bar.extend({
         name: "LineWithLine",
         draw: function () {
-            Chart.types.Line.prototype.draw.apply(this, arguments);
+            Chart.types.Bar.prototype.draw.apply(this, arguments);
             var scale = this.scale;
             var xStart = Math.round(this.scale.xScalePaddingLeft);
             var linePositionY = this.scale.calculateY(sla);
@@ -50,7 +50,11 @@ $(function() {
         scaleLabel: function(f) {
             return f.value + 'ms';
         },
-        datasetFill : false
+        datasetFill : false,
+        scaleBeginAtZero : false,
+        scaleGridLineColor : "rgba(0,0,0,.05)",
+        scaleGridLineWidth : 1,
+        barShowStroke : true
     });
 
     // enables tag autocomplete in filtering fields

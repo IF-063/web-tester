@@ -7,12 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.*;
 
 import com.softserve.webtester.dto.ResultCollectionFilterDTO;
 import com.softserve.webtester.dto.ResultFilterDTO;
@@ -27,8 +22,6 @@ public class ResultHistoryCollectionController {
     @Autowired
     private ResultHistoryService resultHistoryService;
 
-    private static final String STATUS_COLLECION = "statusCollection";
-
     @Autowired
     private MetaDataService metaDataService;
 
@@ -36,10 +29,7 @@ public class ResultHistoryCollectionController {
     public String listResults(@ModelAttribute ResultCollectionFilterDTO resultCollectionFilterDTO, Model model) {
         model.addAttribute("buildVersions", metaDataService.loadAllBuildVersions());
         model.addAttribute("labels", metaDataService.loadAllLabels());
-        List<ResultHistory> list=resultHistoryService.loadAllCollections(resultCollectionFilterDTO);
-        model.addAttribute("list", list);
-        String[] statuses = list.stream().map(x -> x.getStatus()).toArray(String[]::new);
-        model.addAttribute(STATUS_COLLECION, statuses);
+        model.addAttribute("list", resultHistoryService.loadAllCollections(resultCollectionFilterDTO));
         return "collectionResult";
     }
 
@@ -69,10 +59,12 @@ public class ResultHistoryCollectionController {
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public String showRequests(@PathVariable("id") int id,
+    public String showRequests(@PathVariable("id") int id, @RequestParam("runId") int runId,
                                @ModelAttribute ResultFilterDTO resultFilterDTO, Model model){
 
-        model.addAttribute("list",resultHistoryService.loadAllRequestsByCollectionId(id));
+        model.addAttribute("applications", metaDataService.applicationLoadAll());
+        model.addAttribute("services", metaDataService.serviceLoadAll());
+        model.addAttribute("list",resultHistoryService.loadAllRequestsByCollectionId(resultFilterDTO, id, runId));
         return "requestResult";
     }
 }

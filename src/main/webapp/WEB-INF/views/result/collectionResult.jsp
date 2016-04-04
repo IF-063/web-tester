@@ -51,6 +51,7 @@
               <th><input id="selectAll" type="checkbox" title="Select all"></th>
               <th>Collection Name</th>
               <th>Collection Description</th>
+              <th>RunId</th>
               <th>Labels</th>
               <th>Build Version Name</th>
               <th>Start Time</th>
@@ -67,6 +68,7 @@
                   <td class="td-centered"><input id="${result.requestCollection.getId()}" type="checkbox" name="operateSelect" /></td>
                   <td>${result.requestCollection.getName()}</td>
                   <td>${result.requestCollection.getDescription()}</td>
+                  <td class="td-centered">${result.runId}</td>
                   <td>
                     <c:forEach items="${result.labels}" var="label">
                       <span class="label label-info" style='margin:2px;padding:4px'/>${label.name}</span>
@@ -74,9 +76,9 @@
                   </td>
                   <td class="td-centered">${result.buildVersion.name}</td>
                   <td class="td-centered">${result.timeStart}</td>
-                  <td class="td-centered">${statusCollection[status.index]=='1'?'pass':'fail'}</td>
+                  <td class="td-centered">${(result.status==true)?'pass':'fail'}</td>
                   <td>${result.message}</td>
-                  <td class="td-centered"><a href=<c:url value="/results/collections/${result.requestCollection.getId()}" />>request results</a></td>
+                  <td class="td-centered"><a href=<c:url value="/results/collections/${result.requestCollection.getId()}?runId=${result.runId}" />>request results</a></td>
                   <td class="td-centered">
                     <a class="removeInstance cursorPointer fa fa-trash fa-lg"
                        href="<c:url value="/results/collections/remove/${result.requestCollection.getId()}" />" ></a>

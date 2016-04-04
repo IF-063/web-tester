@@ -103,12 +103,20 @@ public interface ResultHistoryMapper {
             @Result(property = "requestDescription", column = "requestDescription", jdbcType = JdbcType.VARCHAR),
             @Result(property = "timeStart", column = "timeStart", jdbcType = JdbcType.TIMESTAMP)
     })
-    List<ResultHistory> loadAll(@Param(value = "status") String status,
+    List<ResultHistory> loadAll(@Param(value = "status") boolean status,
                                 @Param(value = "applications") int[] applications,
                                 @Param(value = "services") int[] services);
 
-    @Select("SELECT id, status, applicationId, serviceId, runId, requestName, message, requestDescription, timeStart " +
-            "FROM ResultHistory WHERE requestCollectionId = #{id}")
+    @Select({"<script>SELECT DISTINCT id, status, applicationId, serviceId, runId, requestName, message, requestDescription, timeStart " +
+            "FROM ResultHistory WHERE requestCollectionId = #{id} AND runId = #{runId}",
+            "<if test='status!=null and status!=\"\"'> AND status =#{status}</if>",
+            "<if test='applications!=null and applications.length>0'> AND applicationId IN",
+            "<foreach collection='applications' item='item' index='index' open='(' separator=',' close=')'>",
+            "#{item}</foreach></if>",
+            "<if test='services!=null and services.length>0'> AND serviceId IN",
+            "<foreach collection='services' item='item' index='index' open='(' separator=',' close=')'>",
+            "#{item}</foreach></if>",
+            "</script>"})
     @Results({
             @Result(id = true, property = "id", column = "id", jdbcType = JdbcType.INTEGER),
             @Result(property = "status", column = "status", jdbcType = JdbcType.VARCHAR),
@@ -121,9 +129,13 @@ public interface ResultHistoryMapper {
             @Result(property = "requestDescription", column = "requestDescription", jdbcType = JdbcType.VARCHAR),
             @Result(property = "timeStart", column = "timeStart", jdbcType = JdbcType.TIMESTAMP)
     })
-    List<ResultHistory> loadAllRequestsByCollectionId(int id);
+    List<ResultHistory> loadAllRequestsByCollectionId(@Param(value = "status") boolean status,
+                                                      @Param(value = "applications") int[] applications,
+                                                      @Param(value = "services") int[] services,
+                                                      @Param(value = "id") int id,
+                                                      @Param(value = "runId") int runId);
 
-    @Select({"<script>SELECT DISTINCT r.id, r.runId, r.requestCollectionId, r.buildVersionId, r.status, r.message," +
+    @Select({"<script>SELECT r.id, r.runId, r.requestCollectionId, r.buildVersionId, MIN(r.status) AS status, r.message," +
             " r.timeStart FROM ResultHistory r ",
             "<if test='labels!=null and labels.length>0'>LEFT JOIN ResultHistory_Label rl ON r.id=rl.resultHistoryId ",
             "</if>",
@@ -152,7 +164,7 @@ public interface ResultHistoryMapper {
             @Result(property = "message", column = "message", jdbcType = JdbcType.LONGVARCHAR),
             @Result(property = "timeStart", column = "timeStart", jdbcType = JdbcType.TIMESTAMP)
     })
-    List<ResultHistory> loadAllCollections(@Param(value = "status") String status,
+    List<ResultHistory> loadAllCollections(@Param(value = "status") boolean status,
                                            @Param(value = "labels") int[] labels,
                                            @Param(value = "buildVersions") int[] buildVersions);
     @Delete("<script>DELETE FROM ResultHistory WHERE id IN "

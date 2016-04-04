@@ -7,18 +7,18 @@ public class ResultFilterDTO implements Serializable {
 
     private static final long serialVersionUID = -4420976248741084072L;
 
-    private String statusFilter;
+    private boolean statusFilter;
     private int[] applicationFilter;
     private int[] serviceFilter;
     private int runId;
 
     public ResultFilterDTO() { }
 
-    public String getStatusFilter() {
+    public boolean getStatusFilter() {
         return statusFilter;
     }
 
-    public void setStatusFilter(String statusFilter) {
+    public void setStatusFilter(boolean statusFilter) {
         this.statusFilter = statusFilter;
     }
 

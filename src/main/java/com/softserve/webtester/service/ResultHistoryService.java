@@ -79,7 +79,7 @@ public class ResultHistoryService {
     public List<ResultHistory> loadAll() {
 
         try {
-            return resultHistoryMapper.loadAll(null, null, null);
+            return resultHistoryMapper.loadAll(false, null, null);
         } catch (DataAccessException e) {
             LOGGER.error("Unable to load resultHistory instances", e);
             throw e;
@@ -93,7 +93,7 @@ public class ResultHistoryService {
      */
     public List<ResultHistory> loadAll(ResultFilterDTO resultFilterDTO) {
 
-        String status = resultFilterDTO.getStatusFilter();
+        boolean status = resultFilterDTO.getStatusFilter();
         int[] applications = resultFilterDTO.getApplicationFilter();
         int[] services = resultFilterDTO.getServiceFilter();
 
@@ -128,7 +128,7 @@ public class ResultHistoryService {
      */
     public List<ResultHistory> loadAllCollections(ResultCollectionFilterDTO resultCollectionFilterDTO) {
 
-        String status = resultCollectionFilterDTO.getStatusFilter();
+        boolean status = resultCollectionFilterDTO.getStatusFilter();
         int[] buildVersions = resultCollectionFilterDTO.getBuildVersionsFilter();
         int[] labelFilter = resultCollectionFilterDTO.getLabelFilter();
         try {
@@ -144,10 +144,13 @@ public class ResultHistoryService {
      * @param id
      * @return
      */
-    public List<ResultHistory> loadAllRequestsByCollectionId(int id) {
-
+    public List<ResultHistory> loadAllRequestsByCollectionId(ResultFilterDTO resultFilterDTO, int id, int runId) {
+        boolean status = resultFilterDTO.getStatusFilter();
+        int[] applications = resultFilterDTO.getApplicationFilter();
+        int[] services = resultFilterDTO.getServiceFilter();
+        System.out.println("RUN_ID: "+runId);
         try {
-            return resultHistoryMapper.loadAllRequestsByCollectionId(id);
+            return resultHistoryMapper.loadAllRequestsByCollectionId(status, applications, services, id, runId);
         } catch (DataAccessException e) {
             LOGGER.error("Unable to load resultHistory instances", e);
             throw e;

@@ -34,7 +34,7 @@
                         
               <div class="col-md-4">
                 <label for="responseTimeFilterMarker" class="control-label">Select response time type for report</label> 
-                <form:select path="responseTimeFilterMarker" class="form-control" items="${responseTimeType}" 
+                <form:select path="responseTimeFilterMarker" id="Time" class="form-control" items="${responseTimeType}"
                   itemLabel="text"/>
               </div>
               
@@ -55,7 +55,7 @@
       <div class="panel-body">
         <div class="inner">
           <c:if test="${not empty graphicData}">
-            <h4 >Performance by ${reportFilterDTO.responseTimeFilterMarker == 1?'Average':'Maximum'} value of response time</h4>
+            <h4 >Performance by ${reportFilterDTO.getResponseTimeFilterMarker() == "AVERAGE"?'Average':'Maximum'} value of response time</h4>
           </c:if>
         </div>
       </div>
