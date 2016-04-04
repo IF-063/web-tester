@@ -2,7 +2,6 @@ package com.softserve.webtester.service;
 
 import java.io.IOException;
 import java.sql.Timestamp;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.http.HttpResponse;
@@ -82,7 +81,9 @@ public class ParseAndWriteService {
 
                     LOGGER.info("TIME   " + responseTime);
                     LOGGER.info("RESPONSE   " + response.toString());
-
+                    
+                    // RESULT_HISTORY
+                    
                     if (responseDTO.getResponse().getStatusLine().getStatusCode() == 200) {
                         resultHistory.setStatus(true);
                     } else
@@ -125,29 +126,34 @@ public class ParseAndWriteService {
                         BuildVersion bv = metaDataService.loadBuildVersionById(bulverId);
                         resultHistory.setBuildVersion(bv);
                     }
-                    LOGGER.info(resultHistory);
-
+                    LOGGER.info("RESULT_HISTORY   " + resultHistory);
+                    resultHistoryService.save(resultHistory);
+                    
+                    // HEADER_HISTORY
+                    
                     if (request.getHeaders() != null) {
-                        List<Header> headerList = new ArrayList<Header>();
-                        headerList = request.getHeaders();
-                        for (Header header : headerList) {
-                            headerHistory.setResultHistory(resultHistory);
+                        List<Header> headers = request.getHeaders();
+                        for (Header header : headers) {
                             headerHistory.setName(header.getName());
                             headerHistory.setValue(header.getValue());
+                            headerHistory.setResultHistory(resultHistory);
+                            LOGGER.info("HEADER_HISTORY   " + headerHistory);
+                            resultHistoryService.saveHeaderHistory(headerHistory);
                         }
-
                     }
+                    
+                    // ENVIRONMENT_HISTORY
 
                     environmentHistory.setResultHistory(resultHistory);
                     environmentHistory.setBaseURL(environment.getBaseUrl());
                     environmentHistory.setDbName(environment.getDbName());
-                    //environmentHistory.setDbPort(environment.getDbPort());
+                    environmentHistory.setDbPort(environment.getDbPort());
                     environmentHistory.setDbURL(environment.getDbUrl());
                     environmentHistory.setName(environment.getName());
                     environmentHistory.setEnvironment(environment);
 
-                    resultHistoryService.save(resultHistory);
-                    LOGGER.info("HEADERS   " + headerHistory);
+                    LOGGER.info("ENVIRONMENT   " + environmentHistory);
+                    resultHistoryService.saveEnvironmentHistory(environmentHistory);
 
                 }
             }

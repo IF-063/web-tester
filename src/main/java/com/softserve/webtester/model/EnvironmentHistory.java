@@ -21,12 +21,12 @@ public class EnvironmentHistory implements Serializable {
     private String name;
     private String baseURL;
     private String dbURL;
-    private String dbPort;
+    private int dbPort;
     private String dbName;
     private Environment environment;
 
     public EnvironmentHistory(int id, ResultHistory resultHistory, String name, String baseURL, String dbURL,
-                              String dbPort, String dbName, Environment environment) {
+                              int dbPort, String dbName, Environment environment) {
         this.id = id;
         this.resultHistory = resultHistory;
         this.name = name;
@@ -81,11 +81,11 @@ public class EnvironmentHistory implements Serializable {
         this.dbURL = dbURL;
     }
 
-    public String getDbPort() {
+    public int getDbPort() {
         return dbPort;
     }
 
-    public void setDbPort(String dbPort) {
+    public void setDbPort(int dbPort) {
         this.dbPort = dbPort;
     }
 

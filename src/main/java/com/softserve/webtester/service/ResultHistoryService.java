@@ -24,6 +24,10 @@ public class ResultHistoryService {
 
     @Autowired
     private HeaderHistoryMapper headerHistoryMapper;
+    
+    @Autowired
+    private EnvironmentHistoryMapper environmentHistoryMapper;
+
 
     @Autowired
     private DbValidationHistoryMapper dbValidationHistoryMapper;
@@ -265,6 +269,28 @@ public class ResultHistoryService {
         List<Label> labels = resultHistory.getLabels();
         if (CollectionUtils.isNotEmpty(labels)) {
             labelMapper.saveByResultHistory(resultHistory);
+        }
+    }
+    
+    public void saveHeaderHistory(HeaderHistory headerHistory) {
+        try {
+            if (headerHistory != null) {
+                headerHistoryMapper.save(headerHistory);
+            }
+        } catch (DataAccessException e) {
+            LOGGER.error("Unable to save resultHistory instance ", e);
+            throw e;
+        }
+    }
+    
+    public void saveEnvironmentHistory(EnvironmentHistory environmentHistory) {
+        try {
+            if (environmentHistory != null) {
+                environmentHistoryMapper.save(environmentHistory);
+            }
+        } catch (DataAccessException e) {
+            LOGGER.error("Unable to save environmentHistory instance ", e);
+            throw e;
         }
     }
 }

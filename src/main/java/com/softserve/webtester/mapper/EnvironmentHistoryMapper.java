@@ -15,7 +15,7 @@ import java.util.LinkedHashSet;
 public interface EnvironmentHistoryMapper {
 
     @Insert("INSERT INTO EnvironmentHistory VALUES(NULL, #{resultHistory.id}, #{name}, #{baseURL}, #{dbURL}, " +
-            "#{dbPort}, #{dbName}, #{environment.id},)")
+            "#{dbPort}, #{dbName}, #{environment.id})")
     @Options(useGeneratedKeys = true, keyProperty = "id")
     int save(EnvironmentHistory environmentHistory);
 
