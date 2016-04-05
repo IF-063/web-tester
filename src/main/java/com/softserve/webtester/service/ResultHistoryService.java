@@ -140,6 +140,7 @@ public class ResultHistoryService {
         boolean status = resultCollectionFilterDTO.getStatusFilter();
         int[] buildVersions = resultCollectionFilterDTO.getBuildVersionsFilter();
         int[] labelFilter = resultCollectionFilterDTO.getLabelFilter();
+
         try {
             return resultHistoryMapper.loadAllCollections(status, labelFilter, buildVersions);
         } catch (DataAccessException e) {
@@ -160,8 +161,7 @@ public class ResultHistoryService {
         boolean status = resultFilterDTO.getStatusFilter();
         int[] applications = resultFilterDTO.getApplicationFilter();
         int[] services = resultFilterDTO.getServiceFilter();
-        System.out.println("RUN_ID: "+runId);
-        System.out.println("ID: "+id);
+
         try {
             return resultHistoryMapper.loadAllRequestsByCollectionId(status, applications, services, id, runId);
         } catch (DataAccessException e) {
@@ -245,6 +245,7 @@ public class ResultHistoryService {
      * @throws DataAccessException
      */
     public int deleteSelectedResults(int[] arr) {
+
         try {
             return resultHistoryMapper.deleteSelectedResults(arr);
         } catch (DataAccessException e) {
@@ -260,6 +261,7 @@ public class ResultHistoryService {
      * @throws DataAccessException
      */
     public int deleteSelectedCollectionResults(int[] arr) {
+
         try {
             return resultHistoryMapper.deleteSelectedCollectionResults(arr);
         } catch (DataAccessException e) {
@@ -274,6 +276,7 @@ public class ResultHistoryService {
      * @throws DataAccessException
      */
     public int getMaxId() {
+
         try {
             return resultHistoryMapper.getMaxId();
         } catch (DataAccessException e) {
@@ -311,6 +314,7 @@ public class ResultHistoryService {
      * @throws DataAccessException
      */
     public void saveHeaderHistory(HeaderHistory headerHistory) {
+
         try {
             if (headerHistory != null) {
                 headerHistoryMapper.save(headerHistory);
@@ -328,6 +332,7 @@ public class ResultHistoryService {
      * @throws DataAccessException
      */
     public void saveEnvironmentHistory(EnvironmentHistory environmentHistory) {
+
         try {
             if (environmentHistory != null) {
                 environmentHistoryMapper.save(environmentHistory);
