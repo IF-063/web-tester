@@ -32,15 +32,18 @@ public class ReportService {
     private ReportMapper reportMapper;
 
     /**
-     * Generating data for graphic building
-     * @param reportFilterDTO
-     * @return
+     * Generate data for graphic building
+     * @param reportFilterDTO DTO object using for filtering graphic data
+     * @return list of ReportDataDTO objects
+     * @throws DataAccessException
      */
     @Transactional
     public List<ReportDataDTO> loadReportData(ReportFilterDTO reportFilterDTO) {
+
         List<ReportDataDTO> list = null;
         int serviceId = reportFilterDTO.getServiceId();
         int[] buildVersionIds = reportFilterDTO.getBuildVersionId();
+
         switch (reportFilterDTO.getResponseTimeFilterMarker()) {
         case AVERAGE:
             list = loadWithAvarageResponseTime(serviceId, buildVersionIds);

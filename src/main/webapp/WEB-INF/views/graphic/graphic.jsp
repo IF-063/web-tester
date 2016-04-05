@@ -63,7 +63,7 @@
       <div class="panel-body">
         <div id="outer">
           <div class="inner">
-            <canvas id="canvas" height="450" width="600"></canvas>
+            <canvas id="canvas" height="500" width="600"></canvas>
           </div>
         </div>
       </div>

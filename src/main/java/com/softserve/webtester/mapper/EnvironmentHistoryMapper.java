@@ -3,6 +3,7 @@ package com.softserve.webtester.mapper;
 import com.softserve.webtester.model.*;
 import org.apache.ibatis.annotations.*;
 import org.apache.ibatis.type.JdbcType;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Repository;
 import java.util.LinkedHashSet;
 
@@ -14,11 +15,23 @@ import java.util.LinkedHashSet;
 @Repository
 public interface EnvironmentHistoryMapper {
 
+    /**
+     * Saves {@link EnvironmentHistory} instance to the database.
+     * @param environmentHistory EnvironmentHistory instance should be saved in DB
+     * @return number of rows affected by the statement
+     * @throws DataAccessException
+     */
     @Insert("INSERT INTO EnvironmentHistory VALUES(NULL, #{resultHistory.id}, #{name}, #{baseURL}, #{dbURL}, " +
             "#{dbPort}, #{dbName}, #{environment.id})")
     @Options(useGeneratedKeys = true, keyProperty = "id")
     int save(EnvironmentHistory environmentHistory);
 
+    /**
+     * Loads {@link EnvironmentHistory} instance from DB by its identifier.
+     * @param id identifier of Header instance
+     * @return EnvironmentHistory instance
+     * @throws DataAccessException
+     */
     @Select("SELECT id, name, baseURL, dbURL, dbPort, dbName, environmentId FROM EnvironmentHistory WHERE id = #{id}")
     @Results({ @Result(id = true, property = "id", column = "id", jdbcType = JdbcType.INTEGER),
             @Result(property = "name", column = "name", jdbcType = JdbcType.VARCHAR),
@@ -31,14 +44,32 @@ public interface EnvironmentHistoryMapper {
     })
     EnvironmentHistory load(int id);
 
+    /**
+     * Updates {@link EnvironmentHistory} instance in DB.
+     * @param environmentHistory EnvironmentHistory instance should be updated
+     * @return number of rows affected by the statement
+     * @throws DataAccessException
+     */
     @Update("UPDATE EnvironmentHistory SET resultHistoryId = #{resultHistory.id}, name = #{name}, baseURL = #{baseURL}, "
             + "dbURL = #{dbURL}, dbPort = #{dbPort}, dbName = #{dbName}," +
             "environmentId = #{environment.id} WHERE id = #{id}")
     int update(EnvironmentHistory environmentHistory);
 
+    /**
+     * Deletes {@link EnvironmentHistory} instance from DB.
+     * @param id identifier of EnvironmentHistory environmentHistory should be deleted
+     * @return number of rows affected by the statement
+     * @throws DataAccessException
+     */
     @Delete("DELETE FROM EnvironmentHistory WHERE id = #{id}")
     int delete(int id);
 
+    /**
+     * Deletes {@link EnvironmentHistory} instances from DB.
+     * @param id identifier of {@link EnvironmentHistory} instances, whose environmentHistories should be deleted
+     * @return number of rows affected by the statement
+     * @throws DataAccessException
+     */
     @Delete("DELETE FROM EnvironmentHistory WHERE resultHistoryId = #{id}")
     int deleteByResultHistoryId(int id);
 }

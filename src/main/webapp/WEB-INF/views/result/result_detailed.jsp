@@ -21,180 +21,273 @@
   <div class="panel-heading">
     <h3>Details for ${result.requestName}:</h3>
   </div>
-  <div class="panel body">
-    <div class="row">
-      <div class="col-md-12">
-        <table class="table-hover">
-          <tr class="highlight">
-            <th class="th">Status</th>
-            <td>${(result.status==true)?'pass':'fail'}</td>
-          </tr>
+  <div class="panel-body">
+    <div class="col-md-12">
+      <div class="row">
+        <div class="col-sm-3">
+          <p><b>Status</b></p>
+        </div>
+        <div class="col-sm-9">
+          ${(result.status==true)?'pass':'fail'}
+        </div>
+      </div>
+    </div>
 
-          <tr class="highlight">
-            <th class="th">Application Name</th>
-            <td>${result.application.getName()}</td>
-          </tr>
+    <div class="col-md-12">
+      <div class="row">
+        <div class="col-sm-3">
+          <p><b>Application Name</b></p>
+        </div>
+        <div class="col-sm-9">
+          ${result.application.getName()}
+        </div>
+      </div>
+    </div>
 
-          <tr class="highlight">
-            <th class="th">Service Name</th>
-            <td>${result.service.getName()}</td>
-          </tr>
+    <div class="col-md-12">
+      <div class="row">
+        <div class="col-sm-3">
+          <p><b>Service Name</b></p>
+        </div>
+        <div class="col-sm-9">
+          ${result.service.getName()}
+        </div>
+      </div>
+    </div>
 
-          <tr class="highlight">
-            <th class="th">Request Description</th>
-            <td>${result.requestDescription}</td>
-          </tr>
+    <div class="col-md-12">
+      <div class="row">
+        <div class="col-sm-3">
+          <p><b>Request Description</b></p>
+        </div>
+        <div class="col-sm-9">
+          ${result.requestDescription}
+        </div>
+      </div>
+    </div>
 
-          <th class="th">Labels</th>
-          <td>
-            <c:forEach items="${result.getLabels()}" var="result">
-              <span class='label label-info' id='label'/>${result.name}</span>
-            </c:forEach>
-          </td>
-          </tr>
+    <div class="col-md-12">
+      <div class="row">
+        <div class="col-sm-3">
+          <p><b>Labels</b></p>
+        </div>
+        <div class="col-sm-9">
+          <c:forEach items="${result.getLabels()}" var="result">
+            <span class='label label-info' id='label'/>${result.name}</span>
+          </c:forEach>
+        </div>
+      </div>
+    </div>
 
-          <tr class="highlight">
-            <th class="th">URL</th>
-            <td>${result.url}</td>
-          </tr>
+    <div class="col-md-12">
+      <div class="row">
+        <div class="col-sm-3">
+          <p><b>URL</b></p>
+        </div>
+        <div class="col-sm-9">
+          ${result.url}
+        </div>
+      </div>
+    </div>
 
-          <tr class="highlight">
-            <th class="th">Headers</th>
-            <td>
-              <table class="table-bordered">
+
+
+    <div class="col-md-12">
+      <div class="row">
+        <div class="col-sm-3">
+          <p><b>Headers</b></p>
+        </div>
+        <div class="col-md-6 elementContainer">
+          <div class="panel panel-default">
+            <div class="table-responsive">
+              <table class="table table-hover table-bordered table-condensed text-center table-striped panel-body" id="headers">
+                <thead id="head1">
                 <tr>
-                  <th class="th3">Name</th>
-                  <th class="th3">Value</th>
+                  <th class="col-xs-4 col-sm-4 col-md-4">Name</th>
+                  <th class="col-xs-8 col-sm-8 col-md-8">Value</th>
                 </tr>
-
+                </thead>
+                <tbody>
                 <c:forEach items="${result.getHeaderHistories()}" var="result">
                   <tr>
                     <td>${result.name}</td>
                     <td>${result.value}</td>
                   </tr>
                 </c:forEach>
+                </tbody>
               </table>
-            </td>
-          </tr>
-
-          <tr class="highlight">
-            <th class="th">Response Type</th>
-            <td>${result.responseType}</td>
-          </tr>
-
-          <tr class="highlight">
-            <th class="th">Request Body</th>
-            <td><textarea readonly class="form-control" id="t1" rows="2" name="text">${result.requestBody}</textarea></td>
-          </tr>
-
-          <tr class="highlight">
-            <th class="th">Status Line</th>
-            <td><textarea readonly class="form-control" id="t2" rows="1" name="text">${result.statusLine}</textarea></td>
-          </tr>
-
-          <tr class="highlight">
-            <th class="th">Expected Response Time</th>
-            <td>${result.expectedResponseTime}</td>
-          </tr>
-
-          <tr class="highlight">
-            <th class="th">Actual Response Time</th>
-            <td>${result.responseTime}</td>
-          </tr>
-
-          <tr class="highlight">
-            <th class="th">Start Time</th>
-            <td>${result.timeStart}</td>
-          </tr>
-
-          <tr class="highlight">
-            <th class="th">RunId</th>
-            <td>${result.runId}</td>
-          </tr>
-
-          <tr>
-            <th class="th">Message</th>
-            <td><textarea readonly class="form-control" id="t3" name="text" rows="1" cols="90">${result.message}</textarea></td>
-          </tr>
-        </table>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
-  </div>
-</div>
 
-<div class="panel panel-default">
-  <div class="panel-heading">
-    <h4>DB Validation Results</h4>
-  </div>
-  <div class="panel body">
-    <div class="row">
-      <div class="col-md-12">
-        <tr class="highlight">
-          <td>
-            <table class="table-bordered">
-              <tr>
-                <th class="th6">SqlQuery</th>
-                <th class="thh">ExpectedValue</th>
-                <th class="thh">ActualValue</th>
-              </tr>
+    <div class="col-md-12">
+      <div class="row">
+        <div class="col-sm-3">
+          <p><b>Response Type</b></p>
+        </div>
+        <div class="col-sm-9">
+          ${result.responseType}
+        </div>
+      </div>
+    </div>
 
-              <c:forEach items="${result.getDbValidationHistories()}" var="result">
+    <div class="col-md-12">
+      <div class="row">
+        <div class="col-sm-3">
+          <p><b>Request Body</b></p>
+        </div>
+        <div class="table-responsive">
+          <div class="col-sm-9">
+            <textarea readonly class="form-control" id="t1" rows="2" name="text">${result.requestBody}</textarea>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-12">
+      <div class="row">
+        <div class="col-sm-3">
+          <p><b>Status Line</b></p>
+        </div>
+        <div class="table-responsive">
+          <div class="col-sm-9">
+            <textarea readonly class="form-control" id="t2" rows="1" name="text">${result.statusLine}</textarea>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-12">
+      <div class="row">
+        <div class="col-sm-3">
+          <p><b>Expected Response Time</b></p>
+        </div>
+        <div class="col-sm-9">
+          ${result.expectedResponseTime}
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-12">
+      <div class="row">
+        <div class="col-sm-3">
+          <p><b>Actual Response Time</b></p>
+        </div>
+        <div class="col-sm-9">
+          ${result.responseTime}
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-12">
+      <div class="row">
+        <div class="col-sm-3">
+          <p><b>Start Time</b></p>
+        </div>
+        <div class="col-sm-9">
+          ${result.timeStart}
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-12">
+      <div class="row">
+        <div class="col-sm-3">
+          <p><b>RunId</b></p>
+        </div>
+        <div class="col-sm-9">
+          ${result.runId}
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-12">
+      <div class="row">
+        <div class="col-sm-3">
+          <p><b>Message</b></p>
+        </div>
+        <div class="table-responsive">
+          <div class="col-sm-9">
+            <textarea readonly class="form-control" id="t3" name="text" rows="1">${result.message}</textarea>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-12">
+      <div class="row">
+        <div class="col-sm-3">
+          <p><b>DB Validation Results</b></p>
+        </div>
+        <div class="col-md-6 elementContainer">
+          <div class="panel panel-default">
+            <div class="table-responsive">
+              <table class="table table-hover table-bordered table-condensed text-center table-striped panel-body" id="headers">
+                <thead id="head">
                 <tr>
-                  <td><textarea rows="1" cols="55" name="text">${result.sqlQuery}</textarea></td>
-                  <td>${result.expectedValue}</td>
-                  <td>${result.actualValue}</td>
+                  <th class="col-xs-6 col-sm-6 col-md-6">SqlQuery</th>
+                  <th class="col-xs-2 col-sm-2 col-md-2">ExpectedValue</th>
+                  <th class="col-xs-2 col-sm-2 col-md-2">ActualValue</th>
                 </tr>
-              </c:forEach>
-            </table>
-          </td>
-        </tr>
+                </thead>
+                <tbody>
+                <c:forEach items="${result.getDbValidationHistories()}" var="result">
+                  <tr>
+                    <td><textarea readonly class="form-control" rows="1" name="text">${result.sqlQuery}</textarea></td>
+                    <td>${result.expectedValue}</td>
+                    <td>${result.actualValue}</td>
+                  </tr>
+                </c:forEach>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
-  </div>
-</div>
 
-<div class="panel panel-default">
-  <div class="panel-heading">
-    <h4>Response Validation Results</h4>
-  </div>
-  <div class="panel body">
+    <div class="form-group">
+      <div class="col-md-12 elementContainer">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <label>Response Validation Results</label>
+          </div>
+          <div class="table-responsive">
+            <table class="table table-hover table-bordered table-condensed text-center table-striped panel-body" id="headers">
+              <thead>
+              <tr>
+                <th class="col-xs-4 col-sm-6 col-md-6">Expected Response</th>
+                <th class="col-xs-4 col-sm-6 col-md-6">Actual Response</th>
+              </tr>
+              </thead>
+              <div id="view"></div>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <div class="row">
       <div class="col-md-12">
         <table class="table-hover">
           <tr id ="textar">
-            <th class="th">Response Validation Results</th>
             <td>
               <table class="table-bordered">
-                <tr>
-                  <th class="th2">Expected Response</th>
-                  <th class="th2">Actual Response</th>
-                </tr>
-
                 <tr>
                   <td><textarea type=hidden id="code1" name="code" textarea rows="10" cols="50" name="text">${result.expectedResponse}</textarea></td>
                   <td><textarea type=hidden id="code2" name="code" textarea rows="10" cols="50" name="text">${result.actualResponse}</textarea></td>
                 </tr>
-                <tr>
-                  <th>Message</th>
-                </tr>
-                <tr>
-                  <td><textarea rows="3" cols="50" name="text">${result.message}</textarea></td>
-                </tr>
               </table>
             </td>
-          </tr>
-
-          <tr>
-            <table>
-              <tr>
-                <th class="th5">Expected Response</th>
-                <th class="th5">Actual Response</th>
-              </tr>
-            </table>
-            <div id="view"></div>
           </tr>
         </table>
       </div>
     </div>
   </div>
 </div>
+
+
+
+
