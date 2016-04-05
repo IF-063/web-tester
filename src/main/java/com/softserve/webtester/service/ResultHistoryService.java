@@ -342,4 +342,15 @@ public class ResultHistoryService {
             throw e;
         }
     }
+    
+    public void saveDbValidationHistory(DbValidationHistory dbValidationHistory) {
+        try {
+            if (dbValidationHistory != null) {
+                dbValidationHistoryMapper.save(dbValidationHistory);
+            }
+        } catch (DataAccessException e) {
+            LOGGER.error("Unable to save environmentHistory instance ", e);
+            throw e;
+        }
+    }
 }

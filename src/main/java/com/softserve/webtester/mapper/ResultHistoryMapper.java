@@ -19,7 +19,7 @@ public interface ResultHistoryMapper {
     /**
      * Saving collection with buildVersion.
      */
-    @Insert("INSERT INTO ResultHistory VALUES(NULL, 0, #{application.id}, #{service.id}, #{request.id}," +
+    @Insert("INSERT INTO ResultHistory VALUES(NULL, #{status}, #{application.id}, #{service.id}, #{request.id}," +
             " #{requestName}, #{requestDescription}, #{url}, #{responseType}, #{requestBody}, " +
             "#{statusLine}, #{timeStart}, #{expectedResponseTime}, #{responseTime}, #{expectedResponse}," +
             " #{actualResponse}, #{message}, #{runId}, #{requestCollection.id}, #{buildVersion.id})")
@@ -29,7 +29,7 @@ public interface ResultHistoryMapper {
     /**
      * Saving collection without buildVersion
      */
-    @Insert("INSERT INTO ResultHistory VALUES(NULL, 0, #{application.id}, #{service.id}, #{request.id}," +
+    @Insert("INSERT INTO ResultHistory VALUES(NULL, #{status}, #{application.id}, #{service.id}, #{request.id}," +
             " #{requestName}, #{requestDescription}, #{url}, #{responseType}, #{requestBody}, " +
             "#{statusLine}, #{timeStart}, #{expectedResponseTime}, #{responseTime}, #{expectedResponse}," +
             " #{actualResponse}, #{message}, #{runId}, #{requestCollection.id}, null)")
