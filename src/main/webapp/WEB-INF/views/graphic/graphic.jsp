@@ -60,12 +60,16 @@
         </div>
       </div>
 
-      <div class="panel-body">
-        <div id="outer">
-          <div class="inner">
-            <canvas id="canvas" height="500" width="600"></canvas>
-          </div>
+      <div id="outer">
+        <div class="inner">
+          <canvas id="canvas" height="450" width="600"></canvas>
         </div>
+      </div>
+
+      <div class="inner2">
+        <c:if test="${not empty graphicData}">
+          <h5>Build Version</h5>
+        </c:if>
       </div>
     </div>
   </div>

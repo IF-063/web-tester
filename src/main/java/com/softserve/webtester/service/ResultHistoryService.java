@@ -13,6 +13,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+/**
+ * ResultHistoryService class implements CRUD operation on {@link ResultHistory} instance in DB.<br>
+ * The service uses Spring DataSourceTransactionManager for managing transaction with DB and log4j for logging.
+ */
 @Service
 @Transactional
 public class ResultHistoryService {
@@ -36,9 +40,10 @@ public class ResultHistoryService {
     private LabelMapper labelMapper;
 
     /**
-     * Saving collection with buildVersion, without buildVersion and only request
-     * @param resultHistory
-     * @return
+     * Saving {@link ResultHistory} instance to DB
+     * @param resultHistory {@link ResultHistory} instance should be saved in DB
+     * @return id of saved resultHistory instance
+     * @throws DataAccessException
      */
     public int save(ResultHistory resultHistory) {
 
@@ -60,9 +65,10 @@ public class ResultHistoryService {
     }
 
     /**
-     * Loading resultHistory instance bt its id from ResultHistory table
-     * @param id
-     * @return
+     * Loading {@link resultHistory} instance from DB.
+     * @param id identifier of resultHistory instance
+     * @return {@link resultHistory} instance
+     * @throws DataAccessException
      */
     public ResultHistory loadById(int id) {
 
@@ -77,8 +83,9 @@ public class ResultHistoryService {
     }
 
     /**
-     * Loading resultHistory instance from ResultHistory table without using resultFilterDTO filter instance
-     * @return
+     * Loading all stored {@link resultHistory} instances with their main information.
+     * @return List of {@link resultHistory} instances
+     * @throws DataAccessException
      */
     public List<ResultHistory> loadAll() {
 
@@ -97,6 +104,12 @@ public class ResultHistoryService {
      */
     public List<ResultHistory> loadAll(ResultFilterDTO resultFilterDTO) {
 
+        /**
+         * Loads filtered {@link ResultHistory} instances with their main information.
+         * @param resultFilterDTO DTO object using for filtering {@link ResultHistory} instance
+         * @return List of {@link ResultHistory} instances
+         * @throws DataAccessException
+         */
         boolean status = resultFilterDTO.getStatusFilter();
         int[] applications = resultFilterDTO.getApplicationFilter();
         int[] services = resultFilterDTO.getServiceFilter();
@@ -111,12 +124,19 @@ public class ResultHistoryService {
     }
 
     /**
-     * Loading resultHistory instance having collections from ResultHistory table
+     * Loading resultHistory instance from ResultHistory table using resultCollectionFilterDTO filter instance
      * @param resultCollectionFilterDTO
-     * @return
+     * @return List of {@link ResultHistory} instances
+     * @throws DataAccessException
      */
     public List<ResultHistory> loadAllCollections(ResultCollectionFilterDTO resultCollectionFilterDTO) {
 
+        /**
+         * Loads filtered {@link ResultHistory} instances with their main information.
+         * @param resultCollectionFilterDTO DTO object using for filtering {@link ResultHistory} instance
+         * @return List of {@link ResultHistory} instances
+         * @throws DataAccessException
+         */
         boolean status = resultCollectionFilterDTO.getStatusFilter();
         int[] buildVersions = resultCollectionFilterDTO.getBuildVersionsFilter();
         int[] labelFilter = resultCollectionFilterDTO.getLabelFilter();
@@ -129,9 +149,12 @@ public class ResultHistoryService {
     }
 
     /**
-     * Loading resultHistory instance referring to the collection with certain id from ResultHistory table
-     * @param id
-     * @return
+     * Loading resultHistory instance from ResultHistory table using ResultFilterDTO filter instance
+     * @param ResultFilterDTO
+     * @param id using for selecting instances by requestCollectionId
+     * @param runId using for selecting instances by runId
+     * @return List of {@link ResultHistory} instances
+     * @throws DataAccessException
      */
     public List<ResultHistory> loadAllRequestsByCollectionId(ResultFilterDTO resultFilterDTO, int id, int runId) {
         boolean status = resultFilterDTO.getStatusFilter();
@@ -148,9 +171,11 @@ public class ResultHistoryService {
     }
 
     /**
-     * Loading requests by runId id from ResultHistory table
-     * @param resultFilterDTO
-     * @return
+     * Loading resultHistory instance from ResultHistory table using ResultFilterDTO filter instance
+     * @param ResultFilterDTO
+     * @param runId using for selecting instances by runId
+     * @return List of {@link ResultHistory} instances
+     * @throws DataAccessException
      */
     public List<ResultHistory> loadAllRequestsByRunId(ResultFilterDTO resultFilterDTO) {
         int runId = resultFilterDTO.getRunId();
@@ -164,9 +189,11 @@ public class ResultHistoryService {
     }
 
     /**
-     * Loading collections by runId id from ResultHistory table
-     * @param resultCollectionFilterDTO
-     * @return
+     * Loading resultHistory instance from ResultHistory table using ResultCollectionFilterDTO filter instance
+     * @param ResultCollectionFilterDTO
+     * @param runId using for selecting instances by runId
+     * @return List of {@link ResultHistory} instances
+     * @throws DataAccessException
      */
     public List<ResultHistory> loadAllCollectionsByRunId(ResultCollectionFilterDTO resultCollectionFilterDTO) {
         int runId = resultCollectionFilterDTO.getRunId();
@@ -180,9 +207,10 @@ public class ResultHistoryService {
     }
 
     /**
-     * Deleting resultHistory instance by requestId from ResultHistory table
-     * @param id
-     * @return
+     * Deleting {@link ResultHistory} instance from DB.
+     * @param id identifies resultHistory to be deleted
+     * @return the number of rows affected by the statement
+     * @throws DataAccessException
      */
     public int delete(int id) {
 
@@ -195,9 +223,10 @@ public class ResultHistoryService {
     }
 
     /**
-     * Deleting resultHistory instance by collectionId from ResultHistory table
-     * @param id
-     * @return
+     * Deleting {@link ResultHistory} instance from DB.
+     * @param id identifies resultHistory to be deleted
+     * @return the number of rows affected by the statement
+     * @throws DataAccessException
      */
     public int deteleByCollectionId(int id) {
 
@@ -210,9 +239,10 @@ public class ResultHistoryService {
     }
 
     /**
-     * Deleting requests by id array from ResultHistory table
-     * @param arr
-     * @return
+     * Deleting {@link ResultHistory} instances from DB.
+     * @param arr identifiers resultHistories to be deleted
+     * @return number of rows affected by the statement
+     * @throws DataAccessException
      */
     public int deleteSelectedResults(int[] arr) {
         try {
@@ -224,9 +254,10 @@ public class ResultHistoryService {
     }
 
     /**
-     * Deleting collections by id array from ResultHistory table
-     * @param arr
-     * @return
+     * Deleting {@link ResultHistory} instances from DB.
+     * @param arr identifiers resultHistories to be deleted
+     * @return number of rows affected by the statement
+     * @throws DataAccessException
      */
     public int deleteSelectedCollectionResults(int[] arr) {
         try {
@@ -238,8 +269,9 @@ public class ResultHistoryService {
     }
 
     /**
-     * Deleting max runId from ResultHistory table
-     * @return
+     * Selecting max runId from ResultHistory table
+     * @return max number on runId
+     * @throws DataAccessException
      */
     public int getMaxId() {
         try {
@@ -251,7 +283,7 @@ public class ResultHistoryService {
     }
 
     /**
-     * Saving DbValidationHistories, headerHistories and labels for the resultHistory instance to the database
+     * Saving DbValidationHistories, headerHistories and labels for the resultHistory instance to DB
      * @param resultHistory
      */
     public void saveResultHistoryComponents(ResultHistory resultHistory) {
@@ -271,7 +303,13 @@ public class ResultHistoryService {
             labelMapper.saveByResultHistory(resultHistory);
         }
     }
-    
+
+    /**
+     * Saving {@link HeaderHistory} instance to DB
+     * @param headerHistory {@link HeaderHistory} instance should be saved in DB
+     * @return id of saved headerHistory instance
+     * @throws DataAccessException
+     */
     public void saveHeaderHistory(HeaderHistory headerHistory) {
         try {
             if (headerHistory != null) {
@@ -282,7 +320,13 @@ public class ResultHistoryService {
             throw e;
         }
     }
-    
+
+    /**
+     * Saving {@link EnvironmentHistory} instance to DB
+     * @param environmentHistory {@link EnvironmentHistory} instance should be saved in DB
+     * @return id of saved environmentHistory instance
+     * @throws DataAccessException
+     */
     public void saveEnvironmentHistory(EnvironmentHistory environmentHistory) {
         try {
             if (environmentHistory != null) {

@@ -49,6 +49,7 @@
             <thead>
               <tr>
                 <th><input id="selectAll" type="checkbox" title="Select all"></th>
+                <th>Request ID</th>
                 <th>Request Name</th>
                 <th>Request Description</th>
                 <th>Application Name</th>
@@ -65,6 +66,7 @@
             <c:forEach items="${list}" var="result">
               <tr class="dataRow">
                 <td class="td-centered"><input id="${result.id}" type="checkbox" name="operateSelect" /></td>
+                <td class="td-centered">${result.getId()}</td>
                 <td>${result.requestName}</td>
                 <td>${result.requestDescription}</td>
                 <td>${result.application.getName()}</td>

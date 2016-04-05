@@ -21,8 +21,18 @@
 
 .inner{
     width: 100%;
+    padding-top: 15px;
+    padding-bottom: 0px;
+    margin-bottom: -14px;
 }
 
 h4{
     text-align: center;
+}
+
+.inner2{
+    padding: 0px;
+    margin: 0px;
+    text-align: center;
+    width: 100%;
 }
