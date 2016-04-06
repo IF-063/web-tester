@@ -101,7 +101,8 @@ public class ParseAndWriteService {
                     resultHistory.setResponseTime((int) responseDTO.getResponseTime());
 
                     try {
-                        if (requestDTO.getHttpRequest().getMethod().equals("GET")) {
+                        if ((requestDTO.getHttpRequest().getMethod().equals("GET"))
+                                ^ (requestDTO.getHttpRequest().getMethod().equals("DELETE"))) {
                             resultHistory.setRequestBody(null);
                         } else
                             resultHistory.setRequestBody(EntityUtils.toString(
@@ -117,27 +118,24 @@ public class ParseAndWriteService {
                         LOGGER.info(e1);
                     }
                     resultHistory.setRunId(runId);
+
                     if (collectionList.getCollectionId() != 0) {
                         int collId = collectionList.getCollectionId();
                         RequestCollection reqColl = requestCollectionService.load(collId);
                         resultHistory.setRequestCollection(reqColl);
                     }
+
                     if (resultsDTO.getBuildVersionId() != 0) {
                         int bulverId = resultsDTO.getBuildVersionId();
                         BuildVersion bv = metaDataService.loadBuildVersionById(bulverId);
                         resultHistory.setBuildVersion(bv);
                     }
-                   
-                    if ((responseDTO.getResponse().getStatusLine().getStatusCode() == 200)
-                            && (resultHistory.getExpectedResponse().equals(resultHistory.getActualResponse()))
-                            && (resultHistory.getExpectedResponseTime() >= (resultHistory.getResponseTime()))) {
-                        resultHistory.setStatus(true);
-                    } else
-                        resultHistory.setStatus(false);
-                    resultHistory.setMessage(responseDTO.getResponse().getStatusLine().getReasonPhrase().toString());
+
+                    resultHistory.setMessage(messages(resultHistory, request, requestDTO, dbValidationHistory));
+                    resultHistory.setStatus(requestStatus(responseDTO, resultHistory, request, requestDTO));
                     resultHistoryService.save(resultHistory);
-                    
-                    //DB-VALIDATION
+
+                    // DB-VALIDATION
 
                     if (CollectionUtils.isNotEmpty(request.getDbValidations())) {
                         List<DbValidation> dbValidations = (request.getDbValidations());
@@ -154,9 +152,10 @@ public class ParseAndWriteService {
 
                             LOGGER.info("DB_VALIDATION   " + dbValidationHistory);
                             dbValidationHistory.setResultHistory(resultHistory);
-                        }resultHistoryService.saveDbValidationHistory(dbValidationHistory);
+                        }
+                        resultHistoryService.saveDbValidationHistory(dbValidationHistory);
                     }
-                    
+
                     // ENVIRONMENT_HISTORY
 
                     environmentHistory.setResultHistory(resultHistory);
@@ -196,5 +195,48 @@ public class ParseAndWriteService {
         }
 
         return runId;
+    }
+
+    public String messages(ResultHistory resultHistory, Request request, RequestDTO requestDTO,
+            DbValidationHistory dbValidationHistory) {
+        String message = null;
+        if ((!requestDTO.getHttpRequest().getMethod().equals("GET"))
+                && (!requestDTO.getHttpRequest().getMethod().equals("POST"))) {
+            message = "Unsupported request method";
+        }
+        if (!resultHistory.getResponseType().equalsIgnoreCase(request.getResponseType().getTextValue())) {
+            LOGGER.info("TYPE " + request.getResponseType().getTextValue());
+            message = "Wrong content type";
+            
+        }
+        if (!resultHistory.getExpectedResponse().equalsIgnoreCase(resultHistory.getActualResponse())) {
+            message = "Actual response does not match the expected one";
+        }
+        if (resultHistory.getResponseTime() > resultHistory.getExpectedResponseTime()) {
+            message = "Response time exceeded timeout value";
+        }
+        /*
+         * if
+         * (dbValidationHistory.getExpectedValue().equals(dbValidationHistory.
+         * getActualValue())) { message =
+         * "At least one db validation expected value is not equal to the actual one"
+         * ; }
+         */
+        if (message == null) {
+            message = "OK";
+        }
+        return message;
+    }
+
+    public boolean requestStatus(ResponseDTO responseDTO, ResultHistory resultHistory, Request request,
+            RequestDTO requestDTO) {
+
+        boolean status = false;
+
+        if ((responseDTO.getResponse().getStatusLine().getStatusCode() == 200)
+                & (resultHistory.getMessage().equalsIgnoreCase("OK"))) {
+            status = true;
+        }
+        return status;
     }
 }
