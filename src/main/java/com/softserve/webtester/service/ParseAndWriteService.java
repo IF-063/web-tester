@@ -1,9 +1,12 @@
 package com.softserve.webtester.service;
 
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.List;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.http.HttpResponse;
 import org.apache.http.ParseException;
 import org.apache.http.client.methods.HttpEntityEnclosingRequestBase;
@@ -65,7 +68,6 @@ public class ParseAndWriteService {
         EnvironmentHistory environmentHistory = new EnvironmentHistory();
         HeaderHistory headerHistory = new HeaderHistory();
         DbValidationHistory dbValidationHistory = new DbValidationHistory();
-        //DbValidation dbValidation = new DbValidation();
         RequestCollection requestCollection = new RequestCollection();
 
         for (CollectionResultDTO collectionList : collectionResultDTOList) {
@@ -108,10 +110,12 @@ public class ParseAndWriteService {
                         resultHistory.setExpectedResponse(requestExecuteSupportService.getEvaluatedString(
                                 request.getExpectedResponse(), requestDTO.getVariableList(), VELOCITY_LOG));
                         resultHistory.setActualResponse(EntityUtils.toString(responseDTO.getResponse().getEntity()));
+                        resultHistory.setActualResponse(
+                                requestExecuteSupportService.format(resultHistory.getActualResponse()));
+
                     } catch (ParseException | IOException e1) {
                         LOGGER.info(e1);
                     }
-                    resultHistory.setMessage(responseDTO.getResponse().getStatusLine().getReasonPhrase().toString());
                     resultHistory.setRunId(runId);
                     if (collectionList.getCollectionId() != 0) {
                         int collId = collectionList.getCollectionId();
@@ -123,28 +127,36 @@ public class ParseAndWriteService {
                         BuildVersion bv = metaDataService.loadBuildVersionById(bulverId);
                         resultHistory.setBuildVersion(bv);
                     }
+                   
                     if ((responseDTO.getResponse().getStatusLine().getStatusCode() == 200)
-                            & (resultHistory.getExpectedResponseTime() > (resultHistory.getResponseTime()))) {
+                            && (resultHistory.getExpectedResponse().equals(resultHistory.getActualResponse()))
+                            && (resultHistory.getExpectedResponseTime() >= (resultHistory.getResponseTime()))) {
                         resultHistory.setStatus(true);
                     } else
                         resultHistory.setStatus(false);
-                    LOGGER.info("CODE  " + resultHistory.getStatus());
-                    LOGGER.info("RESULT_HISTORY   " + resultHistory);
+                    resultHistory.setMessage(responseDTO.getResponse().getStatusLine().getReasonPhrase().toString());
                     resultHistoryService.save(resultHistory);
+                    
+                    //DB-VALIDATION
 
-                    // HEADER_HISTORY
+                    if (CollectionUtils.isNotEmpty(request.getDbValidations())) {
+                        List<DbValidation> dbValidations = (request.getDbValidations());
+                        for (DbValidation dbValidation : dbValidations) {
+                            dbValidationHistory.setSqlQuery(dbValidation.getSqlQuery());
+                            dbValidationHistory.setExpectedValue(dbValidation.getExpectedValue());
+                            try {
+                                dbValidationHistory.setActualValue(requestExecuteSupportService.getExecutedQueryValue(
+                                        environmentService.getConnection(environment), dbValidation.getSqlQuery()));
+                            } catch (Exception e) {
+                                // TODO Auto-generated catch block
+                                e.printStackTrace();
+                            }
 
-                    if (request.getHeaders() != null) {
-                        List<Header> headers = request.getHeaders();
-                        for (Header header : headers) {
-                            headerHistory.setName(header.getName());
-                            headerHistory.setValue(header.getValue());
-                            headerHistory.setResultHistory(resultHistory);
-                            LOGGER.info("HEADER_HISTORY   " + headerHistory);
-                            resultHistoryService.saveHeaderHistory(headerHistory);
-                        }
+                            LOGGER.info("DB_VALIDATION   " + dbValidationHistory);
+                            dbValidationHistory.setResultHistory(resultHistory);
+                        }resultHistoryService.saveDbValidationHistory(dbValidationHistory);
                     }
-
+                    
                     // ENVIRONMENT_HISTORY
 
                     environmentHistory.setResultHistory(resultHistory);
@@ -154,31 +166,29 @@ public class ParseAndWriteService {
                     environmentHistory.setDbURL(environment.getDbUrl());
                     environmentHistory.setName(environment.getName());
                     environmentHistory.setEnvironment(environment);
-
-                    LOGGER.info("ENVIRONMENT   " + environmentHistory);
+                    LOGGER.info("ENVIRONMENT " + environmentHistory);
                     resultHistoryService.saveEnvironmentHistory(environmentHistory);
 
-                    // LABELS
-                    
-                    if ((request.getLabels() != null)){
-                        List<Label> labels = (request.getLabels());
-                        resultHistory.setLabels(labels);
-                        LOGGER.info("LABELS   " + resultHistory.getLabels());
-                        metaDataService.saveLabelByResultHistory(resultHistory);
-                    }
-                    
-                    // DB-VALIDATION
-                    
-                    if (request.getDbValidations() != null){
-                        List<DbValidation> dbValidations = (request.getDbValidations());
-                        for (DbValidation dbValidation : dbValidations){
-                            dbValidationHistory.setSqlQuery(dbValidation.getSqlQuery());
-                            dbValidationHistory.setExpectedValue(dbValidation.getExpectedValue());
-                            //dbValidationHistory.setActualValue(dbValidation.get);
-                            dbValidationHistory.setResultHistory(resultHistory);
-                            LOGGER.info("DB_VALIDATION   " + dbValidationHistory);
-                            resultHistoryService.saveDbValidationHistory(dbValidationHistory);
+                    // HEADER_HISTORY
+
+                    if (request.getHeaders() != null) {
+                        List<Header> headers = request.getHeaders();
+                        for (Header header : headers) {
+                            headerHistory.setName(header.getName());
+                            headerHistory.setValue(header.getValue());
+                            headerHistory.setResultHistory(resultHistory);
+                            LOGGER.info("HEADER_HISTORY " + headerHistory);
+                            resultHistoryService.saveHeaderHistory(headerHistory);
                         }
+                    }
+
+                    // LABELS
+
+                    List<Label> labels = (request.getLabels());
+                    resultHistory.setLabels(labels);
+                    LOGGER.info("LABELS " + resultHistory.getLabels());
+                    if (resultHistory.getLabels() != null) {
+                        resultHistoryService.saveResultHistoryComponents(resultHistory);
                     }
                 }
             }

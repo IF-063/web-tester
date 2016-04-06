@@ -15,8 +15,6 @@ import com.softserve.webtester.mapper.ServiceMapper;
 import com.softserve.webtester.model.Application;
 import com.softserve.webtester.model.BuildVersion;
 import com.softserve.webtester.model.Label;
-import com.softserve.webtester.model.RequestCollection;
-import com.softserve.webtester.model.ResultHistory;
 import com.softserve.webtester.model.Service;
 
 /**
@@ -561,30 +559,4 @@ public class MetaDataService {
         }
     }
     
-    public void saveLabelByResultHistory(ResultHistory resultHistory){
-        try{
-            if(resultHistory.getLabels()!= null){
-            labelMapper.saveByResultHistory(resultHistory);
-            }
-        }catch(DataAccessException e){
-            LOGGER.error("Unable to save label by ResultHistory: ", e);
-            throw e;
-            
-        }
-        
-    }
-    
-    public void saveByRequestCollection(RequestCollection requestCollection){
-        try{
-            if(requestCollection.getLabels()!= null){
-            labelMapper.saveByRequestCollection(requestCollection);
-            }
-        }catch(DataAccessException e){
-            LOGGER.error("Unable to save label by RequestCollection: ", e);
-            throw e;
-            
-        }
-        
-    }
-
 }
