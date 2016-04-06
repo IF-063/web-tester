@@ -19,7 +19,7 @@
 
 <div class="panel panel-default">
   <div class="panel-heading">
-    <h3>Result details for request with ID: ${result.id}</h3>
+    <h3>Result details for request with ID: ${result.request.getId()}</h3>
   </div>
   <div class="panel-body">
     <div class="col-md-12">
@@ -142,18 +142,28 @@
       </div>
     </div>
 
-    <div class="col-md-12">
-      <div class="row">
-        <div class="col-sm-3">
-          <p><b>Request Body</b></p>
-        </div>
-        <div class="table-responsive">
-          <div class="col-sm-9">
-            <textarea readonly class="form-control" id="t1" rows="2" name="text">${result.requestBody}</textarea>
+    <div class="panel-body">
+      <div class="inner">
+        <c:if test="${not empty graphicData}">
+          <h4 >Performance by ${reportFilterDTO.getResponseTimeFilterMarker() == "AVERAGE"?'Average':'Maximum'} value of response time</h4>
+        </c:if>
+      </div>
+    </div>
+
+    <c:if test="${!(result.request.getRequestMethod() == 'GET')}">
+      <div class="col-md-12">
+        <div class="row">
+          <div class="col-sm-3">
+            <p><b>Request Body</b></p>
+          </div>
+          <div class="table-responsive">
+            <div class="col-sm-9">
+              <textarea readonly class="form-control" id="t1" rows="2" name="text">${result.requestBody}</textarea>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </c:if>
 
     <div class="col-md-12">
       <div class="row">
