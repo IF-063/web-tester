@@ -16,7 +16,7 @@ import java.util.LinkedHashSet;
 public interface EnvironmentHistoryMapper {
 
     /**
-     * Saves {@link EnvironmentHistory} instance to the database.
+     * Saves {@link EnvironmentHistory} instance to DB
      * @param environmentHistory EnvironmentHistory instance should be saved in DB
      * @return number of rows affected by the statement
      * @throws DataAccessException
@@ -27,7 +27,7 @@ public interface EnvironmentHistoryMapper {
     int save(EnvironmentHistory environmentHistory);
 
     /**
-     * Loads {@link EnvironmentHistory} instance from DB by its identifier.
+     * Loads {@link EnvironmentHistory} instance from DB by its identifier
      * @param id identifier of Header instance
      * @return EnvironmentHistory instance
      * @throws DataAccessException
@@ -45,7 +45,7 @@ public interface EnvironmentHistoryMapper {
     EnvironmentHistory load(int id);
 
     /**
-     * Updates {@link EnvironmentHistory} instance in DB.
+     * Updates {@link EnvironmentHistory} instance in DB
      * @param environmentHistory EnvironmentHistory instance should be updated
      * @return number of rows affected by the statement
      * @throws DataAccessException
@@ -56,7 +56,7 @@ public interface EnvironmentHistoryMapper {
     int update(EnvironmentHistory environmentHistory);
 
     /**
-     * Deletes {@link EnvironmentHistory} instance from DB.
+     * Deletes {@link EnvironmentHistory} instance from DB
      * @param id identifier of EnvironmentHistory environmentHistory should be deleted
      * @return number of rows affected by the statement
      * @throws DataAccessException
@@ -65,7 +65,7 @@ public interface EnvironmentHistoryMapper {
     int delete(int id);
 
     /**
-     * Deletes {@link EnvironmentHistory} instances from DB.
+     * Deletes {@link EnvironmentHistory} instances from DB
      * @param id identifier of {@link EnvironmentHistory} instances, whose environmentHistories should be deleted
      * @return number of rows affected by the statement
      * @throws DataAccessException

@@ -19,7 +19,7 @@
 
 <div class="panel panel-default">
   <div class="panel-heading">
-    <h3>Details for ${result.requestName}:</h3>
+    <h3>Result details for request with ID: ${result.id}</h3>
   </div>
   <div class="panel-body">
     <div class="col-md-12">
@@ -29,6 +29,28 @@
         </div>
         <div class="col-sm-9">
           ${(result.status==true)?'pass':'fail'}
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-12">
+      <div class="row">
+        <div class="col-sm-3">
+          <p><b>Request Name</b></p>
+        </div>
+        <div class="col-sm-9">
+          ${result.requestName}
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-12">
+      <div class="row">
+        <div class="col-sm-3">
+          <p><b>Request Description</b></p>
+        </div>
+        <div class="col-sm-9">
+          ${result.requestDescription}
         </div>
       </div>
     </div>
@@ -58,17 +80,6 @@
     <div class="col-md-12">
       <div class="row">
         <div class="col-sm-3">
-          <p><b>Request Description</b></p>
-        </div>
-        <div class="col-sm-9">
-          ${result.requestDescription}
-        </div>
-      </div>
-    </div>
-
-    <div class="col-md-12">
-      <div class="row">
-        <div class="col-sm-3">
           <p><b>Labels</b></p>
         </div>
         <div class="col-sm-9">
@@ -90,8 +101,6 @@
       </div>
     </div>
 
-
-
     <div class="col-md-12">
       <div class="row">
         <div class="col-sm-3">
@@ -110,8 +119,8 @@
                 <tbody>
                 <c:forEach items="${result.getHeaderHistories()}" var="result">
                   <tr>
-                    <td>${result.name}</td>
-                    <td>${result.value}</td>
+                    <td class="td-left">${result.name}</td>
+                    <td class="td-left">${result.value}</td>
                   </tr>
                 </c:forEach>
                 </tbody>
@@ -227,17 +236,17 @@
               <table class="table table-hover table-bordered table-condensed text-center table-striped panel-body" id="headers">
                 <thead id="head">
                 <tr>
-                  <th class="col-xs-6 col-sm-6 col-md-6">SqlQuery</th>
-                  <th class="col-xs-2 col-sm-2 col-md-2">ExpectedValue</th>
-                  <th class="col-xs-2 col-sm-2 col-md-2">ActualValue</th>
+                  <th class="col-xs-6 col-sm-6 col-md-6">SQL Query</th>
+                  <th class="col-xs-2 col-sm-2 col-md-2">Expected Value</th>
+                  <th class="col-xs-2 col-sm-2 col-md-2">Actual Value</th>
                 </tr>
                 </thead>
                 <tbody>
                 <c:forEach items="${result.getDbValidationHistories()}" var="result">
                   <tr>
                     <td><textarea readonly class="form-control" rows="1" name="text">${result.sqlQuery}</textarea></td>
-                    <td>${result.expectedValue}</td>
-                    <td>${result.actualValue}</td>
+                    <td class="td-left">${result.expectedValue}</td>
+                    <td class="td-left">${result.actualValue}</td>
                   </tr>
                 </c:forEach>
                 </tbody>
@@ -287,7 +296,3 @@
     </div>
   </div>
 </div>
-
-
-
-

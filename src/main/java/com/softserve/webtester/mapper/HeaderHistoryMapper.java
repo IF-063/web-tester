@@ -17,7 +17,7 @@ public interface HeaderHistoryMapper {
 
 
     /**
-     * Saving {@link HeaderHistory} instance to DB.<br>
+     * Saving {@link HeaderHistory} instance to DB
      * @param headerHistory DbValidation instance should be saved in DB
      * @return number of rows affected by the statement
      * @throws DataAccessException
@@ -27,7 +27,7 @@ public interface HeaderHistoryMapper {
     int save(HeaderHistory headerHistory);
 
     /**
-     * Saves {@link HeaderHistory} instances for the Request in DB.<br>
+     * Saves {@link HeaderHistory} instances for the Request in DB
      * Using SQL batch insert this method saves all HeaderHistories.
      * @param resultHistory {@link ResultHistory} instance, whose HeaderHistories should be saved
      * @return number of rows affected by the statement
@@ -40,7 +40,7 @@ public interface HeaderHistoryMapper {
     int saveByResultHistory(ResultHistory resultHistory);
 
     /**
-     * Loads {@link HeaderHistory} instance from DB by its identifier.
+     * Loads {@link HeaderHistory} instance from DB by its identifier
      * @param id identifier of HeaderHistory instance
      * @return HeaderHistory instance
      * @throws DataAccessException
@@ -53,7 +53,7 @@ public interface HeaderHistoryMapper {
     HeaderHistory load(int id);
 
     /**
-     * Loads all {@link HeaderHistory} instances for the ResultHistory from DB.
+     * Loads all {@link HeaderHistory} instances for the ResultHistory from DB
      * @param id identifier of {@link ResultHistory} instance, whose headerHistories should be loaded
      * @return List of HeaderHistory instances
      * @throws DataAccessException
@@ -66,7 +66,7 @@ public interface HeaderHistoryMapper {
     List<HeaderHistory> loadByResultHistoryId(int id);
 
     /**
-     * Updates {@link HeaderHistory} instance in the database.
+     * Updates {@link HeaderHistory} instance in DB
      * @param headerHistory HeaderHistory instance should be updated
      * @return number of rows affected by the statement
      * @throws DataAccessException
@@ -76,7 +76,7 @@ public interface HeaderHistoryMapper {
     int update(HeaderHistory headerHistory);
 
     /**
-     * Deletes {@link HeaderHistory} instance from DB.
+     * Deletes {@link HeaderHistory} instance from DB
      * @param id identifier of HeaderHistory instance to be be deleted
      * @return number of rows affected by the statement
      * @throws DataAccessException
@@ -85,7 +85,7 @@ public interface HeaderHistoryMapper {
     int delete(int id);
 
     /**
-     * Deletes {@link HeaderHistory} instances from the database.
+     * Deletes {@link HeaderHistory} instances from DB
      * @param id identifier of {@link ResultHistory} instance, whose headerHistories should be deleted
      * @return number of rows affected by the statement
      * @throws DataAccessException

@@ -17,7 +17,7 @@ import java.util.List;
 public interface ResultHistoryMapper {
 
     /**
-     * Saving collection with buildVersion.
+     * Saving collection with buildVersion
      */
     @Insert("INSERT INTO ResultHistory VALUES(NULL, #{status}, #{application.id}, #{service.id}, #{request.id}," +
             " #{requestName}, #{requestDescription}, #{url}, #{responseType}, #{requestBody}, " +
@@ -37,7 +37,7 @@ public interface ResultHistoryMapper {
     int saveCollection(ResultHistory resultHistory);
 
     /**
-     * Saving only request.
+     * Saving only request
      */
     @Insert("INSERT INTO ResultHistory VALUES(NULL, #{status}, #{application.id}, #{service.id}, #{request.id}," +
             " #{requestName}, #{requestDescription}, #{url}, #{responseType}, #{requestBody}, " +
@@ -47,7 +47,7 @@ public interface ResultHistoryMapper {
     int saveRequest(ResultHistory resultHistory);
 
     /**
-     * Loading {@link ResultHistory} instance from DB by its identifier.
+     * Loading {@link ResultHistory} instance from DB by its identifier
      * @param id identifies ResultHistory instance
      * @return ResultHistory instance
      * @throws DataAccessException
@@ -91,7 +91,7 @@ public interface ResultHistoryMapper {
     ResultHistory loadById(int id);
 
     /**
-     * Loading all {@link ResultHistory} instances from DB.<br>
+     * Loading all {@link ResultHistory} instances from DB
      * This method loads only main information about ResultHistory instance.
      * @param status using for filtering instances, which status identifier are in the array
      * @param applications using for filtering instances, which application identifier are in the array
@@ -126,7 +126,7 @@ public interface ResultHistoryMapper {
                                 @Param(value = "services") int[] services);
 
     /**
-     * Loading all {@link ResultHistory} instances by requestCollectionId and runId from DB.<br>
+     * Loading all {@link ResultHistory} instances by requestCollectionId and runId from DB
      * @param status using for filtering instances, which status identifier are in the array
      * @param applications using for filtering instances, which application identifier are in the array
      * @param services using for filtering instances, which service identifier are in the array
@@ -166,7 +166,7 @@ public interface ResultHistoryMapper {
                                                       @Param(value = "runId") int runId);
 
     /**
-     * Loading all {@link ResultHistory} instances from DB.<br>
+     * Loading all {@link ResultHistory} instances from DB
      * @param status using for filtering instances, which status identifier are in the array
      * @param labels using for filtering instances, which labels identifier are in the array
      * @param buildVersions using for filtering instances, which buildVersions identifier are in the array
@@ -207,7 +207,7 @@ public interface ResultHistoryMapper {
                                            @Param(value = "buildVersions") int[] buildVersions);
 
     /**
-     * Loading all {@link ResultHistory} instances by runId from DB.<br>
+     * Loading all {@link ResultHistory} instances by runId from DB
      * @param id using for selecting instances by RunId
      * @throws DataAccessException
      */
@@ -228,7 +228,7 @@ public interface ResultHistoryMapper {
     List<ResultHistory> loadAllRequestsByRunId(int id);
 
     /**
-     * Loading all {@link ResultHistory} instances by runId from DB.<br>
+     * Loading all {@link ResultHistory} instances by runId from DB
      * @param id using for selecting instances by RunId
      * @throws DataAccessException
      */
@@ -251,7 +251,7 @@ public interface ResultHistoryMapper {
 
 
     /**
-     * Deleting {@link ResultHistory} instances from DB.
+     * Deleting {@link ResultHistory} instances from DB
      * @param arr identifiers ResultHistory instances to be deleted
      * @return number of rows affected by the statement
      * @throws DataAccessException
@@ -262,7 +262,7 @@ public interface ResultHistoryMapper {
     int deleteSelectedResults(@Param("list") int[] arr);
 
     /**
-     * Deleting {@link ResultHistory} instances from DB.
+     * Deleting {@link ResultHistory} instances from DB
      * @param arr identifiers ResultHistory instances to be deleted
      * @return number of rows affected by the statement
      * @throws DataAccessException
@@ -273,7 +273,7 @@ public interface ResultHistoryMapper {
     int deleteSelectedCollectionResults(@Param("list") int[] arr);
 
     /**
-     * Deleting {@link ResultHistory} instance by its identifier from DB.<br>
+     * Deleting {@link ResultHistory} instance by its identifier from DB
      * @param id identifies ResultHistory instance
      * @throws DataAccessException
      */
@@ -281,7 +281,7 @@ public interface ResultHistoryMapper {
     int detele(int id);
 
     /**
-     * Deleting {@link ResultHistory} instance by its identifier from DB.<br>
+     * Deleting {@link ResultHistory} instance by its identifier from DB
      * @param id identifies ResultHistory instance
      * @throws DataAccessException
      */
@@ -289,7 +289,7 @@ public interface ResultHistoryMapper {
     int deteleByCollectionId(int id);
 
     /**
-     * Selecting {@link ResultHistory} max value of runId field from DB.<br>
+     * Selecting {@link ResultHistory} max value of runId field from DB
      * @throws DataAccessException
      */
     @Select("SELECT MAX(runId) FROM ResultHistory")
