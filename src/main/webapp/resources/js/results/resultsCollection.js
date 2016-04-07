@@ -24,7 +24,7 @@ $(function() {
         width: '100%'
     });
 
-    // selects all request on page
+    // selects all collections on page
     $('#selectAll').click(function() {
         $('#results input[type="checkbox"][name="operateSelect"]').prop('checked', this.checked);
     });
@@ -42,7 +42,6 @@ $(function() {
 
     // sends requests to delete to the server
     function deleteResults(input) {
-        console.log(input);
         $.ajax({
             type: 'DELETE',
             url: '/web-tester/results/collections',

@@ -24,7 +24,7 @@ $(function() {
         width: '100%'
     });
 
-    // selects all request on page
+    // selects all requests on page
     $('#selectAll').click(function() {
         $('#results input[type="checkbox"][name="operateSelect"]').prop('checked', this.checked);
     });
@@ -34,15 +34,14 @@ $(function() {
         var selected = selected = $('#results input:checked[name="operateSelect"]').map(function() {
             return $(this).prop('id');
         }).get();
-        if (selected.length != 0 && confirm('Do you really want to delete the requests?')) {
-            deleteRequests(selected);
+        if (selected.length != 0 && confirm('Do you really want to delete the results?')) {
+            deleteResults(selected);
         }
         return false;
     });
 
     // sends requests to delete to the server
     function deleteResults(input) {
-        console.log(input);
         $.ajax({
             type: 'DELETE',
             url: '/web-tester/results/requests',
@@ -57,4 +56,5 @@ $(function() {
                 alert('Error (code: ' + jqXHR.status + ')');
             },
         });
-    };});
+    };
+});

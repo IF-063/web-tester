@@ -249,7 +249,6 @@ public interface ResultHistoryMapper {
     })
     List<ResultHistory> loadAllCollectionsByRunId(int id);
 
-
     /**
      * Deleting {@link ResultHistory} instances from DB
      * @param arr identifiers ResultHistory instances to be deleted

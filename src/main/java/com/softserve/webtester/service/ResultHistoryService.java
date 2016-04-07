@@ -14,8 +14,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 /**
- * ResultHistoryService class implements CRUD operation on {@link ResultHistory} instance in DB.<br>
- * The service uses Spring DataSourceTransactionManager for managing transaction with DB and log4j for logging.
+ * ResultHistoryService class implements CRUD operation on {@link ResultHistory} instance in DB
+ * The service uses Spring DataSourceTransactionManager for managing transaction with DB and log4j for logging
  */
 @Service
 @Transactional
