@@ -266,7 +266,7 @@ public interface ResultHistoryMapper {
      * @return number of rows affected by the statement
      * @throws DataAccessException
      */
-    @Delete("<script>DELETE FROM ResultHistory WHERE requestCollectionId IN "
+    @Delete("<script>DELETE FROM ResultHistory WHERE id IN "
             + "<foreach item='item' index='index' collection='list' open='(' separator=',' close=')'>"
             + "#{item}</foreach></script>")
     int deleteSelectedCollectionResults(@Param("list") int[] arr);
