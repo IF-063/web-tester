@@ -79,7 +79,6 @@ public class ParseAndWriteService {
                             timeSum += responseDTOListElement.getResponseTime();
                             count++;
                             resultHistory.setStatusLine(responseDTOListElement.getStatusLine());
-                            resultHistory.setMessage(responseDTOListElement.getReasonPhrase());
                             resultHistory.setActualResponse(
                                     requestExecuteSupportService.format(responseDTOListElement.getResponseBody()));
                         }
@@ -92,7 +91,6 @@ public class ParseAndWriteService {
                     ResponseDTO responseDTO = responseDTOList.get(0);
                     resultHistory.setResponseTime(responseDTO.getResponseTime());
                     resultHistory.setStatusLine(responseDTO.getStatusLine());
-                    resultHistory.setMessage(responseDTO.getReasonPhrase());
                     resultHistory.setActualResponse(requestExecuteSupportService.format(responseDTO.getResponseBody()));
                     if (responseDTO.getStatusCode() == 200) {
                         statusIndicator = true;
@@ -107,7 +105,7 @@ public class ParseAndWriteService {
                 resultHistory.setRequestName(request.getName());
                 resultHistory.setRequestDescription(request.getDescription());
                 resultHistory.setUrl(requestDTO.getHttpRequest().getURI().toString());
-                resultHistory.setResponseType(request.getResponseType().toString());
+                resultHistory.setResponseType(request.getResponseType().getTextValue());
                 resultHistory.setTimeStart(new Timestamp(System.currentTimeMillis()));
                 resultHistory.setExpectedResponseTime(request.getTimeout());
 
@@ -138,13 +136,12 @@ public class ParseAndWriteService {
                     resultHistory.setBuildVersion(bv);
                 }
 
-                if (statusIndicator && (resultHistory.getExpectedResponse().equals(resultHistory.getActualResponse()))
-                        && (resultHistory.getExpectedResponseTime() >= (resultHistory.getResponseTime()))) {
+                if ((statusIndicator == true) && (messages(resultHistory, request, requestDTO, dbValidationHistory).equals("OK"))){
                     resultHistory.setStatus(true);
                 } else {
                     resultHistory.setStatus(false);
                 }
-
+                resultHistory.setMessage(messages(resultHistory, request, requestDTO, dbValidationHistory));
                 resultHistoryService.save(resultHistory);
 
                 //DB-VALIDATION
@@ -208,43 +205,37 @@ public class ParseAndWriteService {
         return runId;
     }
 
-    /*public String messages(ResultHistory resultHistory, Request request, RequestDTO requestDTO,
+    public String messages(ResultHistory resultHistory, Request request, RequestDTO requestDTO,
             DbValidationHistory dbValidationHistory) {
         String message = null;
+        String type = null;
+        if(resultHistory.getExpectedResponse().startsWith("<")){
+            type = "XML";
+        }else type = "JSON";
+        
+        if (!resultHistory.getExpectedResponse().equalsIgnoreCase(resultHistory.getActualResponse()) 
+                & (!requestDTO.getHttpRequest().getMethod().equals("POST"))) {
+            message = "Actual response does not match the expected one";
+        }
         if ((!requestDTO.getHttpRequest().getMethod().equals("GET"))
                 && (!requestDTO.getHttpRequest().getMethod().equals("POST"))) {
             message = "Unsupported request method";
         }
-        if (!resultHistory.getResponseType().equalsIgnoreCase(request.getResponseType().getTextValue())) {
+        if (!type.equalsIgnoreCase(request.getResponseType().getTextValue())) {
             LOGGER.info("TYPE " + request.getResponseType().getTextValue());
             message = "Wrong content type";
-        }
-        if (!resultHistory.getExpectedResponse().equalsIgnoreCase(resultHistory.getActualResponse())) {
-            message = "Actual response does not match the expected one";
         }
         if (resultHistory.getResponseTime() > resultHistory.getExpectedResponseTime()) {
             message = "Response time exceeded timeout value";
         }
 
-        if (dbValidationHistory.getExpectedValue().equals(dbValidationHistory.getActualValue())) {
+        /*if (dbValidationHistory.getExpectedValue().equals(dbValidationHistory.getActualValue())) {
          message = "At least one db validation expected value is not equal to the actual one";
-        }
+        }*/
 
         if (message == null) {
             message = "OK";
         }
         return message;
     }
-
-    public boolean requestStatus(ResponseDTO responseDTO, ResultHistory resultHistory, Request request,
-            RequestDTO requestDTO) {
-
-        boolean status = false;
-
-        if ((responseDTO.getResponse().getStatusLine().getStatusCode() == 200)
-                & (resultHistory.getMessage().equalsIgnoreCase("OK"))) {
-            status = true;
-        }
-        return status;
-    }*/
 }
