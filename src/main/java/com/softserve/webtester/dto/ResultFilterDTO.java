@@ -1,8 +1,8 @@
 package com.softserve.webtester.dto;
 
 import java.io.Serializable;
-import java.util.Arrays;
 
+//TODO VS: add JavaDoc.
 public class ResultFilterDTO implements Serializable {
 
     private static final long serialVersionUID = -4420976248741084072L;
@@ -11,8 +11,6 @@ public class ResultFilterDTO implements Serializable {
     private int[] applicationFilter;
     private int[] serviceFilter;
     private int runId;
-
-    public ResultFilterDTO() { }
 
     public boolean getStatusFilter() {
         return statusFilter;

@@ -1,9 +1,7 @@
 package com.softserve.webtester.service;
 
-import com.softserve.webtester.dto.ResultCollectionFilterDTO;
-import com.softserve.webtester.dto.ResultFilterDTO;
-import com.softserve.webtester.mapper.*;
-import com.softserve.webtester.model.*;
+import java.util.List;
+
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +9,18 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
+import com.softserve.webtester.dto.ResultCollectionFilterDTO;
+import com.softserve.webtester.dto.ResultFilterDTO;
+import com.softserve.webtester.mapper.DbValidationHistoryMapper;
+import com.softserve.webtester.mapper.EnvironmentHistoryMapper;
+import com.softserve.webtester.mapper.HeaderHistoryMapper;
+import com.softserve.webtester.mapper.LabelMapper;
+import com.softserve.webtester.mapper.ResultHistoryMapper;
+import com.softserve.webtester.model.DbValidationHistory;
+import com.softserve.webtester.model.EnvironmentHistory;
+import com.softserve.webtester.model.HeaderHistory;
+import com.softserve.webtester.model.Label;
+import com.softserve.webtester.model.ResultHistory;
 
 /**
  * ResultHistoryService class implements CRUD operation on {@link ResultHistory} instance in DB
@@ -32,7 +41,6 @@ public class ResultHistoryService {
     @Autowired
     private EnvironmentHistoryMapper environmentHistoryMapper;
 
-
     @Autowired
     private DbValidationHistoryMapper dbValidationHistoryMapper;
 
@@ -48,9 +56,10 @@ public class ResultHistoryService {
     public int save(ResultHistory resultHistory) {
 
         try {
-            if (resultHistory.getBuildVersion()!=null) {
+            // TODO all: use only one method and one query with conditions
+            if (resultHistory.getBuildVersion() != null) {
                 resultHistoryMapper.save(resultHistory);
-            } else if (resultHistory.getRequestCollection()!=null) {
+            } else if (resultHistory.getRequestCollection() != null) {
                 resultHistoryMapper.saveCollection(resultHistory);
             } else {
                 resultHistoryMapper.saveRequest(resultHistory);
@@ -98,24 +107,16 @@ public class ResultHistoryService {
     }
 
     /**
-     * Loading resultHistory instance from ResultHistory table using resultFilterDTO filter instance
-     * @param resultFilterDTO
-     * @return
+     * Loads filtered {@link ResultHistory} instances with their main information.
+     * @param resultFilterDTO DTO object using for filtering {@link ResultHistory} instance
+     * @return List of {@link ResultHistory} instances
+     * @throws DataAccessException
      */
     public List<ResultHistory> loadAll(ResultFilterDTO resultFilterDTO) {
 
-        /**
-         * Loads filtered {@link ResultHistory} instances with their main information.
-         * @param resultFilterDTO DTO object using for filtering {@link ResultHistory} instance
-         * @return List of {@link ResultHistory} instances
-         * @throws DataAccessException
-         */
-        boolean status = resultFilterDTO.getStatusFilter();
-        int[] applications = resultFilterDTO.getApplicationFilter();
-        int[] services = resultFilterDTO.getServiceFilter();
-
         try {
-            List<ResultHistory> list = resultHistoryMapper.loadAll(status, applications, services);
+            List<ResultHistory> list = resultHistoryMapper.loadAll(resultFilterDTO.getStatusFilter(),
+                    resultFilterDTO.getApplicationFilter(), resultFilterDTO.getServiceFilter());
             return list;
         } catch (DataAccessException e) {
             LOGGER.error("Unable to load request instances", e);
@@ -124,19 +125,14 @@ public class ResultHistoryService {
     }
 
     /**
-     * Loading resultHistory instance from ResultHistory table using resultCollectionFilterDTO filter instance
-     * @param resultCollectionFilterDTO
+     * Loads filtered {@link ResultHistory} instances with their main information.
+     * @param resultCollectionFilterDTO DTO object using for filtering {@link ResultHistory} instance
      * @return List of {@link ResultHistory} instances
      * @throws DataAccessException
      */
     public List<ResultHistory> loadAllCollections(ResultCollectionFilterDTO resultCollectionFilterDTO) {
 
-        /**
-         * Loads filtered {@link ResultHistory} instances with their main information.
-         * @param resultCollectionFilterDTO DTO object using for filtering {@link ResultHistory} instance
-         * @return List of {@link ResultHistory} instances
-         * @throws DataAccessException
-         */
+        // TODO VS: Remove temp variables
         boolean status = resultCollectionFilterDTO.getStatusFilter();
         int[] buildVersions = resultCollectionFilterDTO.getBuildVersionsFilter();
         int[] labelFilter = resultCollectionFilterDTO.getLabelFilter();
@@ -158,6 +154,7 @@ public class ResultHistoryService {
      * @throws DataAccessException
      */
     public List<ResultHistory> loadAllRequestsByCollectionId(ResultFilterDTO resultFilterDTO, int id, int runId) {
+        // TODO VS: Remove temp variables
         boolean status = resultFilterDTO.getStatusFilter();
         int[] applications = resultFilterDTO.getApplicationFilter();
         int[] services = resultFilterDTO.getServiceFilter();
@@ -178,6 +175,7 @@ public class ResultHistoryService {
      * @throws DataAccessException
      */
     public List<ResultHistory> loadAllRequestsByRunId(ResultFilterDTO resultFilterDTO) {
+        // TODO VS: Remove temp variables
         int runId = resultFilterDTO.getRunId();
 
         try {
@@ -196,6 +194,7 @@ public class ResultHistoryService {
      * @throws DataAccessException
      */
     public List<ResultHistory> loadAllCollectionsByRunId(ResultCollectionFilterDTO resultCollectionFilterDTO) {
+        // TODO VS: Remove temp variables
         int runId = resultCollectionFilterDTO.getRunId();
 
         try {
@@ -313,6 +312,7 @@ public class ResultHistoryService {
      * @return id of saved headerHistory instance
      * @throws DataAccessException
      */
+    // TODO RZ: rework
     public void saveHeaderHistory(HeaderHistory headerHistory) {
 
         try {

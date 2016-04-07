@@ -3,7 +3,6 @@ package com.softserve.webtester.mapper;
 import org.apache.ibatis.jdbc.SQL;
 
 /**
- * 
  * Provides Database SQL queries for CRUD operations for Environment object
  *
  */
@@ -89,7 +88,7 @@ public class EnvironmentSqlProvider {
             }
         }.toString();
     }
-    
+
     /**
      * @return SQL query for checking the unique of environment's name
      */

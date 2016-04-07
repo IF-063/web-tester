@@ -2,7 +2,14 @@ package com.softserve.webtester.mapper;
 
 import java.util.List;
 
-import org.apache.ibatis.annotations.*;
+import org.apache.ibatis.annotations.Delete;
+import org.apache.ibatis.annotations.Insert;
+import org.apache.ibatis.annotations.Options;
+import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Result;
+import org.apache.ibatis.annotations.Results;
+import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 import org.springframework.stereotype.Repository;
 
 import com.softserve.webtester.model.Service;
@@ -55,7 +62,7 @@ public interface ServiceMapper {
 
     @Select(LOADNAME)
     String loadServiceName(int id);
-    
+
     @Update(UPDATE)
     void update(Service service);
 
@@ -65,7 +72,7 @@ public interface ServiceMapper {
     @Insert(INSERT)
     @Options(useGeneratedKeys = true, keyProperty = "id")
     void save(Service service);
-    
+
     @Select(IS_SERVICE_NAME_FREE)
     boolean isServiceNameFree(@Param("name") String name, @Param("exclusionId") int exclusionId);
 }

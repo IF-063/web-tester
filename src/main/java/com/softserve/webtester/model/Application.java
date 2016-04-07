@@ -16,7 +16,7 @@ import org.apache.commons.lang3.builder.ToStringStyle;
  * @author Roman Zolotar
  * @version 1.2
  */
-
+// TODO RZ: extend from AbstractDomain
 public class Application implements Serializable {
 
     private static final long serialVersionUID = -6038553268823619415L;
@@ -31,6 +31,7 @@ public class Application implements Serializable {
 
     private boolean deleted;
 
+    // TODO RZ: do not need
     public Application() {
     }
 

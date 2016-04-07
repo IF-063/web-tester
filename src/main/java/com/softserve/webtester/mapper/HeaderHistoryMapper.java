@@ -1,12 +1,20 @@
 package com.softserve.webtester.mapper;
 
-import com.softserve.webtester.model.*;
-import org.apache.ibatis.annotations.*;
+import java.util.List;
+
+import org.apache.ibatis.annotations.Delete;
+import org.apache.ibatis.annotations.Insert;
+import org.apache.ibatis.annotations.Options;
+import org.apache.ibatis.annotations.Result;
+import org.apache.ibatis.annotations.Results;
+import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 import org.apache.ibatis.type.JdbcType;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
+import com.softserve.webtester.model.HeaderHistory;
+import com.softserve.webtester.model.ResultHistory;
 
 /**
  * MyBatis HeaderMapper mapper for performing CRUD operation on HeaderHistory database instance.
@@ -14,7 +22,6 @@ import java.util.List;
 
 @Repository
 public interface HeaderHistoryMapper {
-
 
     /**
      * Saving {@link HeaderHistory} instance to DB

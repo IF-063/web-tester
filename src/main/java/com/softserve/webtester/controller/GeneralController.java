@@ -49,4 +49,5 @@ public class GeneralController {
         model.addAttribute("message", e.getMessage());
         return "error";
     }
+    // TODO all: separate handler for 500 error
 }

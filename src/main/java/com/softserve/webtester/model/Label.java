@@ -1,12 +1,13 @@
 package com.softserve.webtester.model;
 
+import java.io.Serializable;
+
+import javax.validation.constraints.Size;
+
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
-
-import javax.validation.constraints.Size;
-import java.io.Serializable;
 
 /**
  * The Label class represents {@code Label} entity stored in the database.
@@ -24,6 +25,7 @@ public class Label implements Serializable {
     @Size(max = 75)
     private String name;
 
+    // TODO RZ: do not need
     public Label() { }
 
     public Label(String name) {

@@ -96,9 +96,6 @@ public class Environment implements Serializable {
      */
     private boolean deleted;
 
-    public Environment() {
-    }
-
     public int getId() {
         return id;
     }

@@ -1,19 +1,22 @@
 package com.softserve.webtester.service;
 
-import com.softserve.webtester.dto.CollectionResultDTO;
-import com.softserve.webtester.dto.ResultsDTO;
-import com.softserve.webtester.model.Environment;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import com.softserve.webtester.dto.CollectionResultDTO;
+import com.softserve.webtester.dto.ResultsDTO;
+import com.softserve.webtester.model.Environment;
 
+// TODO AM: JavaDoc
 @Service
 public class RunService {
+
+    private static final Logger LOGGER = Logger.getLogger(RunService.class);
 
     @Autowired
     private ResultHistoryService resultHistoryService;
@@ -26,11 +29,9 @@ public class RunService {
 
     @Autowired
     private EnvironmentService environmentService;
-    
+
     @Autowired
     private ParseAndWriteService parseAndWriteService;
-    
-    private static final Logger LOGGER = Logger.getLogger(RunService.class);
 
     /**
      * method which responsible for running request or requests list of requests and parsing, writing into DB results
@@ -44,7 +45,7 @@ public class RunService {
         Environment environment = environmentService.load(environmentId);
 
         int runId = resultHistoryService.getMaxId() + 1;
-        LOGGER.info("Generated run id: " + runId);
+        LOGGER.debug("Generated run id: " + runId);
 
         return parseAndWriteService.parseAndWrite(execute(environment, requestIdArray, runId));
 
@@ -63,7 +64,7 @@ public class RunService {
         Environment environment = environmentService.load(environmentId);
 
         int runId = resultHistoryService.getMaxId() + 1;
-        LOGGER.info("Generated run id: " + runId);
+        LOGGER.debug("Generated run id: " + runId);
 
         return parseAndWriteService.parseAndWrite(execute(environment, buildVersionId, collectionIdArray, runId));
 
@@ -119,7 +120,7 @@ public class RunService {
         for (int i = 0; i < collectionIdArray.length; i++) {
             CollectionResultDTO collectionResultDTO = requestExecuteService.executeRequests(environment,
                     requestService.loadFullRequestsByRequestCollectionId(collectionIdArray[i]),
-                    (buildVersionId!=0), collectionIdArray[i]);
+                    (buildVersionId != 0), collectionIdArray[i]);
             collectionResultDTOList.add(collectionResultDTO);
         }
 

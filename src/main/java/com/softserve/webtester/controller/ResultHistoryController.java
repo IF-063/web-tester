@@ -1,6 +1,5 @@
 package com.softserve.webtester.controller;
 
-import com.softserve.webtester.model.Request;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;

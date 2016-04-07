@@ -1,18 +1,14 @@
 package com.softserve.webtester.dto;
 
-import com.softserve.webtester.model.Request;
-
 import java.util.List;
+
+import com.softserve.webtester.model.Request;
 
 public class RequestResultDTO {
 
     private Request request;
-    private RequestDTO requestDTO;
+    private RequestDTO requestDTO; // TODO VZ: Rename to preparedRequest or requestToSend
     private List<ResponseDTO> responses;
-
-    public RequestResultDTO() {
-
-    }
 
     public Request getRequest() {
         return request;

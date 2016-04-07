@@ -1,19 +1,15 @@
 package com.softserve.webtester.dto;
 
-import com.softserve.webtester.model.Environment;
-
 import java.util.List;
 
+import com.softserve.webtester.model.Environment;
+// TODO AM: add java doc
 public class ResultsDTO {
 
     private int runId;
     private int buildVersionId;
     private Environment environment;
     private List<CollectionResultDTO> collectionResultDTOList;
-
-    public ResultsDTO() {
-
-    }
 
     public int getRunId() {
         return runId;

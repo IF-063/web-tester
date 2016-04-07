@@ -4,7 +4,6 @@ import java.io.StringReader;
 import java.io.StringWriter;
 import java.sql.Connection;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
 
@@ -15,7 +14,6 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 
-import com.softserve.webtester.model.Environment;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.apache.velocity.VelocityContext;
@@ -28,6 +26,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import com.google.gson.JsonSyntaxException;
+import com.softserve.webtester.model.Environment;
 import com.softserve.webtester.model.Variable;
 
 @Service
@@ -40,37 +39,37 @@ public class RequestExecuteSupportService {
 
     @Autowired
     private EnvironmentService environmentService;
-    
+
     /**
      * Get value from executed SQL query on given connection builded on Environment 
      * @param input connection and query
      * @return string value
      */
-    public String getExecutedQueryValue(Environment environment, String sqlQuery) throws SQLException {
+    public String getExecutedQueryValue(Environment environment, String sqlQuery) throws Exception {
         String result = null;
-        if (sqlQuery.trim().toLowerCase().startsWith("select")) {
+        if (isSelectQuery(sqlQuery)) {
             Connection dbCon = null;
-            try {
+            try { // TODO VZ: try with resources and remove finally block
                 dbCon = environmentService.getConnection(environment);
                 Statement statement = dbCon.createStatement();
                 ResultSet results = statement.executeQuery(sqlQuery);
-                while(results.next()) {
+                while (results.next()) {
                     result = results.getString(1);
                 }
-            } catch (SQLException e) {
+            } catch (Exception e) {
                 LOGGER.error("Could not execute query: " + sqlQuery, e);
                 throw e;
-            } catch (Exception e) {
-
             } finally {
                 dbCon.close();
             }
-            return result;
-        } else {
-            return result;
         }
+        return result;
     }
-    
+
+    private boolean isSelectQuery(String sqlQuery) {
+        return sqlQuery.trim().toLowerCase().startsWith("select");
+    }
+
     /**
      * Get evaluated a String containing Velocity Template Language using list of Variable, and returns the result as a String.
      * @param input instance should be formatted, data to build context and data for logging
@@ -124,7 +123,7 @@ public class RequestExecuteSupportService {
             transformer.transform(xmlInput, xmlOutput);
             return xmlOutput.getWriter().toString();
         } catch (Exception e) {
-            LOGGER.error("Unable to parse XML: " + input);
+            LOGGER.warn("Unable to parse XML: " + input + System.lineSeparator() +  "XML will be ugly :(");
         }
         return input;
     }
@@ -142,7 +141,7 @@ public class RequestExecuteSupportService {
             JsonElement je = jp.parse(input);
             return gson.toJson(je);
         } catch (JsonSyntaxException e) {
-            LOGGER.error("Unable to parse JSON: " + input);
+            LOGGER.warn("Unable to parse JSON: " + input + System.lineSeparator() + "JSON will be ugly :(");
         }
         return input;
     }

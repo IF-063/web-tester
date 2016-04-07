@@ -2,7 +2,14 @@ package com.softserve.webtester.mapper;
 
 import java.util.List;
 
-import org.apache.ibatis.annotations.*;
+import org.apache.ibatis.annotations.Delete;
+import org.apache.ibatis.annotations.Insert;
+import org.apache.ibatis.annotations.Options;
+import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Result;
+import org.apache.ibatis.annotations.Results;
+import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 import org.springframework.stereotype.Repository;
 
 import com.softserve.webtester.model.Application;
@@ -32,7 +39,7 @@ public interface ApplicationMapper {
             @Result(property = "deleted", column = "DELETED") })
 
     List<Application> loadAll();
-    
+
     @Select(LOAD_ALL_WITHOUT_DELETED)
     @Results(value = { @Result(property = "id", column = "ID"), 
             @Result(property = "name", column = "NAME"),

@@ -29,8 +29,6 @@ public class DbValidation implements Serializable {
     private String expectedValue;
     private Request request;
 
-    public DbValidation() { }
-
     public int getId() {
         return id;
     }

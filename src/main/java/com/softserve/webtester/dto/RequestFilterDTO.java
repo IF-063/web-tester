@@ -17,7 +17,7 @@ public class RequestFilterDTO implements Serializable {
     private int[] serviceFilter;
     private int[] labelFilter;
 
-    public RequestFilterDTO() { }
+    public RequestFilterDTO() { } // TODO TO: Wtf?
 
     public String getRequestNameFilter() {
         return RequestNameFilter;

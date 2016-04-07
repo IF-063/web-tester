@@ -22,7 +22,7 @@ import com.softserve.webtester.model.Service;
  */
 @Repository
 public interface ReportMapper {
-    
+
     /**
      * Loads report data with average response time for each build version testing run of {@link RequestCollection} 
      * for the service from database by it`s identifier.
@@ -100,7 +100,7 @@ public interface ReportMapper {
         "on q.id=list.buildVersionId;</script>" })
     List<Integer> loadAvgStatistic(@Param(value = "serviceId") int serviceId,
                                    @Param(value = "buildVersionId") int[] buildVersionId);
-    
+
     /**
      * Loads maximum response time for each build version testing run of {@link RequestCollection} for the service 
      * from database by it`s identifier.

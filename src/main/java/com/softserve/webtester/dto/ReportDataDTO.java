@@ -2,6 +2,7 @@ package com.softserve.webtester.dto;
 
 import java.io.Serializable;
 
+// TODO VS: add JavaDoc
 public class ReportDataDTO implements Serializable {
 
     private static final long serialVersionUID = -4660040607869903349L;

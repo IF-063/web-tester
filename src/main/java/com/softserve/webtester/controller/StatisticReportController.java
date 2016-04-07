@@ -37,14 +37,14 @@ import com.softserve.webtester.service.ReportService;
 @RequestMapping(value = "/reports/statistic")
 public class StatisticReportController {
 
-    private static final String SERVICENAME = "serviceName";
-    private static final String BUILDVERSIONS = "buildVersions";
+    private static final Logger LOGGER = Logger.getLogger(StatisticReportController.class);
+
+    private static final String SERVICE_NAME = "serviceName";
+    private static final String BUILD_VERSIONS = "buildVersions";
     private static final String STATISTICBUILDVERSIONS = "statisticsBuildVersions";
     private static final String STATISTICS = "statistics";
     private static final String DATAFORMAT = "YYYY-MM-DD HH:mm:ss";
     private static final String RESPONSETIMETYPE = "responseTimeType";
-    private static final Logger LOGGER = Logger.getLogger(StatisticReportController.class);
-    
 
     @Autowired
     private MetaDataService metaDataService;
@@ -66,17 +66,18 @@ public class StatisticReportController {
     @RequestMapping(method = RequestMethod.GET)
     public String getStatistic(@Validated @ModelAttribute StatisticFilterDTO statisticFilterDTO, BindingResult result,
             Model model) {
-        model.addAttribute(SERVICENAME, metaDataService.serviceLoadAllWithoutDeleted());
+        model.addAttribute(SERVICE_NAME, metaDataService.serviceLoadAllWithoutDeleted());
         List<BuildVersion> buildVersions = metaDataService.loadAllBuildVersions();
         statisticFilterDTO.setBuildVersions(buildVersions);
-        model.addAttribute(BUILDVERSIONS, buildVersions);
+        model.addAttribute(BUILD_VERSIONS, buildVersions);
         model.addAttribute(RESPONSETIMETYPE, ResponseTimeType.values());
         if (result.hasErrors()) {
             return "statistic/statistics";
         }
-        if (ArrayUtils.isNotEmpty(statisticFilterDTO.getServiceId())){
-        model.addAttribute(STATISTICBUILDVERSIONS, reportService.loadBuildVersionsName(statisticFilterDTO));
-        model.addAttribute(STATISTICS, reportService.loadStatisticReportData(statisticFilterDTO));
+
+        if (ArrayUtils.isNotEmpty(statisticFilterDTO.getServiceId())) {
+            model.addAttribute(STATISTICBUILDVERSIONS, reportService.loadBuildVersionsName(statisticFilterDTO));
+            model.addAttribute(STATISTICS, reportService.loadStatisticReportData(statisticFilterDTO));
         }
         return "statistic/statistics";
     }
@@ -87,21 +88,25 @@ public class StatisticReportController {
      * @param statisticFilterDTO DTO object using for filtering statistic data
      * @return if success, downloads the statistic report excel file;
      */
+    // TODO YL: please rename method
     @RequestMapping(value = "/xls", method = RequestMethod.GET)
     public void xlsP(HttpServletResponse response, @ModelAttribute StatisticFilterDTO statisticFilterDTO) {
         if (ArrayUtils.isNotEmpty(statisticFilterDTO.getServiceId())
-            && ArrayUtils.isNotEmpty(statisticFilterDTO.getBuildVersionId())) {
+                && ArrayUtils.isNotEmpty(statisticFilterDTO.getBuildVersionId())) {
             List<BuildVersion> buildVersions = metaDataService.loadAllBuildVersions();
             statisticFilterDTO.setBuildVersions(buildVersions);
+
             byte[] data = excelReportGeneratorServise.generateExcelReport(statisticFilterDTO);
             String fileName = new SimpleDateFormat(DATAFORMAT).format(new Date()) + ".xls";
             response.setHeader("Content-Disposition", String.format("inline; filename=\"" + fileName + "\""));
             response.setContentType("application/x-download");
-            response.setContentLength(data.length);
-            try(ServletOutputStream outputStream = response.getOutputStream()) {
-                FileCopyUtils.copy(data, outputStream);               
-            } catch (IOException e) {
+
+            try (ServletOutputStream outputStream = response.getOutputStream()) {
+                response.setContentLength(data.length);
+                FileCopyUtils.copy(data, outputStream);
+            } catch (NullPointerException | IOException e) {
                 LOGGER.error("Unable to write data to response output stream", e);
+                // TODO YL: throw some exception
             }
         }
     }

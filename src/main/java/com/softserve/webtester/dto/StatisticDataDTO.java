@@ -3,10 +3,11 @@ package com.softserve.webtester.dto;
 import java.io.Serializable;
 import java.util.List;
 
+//TODO YL: add JavaDoc.
 public class StatisticDataDTO implements Serializable {
-    
+
     private static final long serialVersionUID = 569307305008042909L;
-    
+
     private String serviceName;
     private int sla;
     private List<Integer> responseTimes;

@@ -1,9 +1,10 @@
 package com.softserve.webtester.model;
 
+import java.io.Serializable;
+
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
-import java.io.Serializable;
 
 /**
  * HeaderHistory class representing a database object.
@@ -19,17 +20,6 @@ public class HeaderHistory implements Serializable {
     private String name;
     private String value;
     private ResultHistory resultHistory;
-
-    public HeaderHistory(long id, String name, String value, ResultHistory resultHistory) {
-        this.id = id;
-        this.name = name;
-        this.value = value;
-        this.resultHistory = resultHistory;
-    }
-
-    public HeaderHistory(){
-
-    }
 
     public long getId() {
         return id;

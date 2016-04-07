@@ -1,6 +1,5 @@
 package com.softserve.webtester.controller;
 
-import com.softserve.webtester.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -18,10 +17,17 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
+
 import com.softserve.webtester.dto.RequestCollectionFilterDTO;
+import com.softserve.webtester.model.BuildVersion;
 import com.softserve.webtester.model.Environment;
 import com.softserve.webtester.model.Request;
 import com.softserve.webtester.model.RequestCollection;
+import com.softserve.webtester.service.EnvironmentService;
+import com.softserve.webtester.service.MetaDataService;
+import com.softserve.webtester.service.RequestCollectionService;
+import com.softserve.webtester.service.RequestService;
+import com.softserve.webtester.service.RunService;
 import com.softserve.webtester.validator.CollectionValidator;
 
 /**
@@ -58,7 +64,7 @@ public class RequestCollectionController {
 
     @Autowired
     private RunService runService;
-    
+
     @InitBinder("requestCollection")
     public void initBinder(WebDataBinder binder) {
         binder.addValidators(requestCollectionValidator);
@@ -122,7 +128,7 @@ public class RequestCollectionController {
      * @param model container for {@link RequestCollection}, {@link Request} and {@link Label} instances
      * @return 'collectionCreateEdit' view
      */ 
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET) // TODO YL: add modify to URL
     public String getRequestCollection(@PathVariable int id, Model model) {
         model.addAttribute(LABEL, metaDataService.loadAllLabels());
         model.addAttribute(REQUESTS, requestService.loadAll());
@@ -139,7 +145,7 @@ public class RequestCollectionController {
      * @param model container for {@link RequestCollection}, {@link Request} and {@link Label} instances
      * @return if success, redirects to requestCollections main page;
      */
-    @RequestMapping(value = "/{id}", method = RequestMethod.POST)
+    @RequestMapping(value = "/{id}", method = RequestMethod.POST) // TODO YL: add modify to URL
     public String EditRequestCollection(@PathVariable int id,
             @Validated @ModelAttribute RequestCollection requestCollection, BindingResult result, Model model) {
         if (result.hasErrors()) {
@@ -156,7 +162,7 @@ public class RequestCollectionController {
      * 
      * @param id identifier of {@link RequestCollection} should be updated
      */
-    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE, consumes = MediaType.APPLICATION_JSON_VALUE) // TODO YL: add delete to URL
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable int id) {
         requestCollectionService.delete(id);
@@ -167,7 +173,7 @@ public class RequestCollectionController {
      * 
      * @param requestColelctionIdArray array of requests identifiers should be deleted
      */
-    @RequestMapping(method = RequestMethod.DELETE, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(method = RequestMethod.DELETE, consumes = MediaType.APPLICATION_JSON_VALUE) // TODO YL: add delete to URL
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void detele(@RequestBody int[] requestCollectionIdArray) {
         requestCollectionService.delete(requestCollectionIdArray);

@@ -1,10 +1,10 @@
 package com.softserve.webtester.model;
 
+import java.io.Serializable;
+
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
-
-import java.io.Serializable;
 
 /**
  * EnvironmentHistory class representing a database object.
@@ -24,22 +24,6 @@ public class EnvironmentHistory implements Serializable {
     private int dbPort;
     private String dbName;
     private Environment environment;
-
-    public EnvironmentHistory(int id, ResultHistory resultHistory, String name, String baseURL, String dbURL,
-                              int dbPort, String dbName, Environment environment) {
-        this.id = id;
-        this.resultHistory = resultHistory;
-        this.name = name;
-        this.baseURL = baseURL;
-        this.dbURL = dbURL;
-        this.dbPort = dbPort;
-        this.dbName = dbName;
-        this.environment = environment;
-    }
-
-    public EnvironmentHistory(){
-
-    }
 
     public long getId() {
         return id;

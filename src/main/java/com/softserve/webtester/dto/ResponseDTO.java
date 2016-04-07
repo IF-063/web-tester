@@ -1,7 +1,6 @@
 package com.softserve.webtester.dto;
 
 import java.io.Serializable;
-import java.util.Date;
 
 public class ResponseDTO implements Serializable {
 
@@ -12,10 +11,6 @@ public class ResponseDTO implements Serializable {
     private int statusCode;
     private String reasonPhrase;
     private String responseBody;
-
-    public ResponseDTO() {
-
-    }
 
     public int getResponseTime() {
         return responseTime;

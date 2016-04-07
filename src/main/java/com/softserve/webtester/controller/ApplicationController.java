@@ -40,13 +40,6 @@ public class ApplicationController {
         binder.addValidators(applicationValidator);
     }
 
-    /*
-     * @RequestMapping(method = RequestMethod.GET) public String
-     * getApplicationList(Model model) { List<Application> applications =
-     * metaDataService.applicationLoadAll(); model.addAttribute("applications",
-     * applications); return "application/list"; }
-     */
-
     @RequestMapping(method = RequestMethod.GET)
     public String getNotDeletedApplicationList(Model model) {
         List<Application> applications = metaDataService.applicationLoadAllWithoutDeleted();
@@ -54,11 +47,11 @@ public class ApplicationController {
         return "application/list";
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET) // TODO RZ: add modify to URL
     public String getApplication(@PathVariable(value = "id") Integer applicationId, Model model) {
         Application application = metaDataService.applicationLoad(applicationId);
         model.addAttribute("isUpdate", true);
-        model.addAttribute("application", application);
+        model.addAttribute("application", application); // TODO RZ: move to constants
         return "application/update";
     }
 
@@ -73,14 +66,14 @@ public class ApplicationController {
     public String saveCreatedApplication(@Validated @ModelAttribute("application") Application application,
             BindingResult result, Model model) {
         if (result.hasErrors()) {
-            model.addAttribute("isUpdate", false);
+            model.addAttribute("isUpdate", false); // TODO RZ: move to constants
             return "application/update";
         }
         metaDataService.applicationSave(application);
         return "redirect:/configuration/applications";
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.POST)
+    @RequestMapping(value = "/{id}", method = RequestMethod.POST) // TODO RZ: add modify to URL
     public String saveUpdatedApplication(@Validated @ModelAttribute("application") Application application,
             BindingResult result, Model model) {
         if (result.hasErrors()) {

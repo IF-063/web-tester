@@ -13,7 +13,8 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.hibernate.validator.constraints.NotBlank;
 
 /**
- * The Request—ollection class represents {@code RequestCollection} entity stored in the database.
+ * The Request—ollection class represents {@code RequestCollection} entity
+ * stored in the database.
  * 
  * @author Yura Lubinec
  * @version 1.0
@@ -86,7 +87,7 @@ public class RequestCollection implements Serializable {
 
     @Override
     public boolean equals(Object obj) {
-        return EqualsBuilder.reflectionEquals(this, (RequestCollection) obj, true);
+        return EqualsBuilder.reflectionEquals(this, obj, true);
     }
 
     @Override

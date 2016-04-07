@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 import com.softserve.webtester.model.ResponseTimeType;
 
+//TODO VS: add JavaDoc.
 public class ReportFilterDTO implements Serializable {
 
     private static final long serialVersionUID = -358128122616172034L;
@@ -30,6 +31,5 @@ public class ReportFilterDTO implements Serializable {
     public void setResponseTimeFilterMarker(ResponseTimeType responseTimeFilterMarker) {
         this.responseTimeFilterMarker = responseTimeFilterMarker;
     }
-
 
 }

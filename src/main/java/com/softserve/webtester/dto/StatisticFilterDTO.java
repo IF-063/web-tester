@@ -8,18 +8,19 @@ import javax.validation.constraints.Size;
 import com.softserve.webtester.model.BuildVersion;
 import com.softserve.webtester.model.ResponseTimeType;
 
+// TODO YL: add JavaDoc.
 public class StatisticFilterDTO implements Serializable {
-    
+
     private static final long serialVersionUID = -8426535580134914033L;
-    
+
     @Size(min = 1)
     private int[] serviceId;
-    
+
     @Size(min = 1, max = 5)
     private int[] buildVersionId;
-    
+
     private ResponseTimeType responseTimeFilterMarker;
-    private List <BuildVersion> buildVersions;
+    private List<BuildVersion> buildVersions;
 
     public int[] getServiceId() {
         return serviceId;
@@ -44,7 +45,7 @@ public class StatisticFilterDTO implements Serializable {
     public void setResponseTimeFilterMarker(ResponseTimeType responseTimeFilterMarker) {
         this.responseTimeFilterMarker = responseTimeFilterMarker;
     }
-    
+
     public List<BuildVersion> getBuildVersions() {
         return buildVersions;
     }

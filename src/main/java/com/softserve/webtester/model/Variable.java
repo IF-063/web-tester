@@ -31,8 +31,6 @@ public class Variable implements Serializable {
     private Integer length;
     private Request request;
 
-    public Variable() { }
-
     public int getId() {
         return id;
     }

@@ -94,7 +94,7 @@ public interface EnvironmentMapper {
      */
     @UpdateProvider(type = EnvironmentSqlProvider.class, method = "deleteSql")
     int delete(Environment environment);
-    
+
     /**
      * Checks the unique of environment's name.
      * @param name property of Environment instance

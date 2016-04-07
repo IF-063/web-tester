@@ -9,6 +9,7 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import com.softserve.webtester.dto.RequestCollectionFilterDTO;
 import com.softserve.webtester.mapper.LabelMapper;
 import com.softserve.webtester.mapper.RequestCollectionMapper;
@@ -36,10 +37,6 @@ public class RequestCollectionService {
 
     @Autowired
     private LabelMapper labelMapper;
-
-//    @Autowired
-//    @Qualifier("requestCollectionNameCountPattern")
-//    private Pattern requestCollectionNameCountPattern;
 
     /**
      * Saves {@link RequestCollection} instance to the database.
@@ -72,9 +69,8 @@ public class RequestCollectionService {
     @Transactional
     public List<RequestCollection> loadAll(RequestCollectionFilterDTO requestCollectionFilterDTO) {
         String requestCollectionNameFilter = requestCollectionFilterDTO.getRequestCollectionNameFilter();
-        int[] labelFilter = requestCollectionFilterDTO.getLabelFilter();
         try {
-            return requestCollectionMapper.loadAll(requestCollectionNameFilter, labelFilter);
+            return requestCollectionMapper.loadAll(requestCollectionNameFilter, requestCollectionFilterDTO.getLabelFilter());
         } catch (DataAccessException e) {
             LOGGER.error("Unable to load RequestCollections", e);
             throw e;
@@ -92,7 +88,7 @@ public class RequestCollectionService {
         try {
             return requestCollectionMapper.load(id);
         } catch (DataAccessException e) {
-            LOGGER.error("Unable to load RequestCollection,RequestCollection id:" + id, e);
+            LOGGER.error("Unable to load RequestCollection, RequestCollection id:" + id, e);
             throw e;
         }
     }

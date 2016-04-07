@@ -31,7 +31,7 @@ public class ServiceController {
 
     @Autowired
     private MetaDataService metaDataService;
-    
+
     @Autowired
     private ServiceValidator serviceValidator;
 
@@ -40,13 +40,6 @@ public class ServiceController {
         binder.addValidators(serviceValidator);
     }
 
-    /*@RequestMapping(method = RequestMethod.GET)
-    public String getServiceList(Model model) {
-        List<Service> services = metaDataService.serviceLoadAll();
-        model.addAttribute("services", services);
-        return "service/list";
-    }*/
-    
     @RequestMapping(method = RequestMethod.GET)
     public String getNotDeletedServiceList(Model model) {
         List<Service> services = metaDataService.serviceLoadAllWithoutDeleted();
@@ -54,11 +47,11 @@ public class ServiceController {
         return "service/list";
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET) // TODO RZ: add modify to URL
     public String getService(@PathVariable(value = "id") Integer serviceId, Model model) {
         Service service = metaDataService.serviceLoad(serviceId);
         model.addAttribute("isUpdate", "true");
-        model.addAttribute("service", service);
+        model.addAttribute("service", service); // TODO RZ: move to constants 
         return "service/update";
     }
 
@@ -80,7 +73,7 @@ public class ServiceController {
         return "redirect:/configuration/services";
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.POST)
+    @RequestMapping(value = "/{id}", method = RequestMethod.POST) // TODO RZ: add modify to URL
     public String saveUpdatedService(@Validated @ModelAttribute("service") Service service, BindingResult result,
             Model model) {
         if (result.hasErrors()) {

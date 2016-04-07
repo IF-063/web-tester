@@ -4,41 +4,41 @@ import java.util.Random;
 import java.util.stream.Stream;
 
 /**
- * Enumeration of the variable data types can be used in the {@link Variable} instance.
+ * Enumeration of the variable data types can be used in the {@link Variable}
+ * instance.
  * 
  * @author Taras Oglabyak
  */
+// TODO VZ: Change to DIGIT and DIGIT FLOAT
 public enum VariableDataType {
 
     LONG {
         @Override
         public Stream<?> getRandomStream(int length) {
-            return new Random().ints(AsciiConstants.DIGIT_0, AsciiConstants.DIGIT_9)
-                    .mapToObj(i -> (char) i)
+            return new Random().ints(AsciiConstants.DIGIT_0, AsciiConstants.DIGIT_9).mapToObj(i -> (char) i)
                     .limit(length);
         }
     },
-    
+
     DOUBLE {
         @Override
         public Stream<?> getRandomStream(int length) {
-            return new Random().ints(AsciiConstants.DIGIT_0, AsciiConstants.DIGIT_9)
-                    .mapToObj(i -> (char) i)
+            return new Random().ints(AsciiConstants.DIGIT_0, AsciiConstants.DIGIT_9).mapToObj(i -> (char) i)
                     .limit(length + 2);
         }
     },
-    
+
     STRING {
         @Override
         public Stream<?> getRandomStream(int length) {
-            return new Random().ints(AsciiConstants.DIGIT_0, AsciiConstants.CHAR_LOW_Z)
-                        .filter(i -> (i < AsciiConstants.DIGIT_9 || i > AsciiConstants.CHAR_A) 
-                                    && (i < AsciiConstants.CHAR_Z || i > AsciiConstants.CHAR_LOW_A))
-                        .mapToObj(i -> (char) i)
-                        .limit(length);
+            return new Random()
+                    .ints(AsciiConstants.DIGIT_0, AsciiConstants.CHAR_LOW_Z)
+                    .filter(i -> (i < AsciiConstants.DIGIT_9 || i > AsciiConstants.CHAR_A)
+                            && (i < AsciiConstants.CHAR_Z || i > AsciiConstants.CHAR_LOW_A)).mapToObj(i -> (char) i)
+                    .limit(length);
         }
     };
-    
+
     public abstract Stream<?> getRandomStream(int length);
 
     private static class AsciiConstants {

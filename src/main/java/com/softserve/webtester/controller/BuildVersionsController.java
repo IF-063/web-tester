@@ -1,18 +1,22 @@
 package com.softserve.webtester.controller;
 
-import com.softserve.webtester.model.BuildVersion;
-import com.softserve.webtester.service.MetaDataService;
-import com.softserve.webtester.validator.BuildVersionValidator;
-import com.sun.javafx.sg.prism.NGShape;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
-import java.util.List;
+import com.softserve.webtester.model.BuildVersion;
+import com.softserve.webtester.service.MetaDataService;
+import com.softserve.webtester.validator.BuildVersionValidator;
 
 /**
  * Handles and retrieves {@link BuildVersion} pages depending on the URI template. A user must be log-in
@@ -42,7 +46,7 @@ public class BuildVersionsController {
     @RequestMapping(method = RequestMethod.GET)
     public String getBuildVersionsPage(Model model) {
         List<BuildVersion> buildVersions = metaDataService.loadAllBuildVersions();
-        model.addAttribute("buildVersions", buildVersions);
+        model.addAttribute("buildVersions", buildVersions); //TODO AM: move to constants
         return "buildVersion/buildVersions";
     }
 

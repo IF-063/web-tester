@@ -179,7 +179,7 @@ public class MetaDataService {
         try {
             return applicationMapper.isApplicationNameFree(name, exclusionId);
         } catch (DataAccessException e) {
-            LOGGER.error("Unable to check application's name, label's name: " + name, e);
+            LOGGER.error("Unable to check application's name " + name, e);
             throw e;
         }
     }
@@ -309,8 +309,8 @@ public class MetaDataService {
     /**
      * Checks the unique of service's name.
      *
-     * @param name - name of {@link Service} which should be checked       
-     * @param exclusionId - id of {@link Service} that should be excluded          
+     * @param name - name of {@link Service} which should be checked
+     * @param exclusionId - id of {@link Service} that should be excluded
      * @return true, if name is unique
      * @throws DataAccessException
      */

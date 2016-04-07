@@ -30,10 +30,11 @@ import com.softserve.webtester.dto.StatisticFilterDTO;
 public class ExcelReportGeneratorServise {
 
     private static final Logger LOGGER = Logger.getLogger(ExcelReportGeneratorServise.class);
-    
+
     private static final int STATIC_COLUMNS_NUMBER = 2;
+
     @Autowired
-    ReportService reportService;
+    private ReportService reportService;
 
     /**
      * Generate excel statistic reports
@@ -52,18 +53,18 @@ public class ExcelReportGeneratorServise {
             HSSFSheet spreadsheet = workbook.createSheet("StatisticReport");
             HSSFCellStyle style = workbook.createCellStyle();
             style.setAlignment(HSSFCellStyle.ALIGN_CENTER);
-            
+
             //create merged regions in the spreadsheet
             spreadsheet.addMergedRegion(new CellRangeAddress(0, 0, 2, bvListsize + 1));
             spreadsheet.addMergedRegion(new CellRangeAddress(0, 1, 0, 0));
             spreadsheet.addMergedRegion(new CellRangeAddress(0, 1, 1, 1));
             spreadsheet.addMergedRegion(new CellRangeAddress(0, 1, bvListsize + 2, buildVersionName.size() + 2));
-            
+
             //set auto size for non merged columns
             for (int l = 0; l <= STATIC_COLUMNS_NUMBER + bvListsize; l++) {
                 spreadsheet.autoSizeColumn(l);
             }
-            
+
             //create cells for the the table heading
             HSSFRow row = spreadsheet.createRow(0);
             HSSFCell cell = row.createCell(0);
@@ -79,14 +80,14 @@ public class ExcelReportGeneratorServise {
             cell.setCellValue("Average for the last three releases");
             cell.setCellStyle(style);
             row = spreadsheet.createRow(1);
-            
+
             //create cells with build versions name data
             for (int k = 0; k < bvListsize; k++) {
                 cell = row.createCell(STATIC_COLUMNS_NUMBER + k);
                 cell.setCellValue(buildVersionName.get(k));
                 cell.setCellStyle(style);
             }
-            
+
             //create rows and cells with table body data
             for (int i = 0; i < statisticData.size(); i++) {
                 row = spreadsheet.createRow(i + STATIC_COLUMNS_NUMBER);
@@ -106,12 +107,12 @@ public class ExcelReportGeneratorServise {
                 cell.setCellValue(statisticData.get(i).getAverageResponseTime());
                 cell.setCellStyle(style);                             
             }
-            
+
             //set auto size for merged regions 
             spreadsheet.autoSizeColumn(0, true);
             spreadsheet.autoSizeColumn(1, true);
             spreadsheet.autoSizeColumn(STATIC_COLUMNS_NUMBER + bvListsize, true);
-            
+
             try (ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
                 workbook.write(baos);
                 xls = baos.toByteArray();

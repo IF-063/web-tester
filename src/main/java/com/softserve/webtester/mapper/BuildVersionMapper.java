@@ -1,13 +1,21 @@
 package com.softserve.webtester.mapper;
 
-import com.softserve.webtester.model.BuildVersion;
-import org.apache.ibatis.annotations.*;
-import org.apache.ibatis.type.JdbcType;
-import org.springframework.stereotype.Repository;
-import org.springframework.dao.DataAccessException;
-
 import java.util.List;
 
+import org.apache.ibatis.annotations.Delete;
+import org.apache.ibatis.annotations.Insert;
+import org.apache.ibatis.annotations.Options;
+import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Result;
+import org.apache.ibatis.annotations.Results;
+import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
+import org.apache.ibatis.type.JdbcType;
+import org.springframework.dao.DataAccessException;
+import org.springframework.stereotype.Repository;
+
+import com.softserve.webtester.model.BuildVersion;
+//TODO AM: missed JAVA doc
 @Repository
 public interface BuildVersionMapper {
 

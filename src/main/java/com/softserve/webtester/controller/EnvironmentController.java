@@ -2,6 +2,7 @@ package com.softserve.webtester.controller;
 
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +21,7 @@ import com.softserve.webtester.model.Environment;
 import com.softserve.webtester.model.EnvironmentDbType;
 import com.softserve.webtester.service.EnvironmentService;
 import com.softserve.webtester.validator.EnvironmentValidator;
-
+// TODO VZ: JavaDoc
 @Controller
 @RequestMapping("/configuration/environments")
 public class EnvironmentController {
@@ -70,7 +71,7 @@ public class EnvironmentController {
         return "redirect:/configuration/environments";
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET) // TODO VZ: add modify to the URL
     public String getEnvironmentUpdatePage(@PathVariable int id, Model model) {
         model.addAttribute(PAGE_TASK, "Update");
         model.addAttribute("id", id);
@@ -80,7 +81,7 @@ public class EnvironmentController {
         return "environment/environmentCreateOrUpdate";
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.POST)
+    @RequestMapping(value = "/{id}", method = RequestMethod.POST) // TODO VZ: add modify to the URL
     public String updateEnvironment(@Validated @ModelAttribute Environment environment, BindingResult result, Model model) {
         if (result.hasErrors()) {
             model.addAttribute(PAGE_TASK, "Update");
@@ -99,20 +100,20 @@ public class EnvironmentController {
 
     @RequestMapping(value = "/check/{id}", method = RequestMethod.POST)
     public ResponseEntity<String> checkEnvironment(@PathVariable int id, Model model) {
-        String message = "";
+        String message = StringUtils.EMPTY;
         HttpStatus status = HttpStatus.OK;
         
         Environment environment = environmentService.load(id);
 
         try {
             environmentService.checkConnection(environment);
-            message = " " + environment.getName() + ": environment connection was checked successfully";
+            message = String.format("%s: environment connection was checked successfully", environment.getName());
         } catch (Exception e) {
-            message = " " + environment.getName() + ": environment check finished with  error:" + e.getMessage();
+            message = " " + environment.getName() + ": environment check finished with  error:" + e.getMessage(); // TODO VZ: !
             status = HttpStatus.BAD_REQUEST;
         }
         ResponseEntity<String> responseEntity = new ResponseEntity<String>(message, status);
-        
+
         return responseEntity;
     }
 }

@@ -25,7 +25,7 @@ public class VariableValidator implements Validator {
     public void validate(Object target, Errors errors) {
         Variable variable = (Variable) target;
         if (variable.isRandom()) {
-            if (variable.getLength() == null || variable.getLength() < 1)
+            if (variable.getLength() == null || variable.getLength() < 1) // TODO VZ: do not forget
             errors.rejectValue("length", "Valid.variable.length", "not valid");
         } else {
             ValidationUtils.rejectIfEmptyOrWhitespace(errors, "value", "NotBlank.variables.value");

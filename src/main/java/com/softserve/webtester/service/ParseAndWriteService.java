@@ -5,6 +5,7 @@ import java.sql.Timestamp;
 import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.http.ParseException;
 import org.apache.http.client.methods.HttpEntityEnclosingRequestBase;
 import org.apache.http.util.EntityUtils;
@@ -29,8 +30,11 @@ import com.softserve.webtester.model.Request;
 import com.softserve.webtester.model.RequestCollection;
 import com.softserve.webtester.model.ResultHistory;
 
+// TODO RZ: JavaDoc
 @Service
 public class ParseAndWriteService {
+
+    private static final Logger LOGGER = Logger.getLogger(ParseAndWriteService.class);
 
     @Autowired
     private RequestExecuteSupportService requestExecuteSupportService;
@@ -44,9 +48,7 @@ public class ParseAndWriteService {
     @Autowired
     private MetaDataService metaDataService;
 
-    private static final Logger LOGGER = Logger.getLogger(ParseAndWriteService.class);
-
-    private static String VELOCITY_LOG = "";
+    private static String VELOCITY_LOG = ""; // TODO RZ: fill Sth
 
     public int parseAndWrite(ResultsDTO resultsDTO) {
 
@@ -75,7 +77,7 @@ public class ParseAndWriteService {
                     int count = 0;
                     int timeSum = 0;
                     for (ResponseDTO responseDTOListElement : responseDTOList) {
-                        if (responseDTOListElement.getStatusCode() == 200) {
+                        if (responseDTOListElement.getStatusCode() == 200 && true /*TODO AM: check if actual response is equal to expected + other validation*/) { // TODO RZ: move to constants
                             timeSum += responseDTOListElement.getResponseTime();
                             count++;
                             resultHistory.setStatusLine(responseDTOListElement.getStatusLine());
@@ -83,18 +85,14 @@ public class ParseAndWriteService {
                                     requestExecuteSupportService.format(responseDTOListElement.getResponseBody()));
                         }
                         resultHistory.setResponseTime(timeSum/count);
-                        if (count == 5) {
-                            statusIndicator = true;
-                        }
+                        statusIndicator = (count == 5); // TODO RZ: move to constants use from property file, which Anton should extract
                     }
                 } else {
                     ResponseDTO responseDTO = responseDTOList.get(0);
                     resultHistory.setResponseTime(responseDTO.getResponseTime());
                     resultHistory.setStatusLine(responseDTO.getStatusLine());
                     resultHistory.setActualResponse(requestExecuteSupportService.format(responseDTO.getResponseBody()));
-                    if (responseDTO.getStatusCode() == 200) {
-                        statusIndicator = true;
-                    }
+                    statusIndicator = (responseDTO.getStatusCode() == 200); // TODO RZ: move to constants
                 }
 
                 // RESULT_HISTORY
@@ -109,17 +107,17 @@ public class ParseAndWriteService {
                 resultHistory.setTimeStart(new Timestamp(System.currentTimeMillis()));
                 resultHistory.setExpectedResponseTime(request.getTimeout());
 
-                    try {
-                        if ((requestDTO.getHttpRequest().getMethod().equals("GET"))
-                                ^ (requestDTO.getHttpRequest().getMethod().equals("DELETE"))) {
-                            resultHistory.setRequestBody(null);
-                        } else
-                            resultHistory.setRequestBody(EntityUtils.toString(
-                                    ((HttpEntityEnclosingRequestBase) requestDTO.getHttpRequest()).getEntity()));
+                try {
+                    if ((requestDTO.getHttpRequest().getMethod().equals("GET"))
+                            ^ (requestDTO.getHttpRequest().getMethod().equals("DELETE"))) {
+                        resultHistory.setRequestBody(null);
+                    } else {
+                        resultHistory.setRequestBody(EntityUtils.toString(((HttpEntityEnclosingRequestBase) requestDTO
+                                .getHttpRequest()).getEntity()));
+                    }
 
                     resultHistory.setExpectedResponse(requestExecuteSupportService.getEvaluatedString(
                             request.getExpectedResponse(), requestDTO.getVariableList(), VELOCITY_LOG));
-
 
                 } catch (ParseException | IOException e1) {
                     LOGGER.info(e1);
@@ -135,16 +133,8 @@ public class ParseAndWriteService {
                     BuildVersion bv = metaDataService.loadBuildVersionById(buildVersionId);
                     resultHistory.setBuildVersion(bv);
                 }
-
-                if ((statusIndicator == true) && (messages(resultHistory, request, requestDTO, dbValidationHistory).equals("OK"))){
-                    resultHistory.setStatus(true);
-                } else {
-                    resultHistory.setStatus(false);
-                }
-                resultHistory.setMessage(messages(resultHistory, request, requestDTO, dbValidationHistory));
-                resultHistoryService.save(resultHistory);
-
-                //DB-VALIDATION
+                
+              //DB-VALIDATION
 
                 if (CollectionUtils.isNotEmpty(request.getDbValidations())) {
                     List<DbValidation> dbValidations = (request.getDbValidations());
@@ -157,14 +147,23 @@ public class ParseAndWriteService {
                         } catch (Exception e) {
                             // TODO Auto-generated catch block
                             e.printStackTrace();
+                            // TODO RZ: set NULL and message to the validation messages
                         }
 
-                            LOGGER.info("DB_VALIDATION   " + dbValidationHistory);
-                            dbValidationHistory.setResultHistory(resultHistory);
-                        }
-                        resultHistoryService.saveDbValidationHistory(dbValidationHistory);
+                        LOGGER.info("DB_VALIDATION   " + dbValidationHistory);
+                        dbValidationHistory.setResultHistory(resultHistory);
                     }
+                }
 
+                String validationMessages = getValidationMessages(resultHistory, request, requestDTO, dbValidationHistory);
+                resultHistory.setStatus(statusIndicator && isValidResponse(validationMessages));
+                resultHistory.setMessage(validationMessages);
+                resultHistoryService.save(resultHistory);
+
+                if (CollectionUtils.isNotEmpty(request.getDbValidations())) {
+                    dbValidationHistory.setResultHistory(resultHistory);
+                    resultHistoryService.saveDbValidationHistory(dbValidationHistory);
+                }
                     // ENVIRONMENT_HISTORY
 
                 environmentHistory.setResultHistory(resultHistory);
@@ -205,35 +204,46 @@ public class ParseAndWriteService {
         return runId;
     }
 
-    public String messages(ResultHistory resultHistory, Request request, RequestDTO requestDTO,
+    private boolean isValidResponse(String validationMessages) {
+        return validationMessages.equals("OK");
+    }
+
+    public String getValidationMessages(ResultHistory resultHistory, Request request, RequestDTO requestDTO,
             DbValidationHistory dbValidationHistory) {
         String message = null;
         String type = null;
-        if(resultHistory.getExpectedResponse().startsWith("<")){
+        if (resultHistory.getExpectedResponse().startsWith("<")) {
             type = "XML";
-        }else type = "JSON";
+        } else {
+            type = "JSON";
+        }
         
-        if (!resultHistory.getExpectedResponse().equalsIgnoreCase(resultHistory.getActualResponse()) 
-                & (!requestDTO.getHttpRequest().getMethod().equals("POST"))) {
-            message = "Actual response does not match the expected one";
+
+        if (!resultHistory.getExpectedResponse().equalsIgnoreCase(resultHistory.getActualResponse())
+                && (!requestDTO.getHttpRequest().getMethod().equals("POST"))) { // TODO RZ: use Enum RequestMethod
+            message += "Actual response does not match the expected one";
         }
         if ((!requestDTO.getHttpRequest().getMethod().equals("GET"))
-                && (!requestDTO.getHttpRequest().getMethod().equals("POST"))) {
-            message = "Unsupported request method";
+                && (!requestDTO.getHttpRequest().getMethod().equals("POST"))) { // TODO RZ: use Enum RequestMethod, ie RequestMethod.USED.name()
+            message += "Unsupported request method";
         }
         if (!type.equalsIgnoreCase(request.getResponseType().getTextValue())) {
             LOGGER.info("TYPE " + request.getResponseType().getTextValue());
-            message = "Wrong content type";
+            message += "Wrong content type";
         }
         if (resultHistory.getResponseTime() > resultHistory.getExpectedResponseTime()) {
-            message = "Response time exceeded timeout value";
+            message += "Response time exceeded timeout value";
         }
 
-        /*if (dbValidationHistory.getExpectedValue().equals(dbValidationHistory.getActualValue())) {
-         message = "At least one db validation expected value is not equal to the actual one";
-        }*/
+        /*
+         * if
+         * (dbValidationHistory.getExpectedValue().equals(dbValidationHistory.
+         * getActualValue())) { message =
+         * "At least one db validation expected value is not equal to the actual one"
+         * ; }
+         */
 
-        if (message == null) {
+        if (StringUtils.isBlank(message)) {
             message = "OK";
         }
         return message;

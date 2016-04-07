@@ -30,8 +30,6 @@ public class Header implements Serializable {
     private String value;
     private Request request;
 
-    public Header() { }
-
     public int getId() {
         return id;
     }

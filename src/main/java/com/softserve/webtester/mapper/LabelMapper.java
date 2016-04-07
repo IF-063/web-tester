@@ -18,7 +18,7 @@ import com.softserve.webtester.model.Label;
 import com.softserve.webtester.model.Request;
 import com.softserve.webtester.model.RequestCollection;
 import com.softserve.webtester.model.ResultHistory;
-
+//TODO AM: missed JAVA doc
 @Repository
 public interface LabelMapper {
 

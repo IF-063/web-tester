@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.List;
 
-import oracle.sql.TIMESTAMP;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -41,9 +40,6 @@ public class ResultHistory implements Serializable {
     private List<Label> labels;
     private List<HeaderHistory> headerHistories;
     private List<DbValidationHistory> dbValidationHistories;
-
-    public ResultHistory() {
-    }
 
     public int getId() {
         return id;

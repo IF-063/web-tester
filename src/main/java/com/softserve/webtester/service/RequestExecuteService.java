@@ -1,11 +1,12 @@
 package com.softserve.webtester.service;
 
-import com.softserve.webtester.dto.CollectionResultDTO;
-import com.softserve.webtester.dto.RequestDTO;
-import com.softserve.webtester.dto.RequestResultDTO;
-import com.softserve.webtester.dto.ResponseDTO;
-import com.softserve.webtester.model.Environment;
-import com.softserve.webtester.model.Request;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.http.HttpEntity;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.CloseableHttpResponse;
@@ -17,24 +18,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.URISyntaxException;
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
+import com.softserve.webtester.dto.CollectionResultDTO;
+import com.softserve.webtester.dto.RequestDTO;
+import com.softserve.webtester.dto.RequestResultDTO;
+import com.softserve.webtester.dto.ResponseDTO;
+import com.softserve.webtester.model.Environment;
+import com.softserve.webtester.model.Request;
 
 @Service
 public class RequestExecuteService {
 
-    private static final int SAMPLE_FOR_BUILD_VERSION = 5;
     private static final Logger LOGGER = Logger.getLogger(RequestExecuteService.class);
 
-    @Autowired
-    private EnvironmentService environmentService;
+    private static final int SAMPLE_FOR_BUILD_VERSION = 5; // Move to property file
 
     @Autowired
     private BuildHttpRequestService buildHttpRequestService;
@@ -52,20 +48,21 @@ public class RequestExecuteService {
      * @return CollectionResultDTO, object which consists of collection id, list of RequestResultDTO
      */
     public CollectionResultDTO executeRequests(Environment environment, List<Request> requestList,
-                                               boolean ifBuildVerExist, int collectionId) {
+            boolean ifBuildVerExist, int collectionId) {
 
         CollectionResultDTO collectionResultDTO = new CollectionResultDTO();
         List<RequestResultDTO> requestResultDTOList = new ArrayList<>();
 
-        RequestConfig config = RequestConfig.custom()
-                .setConnectTimeout(defaultTimeout * 1000)
-                .setConnectionRequestTimeout(defaultTimeout * 1000)
-                .setSocketTimeout(defaultTimeout * 1000).build();
+        RequestConfig config = RequestConfig.custom().setConnectTimeout(defaultTimeout * 1000) // Calculate
+                                                                                               // once
+                                                                                               // and
+                                                                                               // reuse
+                                                                                               // everywhere
+                .setConnectionRequestTimeout(defaultTimeout * 1000).setSocketTimeout(defaultTimeout * 1000).build();
 
-
-        try (CloseableHttpClient httpClient = HttpClientBuilder.create().setDefaultRequestConfig(config).build()) {
-
-            for (Request request : requestList) {
+        for (Request request : requestList) {
+            // move into lopp below
+            try (CloseableHttpClient httpClient = HttpClientBuilder.create().setDefaultRequestConfig(config).build()) {
                 RequestResultDTO requestResultDTO = new RequestResultDTO();
                 RequestDTO requestDTO = buildHttpRequestService.getHttpRequest(request, environment);
                 HttpRequestBase requestBase = requestDTO.getHttpRequest();
@@ -85,17 +82,17 @@ public class RequestExecuteService {
                 requestResultDTO.setRequestDTO(requestDTO);
                 requestResultDTO.setResponses(responseDTOList);
                 requestResultDTOList.add(requestResultDTO);
+            } catch (Exception e) {
+                LOGGER.error("Cannot prepare response for sending: " + e.getMessage(), e);
+                // TODO AM: Set RequestDTO and responses in the RequestResultDTO
+                // to Null.
+                // TODO RZ: Check this in you functionality
             }
-
-            collectionResultDTO.setCollectionId(collectionId);
-            collectionResultDTO.setRequestResultDTOList(requestResultDTOList);
-            return collectionResultDTO;
-
-        } catch (Exception e) {
-            LOGGER.error(e.getMessage(), e);
         }
 
-        return null;
+        collectionResultDTO.setCollectionId(collectionId);
+        collectionResultDTO.setRequestResultDTOList(requestResultDTOList);
+        return collectionResultDTO;
     }
 
     /**
@@ -105,13 +102,13 @@ public class RequestExecuteService {
      */
     private ResponseDTO executeOneRequest(CloseableHttpClient httpClient, HttpRequestBase requestBase) {
 
-        ResponseDTO responseDTO = new ResponseDTO();
-
         long start = System.currentTimeMillis();
 
-        try(CloseableHttpResponse response = httpClient.execute(requestBase)) {
+        try (CloseableHttpResponse response = httpClient.execute(requestBase)) {
 
-            int responseTime = (int)(System.currentTimeMillis() - start);
+            ResponseDTO responseDTO = new ResponseDTO();
+            
+            int responseTime = (int) (System.currentTimeMillis() - start); // Do not expect to have more than 2147483647, because max response timeout is 60000.
 
             int statusCode = response.getStatusLine().getStatusCode();
 
@@ -120,25 +117,25 @@ public class RequestExecuteService {
             responseDTO.setStatusCode(statusCode);
             responseDTO.setReasonPhrase(response.getStatusLine().getReasonPhrase());
 
-            if ((statusCode >= 200)&&(statusCode<400)) {
+            if ((statusCode >= 200) && (statusCode < 400)) {
 
                 HttpEntity entity = response.getEntity();
                 if (entity != null) {
                     InputStream inputStream = entity.getContent();
                     BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
-                    String s = reader.readLine();
-                    responseDTO.setResponseBody(s);
-                    reader.close();
+                    String responseBody = reader.readLine();
+                    responseDTO.setResponseBody(responseBody);
+                    reader.close(); // TODO AM: close in finally block
                     inputStream.close();
+                    // TODO AM: separate catch for Response body reading
                 }
             }
 
             return responseDTO;
 
         } catch (IOException e) {
-            LOGGER.error(e.getMessage(), e);
+            LOGGER.error("Exception occured during request sending. " + e.getMessage(), e);
         }
-
         return null;
     }
 

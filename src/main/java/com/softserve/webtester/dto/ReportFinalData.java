@@ -3,7 +3,7 @@ package com.softserve.webtester.dto;
 import java.io.Serializable;
 import java.util.Arrays;
 
-
+//TODO VS: add JavaDoc. Delete!!!
 public class ReportFinalData implements Serializable {
 
     private static final long serialVersionUID = -2171163275081951223L;

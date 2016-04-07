@@ -1,26 +1,23 @@
 package com.softserve.webtester.service;
 
-import java.io.IOException;
-import java.io.StringWriter;
 import java.net.URI;
-import java.net.URISyntaxException;
-import java.sql.Connection;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.softserve.webtester.model.*;
 import org.apache.http.HttpEntity;
-import org.apache.http.ParseException;
 import org.apache.http.client.methods.HttpEntityEnclosingRequestBase;
 import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.entity.StringEntity;
-import org.apache.velocity.VelocityContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.softserve.webtester.dto.RequestDTO;
+import com.softserve.webtester.model.Environment;
+import com.softserve.webtester.model.Header;
+import com.softserve.webtester.model.Request;
+import com.softserve.webtester.model.Variable;
+import com.softserve.webtester.model.VariableDataType;
 
 /**
  * BuildHttpRequestService class allows create http requests based on Request
@@ -56,11 +53,10 @@ public class BuildHttpRequestService {
         if (request.getVariables() != null) {
             List<Variable> variableList = getListVarables(request, environment);
             requestDTO.setVariableList(variableList);
-            if (httpRequest.getMethod().equals("POST")) {
+            if (httpRequest.getMethod().equals("POST")) { // TODO VZ: use enum
                 HttpEntityEnclosingRequestBase httpEntityEnclosingRequest = (HttpEntityEnclosingRequestBase) httpRequest;
-                String logString = "Request body";
                 HttpEntity entity = new StringEntity(requestExecuteSupportService
-                        .getEvaluatedString(request.getRequestBody(), variableList, logString));
+                        .getEvaluatedString(request.getRequestBody(), variableList, "Request body"));
                 httpEntityEnclosingRequest.setEntity(entity);
                 requestDTO.setHttpRequest(httpEntityEnclosingRequest);
                 return requestDTO;

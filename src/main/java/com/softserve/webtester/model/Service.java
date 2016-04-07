@@ -11,14 +11,13 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
-
 /**
  * The Service class represents {@code Service} entity stored in the database.
  *
  * @author Roman Zolotar
  * @version 1.3
  */
-
+// TODO RZ: extend from AbstractDomain
 public class Service implements Serializable {
 
     private static final long serialVersionUID = -5386109568829000931L;
@@ -30,13 +29,14 @@ public class Service implements Serializable {
 
     @Size(max = 255)
     private String description;
-    
+
     @Digits(fraction = 0, integer = 9)
     @DecimalMin("1")
     private Integer sla;
 
     private boolean deleted;
 
+    // TODO RZ: do not need
     public Service() {
     }
 
@@ -63,12 +63,12 @@ public class Service implements Serializable {
     public void setDescription(String description) {
         this.description = description;
     }
-    
-    public Integer getSla(){
+
+    public Integer getSla() {
         return sla;
     }
-    
-    public void setSla(Integer sla){
+
+    public void setSla(Integer sla) {
         this.sla = sla;
     }
 

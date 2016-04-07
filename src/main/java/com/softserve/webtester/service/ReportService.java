@@ -25,7 +25,7 @@ import com.softserve.webtester.mapper.ReportMapper;
  */
 @Service
 public class ReportService {
-    
+
     private static final Logger LOGGER = Logger.getLogger(ReportService.class);
 
     @Autowired
@@ -66,8 +66,9 @@ public class ReportService {
     public List<ReportDataDTO> loadWithAvarageResponseTime(int serviceId, int[] buildVersionIds) {
         try {
             return reportMapper.loadAvg(serviceId, buildVersionIds);
+            //String join = StringUtils.join(buildVersionIds, ",");
         } catch (DataAccessException e) {
-            LOGGER.error("Unable to load ResponseTime for request", e);
+            LOGGER.error("Unable to load ResponseTime for request", e); // TODO VS: Add information into Log message
             throw e;
         }
     }
@@ -121,7 +122,7 @@ public class ReportService {
         try {
             return reportMapper.loadAvgStatistic(serviceId, buildVersionIds);
         } catch (DataAccessException e) {
-            LOGGER.error("Unable to load ResponseTime for request", e);
+            LOGGER.error("Unable to load ResponseTime for request", e); // TODO VS: Add information into Log message
             throw e;
         }
     }
@@ -134,18 +135,17 @@ public class ReportService {
         try {
             return reportMapper.loadMaxStatistic(serviceId, buildVersionIds);
         } catch (DataAccessException e) {
-            LOGGER.error("Unable to load ResponseTime for request", e);
+            LOGGER.error("Unable to load ResponseTime for request", e); // TODO VS: Add information into Log message
             throw e;
         }
     }
-   
+
     /**
      * Generate list of build versions names for statistic report
      * 
      * @param statisticFilterDTO DTO object using for filtering statistic data
      * @return list of build versions names
      */
-    @Transactional
     public List<String> loadBuildVersionsName(StatisticFilterDTO statisticFilterDTO) {
         List<Integer> statisticsBuildVersionsId = IntStream.of(statisticFilterDTO.getBuildVersionId()).boxed()
                 .collect(Collectors.toList());

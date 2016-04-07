@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
+
 import com.softserve.webtester.model.RequestCollection;
 import com.softserve.webtester.service.RequestCollectionService;
 
@@ -30,7 +31,7 @@ public class CollectionValidator implements Validator {
         RequestCollection requestCollection = (RequestCollection) target;
         if (!requestCollectionService.isRequestCollectionNameFree(requestCollection.getName(),
                 requestCollection.getId())) {
-            errors.rejectValue("name", null, "name should be unique");
+            errors.rejectValue("name", null, "name should be unique"); // TODO YL: move to validation properties
         }
 
     }

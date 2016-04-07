@@ -34,8 +34,6 @@ public class User implements Serializable {
 
     private String lastName;
 
-    public User() { }
-
     public int getId() {
         return id;
     }

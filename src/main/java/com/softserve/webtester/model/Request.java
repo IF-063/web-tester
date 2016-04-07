@@ -67,8 +67,6 @@ public class Request implements Serializable {
     @Valid
     private List<DbValidation> dbValidations;
 
-    public Request() { }
-
     public int getId() {
         return id;
     }

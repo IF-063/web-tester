@@ -1,17 +1,17 @@
 package com.softserve.webtester.model;
 
+import java.io.Serializable;
+
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
-import java.io.Serializable;
 
 /**
  * HeaderHistory class representing a database object.
  *
  * @author Viktor Syomka
  */
-
-    public class DbValidationHistory implements Serializable {
+public class DbValidationHistory implements Serializable {
 
     private static final long serialVersionUID = 660145260667703463L;
 
@@ -20,19 +20,6 @@ import java.io.Serializable;
     private String expectedValue;
     private String actualValue;
     private ResultHistory resultHistory;
-
-    public DbValidationHistory(long id, String sqlQuery, String expectedValue, String actualValue,
-                               ResultHistory resultHistory) {
-        this.id = id;
-        this.sqlQuery = sqlQuery;
-        this.expectedValue = expectedValue;
-        this.actualValue = actualValue;
-        this.resultHistory = resultHistory;
-    }
-
-    public DbValidationHistory(){
-
-    }
 
     public long getId() {
         return id;
