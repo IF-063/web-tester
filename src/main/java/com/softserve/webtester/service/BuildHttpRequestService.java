@@ -9,6 +9,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.softserve.webtester.model.*;
 import org.apache.http.HttpEntity;
 import org.apache.http.ParseException;
 import org.apache.http.client.methods.HttpEntityEnclosingRequestBase;
@@ -20,10 +21,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.softserve.webtester.dto.RequestDTO;
-import com.softserve.webtester.model.Header;
-import com.softserve.webtester.model.Request;
-import com.softserve.webtester.model.Variable;
-import com.softserve.webtester.model.VariableDataType;
 
 /**
  * BuildHttpRequestService class allows create http requests based on Request
@@ -43,12 +40,12 @@ public class BuildHttpRequestService {
      * @param request
      * @throws Exception
      */
-    public RequestDTO getHttpRequest(Request request, String host, Connection dbCon) throws Exception {
+    public RequestDTO getHttpRequest(Request request, Environment environment) throws Exception {
 
         RequestDTO requestDTO = new RequestDTO();
         HttpRequestBase httpRequest = request.getRequestMethod().getHttpRequest();
 
-        URI uri = new URIBuilder(host + request.getEndpoint()).build();
+        URI uri = new URIBuilder(environment.getBaseUrl() + request.getEndpoint()).build();
         httpRequest.setURI(uri);
 
         if (request.getHeaders() != null) {
@@ -57,7 +54,7 @@ public class BuildHttpRequestService {
             }
         }
         if (request.getVariables() != null) {
-            List<Variable> variableList = getListVarables(request, dbCon);
+            List<Variable> variableList = getListVarables(request, environment);
             requestDTO.setVariableList(variableList);
             if (httpRequest.getMethod().equals("POST")) {
                 HttpEntityEnclosingRequestBase httpEntityEnclosingRequest = (HttpEntityEnclosingRequestBase) httpRequest;
@@ -99,11 +96,12 @@ public class BuildHttpRequestService {
      * body or expected HttpResponse body or SQL queries for DB validation
      * @throws Exception
      */
-    private List<Variable> getListVarables(Request request, Connection dbCon) throws Exception {
+    private List<Variable> getListVarables(Request request, Environment environment) throws Exception {
         List<Variable> variableList = new ArrayList<Variable>();
         for (Variable variable : request.getVariables()) {
             if (variable.isSql()) {
-                String variableValue = requestExecuteSupportService.getExecutedQueryValue(dbCon, variable.getValue());
+                String variableValue = requestExecuteSupportService.getExecutedQueryValue(environment,
+                        variable.getValue());
                 variable.setValue(variableValue);
                 variableList.add(variable);
             } else if (variable.isRandom()) {

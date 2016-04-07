@@ -64,7 +64,7 @@ public class RunService {
 
         int runId = resultHistoryService.getMaxId() + 1;
         LOGGER.info("Generated run id: " + runId);
-        
+
         return parseAndWriteService.parseAndWrite(execute(environment, buildVersionId, collectionIdArray, runId));
 
     }

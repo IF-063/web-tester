@@ -15,6 +15,7 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 
+import com.softserve.webtester.model.Environment;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.apache.velocity.VelocityContext;
@@ -36,28 +37,37 @@ public class RequestExecuteSupportService {
 
     @Autowired
     private VelocityEngine velocityEngine;
+
+    @Autowired
+    private EnvironmentService environmentService;
     
     /**
      * Get value from executed SQL query on given connection builded on Environment 
      * @param input connection and query
      * @return string value
      */
-    public String getExecutedQueryValue(Connection dbCon, String sqlQuery) throws SQLException {
+    public String getExecutedQueryValue(Environment environment, String sqlQuery) throws SQLException {
         String result = null;
-        try {
-            if (sqlQuery.trim().toLowerCase().startsWith("select")) {
+        if (sqlQuery.trim().toLowerCase().startsWith("select")) {
+            Connection dbCon = null;
+            try {
+                dbCon = environmentService.getConnection(environment);
                 Statement statement = dbCon.createStatement();
                 ResultSet results = statement.executeQuery(sqlQuery);
                 while(results.next()) {
                     result = results.getString(1);
                 }
-                return result;
-            } else {
-                return result;
+            } catch (SQLException e) {
+                LOGGER.error("Could not execute query: " + sqlQuery, e);
+                throw e;
+            } catch (Exception e) {
+
+            } finally {
+                dbCon.close();
             }
-        } catch (SQLException e) {
-            LOGGER.error("Could not execute query: " + sqlQuery, e);
-            throw e;
+            return result;
+        } else {
+            return result;
         }
     }
     
