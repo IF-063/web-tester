@@ -12,6 +12,7 @@
   <div class="col-md-12">
     <div class="panel panel-default">
       <div class="panel-heading">
+          <h3>Collection Results</h3>
         <form:form modelAttribute="resultCollectionFilterDTO" method="GET">
           <fieldset>
             <h4>Filters</h4>
@@ -56,7 +57,6 @@
               <th>Build Version Name</th>
               <th>Start Time</th>
               <th>Status</th>
-              <th>Message</th>
               <th>Request results</th>
               <th>Delete</th>
             </tr>
@@ -78,7 +78,6 @@
                   <td class="td-centered">${result.buildVersion.name}</td>
                   <td class="td-centered">${result.timeStart}</td>
                   <td class="td-centered">${(result.status==true)?'pass':'fail'}</td>
-                  <td>${result.message}</td>
                   <td class="td-centered"><a href=<c:url value="/results/collections/${result.requestCollection.getId()}?runId=${result.runId}" />>request results</a></td>
                   <td class="td-centered">
                     <a class="removeInstance cursorPointer fa fa-trash fa-lg"

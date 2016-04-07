@@ -233,7 +233,7 @@ public interface ResultHistoryMapper {
      * @throws DataAccessException
      */
     @Select({"SELECT id, runId, requestCollectionId, buildVersionId, status, message," +
-            " timeStart FROM ResultHistory WHERE runId = #{id}"})
+            " timeStart FROM ResultHistory WHERE runId = #{id} GROUP BY requestCollectionId"})
     @Results({
             @Result(id = true, property = "id", column = "id", jdbcType = JdbcType.INTEGER),
             @Result(property = "runId", column = "runId", jdbcType = JdbcType.INTEGER),
