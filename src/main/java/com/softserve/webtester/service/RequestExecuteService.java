@@ -19,7 +19,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.softserve.webtester.dto.CollectionResultDTO;
-import com.softserve.webtester.dto.RequestDTO;
+import com.softserve.webtester.dto.PreparedRequestDTO;
 import com.softserve.webtester.dto.RequestResultDTO;
 import com.softserve.webtester.dto.ResponseDTO;
 import com.softserve.webtester.model.Environment;
@@ -64,8 +64,8 @@ public class RequestExecuteService {
             // move into lopp below
             try (CloseableHttpClient httpClient = HttpClientBuilder.create().setDefaultRequestConfig(config).build()) {
                 RequestResultDTO requestResultDTO = new RequestResultDTO();
-                RequestDTO requestDTO = buildHttpRequestService.getHttpRequest(request, environment);
-                HttpRequestBase requestBase = requestDTO.getHttpRequest();
+                PreparedRequestDTO preparedRequestDTO = buildHttpRequestService.getHttpRequest(request, environment);
+                HttpRequestBase requestBase = preparedRequestDTO.getHttpRequest();
                 List<ResponseDTO> responseDTOList = new ArrayList<>();
                 ResponseDTO responseDTO;
 
@@ -79,12 +79,12 @@ public class RequestExecuteService {
                     responseDTOList.add(responseDTO);
                 }
                 requestResultDTO.setRequest(request);
-                requestResultDTO.setRequestDTO(requestDTO);
+                requestResultDTO.setPreparedRequestDTO(preparedRequestDTO);
                 requestResultDTO.setResponses(responseDTOList);
                 requestResultDTOList.add(requestResultDTO);
             } catch (Exception e) {
                 LOGGER.error("Cannot prepare response for sending: " + e.getMessage(), e);
-                // TODO AM: Set RequestDTO and responses in the RequestResultDTO
+                // TODO AM: Set PreparedRequestDTO and responses in the RequestResultDTO
                 // to Null.
                 // TODO RZ: Check this in you functionality
             }

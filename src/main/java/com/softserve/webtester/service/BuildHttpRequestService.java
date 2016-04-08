@@ -12,7 +12,7 @@ import org.apache.http.entity.StringEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.softserve.webtester.dto.RequestDTO;
+import com.softserve.webtester.dto.PreparedRequestDTO;
 import com.softserve.webtester.model.Environment;
 import com.softserve.webtester.model.Header;
 import com.softserve.webtester.model.Request;
@@ -31,15 +31,15 @@ public class BuildHttpRequestService {
     private RequestExecuteSupportService requestExecuteSupportService;
 
     /**
-     * Create instance RequestDTO which contains instance of HttpRequest and
+     * Create instance PreparedRequestDTO which contains instance of HttpRequest and
      * list of generated Variable
      * 
      * @param request
      * @throws Exception
      */
-    public RequestDTO getHttpRequest(Request request, Environment environment) throws Exception {
+    public PreparedRequestDTO getHttpRequest(Request request, Environment environment) throws Exception {
 
-        RequestDTO requestDTO = new RequestDTO();
+        PreparedRequestDTO preparedRequestDTO = new PreparedRequestDTO();
         HttpRequestBase httpRequest = request.getRequestMethod().getHttpRequest();
 
         URI uri = new URIBuilder(environment.getBaseUrl() + request.getEndpoint()).build();
@@ -52,26 +52,26 @@ public class BuildHttpRequestService {
         }
         if (request.getVariables() != null) {
             List<Variable> variableList = getListVarables(request, environment);
-            requestDTO.setVariableList(variableList);
+            preparedRequestDTO.setVariableList(variableList);
             if (httpRequest.getMethod().equals("POST")) { // TODO VZ: use enum
                 HttpEntityEnclosingRequestBase httpEntityEnclosingRequest = (HttpEntityEnclosingRequestBase) httpRequest;
                 HttpEntity entity = new StringEntity(requestExecuteSupportService
                         .getEvaluatedString(request.getRequestBody(), variableList, "Request body"));
                 httpEntityEnclosingRequest.setEntity(entity);
-                requestDTO.setHttpRequest(httpEntityEnclosingRequest);
-                return requestDTO;
+                preparedRequestDTO.setHttpRequest(httpEntityEnclosingRequest);
+                return preparedRequestDTO;
             }
         } else {
             if (httpRequest.getMethod().equals("POST")) {
                 HttpEntityEnclosingRequestBase httpEntityEnclosingRequest = (HttpEntityEnclosingRequestBase) httpRequest;
                 HttpEntity entity = new StringEntity(request.getRequestBody());
                 httpEntityEnclosingRequest.setEntity(entity);
-                requestDTO.setHttpRequest(httpEntityEnclosingRequest);
-                return requestDTO;
+                preparedRequestDTO.setHttpRequest(httpEntityEnclosingRequest);
+                return preparedRequestDTO;
             }
         }
-        requestDTO.setHttpRequest(httpRequest);
-        return requestDTO;
+        preparedRequestDTO.setHttpRequest(httpRequest);
+        return preparedRequestDTO;
     }
 
     /**

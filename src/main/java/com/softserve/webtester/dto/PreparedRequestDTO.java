@@ -7,10 +7,9 @@ import org.apache.http.client.methods.HttpRequestBase;
 
 import com.softserve.webtester.model.Variable;
 
-//TODO VZ: Rename to PreparedRequest
-public class RequestDTO implements Serializable{
+public class PreparedRequestDTO implements Serializable{
 
-    private static final long serialVersionUID = 2968059848794816910L;
+    private static final long serialVersionUID = -6980876513363543600L;
     
     private HttpRequestBase httpRequest;
     private List<Variable> variableList;

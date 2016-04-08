@@ -14,7 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.softserve.webtester.dto.CollectionResultDTO;
-import com.softserve.webtester.dto.RequestDTO;
+import com.softserve.webtester.dto.PreparedRequestDTO;
 import com.softserve.webtester.dto.RequestResultDTO;
 import com.softserve.webtester.dto.ResponseDTO;
 import com.softserve.webtester.dto.ResultsDTO;
@@ -67,10 +67,10 @@ public class ParseAndWriteService {
 
             for (RequestResultDTO requestResult : requestResultDTOList) {
                 Request request = requestResult.getRequest();
-                RequestDTO requestDTO = requestResult.getRequestDTO();
+                PreparedRequestDTO preparedRequestDTO = requestResult.getPreparedRequestDTO();
                 List<ResponseDTO> responseDTOList = requestResult.getResponses();
 
-                savingResultHistory(request, resultHistory, requestDTO, resultsDTO, responseDTOList, collectionId,
+                savingResultHistory(request, resultHistory, preparedRequestDTO, resultsDTO, responseDTOList, collectionId,
                         dbValidationHistory);
                 savingEnvironmentHistory(environmentHistory, resultHistory, resultsDTO);
                 savingHeaderHistory(request, headerHistory, resultHistory);
@@ -80,7 +80,7 @@ public class ParseAndWriteService {
         return runId;
     }
 
-    public void savingResultHistory(Request request, ResultHistory resultHistory, RequestDTO requestDTO,
+    public void savingResultHistory(Request request, ResultHistory resultHistory, PreparedRequestDTO preparedRequestDTO,
             ResultsDTO resultsDTO, List<ResponseDTO> responseDTOList, int collectionId,
             DbValidationHistory dbValidationHistory) {
         
@@ -123,22 +123,22 @@ public class ParseAndWriteService {
         resultHistory.setRequest(request);
         resultHistory.setRequestName(request.getName());
         resultHistory.setRequestDescription(request.getDescription());
-        resultHistory.setUrl(requestDTO.getHttpRequest().getURI().toString());
+        resultHistory.setUrl(preparedRequestDTO.getHttpRequest().getURI().toString());
         resultHistory.setResponseType(request.getResponseType().getTextValue());
         resultHistory.setTimeStart(new Timestamp(System.currentTimeMillis()));
         resultHistory.setExpectedResponseTime(request.getTimeout());
 
         try {
-            if ((requestDTO.getHttpRequest().getMethod().equals("GET"))
-                    ^ (requestDTO.getHttpRequest().getMethod().equals("DELETE"))) {
+            if ((preparedRequestDTO.getHttpRequest().getMethod().equals("GET"))
+                    ^ (preparedRequestDTO.getHttpRequest().getMethod().equals("DELETE"))) {
                 resultHistory.setRequestBody(null);
             } else {
                 resultHistory.setRequestBody(EntityUtils
-                        .toString(((HttpEntityEnclosingRequestBase) requestDTO.getHttpRequest()).getEntity()));
+                        .toString(((HttpEntityEnclosingRequestBase) preparedRequestDTO.getHttpRequest()).getEntity()));
             }
 
             resultHistory.setExpectedResponse(requestExecuteSupportService
-                    .getEvaluatedString(request.getExpectedResponse(), requestDTO.getVariableList(), VELOCITY_LOG));
+                    .getEvaluatedString(request.getExpectedResponse(), preparedRequestDTO.getVariableList(), VELOCITY_LOG));
 
         } catch (ParseException | IOException e1) {
             LOGGER.info(e1);
@@ -155,7 +155,7 @@ public class ParseAndWriteService {
             resultHistory.setBuildVersion(bVersion);
         }
 
-        StringBuilder validationMessages = getValidationMessages(resultHistory, request, requestDTO, dbValidationHistory);
+        StringBuilder validationMessages = getValidationMessages(resultHistory, request, preparedRequestDTO, dbValidationHistory);
         resultHistory.setStatus(statusIndicator && isValidResponse(validationMessages));
         resultHistory.setMessage(validationMessages.toString());
         resultHistoryService.save(resultHistory);
@@ -237,7 +237,7 @@ public class ParseAndWriteService {
         return validationMessages.toString().equals("OK");
     }
 
-    public StringBuilder getValidationMessages(ResultHistory resultHistory, Request request, RequestDTO requestDTO,
+    public StringBuilder getValidationMessages(ResultHistory resultHistory, Request request, PreparedRequestDTO preparedRequestDTO,
             DbValidationHistory dbValidationHistory) {
         
         StringBuilder message = new StringBuilder();

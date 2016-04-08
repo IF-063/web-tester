@@ -7,7 +7,7 @@ import com.softserve.webtester.model.Request;
 public class RequestResultDTO {
 
     private Request request;
-    private RequestDTO requestDTO; // TODO VZ: Rename to preparedRequest or requestToSend
+    private PreparedRequestDTO preparedRequestDTO;
     private List<ResponseDTO> responses;
 
     public Request getRequest() {
@@ -18,12 +18,12 @@ public class RequestResultDTO {
         this.request = request;
     }
 
-    public RequestDTO getRequestDTO() {
-        return requestDTO;
+    public PreparedRequestDTO getPreparedRequestDTO() {
+        return preparedRequestDTO;
     }
 
-    public void setRequestDTO(RequestDTO requestDTO) {
-        this.requestDTO = requestDTO;
+    public void setPreparedRequestDTO(PreparedRequestDTO preparedRequestDTO) {
+        this.preparedRequestDTO = preparedRequestDTO;
     }
 
     public List<ResponseDTO> getResponses() {
