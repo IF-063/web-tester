@@ -73,7 +73,6 @@
     </div>
   </div>
 </div>
-<!-- </div> -->
 
 <script src=<c:url value="/resources/dist/js/select2.min.js" />></script>
 

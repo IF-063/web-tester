@@ -16,6 +16,7 @@ $(function() {
       $('.multiSelect').multiSelect('select_all');
       return false;
   });
+  
   $('#deselect-all').click(function(){
     $('.multiSelect').multiSelect('deselect_all');
     return false;
