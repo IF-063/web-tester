@@ -71,7 +71,7 @@ public class EnvironmentController {
         return "redirect:/configuration/environments";
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET) // TODO VZ: add modify to the URL
+    @RequestMapping(value = "modify/{id}", method = RequestMethod.GET)
     public String getEnvironmentUpdatePage(@PathVariable int id, Model model) {
         model.addAttribute(PAGE_TASK, "Update");
         model.addAttribute("id", id);
@@ -81,7 +81,7 @@ public class EnvironmentController {
         return "environment/environmentCreateOrUpdate";
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.POST) // TODO VZ: add modify to the URL
+    @RequestMapping(value = "modify/{id}", method = RequestMethod.POST)
     public String updateEnvironment(@Validated @ModelAttribute Environment environment, BindingResult result, Model model) {
         if (result.hasErrors()) {
             model.addAttribute(PAGE_TASK, "Update");
@@ -109,7 +109,7 @@ public class EnvironmentController {
             environmentService.checkConnection(environment);
             message = String.format("%s: environment connection was checked successfully", environment.getName());
         } catch (Exception e) {
-            message = " " + environment.getName() + ": environment check finished with  error:" + e.getMessage(); // TODO VZ: !
+            message = String.format("%s: environment check finished with  error: %s", environment.getName(), e.getMessage());
             status = HttpStatus.BAD_REQUEST;
         }
         ResponseEntity<String> responseEntity = new ResponseEntity<String>(message, status);

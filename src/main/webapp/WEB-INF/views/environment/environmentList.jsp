@@ -50,7 +50,7 @@
                                             value="/configuration/environments/check/${environment.id}"
                                             var="environmentCheckUrl" />
                                         <c:url
-                                            value="/configuration/environments/${environment.id}"
+                                            value="/configuration/environments/modify/${environment.id}"
                                             var="environmentUpdateUrl" />
                                         <c:url
                                             value="/configuration/environments/delete/${environment.id}"

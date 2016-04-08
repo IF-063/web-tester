@@ -42,15 +42,13 @@ public class RequestExecuteSupportService {
 
     /**
      * Get value from executed SQL query on given connection builded on Environment 
-     * @param input connection and query
+     * @param environment on which need to execute query and query
      * @return string value
      */
     public String getExecutedQueryValue(Environment environment, String sqlQuery) throws Exception {
         String result = null;
         if (isSelectQuery(sqlQuery)) {
-            Connection dbCon = null;
-            try { // TODO VZ: try with resources and remove finally block
-                dbCon = environmentService.getConnection(environment);
+            try (Connection  dbCon = environmentService.getConnectionPools().get(environment).getConnection()) {
                 Statement statement = dbCon.createStatement();
                 ResultSet results = statement.executeQuery(sqlQuery);
                 while (results.next()) {
@@ -59,8 +57,6 @@ public class RequestExecuteSupportService {
             } catch (Exception e) {
                 LOGGER.error("Could not execute query: " + sqlQuery, e);
                 throw e;
-            } finally {
-                dbCon.close();
             }
         }
         return result;
