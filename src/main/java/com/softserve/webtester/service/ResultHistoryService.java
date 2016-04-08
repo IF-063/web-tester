@@ -73,19 +73,6 @@ public class ResultHistoryService {
         }
     }
 
-    public int saveRequest_Collection(ResultHistory resultHistory) {
-
-        try {
-            resultHistoryMapper.saveRequest_Collection(resultHistory);
-            int id = resultHistory.getId();
-            LOGGER.info("ResultHistory saved successfully, resultHistory details = " + resultHistory);
-            return id;
-        } catch (DataAccessException e) {
-            LOGGER.error("Unable to save resultHistory instance ", e);
-            throw e;
-        }
-    }
-
     /**
      * Loading {@link resultHistory} instance from DB
      * @param id identifier of resultHistory instance
