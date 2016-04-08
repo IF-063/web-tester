@@ -1,5 +1,6 @@
 package com.softserve.webtester.validator;
 
+import com.sun.xml.internal.ws.server.ServerRtException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
@@ -13,6 +14,8 @@ import com.softserve.webtester.service.MetaDataService;
  * Implementation of {@link Validator} interface for additional checking
  * {@link BuildVersion} instance. Checks the unique of build version's parameter
  * name and if name, description fields are empty
+ *
+ * @author Anton Mykytiuk
  */
 @Component
 public class BuildVersionValidator implements Validator {
@@ -27,10 +30,10 @@ public class BuildVersionValidator implements Validator {
         return BuildVersion.class.equals(clazz);
     }
 
+    // TODO AM: add java doc
     @Override
     public void validate(Object object, Errors errors) {
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, NAME_FIELD, "NotBlank.buildVersion.name"); // TODO AM: please check /web-tester/src/main/java/com/softserve/webtester/model/Environment.java and do in the same way
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "description", "NotBlank.buildVersion.description"); // no need to have here validation, You can add annotations on object. If sth, pleas ping Victor Z
+
         BuildVersion buildVersion = (BuildVersion) object;
         if (!metaDataService.isBuildVersionNameFree(buildVersion.getName(), buildVersion.getId())) {
             errors.rejectValue(NAME_FIELD, "NotUnique.buildVersion.name");

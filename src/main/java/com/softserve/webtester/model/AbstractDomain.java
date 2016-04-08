@@ -6,47 +6,29 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
+import org.hibernate.validator.constraints.NotBlank;
 
 /**
  * The AbstractDomain abstract class represents {@code AbstractDomain} entity from which inherited
- * classes like Aplication, Service, Label.
+ * classes like Aplication, Service, BuildVersion.
  *
  * @author Anton Mykytiuk
- * @version 1.1
  */
 
 public class AbstractDomain {
 
     protected int id;
 
+    @NotBlank
     @Size(max = 75)
     protected String name;
 
+    @NotBlank
     @Size(max = 255)
     protected String description;
 
     protected boolean deleted;
 
-    // TODO AM: delete constructors or reuse constructors
-    public AbstractDomain() { }
-
-    public AbstractDomain(String name, String description) {
-        this.name = name;
-        this.description = description;
-    }
-
-    public AbstractDomain(int id, String name, String description) {
-        this.id = id;
-        this.name = name;
-        this.description = description;
-    }
-
-    public AbstractDomain(int id, String name, String description, boolean deleted) {
-        this.id = id;
-        this.name = name;
-        this.description = description;
-        this.deleted = deleted;
-    }
 
     public int getId() {
         return id;

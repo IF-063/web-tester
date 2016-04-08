@@ -1,10 +1,20 @@
 package com.softserve.webtester.dto;
 
+import java.io.Serializable;
 import java.util.List;
 
 import com.softserve.webtester.model.Environment;
-// TODO AM: add java doc
-public class ResultsDTO {
+
+/**
+ * Data transfer object class for transferring run results. Includes such fields as runId, buildVersionId, environment,
+ * collectionResultDTOList. In case when we run one request, requests list or one collection collectionResultDTOList
+ * list contains only one CollectionResultDTO object.
+ *
+ * @author Anton Mykytiuk
+ */
+public class ResultsDTO implements Serializable {
+
+    private static final long serialVersionUID = -3767031811760898128L;
 
     private int runId;
     private int buildVersionId;

@@ -25,18 +25,23 @@ import com.softserve.webtester.dto.ResponseDTO;
 import com.softserve.webtester.model.Environment;
 import com.softserve.webtester.model.Request;
 
+// TODO AM: add java doc
 @Service
 public class RequestExecuteService {
 
     private static final Logger LOGGER = Logger.getLogger(RequestExecuteService.class);
-
-    private static final int SAMPLE_FOR_BUILD_VERSION = 5; // Move to property file
 
     @Autowired
     private BuildHttpRequestService buildHttpRequestService;
 
     @Value("${response.timeout.default}")
     private int defaultTimeout;
+
+    @Value("${request.run.with.build.version.count}")
+    private int sampleForBuildVersion;
+
+    // response timeout for configure HttpClient
+    int defaultTimeoutInMillis = defaultTimeout*1000;
 
     /**
      * this method responsible for running request or request list
@@ -51,42 +56,39 @@ public class RequestExecuteService {
             boolean ifBuildVerExist, int collectionId) {
 
         CollectionResultDTO collectionResultDTO = new CollectionResultDTO();
+
         List<RequestResultDTO> requestResultDTOList = new ArrayList<>();
 
-        RequestConfig config = RequestConfig.custom().setConnectTimeout(defaultTimeout * 1000) // Calculate
-                                                                                               // once
-                                                                                               // and
-                                                                                               // reuse
-                                                                                               // everywhere
-                .setConnectionRequestTimeout(defaultTimeout * 1000).setSocketTimeout(defaultTimeout * 1000).build();
-
         for (Request request : requestList) {
-            // move into lopp below
-            try (CloseableHttpClient httpClient = HttpClientBuilder.create().setDefaultRequestConfig(config).build()) {
-                RequestResultDTO requestResultDTO = new RequestResultDTO();
+
+            RequestResultDTO requestResultDTO = new RequestResultDTO();
+
+            try {
                 PreparedRequestDTO preparedRequestDTO = buildHttpRequestService.getHttpRequest(request, environment);
                 HttpRequestBase requestBase = preparedRequestDTO.getHttpRequest();
+
                 List<ResponseDTO> responseDTOList = new ArrayList<>();
-                ResponseDTO responseDTO;
 
                 if (ifBuildVerExist) {
-                    for (int i = 0; i < SAMPLE_FOR_BUILD_VERSION; i++) {
-                        responseDTO = executeOneRequest(httpClient, requestBase);
+                    for (int i = 0; i < sampleForBuildVersion; i++) {
+                        ResponseDTO responseDTO = executeOneRequest(requestBase);
                         responseDTOList.add(responseDTO);
                     }
                 } else {
-                    responseDTO = executeOneRequest(httpClient, requestBase);
+                    ResponseDTO responseDTO = executeOneRequest(requestBase);
                     responseDTOList.add(responseDTO);
                 }
+
                 requestResultDTO.setRequest(request);
                 requestResultDTO.setPreparedRequestDTO(preparedRequestDTO);
                 requestResultDTO.setResponses(responseDTOList);
+
                 requestResultDTOList.add(requestResultDTO);
             } catch (Exception e) {
-                LOGGER.error("Cannot prepare response for sending: " + e.getMessage(), e);
-                // TODO AM: Set PreparedRequestDTO and responses in the RequestResultDTO
-                // to Null.
-                // TODO RZ: Check this in you functionality
+                LOGGER.error("Cannot prepare request for sending: " + e.getMessage(), e);
+                requestResultDTO.setRequest(request);
+                requestResultDTO.setPreparedRequestDTO(null);
+                requestResultDTO.setResponses(null); // TODO RZ: Check this in you functionality
             }
         }
 
@@ -100,43 +102,60 @@ public class RequestExecuteService {
      * @param requestBase interface for different types of request
      * @return ResponseDTO, object, which consists of response time and response
      */
-    private ResponseDTO executeOneRequest(CloseableHttpClient httpClient, HttpRequestBase requestBase) {
+    private ResponseDTO executeOneRequest(HttpRequestBase requestBase) {
 
-        long start = System.currentTimeMillis();
+        RequestConfig config = RequestConfig.custom()
+                .setConnectTimeout(defaultTimeoutInMillis)
+                .setConnectionRequestTimeout(defaultTimeoutInMillis)
+                .setSocketTimeout(defaultTimeoutInMillis)
+                .build();
 
-        try (CloseableHttpResponse response = httpClient.execute(requestBase)) {
+        try (CloseableHttpClient httpClient = HttpClientBuilder.create().setDefaultRequestConfig(config).build()) {
 
-            ResponseDTO responseDTO = new ResponseDTO();
-            
-            int responseTime = (int) (System.currentTimeMillis() - start); // Do not expect to have more than 2147483647, because max response timeout is 60000.
+            long start = System.currentTimeMillis();
 
-            int statusCode = response.getStatusLine().getStatusCode();
+            try (CloseableHttpResponse response = httpClient.execute(requestBase)) {
 
-            responseDTO.setResponseTime(responseTime);
-            responseDTO.setStatusLine(response.getStatusLine().toString());
-            responseDTO.setStatusCode(statusCode);
-            responseDTO.setReasonPhrase(response.getStatusLine().getReasonPhrase());
+                ResponseDTO responseDTO = new ResponseDTO();
 
-            if ((statusCode >= 200) && (statusCode < 400)) {
+                // Do not expect to have more than 2147483647, because max response timeout is 60000.
+                int responseTime = (int) (System.currentTimeMillis() - start);
 
-                HttpEntity entity = response.getEntity();
-                if (entity != null) {
-                    InputStream inputStream = entity.getContent();
-                    BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
-                    String responseBody = reader.readLine();
-                    responseDTO.setResponseBody(responseBody);
-                    reader.close(); // TODO AM: close in finally block
-                    inputStream.close();
-                    // TODO AM: separate catch for Response body reading
+                int statusCode = response.getStatusLine().getStatusCode();
+
+                responseDTO.setResponseTime(responseTime);
+                responseDTO.setStatusLine(response.getStatusLine().toString());
+                responseDTO.setStatusCode(statusCode);
+                responseDTO.setReasonPhrase(response.getStatusLine().getReasonPhrase());
+
+                if ((statusCode >= 200) && (statusCode < 400)) {
+
+                    HttpEntity entity = response.getEntity();
+                    if (entity != null) {
+                        InputStream inputStream = entity.getContent();
+                        BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+                        try {
+                            String responseBody = reader.readLine();
+                            responseDTO.setResponseBody(responseBody);
+                        } catch (IOException e) {
+                            LOGGER.error("Can't read response body. " + e.getMessage(), e);
+                        } finally {
+                            reader.close();
+                            inputStream.close();
+                        }
+                    }
                 }
+
+                return responseDTO;
+
+            } catch (IOException e) {
+                LOGGER.error("Exception occurred during request sending. " + e.getMessage(), e);
             }
 
-            return responseDTO;
-
         } catch (IOException e) {
-            LOGGER.error("Exception occured during request sending. " + e.getMessage(), e);
+            LOGGER.error("Exception occurred during HttpClient creating. " + e.getMessage(), e);
         }
+
         return null;
     }
-
 }

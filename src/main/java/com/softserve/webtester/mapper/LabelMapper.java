@@ -18,25 +18,32 @@ import com.softserve.webtester.model.Label;
 import com.softserve.webtester.model.Request;
 import com.softserve.webtester.model.RequestCollection;
 import com.softserve.webtester.model.ResultHistory;
-//TODO AM: missed JAVA doc
+
+/**
+ * LabelMapper is MyBatis mapper interface for CRUD operation on {@link Label} instance in the database.
+ *
+ * @author Anton Mykytiuk and Taras Oglabyak
+ */
 @Repository
 public interface LabelMapper {
 
     /**
-     * Saves {@link Label} instance to database
-     * @param label
+     * Saves {@link Label} instance to database.
+     *
+     * @param label instance of class Label to store in the DB
      * @return number of rows affected by the statement
-     * @throws DataAccessException
+     * @throws DataAccessException when there is no access to the DB
      */
     @Insert("INSERT INTO Label (name) VALUES (#{name})")
     @Options(useGeneratedKeys = true, keyProperty = "id")
     int saveLabel(Label label);
 
     /**
-     * Loads {@link Label} instance from database by its identifier
-     * @param id
+     * Loads {@link Label} instance from database by its identifier.
+     *
+     * @param id identifier of specific Label instance which stored in the DB
      * @return Label instance
-     * @throws DataAccessException
+     * @throws DataAccessException when there is no access to the DB
      */
     @Select("SELECT id, name FROM Label WHERE id = #{id}")
     @Results(value = {
@@ -46,9 +53,10 @@ public interface LabelMapper {
     Label loadLabelById(int id);
 
     /**
-     * Loads all {@link Label} instances from the database
-     * @return List of Label instaces
-     * @throws DataAccessException
+     * Loads all {@link Label} instances from the database.
+     *
+     * @return List of Label instances
+     * @throws DataAccessException when there is no access to the DB
      */
     @Select("SELECT * from Label")
     @Results(value = {
@@ -58,20 +66,22 @@ public interface LabelMapper {
     List<Label> loadAllLabels();
 
     /**
-     * Updates {@link Label} instance in the database. This method will not be used
-     * @param label
-     * @return
-     * @throws DataAccessException
+     * Updates {@link Label} instance in the database.
+     *
+     * @param label instance should be updated
+     * @return id of label instance which was updated
+     * @throws DataAccessException when there is no access to the DB
      */
     @Update("UPDATE Label SET name = #{name} WHERE id = #{id}")
     int updateLabel(Label label);
 
 
     /**
-     * Deletes {@link Label} instance from the database by id
-     * @param id
+     * Deletes {@link Label} instance from the database by id.
+     *
+     * @param id of label instance should be deleted
      * @return number of rows affected by the statement
-     * @throws DataAccessException
+     * @throws DataAccessException when there is no access to the DB
      */
     @Delete("DELETE FROM Label WHERE id = #{id}")
     int deleteLabel(int id);
@@ -92,7 +102,7 @@ public interface LabelMapper {
      * 
      * @param request {@link Request} instance, whose dbValidations should be saved
      * @return number of rows affected by the statement
-     * @throws DataAccessException
+     * @throws DataAccessException when there is no access to the DB
      */
     @Insert("<script>INSERT INTO Request_Label(requestId, labelId) VALUES "
 	    + "<foreach collection='labels' item='label' separator=','> "
@@ -103,11 +113,10 @@ public interface LabelMapper {
      * Saves records to {@code ResultHistory_Label} junction table in the database by the Request.<br>
      * Using SQL batch insert this method saves all ResultHistoryId - LabelId relations in the database.
      *
-     * @param request {@link Request} instance, whose dbValidations should be saved
+     * @param resultHistory {@link ResultHistory} instance should be saved
      * @return number of rows affected by the statement
-     * @throws DataAccessException
+     * @throws DataAccessException when there is no access to the DB
      */
-
     @Insert("<script>INSERT INTO ResultHistory_Label(resultHistoryId, labelId) VALUES "
             + "<foreach collection='labels' item='label' separator=','> "
             + "(#{id}, #{label.id}) </foreach></script>")
@@ -117,9 +126,9 @@ public interface LabelMapper {
      * Saves records to {@code RequestCollection_Label} junction table in the database by the Request.<br>
      * Using SQL batch insert this method saves all RequestCollectionId - LabelId relations in the database.
      * 
-     * @param request {@link RequestCollection} instance, whose dbValidations should be saved
+     * @param requestCollection {@link RequestCollection} instance should be saved
      * @return number of rows affected by the statement
-     * @throws DataAccessException
+     * @throws DataAccessException when there is no access to the DB
      */
     @Insert("<script>INSERT INTO RequestCollection_Label(requestCollectionId, labelId) VALUES "
 	    + "<foreach collection='labels' item='label' separator=','> "
@@ -131,7 +140,7 @@ public interface LabelMapper {
      * 
      * @param id identifier of {@link Request} instance, whose labels should be loaded
      * @return List of Label instances
-     * @throws DataAccessException
+     * @throws DataAccessException when there is no access to the DB
      */
     @Select("SELECT l.id, l.name FROM Label l INNER JOIN Request_Label rl ON rl.labelId = l.id "
     	    + "WHERE rl.requestId = #{id}")
@@ -151,9 +160,8 @@ public interface LabelMapper {
      * 
      * @param id identifier of {@link RequestCollection} instance, whose labels should be loaded
      * @return List of Label instances
-     * @throws DataAccessException
+     * @throws DataAccessException when there is no access to the DB
      */
-
     @Select("SELECT l.id, l.name FROM Label l INNER JOIN RequestCollection_Label rcl ON rcl.labelId = l.id "
     	    + "WHERE rcl.requestCollectionId = #{id}")
     @Results({ @Result(id = true, property = "id", column = "id", jdbcType = JdbcType.INTEGER),
@@ -167,7 +175,7 @@ public interface LabelMapper {
      * 
      * @param id identifier of {@link Request} instance, whose labels should be deleted
      * @return number of rows affected by the statement
-     * @throws DataAccessException
+     * @throws DataAccessException when there is no access to the DB
      */
     @Delete("DELETE FROM Request_Label WHERE requestId = #{id}")
     int deleteByRequestId(int id);
@@ -178,7 +186,7 @@ public interface LabelMapper {
      * 
      * @param id identifier of {@link RequestCollection} instance, whose labels should be deleted
      * @return number of rows affected by the statement
-     * @throws DataAccessException
+     * @throws DataAccessException when there is no access to the DB
      */
     @Delete("DELETE FROM RequestCollection_Label WHERE requestCollectionId = #{id}")
     int deleteByRequestCollectionId(int id);

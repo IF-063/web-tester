@@ -12,7 +12,13 @@ import com.softserve.webtester.dto.CollectionResultDTO;
 import com.softserve.webtester.dto.ResultsDTO;
 import com.softserve.webtester.model.Environment;
 
-// TODO AM: JavaDoc
+/**
+ * Service that responsible for executing requests. Has two methods with different signature, in one way it receives
+ * array request's id for running request or requests list, in another - array collection's id and build version's id
+ * for running collections or collections list. Also they receive environment id for getting environment entity from DB.
+ *
+ * @author Anton Mykytiuk
+ */
 @Service
 public class RunService {
 
@@ -34,9 +40,9 @@ public class RunService {
     private ParseAndWriteService parseAndWriteService;
 
     /**
-     * method which responsible for running request or requests list of requests and parsing, writing into DB results
+     * Method which responsible for running request or requests list and parsing, writing into DB results.
      *
-     * @param environmentId for getting environment data from DB
+     * @param environmentId for getting environment entity from DB
      * @param requestIdArray list of request id to get request objects from DB
      * @return run id to show results
      */
@@ -44,18 +50,20 @@ public class RunService {
 
         Environment environment = environmentService.load(environmentId);
 
+        /**
+         * Generated run id for actual run.
+         */
         int runId = resultHistoryService.getMaxId() + 1;
-        LOGGER.debug("Generated run id: " + runId);
 
         return parseAndWriteService.parseAndWrite(execute(environment, requestIdArray, runId));
 
     }
 
     /**
-     * method which responsible for running collections of requests and parsing, writing into DB results
+     * Method which responsible for running collections of requests and parsing, writing into DB results.
      *
      * @param environmentId for getting environment data from DB
-     * @param buildVersionId tell us to run request contained in collection for 5 times
+     * @param buildVersionId tell us to run request contained in collection for 5 times if not 0
      * @param collectionIdArray array of collection id, for getting list of request objects from DB
      * @return run id to show results
      */
@@ -63,15 +71,17 @@ public class RunService {
 
         Environment environment = environmentService.load(environmentId);
 
+        /**
+         * Generated run id for actual run.
+         */
         int runId = resultHistoryService.getMaxId() + 1;
-        LOGGER.debug("Generated run id: " + runId);
 
         return parseAndWriteService.parseAndWrite(execute(environment, buildVersionId, collectionIdArray, runId));
 
     }
 
     /**
-     * execute request or requests list
+     * Execute request or requests list.
      *
      * @param environment data for running requests
      * @param requestIdArray array of request id to get request objects from DB
@@ -79,7 +89,7 @@ public class RunService {
      * @return ResultsDTO instance
      */
     private ResultsDTO execute(Environment environment, int [] requestIdArray, int runId) {
-        LOGGER.info("Start requests executing: " + Arrays.toString(requestIdArray));
+
         ResultsDTO resultsDTO = new ResultsDTO();
 
         resultsDTO.setEnvironment(environment);
@@ -88,9 +98,11 @@ public class RunService {
 
         List<CollectionResultDTO> collectionResultDTOList = new ArrayList<>();
 
+        //when we run requests' list, we run it as collection with id 0
         CollectionResultDTO collectionResultDTO = requestExecuteService.executeRequests(environment,
                 requestService.loadArray(requestIdArray), false, 0);
 
+        //when we run requests' list collectionResultDTO will contain only one element
         collectionResultDTOList.add(collectionResultDTO);
 
         resultsDTO.setCollectionResultDTOList(collectionResultDTOList);
@@ -99,7 +111,7 @@ public class RunService {
     }
 
     /**
-     * execute collection or collections list
+     * Execute collection or collections' list.
      *
      * @param environment data for running requests
      * @param buildVersionId tell us to run request contained in collection for 5 times
@@ -108,7 +120,7 @@ public class RunService {
      * @return ResultsDTO instance
      */
     private ResultsDTO execute(Environment environment, int buildVersionId, int [] collectionIdArray, int runId) {
-        LOGGER.info("Start collections executing: " + Arrays.toString(collectionIdArray));
+
         ResultsDTO resultsDTO = new ResultsDTO();
 
         resultsDTO.setEnvironment(environment);
@@ -117,6 +129,7 @@ public class RunService {
 
         List<CollectionResultDTO> collectionResultDTOList = new ArrayList<>();
 
+        //for every single collection run we create collectionResultDTO and then add it to the collectionResultDTOList
         for (int i = 0; i < collectionIdArray.length; i++) {
             CollectionResultDTO collectionResultDTO = requestExecuteService.executeRequests(environment,
                     requestService.loadFullRequestsByRequestCollectionId(collectionIdArray[i]),

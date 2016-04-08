@@ -2,6 +2,12 @@ package com.softserve.webtester.dto;
 
 import java.io.Serializable;
 
+/**
+ * Data transfer object class for transferring results of one request run. Includes such fields as responseTime,
+ * statusLine, statusCode, reasonPhrase, responseBody.
+ *
+ * @author Anton Mykytiuk
+ */
 public class ResponseDTO implements Serializable {
 
     private static final long serialVersionUID = -1285748203667063594L;

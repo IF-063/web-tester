@@ -8,12 +8,12 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
+import org.hibernate.validator.constraints.NotBlank;
 
 /**
  * The Label class represents {@code Label} entity stored in the database.
  *
  * @author Anton Mykytiuk
- * @version 1.1
  */
 
 public class Label implements Serializable {
@@ -22,20 +22,10 @@ public class Label implements Serializable {
 
     private int id;
 
+    @NotBlank
     @Size(max = 75)
     private String name;
 
-    // TODO RZ: do not need
-    public Label() { }
-
-    public Label(String name) {
-        this.name = name;
-    }
-
-    public Label(int id, String name) {
-        this.id = id;
-        this.name = name;
-    }
 
     public int getId() {
         return id;

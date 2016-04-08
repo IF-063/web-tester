@@ -28,7 +28,8 @@ public class LabelValidator implements Validator {
 
     @Override
     public void validate(Object object, Errors errors) {
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, NAME_FIELD, "NotBlank.label.name");
+
+        // TODO AM: add java doc
         Label label = (Label) object;
         if (!metaDataService.isLabelNameFree(label.getName(),
                 label.getId())) {

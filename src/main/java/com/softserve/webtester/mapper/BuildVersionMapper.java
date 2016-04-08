@@ -15,25 +15,32 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Repository;
 
 import com.softserve.webtester.model.BuildVersion;
-//TODO AM: missed JAVA doc
+
+/**
+ * BuildVersionMapper is MyBatis mapper interface for CRUD operation on {@link BuildVersion} instance in the database.
+ *
+ * @author Anton Mykytiuk
+ */
 @Repository
 public interface BuildVersionMapper {
 
     /**
-     * Saves {@link BuildVersion} instance to database
-     * @param buildVersion
+     * Saves {@link BuildVersion} instance to database.
+     *
+     * @param buildVersion instance of class BuildVersion to store in the DB
      * @return number of rows affected by the statement
-     * @throws DataAccessException
+     * @throws DataAccessException when there is no access to the DB
      */
     @Insert("INSERT INTO BuildVersion (name, description) VALUES (#{name}, #{description})")
     @Options(useGeneratedKeys = true, keyProperty = "id")
     int saveBuildVersion(BuildVersion buildVersion);
 
     /**
-     * Loads {@link BuildVersion} instance from database by its identifier
-     * @param id
+     * Loads {@link BuildVersion} instance from database by it's identifier.
+     *
+     * @param id identifier of specific BuildVersion instance which stored in the DB
      * @return BuildVersion instance
-     * @throws DataAccessException
+     * @throws DataAccessException when there is no access to the DB
      */
     @Select("SELECT id, name, description FROM BuildVersion WHERE id = #{id} AND deleted = 0")
     @Results({ @Result(property = "id", column = "id", jdbcType = JdbcType.INTEGER),
@@ -41,20 +48,12 @@ public interface BuildVersionMapper {
             @Result(property = "description", column = "description", jdbcType = JdbcType.VARCHAR)
     })
     BuildVersion loadBuildVersionById(int id);
-
-    /**
-     * Loads BuildVersion name from database by its identifier
-     * @param id
-     * @return BuildVersion name
-     * @throws DataAccessException
-     */
-    @Select("SELECT name FROM BuildVersion WHERE id = #{id} AND deleted = 0")
-    String loadBuildVersionName(int id);
     
     /**
-     * Loads all {@link BuildVersion} instances from the database which aren't marked as "deleted"
+     * Loads all {@link BuildVersion} instances from the database which aren't marked as "deleted".
+     *
      * @return Set of BuildVersion instaces
-     * @throws DataAccessException
+     * @throws DataAccessException when there is no access to the DB
      */
     @Select("SELECT id, name, description from BuildVersion WHERE deleted = 0")
     @Results({ @Result(property = "id", column = "id", jdbcType = JdbcType.INTEGER),
@@ -64,29 +63,31 @@ public interface BuildVersionMapper {
     List<BuildVersion> loadAllBuildVersions();
 
     /**
-     * Updates {@link BuildVersion} instance in the database
-     * @param buildVersion
-     * @return number of rows affected by the statement
-     * @throws DataAccessException
+     * Updates {@link BuildVersion} instance in the database.
+     *
+     * @param buildVersion instance should be updated
+     * @return id of buildVersion instance which was updated
+     * @throws DataAccessException when there is no access to the DB
      */
     @Update("UPDATE BuildVersion SET name = #{name}, description = #{description}, " +
             "deleted = #{deleted} WHERE id = #{id}")
     int updateBuildVersion(BuildVersion buildVersion);
 
     /**
-     * Deletes (Soft Delete) {@link BuildVersion} instance from the database by id
-     * @param id
+     * Deletes (Soft Delete) {@link BuildVersion} instance from the database by id.
+     *
+     * @param id of label instance should be deleted
      * @return number of rows affected by the statement
-     * @throws DataAccessException
+     * @throws DataAccessException when there is no access to the DB
      */
     @Update("UPDATE BuildVersion SET deleted = 1 WHERE id = #{id}")
     int deleteBuildVersion(int id);
 
     /**
      * Deletes {@link BuildVersion} instance from the database by id. This method will not be used
-     * @param id
+     * @param id of label instance should be deleted
      * @return number of rows affected by the statement
-     * @throws DataAccessException
+     * @throws DataAccessException when there is no access to the DB
      */
     @Delete("DELETE FROM BuildVersion WHERE id = #{id}")
     int hardDeleteBuildVersion(int id);
