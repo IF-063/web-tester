@@ -3,7 +3,13 @@ package com.softserve.webtester.dto;
 import java.io.Serializable;
 import java.util.List;
 
-//TODO YL: add JavaDoc.
+/**
+ * DTO class with data of the {@link Service} testing results,
+ * using for generating statistic reports.
+ * 
+ * @author Yura Lubinec
+ *
+ */
 public class StatisticDataDTO implements Serializable {
 
     private static final long serialVersionUID = 569307305008042909L;

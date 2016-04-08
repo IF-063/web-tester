@@ -2,13 +2,16 @@ package com.softserve.webtester.dto;
 
 import java.io.Serializable;
 import java.util.List;
-
 import javax.validation.constraints.Size;
-
 import com.softserve.webtester.model.BuildVersion;
 import com.softserve.webtester.model.ResponseTimeType;
 
-// TODO YL: add JavaDoc.
+/**
+ * DTO class with data for selecting statistic info for generating reports.
+ * 
+ * @author Yura Lubinec
+ *
+ */
 public class StatisticFilterDTO implements Serializable {
 
     private static final long serialVersionUID = -8426535580134914033L;
