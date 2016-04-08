@@ -7,13 +7,13 @@ import org.apache.http.client.methods.HttpRequestBase;
 
 import com.softserve.webtester.model.Variable;
 
-public class PreparedRequestDTO implements Serializable{
+public class PreparedRequestDTO implements Serializable {
 
-    private static final long serialVersionUID = -6980876513363543600L;
-    
+    private static final long serialVersionUID = -105517229236219065L;
+
     private HttpRequestBase httpRequest;
     private List<Variable> variableList;
-    // TODO VZ: Add String Request body
+    private String preparedRequestBody;
 
     public HttpRequestBase getHttpRequest() {
         return httpRequest;
@@ -29,5 +29,13 @@ public class PreparedRequestDTO implements Serializable{
 
     public void setVariableList(List<Variable> variableList) {
         this.variableList = variableList;
+    }
+
+    public String getPreparedRequestBody() {
+        return preparedRequestBody;
+    }
+
+    public void setPreparedRequestBody(String preparedRequestBody) {
+        this.preparedRequestBody = preparedRequestBody;
     }
 }

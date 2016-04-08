@@ -31,8 +31,8 @@ public class BuildHttpRequestService {
     private RequestExecuteSupportService requestExecuteSupportService;
 
     /**
-     * Create instance PreparedRequestDTO which contains instance of HttpRequest and
-     * list of generated Variable
+     * Create instance PreparedRequestDTO which contains instance of HttpRequest
+     * and list of generated Variable
      * 
      * @param request
      * @throws Exception
@@ -55,8 +55,10 @@ public class BuildHttpRequestService {
             preparedRequestDTO.setVariableList(variableList);
             if (httpRequest.getMethod().equals("POST")) { // TODO VZ: use enum
                 HttpEntityEnclosingRequestBase httpEntityEnclosingRequest = (HttpEntityEnclosingRequestBase) httpRequest;
-                HttpEntity entity = new StringEntity(requestExecuteSupportService
-                        .getEvaluatedString(request.getRequestBody(), variableList, "Request body"));
+                String preparedRequestBody = requestExecuteSupportService.getEvaluatedString(request.getRequestBody(),
+                        variableList, "Request body");
+                HttpEntity entity = new StringEntity(preparedRequestBody);
+                preparedRequestDTO.setPreparedRequestBody(preparedRequestBody);
                 httpEntityEnclosingRequest.setEntity(entity);
                 preparedRequestDTO.setHttpRequest(httpEntityEnclosingRequest);
                 return preparedRequestDTO;
@@ -64,7 +66,9 @@ public class BuildHttpRequestService {
         } else {
             if (httpRequest.getMethod().equals("POST")) {
                 HttpEntityEnclosingRequestBase httpEntityEnclosingRequest = (HttpEntityEnclosingRequestBase) httpRequest;
-                HttpEntity entity = new StringEntity(request.getRequestBody());
+                String preparedRequestBody = request.getRequestBody();
+                HttpEntity entity = new StringEntity(preparedRequestBody);
+                preparedRequestDTO.setPreparedRequestBody(preparedRequestBody);
                 httpEntityEnclosingRequest.setEntity(entity);
                 preparedRequestDTO.setHttpRequest(httpEntityEnclosingRequest);
                 return preparedRequestDTO;
@@ -90,6 +94,7 @@ public class BuildHttpRequestService {
     /**
      * Provides list instances of Variable for later use in building HttpRequest
      * body or expected HttpResponse body or SQL queries for DB validation
+     * 
      * @throws Exception
      */
     private List<Variable> getListVarables(Request request, Environment environment) throws Exception {

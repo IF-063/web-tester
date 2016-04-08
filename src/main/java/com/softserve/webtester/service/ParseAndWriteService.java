@@ -1,14 +1,11 @@
 package com.softserve.webtester.service;
 
-import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.ParseException;
-import org.apache.http.client.methods.HttpEntityEnclosingRequestBase;
-import org.apache.http.util.EntityUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -70,8 +67,8 @@ public class ParseAndWriteService {
                 PreparedRequestDTO preparedRequestDTO = requestResult.getPreparedRequestDTO();
                 List<ResponseDTO> responseDTOList = requestResult.getResponses();
 
-                savingResultHistory(request, resultHistory, preparedRequestDTO, resultsDTO, responseDTOList, collectionId,
-                        dbValidationHistory);
+                savingResultHistory(request, resultHistory, preparedRequestDTO, resultsDTO, responseDTOList,
+                        collectionId, dbValidationHistory);
                 savingEnvironmentHistory(environmentHistory, resultHistory, resultsDTO);
                 savingHeaderHistory(request, headerHistory, resultHistory);
                 savingLabelHistory(request, resultHistory);
@@ -83,7 +80,7 @@ public class ParseAndWriteService {
     public void savingResultHistory(Request request, ResultHistory resultHistory, PreparedRequestDTO preparedRequestDTO,
             ResultsDTO resultsDTO, List<ResponseDTO> responseDTOList, int collectionId,
             DbValidationHistory dbValidationHistory) {
-        
+
         Environment environment = resultsDTO.getEnvironment();
         final int SUCCESS_CODE = 200;
         boolean statusIndicator = false;
@@ -115,9 +112,9 @@ public class ParseAndWriteService {
             resultHistory.setResponseTime(responseDTO.getResponseTime());
             resultHistory.setStatusLine(responseDTO.getStatusLine());
             resultHistory.setActualResponse(requestExecuteSupportService.format(responseDTO.getResponseBody()));
-            statusIndicator = (responseDTO.getStatusCode() == SUCCESS_CODE); 
+            statusIndicator = (responseDTO.getStatusCode() == SUCCESS_CODE);
         }
-        
+
         resultHistory.setApplication(request.getApplication());
         resultHistory.setService(request.getService());
         resultHistory.setRequest(request);
@@ -128,19 +125,18 @@ public class ParseAndWriteService {
         resultHistory.setTimeStart(new Timestamp(System.currentTimeMillis()));
         resultHistory.setExpectedResponseTime(request.getTimeout());
 
+        if ((preparedRequestDTO.getHttpRequest().getMethod().equals("GET"))
+                ^ (preparedRequestDTO.getHttpRequest().getMethod().equals("DELETE"))) {
+            resultHistory.setRequestBody(null);
+        } else {
+            resultHistory.setRequestBody(preparedRequestDTO.getPreparedRequestBody());
+        }
+
         try {
-            if ((preparedRequestDTO.getHttpRequest().getMethod().equals("GET"))
-                    ^ (preparedRequestDTO.getHttpRequest().getMethod().equals("DELETE"))) {
-                resultHistory.setRequestBody(null);
-            } else {
-                resultHistory.setRequestBody(EntityUtils
-                        .toString(((HttpEntityEnclosingRequestBase) preparedRequestDTO.getHttpRequest()).getEntity()));
-            }
+            resultHistory.setExpectedResponse(requestExecuteSupportService.getEvaluatedString(
+                    request.getExpectedResponse(), preparedRequestDTO.getVariableList(), VELOCITY_LOG));
 
-            resultHistory.setExpectedResponse(requestExecuteSupportService
-                    .getEvaluatedString(request.getExpectedResponse(), preparedRequestDTO.getVariableList(), VELOCITY_LOG));
-
-        } catch (ParseException | IOException e1) {
+        } catch (ParseException e1) {
             LOGGER.info(e1);
         }
 
@@ -155,7 +151,8 @@ public class ParseAndWriteService {
             resultHistory.setBuildVersion(bVersion);
         }
 
-        StringBuilder validationMessages = getValidationMessages(resultHistory, request, preparedRequestDTO, dbValidationHistory);
+        StringBuilder validationMessages = getValidationMessages(resultHistory, request, preparedRequestDTO,
+                dbValidationHistory);
         resultHistory.setStatus(statusIndicator && isValidResponse(validationMessages));
         resultHistory.setMessage(validationMessages.toString());
         resultHistoryService.save(resultHistory);
@@ -233,20 +230,20 @@ public class ParseAndWriteService {
     }
 
     private boolean isValidResponse(StringBuilder validationMessages) {
-        
+
         return validationMessages.toString().equals("OK");
     }
 
-    public StringBuilder getValidationMessages(ResultHistory resultHistory, Request request, PreparedRequestDTO preparedRequestDTO,
-            DbValidationHistory dbValidationHistory) {
-        
+    public StringBuilder getValidationMessages(ResultHistory resultHistory, Request request,
+            PreparedRequestDTO preparedRequestDTO, DbValidationHistory dbValidationHistory) {
+
         StringBuilder message = new StringBuilder();
         String type = null;
         if (resultHistory.getExpectedResponse().startsWith("<")) {
             type = "XML";
-        } 
+        }
         if (resultHistory.getExpectedResponse().startsWith(("["))
-                ||resultHistory.getExpectedResponse().startsWith(("{"))) {
+                || resultHistory.getExpectedResponse().startsWith(("{"))) {
             type = "JSON";
         }
 

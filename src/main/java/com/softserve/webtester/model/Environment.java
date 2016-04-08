@@ -3,6 +3,7 @@ package com.softserve.webtester.model;
 import java.io.Serializable;
 
 import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
@@ -59,8 +60,7 @@ public class Environment implements Serializable {
     /**
      * Port of the database
      */
-    @NotBlank
-    @Pattern(regexp = "\\d{1,5}")
+    @NotNull
     private int dbPort;
 
     /**
