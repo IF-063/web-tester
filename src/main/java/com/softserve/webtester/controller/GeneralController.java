@@ -23,6 +23,8 @@ import com.softserve.webtester.exception.ResourceNotFoundException;
  */
 @ControllerAdvice
 public class GeneralController {
+    
+    private static final String ERROR_MASSAGE = "message";
 
     @Autowired
     private LabelEditor labelEditor;
@@ -46,8 +48,15 @@ public class GeneralController {
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(ResourceNotFoundException.class)
     public String error404(ResourceNotFoundException e, Model model) {
-        model.addAttribute("message", e.getMessage());
+        model.addAttribute(ERROR_MASSAGE, e.getMessage());
         return "error";
     }
-    // TODO all: separate handler for 500 error
+    
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    @ExceptionHandler(RuntimeException.class)
+    public String error500(RuntimeException e, Model model){
+        model.addAttribute(ERROR_MASSAGE, e.getMessage());
+        return "error";
+    }
+    
 }
