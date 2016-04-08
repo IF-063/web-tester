@@ -76,7 +76,9 @@
                 <tr class="dataRow">
                   <td class="td-centered"><input id="${request.id}" type="checkbox" name="operateSelect"></td>
                   <td>
-                    <a href=<c:url value="/tests/requests/${request.id}" />><c:out value="${request.name}" /></a>
+                    <a href=<c:url value="/tests/requests/modify/${request.id}" />>
+                      <c:out value="${request.name}" />
+                    </a>
                   </td>
                   <td><c:out value="${request.application.name}" /></td>
                   <td><c:out value="${request.service.name}" /></td>

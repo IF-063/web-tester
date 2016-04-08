@@ -163,7 +163,7 @@ public class RequestController {
      * @param model {@link Model} object
      * @return name of view
      */
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET) // TODO TO: add modify to URL
+    @RequestMapping(value = "/modify/{id}", method = RequestMethod.GET)
     public String getEditRequestPage(@PathVariable int id, Model model) {
         model.addAllAttributes(addMetaData());
         model.addAttribute("request", requestService.load(id));
@@ -179,7 +179,7 @@ public class RequestController {
      * @param map {@link ModelMap} instance
      * @return if success, redirects to requests main page; in case of validation errors returns to editing page
      */
-    @RequestMapping(value = "/{id}", method = RequestMethod.POST) // TODO TO: add modify to URL
+    @RequestMapping(value = "/modify/{id}", method = RequestMethod.POST)
     public String confirmEditRequest(@PathVariable int id, @Validated @ModelAttribute Request request,
             BindingResult result, ModelMap map) {
         if (result.hasErrors()) {
@@ -195,7 +195,7 @@ public class RequestController {
      * 
      * @param id identifier of {@link Request} should be updated
      */
-    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE, consumes = MediaType.APPLICATION_JSON_VALUE) // TODO TO: add delete to URL
+    @RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE, consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable int id) {
         requestService.delete(id);
@@ -206,7 +206,7 @@ public class RequestController {
      * 
      * @param requestIdArray array of requests identifiers should be deleted
      */
-    @RequestMapping(method = RequestMethod.DELETE, consumes = MediaType.APPLICATION_JSON_VALUE) // TODO TO: add delete to URL
+    @RequestMapping(value = "/delete", method = RequestMethod.DELETE, consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteRequests(@RequestBody int[] requestIdArray) {
         requestService.delete(requestIdArray);

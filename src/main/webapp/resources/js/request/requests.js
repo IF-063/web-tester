@@ -134,7 +134,7 @@ $(function() {
   function deleteRequests(input) {
     $.ajax({
       type: 'DELETE',
-      url: contextPath + '/tests/requests',
+      url: contextPath + '/tests/requests/delete',
       contentType: 'application/json',
       data: JSON.stringify(input),
       success: function(data, textStatus, jqXHR) {
