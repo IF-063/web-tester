@@ -7,8 +7,7 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 /**
- * EnvironmentHistory class representing a database object.
- *
+ * EnvironmentHistory class representing DB object
  * @author Viktor Syomka
  */
 

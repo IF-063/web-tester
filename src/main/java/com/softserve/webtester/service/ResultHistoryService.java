@@ -73,8 +73,21 @@ public class ResultHistoryService {
         }
     }
 
+    public int saveRequest_Collection(ResultHistory resultHistory) {
+
+        try {
+            resultHistoryMapper.saveRequest_Collection(resultHistory);
+            int id = resultHistory.getId();
+            LOGGER.info("ResultHistory saved successfully, resultHistory details = " + resultHistory);
+            return id;
+        } catch (DataAccessException e) {
+            LOGGER.error("Unable to save resultHistory instance ", e);
+            throw e;
+        }
+    }
+
     /**
-     * Loading {@link resultHistory} instance from DB.
+     * Loading {@link resultHistory} instance from DB
      * @param id identifier of resultHistory instance
      * @return {@link resultHistory} instance
      * @throws DataAccessException
@@ -82,9 +95,7 @@ public class ResultHistoryService {
     public ResultHistory loadById(int id) {
 
         try {
-            ResultHistory result = resultHistoryMapper.loadById(id);
-            return result;
-
+            return resultHistoryMapper.loadById(id);
         } catch (DataAccessException e) {
             LOGGER.error("Unable to load resultHistory instance with id: " + id, e);
             throw e;
@@ -92,7 +103,7 @@ public class ResultHistoryService {
     }
 
     /**
-     * Loading all stored {@link resultHistory} instances with their main information.
+     * Loading all stored {@link resultHistory} instances with their main information
      * @return List of {@link resultHistory} instances
      * @throws DataAccessException
      */
@@ -107,7 +118,7 @@ public class ResultHistoryService {
     }
 
     /**
-     * Loads filtered {@link ResultHistory} instances with their main information.
+     * Loads filtered {@link ResultHistory} instances with their main information
      * @param resultFilterDTO DTO object using for filtering {@link ResultHistory} instance
      * @return List of {@link ResultHistory} instances
      * @throws DataAccessException
@@ -115,9 +126,7 @@ public class ResultHistoryService {
     public List<ResultHistory> loadAll(ResultFilterDTO resultFilterDTO) {
 
         try {
-            List<ResultHistory> list = resultHistoryMapper.loadAll(resultFilterDTO.getStatusFilter(),
-                    resultFilterDTO.getApplicationFilter(), resultFilterDTO.getServiceFilter());
-            return list;
+            return resultHistoryMapper.loadAll(resultFilterDTO.getStatusFilter(), resultFilterDTO.getApplicationFilter(), resultFilterDTO.getServiceFilter());
         } catch (DataAccessException e) {
             LOGGER.error("Unable to load request instances", e);
             throw e;
@@ -125,20 +134,15 @@ public class ResultHistoryService {
     }
 
     /**
-     * Loads filtered {@link ResultHistory} instances with their main information.
+     * Loads filtered {@link ResultHistory} instances with their main information
      * @param resultCollectionFilterDTO DTO object using for filtering {@link ResultHistory} instance
      * @return List of {@link ResultHistory} instances
      * @throws DataAccessException
      */
     public List<ResultHistory> loadAllCollections(ResultCollectionFilterDTO resultCollectionFilterDTO) {
 
-        // TODO VS: Remove temp variables
-        boolean status = resultCollectionFilterDTO.getStatusFilter();
-        int[] buildVersions = resultCollectionFilterDTO.getBuildVersionsFilter();
-        int[] labelFilter = resultCollectionFilterDTO.getLabelFilter();
-
         try {
-            return resultHistoryMapper.loadAllCollections(status, labelFilter, buildVersions);
+            return resultHistoryMapper.loadAllCollections(resultCollectionFilterDTO.getStatusFilter(), resultCollectionFilterDTO.getLabelFilter(), resultCollectionFilterDTO.getBuildVersionsFilter());
         } catch (DataAccessException e) {
             LOGGER.error("Unable to load resultHistory instances", e);
             throw e;
@@ -154,13 +158,9 @@ public class ResultHistoryService {
      * @throws DataAccessException
      */
     public List<ResultHistory> loadAllRequestsByCollectionId(ResultFilterDTO resultFilterDTO, int id, int runId) {
-        // TODO VS: Remove temp variables
-        boolean status = resultFilterDTO.getStatusFilter();
-        int[] applications = resultFilterDTO.getApplicationFilter();
-        int[] services = resultFilterDTO.getServiceFilter();
 
         try {
-            return resultHistoryMapper.loadAllRequestsByCollectionId(status, applications, services, id, runId);
+            return resultHistoryMapper.loadAllRequestsByCollectionId(resultFilterDTO.getStatusFilter(), resultFilterDTO.getApplicationFilter(), resultFilterDTO.getServiceFilter(), id, runId);
         } catch (DataAccessException e) {
             LOGGER.error("Unable to load resultHistory instances", e);
             throw e;
@@ -175,11 +175,9 @@ public class ResultHistoryService {
      * @throws DataAccessException
      */
     public List<ResultHistory> loadAllRequestsByRunId(ResultFilterDTO resultFilterDTO) {
-        // TODO VS: Remove temp variables
-        int runId = resultFilterDTO.getRunId();
 
         try {
-            return resultHistoryMapper.loadAllRequestsByRunId(runId);
+            return resultHistoryMapper.loadAllRequestsByRunId(resultFilterDTO.getRunId());
         } catch (DataAccessException e) {
             LOGGER.error("Unable to load resultHistory instances", e);
             throw e;
@@ -194,11 +192,9 @@ public class ResultHistoryService {
      * @throws DataAccessException
      */
     public List<ResultHistory> loadAllCollectionsByRunId(ResultCollectionFilterDTO resultCollectionFilterDTO) {
-        // TODO VS: Remove temp variables
-        int runId = resultCollectionFilterDTO.getRunId();
 
         try {
-            return resultHistoryMapper.loadAllCollectionsByRunId(runId);
+            return resultHistoryMapper.loadAllCollectionsByRunId(resultCollectionFilterDTO.getRunId());
         } catch (DataAccessException e) {
             LOGGER.error("Unable to load resultHistory instances", e);
             throw e;
@@ -206,7 +202,7 @@ public class ResultHistoryService {
     }
 
     /**
-     * Deleting {@link ResultHistory} instance from DB.
+     * Deleting {@link ResultHistory} instance from DB
      * @param id identifies resultHistory to be deleted
      * @return the number of rows affected by the statement
      * @throws DataAccessException
@@ -222,7 +218,7 @@ public class ResultHistoryService {
     }
 
     /**
-     * Deleting {@link ResultHistory} instance from DB.
+     * Deleting {@link ResultHistory} instance from DB
      * @param id identifies resultHistory to be deleted
      * @return the number of rows affected by the statement
      * @throws DataAccessException
@@ -238,7 +234,7 @@ public class ResultHistoryService {
     }
 
     /**
-     * Deleting {@link ResultHistory} instances from DB.
+     * Deleting {@link ResultHistory} instances from DB
      * @param arr identifiers resultHistories to be deleted
      * @return number of rows affected by the statement
      * @throws DataAccessException
@@ -254,7 +250,7 @@ public class ResultHistoryService {
     }
 
     /**
-     * Deleting {@link ResultHistory} instances from DB.
+     * Deleting {@link ResultHistory} instances from DB
      * @param arr identifiers resultHistories to be deleted
      * @return number of rows affected by the statement
      * @throws DataAccessException
@@ -279,7 +275,7 @@ public class ResultHistoryService {
         try {
             return resultHistoryMapper.getMaxId();
         } catch (DataAccessException e) {
-            LOGGER.error("Unable to retreive MAXid: " + e);
+            LOGGER.error("Unable to retreive Max id: " + e);
             throw e;
         }
     }

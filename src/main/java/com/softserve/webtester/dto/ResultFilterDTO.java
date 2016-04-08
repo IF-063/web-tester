@@ -2,7 +2,10 @@ package com.softserve.webtester.dto;
 
 import java.io.Serializable;
 
-//TODO VS: add JavaDoc.
+/**
+ * DTO class is used for filtering {@link ResultHistory} instances
+ * @author Viktor Somka
+ */
 public class ResultFilterDTO implements Serializable {
 
     private static final long serialVersionUID = -4420976248741084072L;

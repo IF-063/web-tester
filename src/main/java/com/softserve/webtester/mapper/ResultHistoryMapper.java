@@ -46,6 +46,18 @@ public interface ResultHistoryMapper {
     @Options(useGeneratedKeys = true, keyProperty = "id")
     int saveRequest(ResultHistory resultHistory);
 
+
+    @Insert({"<script>INSERT INTO ResultHistory VALUES(NULL, #{status}, #{application.id}, #{service.id}, #{request.id}," +
+            " #{requestName}, #{requestDescription}, #{url}, #{responseType}, #{requestBody}, " +
+            "#{statusLine}, #{timeStart}, #{expectedResponseTime}, #{responseTime}, #{expectedResponse}," +
+            " #{actualResponse}, #{message}, #{runId}, #{requestCollection.id}, #{buildVersion.id}",
+
+            "<if test='requestCollection.id!=null #{requestCollection.id}</if>",
+            "<if test='buildVersion.id!=null #{buildVersion.id}</if>",
+            "</script>"})
+    @Options(useGeneratedKeys = true, keyProperty = "id")
+    int saveRequest_Collection(ResultHistory resultHistory);
+
     /**
      * Loading {@link ResultHistory} instance from DB by its identifier
      * @param id identifies ResultHistory instance

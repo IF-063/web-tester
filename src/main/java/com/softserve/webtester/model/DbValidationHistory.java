@@ -7,8 +7,7 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 /**
- * HeaderHistory class representing a database object.
- *
+ * DbValidationHistory class representing DB object
  * @author Viktor Syomka
  */
 public class DbValidationHistory implements Serializable {
@@ -75,5 +74,4 @@ public class DbValidationHistory implements Serializable {
     public int hashCode() {
         return HashCodeBuilder.reflectionHashCode(this, true);
     }
-    //...
 }

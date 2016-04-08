@@ -7,8 +7,7 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 /**
- * HeaderHistory class representing a database object.
- *
+ * HeaderHistory class representing DB object.
  * @author Viktor Syomka
  */
 

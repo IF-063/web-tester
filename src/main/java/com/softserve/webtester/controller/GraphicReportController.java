@@ -13,14 +13,19 @@ import com.softserve.webtester.model.ResponseTimeType;
 import com.softserve.webtester.service.MetaDataService;
 import com.softserve.webtester.service.ReportService;
 
+/**
+ * Handles and retrieves graphic building page depending on the URI template. A user must be log-in first he
+ * can access this page.
+ * @author Viktor Somka
+ */
 @Controller
 @RequestMapping(value = "/reports/graphics")
 public class GraphicReportController {
 
     private static final String SERVICE_NAME = "serviceName";
     private static final String BUILD_VERSIONS = "buildVersions";
-    private static final String RESPONSETIMETYPE = "responseTimeType"; // TODO VS: Rename
-    private static final String GRAPHICDATA = "graphicData"; // TODO VS: Rename
+    private static final String RESPONSE_TIME_TYPE = "responseTimeType";
+    private static final String GRAPHIC_DATA = "graphicData";
     private static final String SLA = "sla";
 
     @Autowired
@@ -30,8 +35,8 @@ public class GraphicReportController {
     private ReportService reportService;
 
     /**
-     * Retrieves page with graphic data report.
-     * @param reportFilterDTO DTO object is using for filtering statistic data
+     * Retrieves page with graphic data report
+     * @param reportFilterDTO DTO object is used for filtering graphic building data
      * @param model {@link Model} object
      * @return 'graphic' view
      */
@@ -39,13 +44,15 @@ public class GraphicReportController {
     public String getGraphic(@ModelAttribute ReportFilterDTO reportFilterDTO, Model model) {
         model.addAttribute(SERVICE_NAME, metaDataService.serviceLoadAll());
         model.addAttribute(BUILD_VERSIONS, metaDataService.loadAllBuildVersions());
-        model.addAttribute(RESPONSETIMETYPE, ResponseTimeType.values());
+        model.addAttribute(RESPONSE_TIME_TYPE, ResponseTimeType.values());
 
-        if (ArrayUtils.isNotEmpty(reportFilterDTO.getBuildVersionId())) {
-            model.addAttribute(GRAPHICDATA, reportService.loadReportData(reportFilterDTO));
+        if (reportFilterDTO.getServiceId() != 0 && ArrayUtils.isNotEmpty(reportFilterDTO.getBuildVersionId())) {
+            model.addAttribute(GRAPHIC_DATA, reportService.loadReportData(reportFilterDTO));
         }
 
-        model.addAttribute(SLA, metaDataService.serviceLoad(reportFilterDTO.getServiceId()).getSla());
+        if(reportFilterDTO.getServiceId() != 0) {
+            model.addAttribute(SLA, metaDataService.serviceLoad(reportFilterDTO.getServiceId()).getSla());
+        }
         return "graphic";
     }
 }
