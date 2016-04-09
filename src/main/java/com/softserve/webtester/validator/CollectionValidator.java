@@ -31,7 +31,7 @@ public class CollectionValidator implements Validator {
         RequestCollection requestCollection = (RequestCollection) target;
         if (!requestCollectionService.isRequestCollectionNameFree(requestCollection.getName(),
                 requestCollection.getId())) {
-            errors.rejectValue("name", null, "name should be unique"); // TODO YL: move to validation properties
+            errors.rejectValue("name", "NotUnique.requestCollection.name"); 
         }
 
     }
