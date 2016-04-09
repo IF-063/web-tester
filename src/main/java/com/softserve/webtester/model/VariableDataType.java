@@ -9,10 +9,9 @@ import java.util.stream.Stream;
  * 
  * @author Taras Oglabyak
  */
-// TODO VZ: Change to DIGIT and DIGIT FLOAT
 public enum VariableDataType {
 
-    LONG {
+    DIGIT {
         @Override
         public Stream<?> getRandomStream(int length) {
             return new Random().ints(AsciiConstants.DIGIT_0, AsciiConstants.DIGIT_9).mapToObj(i -> (char) i)
@@ -20,7 +19,7 @@ public enum VariableDataType {
         }
     },
 
-    DOUBLE {
+    DIGIT_FLOAT {
         @Override
         public Stream<?> getRandomStream(int length) {
             return new Random().ints(AsciiConstants.DIGIT_0, AsciiConstants.DIGIT_9).mapToObj(i -> (char) i)

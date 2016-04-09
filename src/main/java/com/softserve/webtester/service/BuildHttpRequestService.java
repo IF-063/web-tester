@@ -83,7 +83,7 @@ public class BuildHttpRequestService {
         String randomString = null;
         randomString = variable.getDataType().getRandomStream(length)
                 .collect(StringBuilder::new, StringBuilder::append, StringBuilder::append).toString();
-        if (variable.getDataType() == VariableDataType.DOUBLE) {
+        if (variable.getDataType() == VariableDataType.DIGIT_FLOAT) {
             randomString = new StringBuilder(randomString).insert(randomString.length() - 2, ".").toString();
         }
         return randomString;

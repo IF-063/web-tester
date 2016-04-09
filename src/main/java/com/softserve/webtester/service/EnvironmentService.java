@@ -1,7 +1,6 @@
 package com.softserve.webtester.service;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -12,6 +11,7 @@ import java.util.Map;
 import javax.annotation.PostConstruct;
 import javax.sql.DataSource;
 
+import org.apache.commons.lang.exception.ExceptionUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -218,7 +218,7 @@ public class EnvironmentService {
                 initConnectionPool(environment);
             }
         } catch (Exception e) {
-            throw e;
+            throw (Exception)ExceptionUtils.getRootCause(e);
         }
 
         Statement statement = null;

@@ -82,7 +82,7 @@ public class EnvironmentController {
     }
 
     @RequestMapping(value = "modify/{id}", method = RequestMethod.POST)
-    public String updateEnvironment(@Validated @ModelAttribute Environment environment, BindingResult result, Model model) {
+    public String updateEnvironment(@PathVariable int id, @Validated @ModelAttribute Environment environment, BindingResult result, Model model) {
         if (result.hasErrors()) {
             model.addAttribute(PAGE_TASK, "Update");
             model.addAttribute(DB_TYPES, EnvironmentDbType.values());
