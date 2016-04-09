@@ -27,7 +27,7 @@
                 <c:forEach items="${applications}" var="application">
                   <tr>
                     <td>
-                      <a href=<c:url value="/configuration/applications/${application.id}" />>
+                      <a href=<c:url value="/configuration/applications/modify/${application.id}" />>
                         <c:out value="${application.name}"></c:out>
                       </a>
                     </td>
