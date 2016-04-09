@@ -28,6 +28,7 @@ public interface ServiceMapper {
     final String LOAD_ALL = "SELECT * FROM Service";
     final String LOAD_ALL_WITHOUT_DELETED = "SELECT * FROM Service WHERE DELETED = 0";
     final String LOAD = "SELECT * FROM Service WHERE ID = #{id}";
+    final String LOADNAME = "SELECT NAME FROM Service WHERE ID = #{id}";
     final String DELETE_BY_ID = "DELETE from Service WHERE ID = #{id}";
     final String INSERT = "INSERT INTO Service (NAME, DESCRIPTION, SLA, DELETED) VALUES (#{name}, #{description}, #{sla}, #{deleted})";
     final String UPDATE = "UPDATE Service SET DELETED = #{deleted}, NAME = #{name}, DESCRIPTION = #{description}, SLA = #{sla} WHERE ID = #{id}";
@@ -62,7 +63,7 @@ public interface ServiceMapper {
     /**
      * Loads {@link Service} instance from DB by it's identifier.
      * @param id of Service instance which stored in the DB
-     * @return service instance
+     * @return Service instance
      * @throws DataAccessException when there is no access to the DB
      */
     @Select(LOAD)
@@ -72,6 +73,15 @@ public interface ServiceMapper {
             @Result(property = "sla", column = "SLA"),
             @Result(property = "deleted", column = "DELETED") })
     Service load(int id);
+    
+    /**
+     * Loads name of {@link Service} instance from DB by it's identifier. Used in Results/Graphic.
+     * @param id of Service instance which stored in the DB
+     * @return name of Service instance
+     * @throws DataAccessException when there is no access to the DB
+     */
+    @Select(LOADNAME)
+    String loadServiceName(int id);
 
     /**
      * Updates {@link Service} instance in the DB.
