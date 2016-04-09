@@ -247,7 +247,7 @@ public class ParseAndWriteService {
             type = "JSON";
         }
 
-        if ((RequestMethod.DELETE.name().equalsIgnoreCase("DELETE"))) {
+        if (preparedRequestDTO.getHttpRequest().getMethod().equals(RequestMethod.DELETE.name())) {
             message.append("Unsupported request method; ");
         }
         if (!type.equalsIgnoreCase(request.getResponseType().getTextValue())) {

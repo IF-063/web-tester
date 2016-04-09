@@ -28,6 +28,9 @@ import com.softserve.webtester.validator.ServiceValidator;
 @Controller
 @RequestMapping(value = "/configuration/services")
 public class ServiceController {
+    private static final String SERVICE = "service";
+    private static final String SERVICES = "services";
+    private static final String IS_UPDATE = "isUpdate";
 
     @Autowired
     private MetaDataService metaDataService;
@@ -43,22 +46,22 @@ public class ServiceController {
     @RequestMapping(method = RequestMethod.GET)
     public String getNotDeletedServiceList(Model model) {
         List<Service> services = metaDataService.serviceLoadAllWithoutDeleted();
-        model.addAttribute("services", services);
+        model.addAttribute(SERVICES, services);
         return "service/list";
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET) // TODO RZ: add modify to URL
+    @RequestMapping(value = "/modify/{id}", method = RequestMethod.GET)
     public String getService(@PathVariable(value = "id") Integer serviceId, Model model) {
         Service service = metaDataService.serviceLoad(serviceId);
-        model.addAttribute("isUpdate", "true");
-        model.addAttribute("service", service); // TODO RZ: move to constants 
+        model.addAttribute(IS_UPDATE, "true");
+        model.addAttribute(SERVICE, service);
         return "service/update";
     }
 
     @RequestMapping(value = "/create", method = RequestMethod.GET)
     public String createService(Model model) {
-        model.addAttribute("isUpdate", "false");
-        model.addAttribute("service", new Service());
+        model.addAttribute(IS_UPDATE, "false");
+        model.addAttribute(SERVICE, new Service());
         return "service/update";
     }
 
@@ -66,18 +69,18 @@ public class ServiceController {
     public String saveCreatedService(@Validated @ModelAttribute("service") Service service, BindingResult result,
             Model model) {
         if (result.hasErrors()) {
-            model.addAttribute("isUpdate", "false");
+            model.addAttribute(IS_UPDATE, "false");
             return "service/update";
         }
         metaDataService.serviceSave(service);
         return "redirect:/configuration/services";
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.POST) // TODO RZ: add modify to URL
+    @RequestMapping(value = "/modify/{id}", method = RequestMethod.POST)
     public String saveUpdatedService(@Validated @ModelAttribute("service") Service service, BindingResult result,
             Model model) {
         if (result.hasErrors()) {
-            model.addAttribute("isUpdate", "true");
+            model.addAttribute(IS_UPDATE, "true");
             return "service/update";
         }
         metaDataService.serviceUpdate(service);

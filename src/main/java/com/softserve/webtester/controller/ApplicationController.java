@@ -22,12 +22,17 @@ import com.softserve.webtester.validator.ApplicationValidator;
  * ApplicationController class represents {@code Application} MVC Controller
  *
  * @author Roman Zolotar
- * @version 1.3
+ * @version 2.0
  */
 
 @Controller
 @RequestMapping(value = "configuration/applications")
 public class ApplicationController {
+    private static final String APPLICATION = "application"; 
+    private static final String APPLICATIONS = "applications";
+    private static final String IS_UPDATE = "isUpdate";
+    
+    
 
     @Autowired
     private MetaDataService metaDataService;
@@ -43,22 +48,22 @@ public class ApplicationController {
     @RequestMapping(method = RequestMethod.GET)
     public String getNotDeletedApplicationList(Model model) {
         List<Application> applications = metaDataService.applicationLoadAllWithoutDeleted();
-        model.addAttribute("applications", applications);
+        model.addAttribute(APPLICATIONS, applications);
         return "application/list";
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET) // TODO RZ: add modify to URL
+    @RequestMapping(value = "/modify/{id}", method = RequestMethod.GET)
     public String getApplication(@PathVariable(value = "id") Integer applicationId, Model model) {
         Application application = metaDataService.applicationLoad(applicationId);
-        model.addAttribute("isUpdate", true);
-        model.addAttribute("application", application); // TODO RZ: move to constants
+        model.addAttribute(IS_UPDATE, true);
+        model.addAttribute(APPLICATION, application);
         return "application/update";
     }
 
     @RequestMapping(value = "/create", method = RequestMethod.GET)
     public String createApplication(Model model) {
-        model.addAttribute("isUpdate", false);
-        model.addAttribute("application", new Application());
+        model.addAttribute(IS_UPDATE, false);
+        model.addAttribute(APPLICATION, new Application());
         return "application/update";
     }
 
@@ -66,18 +71,18 @@ public class ApplicationController {
     public String saveCreatedApplication(@Validated @ModelAttribute("application") Application application,
             BindingResult result, Model model) {
         if (result.hasErrors()) {
-            model.addAttribute("isUpdate", false); // TODO RZ: move to constants
+            model.addAttribute(IS_UPDATE, false);
             return "application/update";
         }
         metaDataService.applicationSave(application);
         return "redirect:/configuration/applications";
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.POST) // TODO RZ: add modify to URL
+    @RequestMapping(value = "/modify/{id}", method = RequestMethod.POST)
     public String saveUpdatedApplication(@Validated @ModelAttribute("application") Application application,
             BindingResult result, Model model) {
         if (result.hasErrors()) {
-            model.addAttribute("isUpdate", true);
+            model.addAttribute(IS_UPDATE, true);
             return "application/update";
         }
         metaDataService.applicationUpdate(application);

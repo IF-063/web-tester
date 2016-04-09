@@ -45,15 +45,11 @@ public class MetaDataService {
     @Autowired
     private LabelMapper labelMapper;
 
-    // APPLICATION
-
     /**
      * Loads all {@link Application} instances from database
-     * 
-     * @return List of {@link Application} instances
-     * @throws DataAccessException
+     * @return List of Application instances
+     * @throws DataAccessException when there is no access to the DB
      */
-
     public List<Application> applicationLoadAll() {
         try {
             return applicationMapper.loadAll();
@@ -64,12 +60,10 @@ public class MetaDataService {
     }
     
     /**
-     * Loads all without deleted {@link Application} instances from database
-     * 
-     * @return List of not deleted {@link Application} instances
-     * @throws DataAccessException
+     * Loads all {@link Application} instances from DB which aren't marked as "deleted".
+     * @return List of Application instances
+     * @throws DataAccessException when there is no access to the DB
      */
-
     public List<Application> applicationLoadAllWithoutDeleted() {
         try {
             return applicationMapper.loadAllWithoutDeleted();
@@ -81,12 +75,10 @@ public class MetaDataService {
 
     /**
      * Loads {@link Application} instance from database
-     * 
-     * @param id
-     * @return id of Loaded Application
-     * @throws DataAccessException
+     * @param id of Application instance which stored in the DB
+     * @return Application instance
+     * @throws DataAccessException when there is no access to the DB
      */
-
     public Application applicationLoad(int id) {
         try {
             return applicationMapper.load(id);
@@ -97,13 +89,10 @@ public class MetaDataService {
     }
 
     /**
-     * Updates {@link Application} instance in database
-     * 
-     * @param application
-     *            object
-     * @throws DataAccessException
+     * Updates {@link Application} instance in the DB.
+     * @param Application instance which needs to updated
+     * @throws DataAccessException when there is no access to the DB
      */
-
     public void applicationUpdate(Application application) {
         try {
             applicationMapper.update(application);
@@ -112,14 +101,12 @@ public class MetaDataService {
             throw e;
         }
     }
-
+    
     /**
-     * Deletes {@link Application} instance from database
-     * 
-     * @param id
-     * @throws DataAccessException
+     * Deletes {@link Application} instance from the DB.
+     * @param id of Application instance which need to delete
+     * @throws DataAccessException when there is no access to the DB
      */
-
     public void applicationDelete(int id) {
         try {
             applicationMapper.delete(id);
@@ -131,11 +118,9 @@ public class MetaDataService {
 
     /**
      * Provides soft-delete {@link Application} instance
-     * 
-     * @param id
-     * @throws DataAccessException
+     * @param id of Application instance which need to delete
+     * @throws DataAccessException when there is no access to the DB
      */
-
     public void applicationSoftDelete(int id) {
         try {
             Application application = applicationMapper.load(id);
@@ -150,29 +135,25 @@ public class MetaDataService {
     }
 
     /**
-     * Saves {@link Application} instance in database
-     * 
-     * @param application
-     *            object
-     * @throws DataAccessException
+     * Saves {@link Application} instance to DB.
+     * @param Application instance which needs to store in the DB
+     * @throws DataAccessException when there is no access to the DB
      */
-
     public void applicationSave(Application application) {
         try {
             applicationMapper.save(application);
         } catch (DataAccessException e) {
-            LOGGER.error("Unable to create line in Application table with next id: ", e);
+            LOGGER.error("Unable to create line in Application table: ", e);
             throw e;
         }
     }
     
     /**
      * Checks the unique of application's name.
-     *
      * @param name - name of {@link Application} which should be checked
      * @param exclusionId - id of {@link Application} that should be excluded
      * @return true, if name is unique
-     * @throws DataAccessException
+     * @throws DataAccessException when there is no access to the DB
      */
     @Transactional
     public boolean isApplicationNameFree(String name, int exclusionId) {
@@ -184,16 +165,11 @@ public class MetaDataService {
         }
     }
 
-
-    // SERVICE
-
     /**
-     * Loads all {@link Service} instances from database
-     * 
-     * @return List of {@link Service} instances
-     * @throws DataAccessException
+     * Loads all {@link Service} instance from DB.
+     * @return List of Service instances
+     * @throws DataAccessException when there is no access to the DB
      */
-
     public List<Service> serviceLoadAll() {
         try {
             return serviceMapper.loadAll();
@@ -204,29 +180,25 @@ public class MetaDataService {
     }
     
     /**
-     * Loads all without deleted {@link Application} instances from database
-     * 
-     * @return List of not deleted {@link Application} instances
-     * @throws DataAccessException
+     * Loads all {@link Service} instances from DB which aren't marked as "deleted".
+     * @return List of Service instances
+     * @throws DataAccessException when there is no access to the DB
      */
-
     public List<Service> serviceLoadAllWithoutDeleted() {
         try {
             return serviceMapper.loadAllWithoutDeleted();
         } catch (DataAccessException e) {
-            LOGGER.error("Unable to read Application table: ", e);
+            LOGGER.error("Unable to read Service table: ", e);
             throw e;
         }
     }
 
     /**
-     * Loads {@link Service} instance from database
-     * 
-     * @param id
-     * @return id of Loaded Service
-     * @throws DataAccessException
+     * Loads {@link Service} instance from DB by it's identifier.
+     * @param id of Service instance which stored in the DB
+     * @return service instance
+     * @throws DataAccessException when there is no access to the DB
      */
-
     public Service serviceLoad(int id) {
         try {
             return serviceMapper.load(id);
@@ -237,13 +209,10 @@ public class MetaDataService {
     }
 
     /**
-     * Updates {@link Service} instance in database
-     * 
-     * @param service
-     *            object
-     * @throws DataAccessException
+     * Updates {@link Service} instance in the DB.
+     * @param Service instance which needs to updated
+     * @throws DataAccessException when there is no access to the DB
      */
-
     public void serviceUpdate(Service service) {
         try {
             serviceMapper.update(service);
@@ -254,12 +223,10 @@ public class MetaDataService {
     }
 
     /**
-     * Deletes {@link Service} instance from database
-     * 
-     * @param id
-     * @throws DataAccessException
+     * Deletes {@link Service} instance from the DB.
+     * @param id of Service instance which need to delete
+     * @throws DataAccessException when there is no access to the DB
      */
-
     public void serviceDelete(int id) {
         try {
             serviceMapper.delete(id);
@@ -271,11 +238,9 @@ public class MetaDataService {
 
     /**
      * Provides Soft-delete {@link Service} instance
-     * 
-     * @param id
-     * @throws DataAccessException
+     * @param id of Service instance which need to delete
+     * @throws DataAccessException when there is no access to the DB
      */
-
     public void serviceSoftDelete(int id) {
         try {
             Service service = serviceMapper.load(id);
@@ -290,13 +255,10 @@ public class MetaDataService {
     }
 
     /**
-     * Saves {@link Service} instance in database
-     * 
-     * @param service
-     *            object
-     * @throws DataAccessException
+     * Saves {@link Service} instance to DB.
+     * @param Service instance which needs to store in the DB
+     * @throws DataAccessException when there is no access to the DB
      */
-
     public void serviceSave(Service service) {
         try {
             serviceMapper.save(service);
@@ -308,18 +270,17 @@ public class MetaDataService {
     
     /**
      * Checks the unique of service's name.
-     *
      * @param name - name of {@link Service} which should be checked
      * @param exclusionId - id of {@link Service} that should be excluded
      * @return true, if name is unique
-     * @throws DataAccessException
+     * @throws DataAccessException when there is no access to the DB
      */
     @Transactional
     public boolean isServiceNameFree(String name, int exclusionId) {
         try {
             return serviceMapper.isServiceNameFree(name, exclusionId);
         } catch (DataAccessException e) {
-            LOGGER.error("Unable to check service's name, label's name: " + name, e);
+            LOGGER.error("Unable to check service's name, service name: " + name, e);
             throw e;
         }
     }
