@@ -11,6 +11,8 @@ import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.entity.StringEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
 
 import com.softserve.webtester.dto.PreparedRequestDTO;
 import com.softserve.webtester.model.Environment;
@@ -50,36 +52,32 @@ public class BuildHttpRequestService {
                 httpRequest.setHeader(header.getName(), header.getValue());
             }
         }
-        if (request.getVariables() != null) {
-            List<Variable> variableList = getListVarables(request, environment);
+        List<Variable> variableList = null;
+        if (!CollectionUtils.isEmpty(request.getVariables())) {
+            variableList = getListVarables(request, environment);
             preparedRequestDTO.setVariableList(variableList);
-            if (httpRequest.getMethod().equals("POST")) { // TODO VZ: use enum
-                HttpEntityEnclosingRequestBase httpEntityEnclosingRequest = (HttpEntityEnclosingRequestBase) httpRequest;
-                String preparedRequestBody = requestExecuteSupportService.getEvaluatedString(request.getRequestBody(),
+        }
+        if (!StringUtils.isEmpty(request.getRequestBody())) {
+            String preparedRequestBody = request.getRequestBody();
+            if (!CollectionUtils.isEmpty(variableList)) {
+                preparedRequestBody = requestExecuteSupportService.getEvaluatedString(request.getRequestBody(),
                         variableList, "Request body");
-                HttpEntity entity = new StringEntity(preparedRequestBody);
-                preparedRequestDTO.setPreparedRequestBody(preparedRequestBody);
-                httpEntityEnclosingRequest.setEntity(entity);
-                preparedRequestDTO.setHttpRequest(httpEntityEnclosingRequest);
-                return preparedRequestDTO;
             }
-        } else {
-            if (httpRequest.getMethod().equals("POST")) {
-                HttpEntityEnclosingRequestBase httpEntityEnclosingRequest = (HttpEntityEnclosingRequestBase) httpRequest;
-                String preparedRequestBody = request.getRequestBody();
-                HttpEntity entity = new StringEntity(preparedRequestBody);
-                preparedRequestDTO.setPreparedRequestBody(preparedRequestBody);
-                httpEntityEnclosingRequest.setEntity(entity);
-                preparedRequestDTO.setHttpRequest(httpEntityEnclosingRequest);
-                return preparedRequestDTO;
-            }
+            HttpEntity entity = new StringEntity(preparedRequestBody);
+            preparedRequestDTO.setPreparedRequestBody(preparedRequestBody);
+            
+            HttpEntityEnclosingRequestBase httpEntityEnclosingRequest = (HttpEntityEnclosingRequestBase) httpRequest;
+            httpEntityEnclosingRequest.setEntity(entity);
+            preparedRequestDTO.setHttpRequest(httpEntityEnclosingRequest);
+            return preparedRequestDTO;
         }
         preparedRequestDTO.setHttpRequest(httpRequest);
         return preparedRequestDTO;
+
     }
 
     /**
-     * Return generated String given length
+     * Provides generate random String of a given length
      */
     private String getRandomString(Variable variable, int length) {
         String randomString = null;
