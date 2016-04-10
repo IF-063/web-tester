@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -18,9 +19,8 @@ import com.softserve.webtester.dto.StatisticFilterDTO;
 import com.softserve.webtester.mapper.ReportMapper;
 
 /**
- * ReportService class implements generating of data for statistic and graphic reports
- * The service uses Spring DataSourceTransactionManager for managing transaction with the database and log4j for
- * logging.
+ * ReportService class implements generating of data for statistic and graphic reports The service uses Spring
+ * DataSourceTransactionManager for managing transaction with the database and log4j for logging.
  *
  */
 @Service
@@ -33,17 +33,16 @@ public class ReportService {
 
     /**
      * Generate data for graphic building
+     * 
      * @param reportFilterDTO DTO object using for filtering graphic data
      * @return list of ReportDataDTO objects
      * @throws DataAccessException
      */
     @Transactional
     public List<ReportDataDTO> loadReportData(ReportFilterDTO reportFilterDTO) {
-
         List<ReportDataDTO> list = null;
         int serviceId = reportFilterDTO.getServiceId();
         int[] buildVersionIds = reportFilterDTO.getBuildVersionId();
-
         switch (reportFilterDTO.getResponseTimeFilterMarker()) {
         case AVERAGE:
             list = loadWithAvarageResponseTime(serviceId, buildVersionIds);
@@ -54,34 +53,33 @@ public class ReportService {
         }
         return list;
     }
-
+ 
     /**
-     * Getting average response time for each collection with build version
+     * Invoke this method to get list of the DTO objects with average response time for each build version of the 
+     * service from the database
      */
-    @Transactional
-    public int loadAvarageResponseTimeForService(ReportFilterDTO reportFilterDTO) {
-        return reportMapper.loadAverage(reportFilterDTO.getServiceId());
-    }
-
-    public List<ReportDataDTO> loadWithAvarageResponseTime(int serviceId, int[] buildVersionIds) {
+    private List<ReportDataDTO> loadWithAvarageResponseTime(int serviceId, int[] buildVersionIds) {
+        String buildVersionIdsjoin = StringUtils.join(buildVersionIds, ",");
         try {
             return reportMapper.loadAvg(serviceId, buildVersionIds);
-            //String join = StringUtils.join(buildVersionIds, ",");
         } catch (DataAccessException e) {
-            LOGGER.error("Unable to load ResponseTime for request", e); // TODO VS: Add information into Log message
+            LOGGER.error("Unable to load ResponseTime for service id = " + serviceId + "Build Version id = "
+                    + buildVersionIdsjoin, e);
             throw e;
         }
     }
 
     /**
-     * Getting maximum response time for each collection with build version
+     * Invoke this method to get list of the DTO objects with maximum response time for each build version of the 
+     * service from the database
      */
-    @Transactional
-    public List<ReportDataDTO> loadWithMaxResponseTime(int serviceId, int[] buildVersionIds) {
+    private List<ReportDataDTO> loadWithMaxResponseTime(int serviceId, int[] buildVersionIds) {
+        String buildVersionIdsjoin = StringUtils.join(buildVersionIds, ",");
         try {
             return reportMapper.loadMax(serviceId, buildVersionIds);
         } catch (DataAccessException e) {
-            LOGGER.error("Unable to load ResponseTime for request", e);
+            LOGGER.error("Unable to load ResponseTime for service id = " + serviceId + "Build Version id = "
+                    + buildVersionIdsjoin, e);
             throw e;
         }
     }
@@ -97,15 +95,14 @@ public class ReportService {
     public List<StatisticDataDTO> loadStatisticReportData(StatisticFilterDTO statisticFilterDTO) {
         int[] serviceId = statisticFilterDTO.getServiceId();
         int[] buildVersionIds = statisticFilterDTO.getBuildVersionId();
-
         List<StatisticDataDTO> result = new ArrayList<>(serviceId.length);
         for (int id : serviceId) {
-            StatisticDataDTO dto = reportMapper.loadStatisticDataDTO(id);
+            StatisticDataDTO dto = loadStatisticDataForService(id);
             switch (statisticFilterDTO.getResponseTimeFilterMarker()) {
             case AVERAGE:
                 dto.setResponseTimes(loadStatisticWithAverageResponseTime(id, buildVersionIds));
                 break;
-            case MAX:    
+            case MAX:
                 dto.setResponseTimes(loadStatisticWithMaximumResponseTime(id, buildVersionIds));
                 break;
             }
@@ -115,27 +112,41 @@ public class ReportService {
     }
 
     /**
-     * Invoke this method to get average response time for each build version from the database
+     * Invoke this method to get Statistic Data for the {@link Service} from the database
      */
-    @Transactional
-    public List<Integer> loadStatisticWithAverageResponseTime(int serviceId, int[] buildVersionIds) {
+    private StatisticDataDTO loadStatisticDataForService(int id) {
         try {
-            return reportMapper.loadAvgStatistic(serviceId, buildVersionIds);
+            return reportMapper.loadStatisticDataDTO(id);
         } catch (DataAccessException e) {
-            LOGGER.error("Unable to load ResponseTime for request", e); // TODO VS: Add information into Log message
+            LOGGER.error("Unable to load Statistic Data for requestCollection id = " + id, e);
             throw e;
         }
     }
 
     /**
-     * Invoke this method to get maximum response time for each build version from the database
+     * Invoke this method to get average response time for each build version of the service from the database
      */
-    @Transactional
-    public List<Integer> loadStatisticWithMaximumResponseTime(int serviceId, int[] buildVersionIds) {
+    private List<Integer> loadStatisticWithAverageResponseTime(int serviceId, int[] buildVersionIds) {
+        String buildVersionIdsjoin = StringUtils.join(buildVersionIds, ",");
+        try {
+            return reportMapper.loadAvgStatistic(serviceId, buildVersionIds);
+        } catch (DataAccessException e) {
+            LOGGER.error("Unable to load ResponseTime for service id = " + serviceId + "Build Version id = "
+                    + buildVersionIdsjoin, e);
+            throw e;
+        }
+    }
+
+    /**
+     * Invoke this method to get maximum response time for each build version of the service from the database
+     */
+    private List<Integer> loadStatisticWithMaximumResponseTime(int serviceId, int[] buildVersionIds) {
+        String buildVersionIdsjoin = StringUtils.join(buildVersionIds, ",");
         try {
             return reportMapper.loadMaxStatistic(serviceId, buildVersionIds);
         } catch (DataAccessException e) {
-            LOGGER.error("Unable to load ResponseTime for request", e); // TODO VS: Add information into Log message
+            LOGGER.error("Unable to load ResponseTime for service id = " + serviceId + "Build Version id = "
+                    + buildVersionIdsjoin, e);
             throw e;
         }
     }
