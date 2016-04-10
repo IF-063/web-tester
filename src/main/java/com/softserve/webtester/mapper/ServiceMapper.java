@@ -84,15 +84,6 @@ public interface ServiceMapper {
     String loadServiceName(int id);
 
     /**
-     +     * Loads name of {@link Service} instance from DB by it's identifier. Used in Results/Graphic.
-     +     * @param id of Service instance which stored in the DB
-     +     * @return name of Service instance
-     +     * @throws DataAccessException when there is no access to the DB
-     +     */
-    @Select(LOADNAME)
-    String loadServiceName(int id);
-
-    /**
      * Updates {@link Service} instance in the DB.
      * @param Service instance which needs to updated
      * @throws DataAccessException when there is no access to the DB
