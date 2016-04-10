@@ -19,7 +19,7 @@
 
 <div class="panel panel-default">
   <div class="panel-heading">
-    <h3>Result details for request with ID: ${result.request.getId()}</h3>
+    <h3>Result details for request with ID: <c:out value="${result.request.id}" /></h3>
   </div>
   <div class="panel-body">
     <div class="col-md-12">
@@ -39,7 +39,7 @@
           <p><b>Request Name</b></p>
         </div>
         <div class="col-sm-9">
-          ${result.requestName}
+          <c:out value="${result.requestName}" />
         </div>
       </div>
     </div>
@@ -50,7 +50,7 @@
           <p><b>Request Description</b></p>
         </div>
         <div class="col-sm-9">
-          ${result.requestDescription}
+          <c:out value="${result.requestDescription}" />
         </div>
       </div>
     </div>
@@ -61,7 +61,7 @@
           <p><b>Application Name</b></p>
         </div>
         <div class="col-sm-9">
-          ${result.application.getName()}
+          <c:out value="${result.application.name}" />
         </div>
       </div>
     </div>
@@ -72,7 +72,7 @@
           <p><b>Service Name</b></p>
         </div>
         <div class="col-sm-9">
-          ${result.service.getName()}
+          <c:out value="${result.service.name}" />
         </div>
       </div>
     </div>
@@ -93,10 +93,10 @@
     <div class="col-md-12">
       <div class="row">
         <div class="col-sm-3">
-          <p><b>URL</b></p>
+          <p><b>Start Time</b></p>
         </div>
         <div class="col-sm-9">
-          ${result.url}
+          <c:out value="${result.timeStart}" />
         </div>
       </div>
     </div>
@@ -104,7 +104,29 @@
     <div class="col-md-12">
       <div class="row">
         <div class="col-sm-3">
-          <p><b>Headers</b></p>
+          <p><b>RunId</b></p>
+        </div>
+        <div class="col-sm-9">
+          <c:out value="${result.runId}" />
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-12">
+      <div class="row">
+        <div class="col-sm-3">
+          <p><b>URL</b></p>
+        </div>
+        <div class="col-sm-9">
+          <c:out value="${result.url}" />
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-12">
+      <div class="row">
+        <div class="col-sm-3">
+          <p><b>Request Headers</b></p>
         </div>
         <div class="col-md-6 elementContainer">
           <div class="panel panel-default">
@@ -119,8 +141,8 @@
                 <tbody>
                 <c:forEach items="${result.getHeaderHistories()}" var="result">
                   <tr>
-                    <td class="td-left">${result.name}</td>
-                    <td class="td-left">${result.value}</td>
+                    <td class="td-left"><c:out value="${result.name}" /></td>
+                    <td class="td-left"><c:out value="${result.value}" /></td>
                   </tr>
                 </c:forEach>
                 </tbody>
@@ -131,24 +153,6 @@
       </div>
     </div>
 
-    <div class="col-md-12">
-      <div class="row">
-        <div class="col-sm-3">
-          <p><b>Response Type</b></p>
-        </div>
-        <div class="col-sm-9">
-          ${result.responseType}
-        </div>
-      </div>
-    </div>
-
-    <div class="panel-body">
-      <div class="inner">
-        <c:if test="${not empty graphicData}">
-          <h4 >Performance by ${reportFilterDTO.getResponseTimeFilterMarker() == "AVERAGE"?'Average':'Maximum'} value of response time</h4>
-        </c:if>
-      </div>
-    </div>
 
     <c:if test="${!(result.request.getRequestMethod() == 'GET')}">
       <div class="col-md-12">
@@ -158,7 +162,7 @@
           </div>
           <div class="table-responsive">
             <div class="col-sm-9">
-              <textarea readonly class="form-control" id="t1" rows="2" name="text">${result.requestBody}</textarea>
+              <textarea readonly class="form-control" id="t1" rows="2" name="text"><c:out value="${result.requestBody}" /></textarea>
             </div>
           </div>
         </div>
@@ -172,8 +176,19 @@
         </div>
         <div class="table-responsive">
           <div class="col-sm-9">
-            <textarea readonly class="form-control" id="t2" rows="1" name="text">${result.statusLine}</textarea>
+            <textarea readonly class="form-control" id="t2" rows="1" name="text"><c:out value="${result.statusLine}" /></textarea>
           </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-12">
+      <div class="row">
+        <div class="col-sm-3">
+          <p><b>Response Type</b></p>
+        </div>
+        <div class="col-sm-9">
+          <c:out value="${result.responseType}" />
         </div>
       </div>
     </div>
@@ -184,7 +199,7 @@
           <p><b>Expected Response Time</b></p>
         </div>
         <div class="col-sm-9">
-          ${result.expectedResponseTime}
+          <c:out value="${result.expectedResponseTime}" />
         </div>
       </div>
     </div>
@@ -195,29 +210,7 @@
           <p><b>Actual Response Time</b></p>
         </div>
         <div class="col-sm-9">
-          ${result.responseTime}
-        </div>
-      </div>
-    </div>
-
-    <div class="col-md-12">
-      <div class="row">
-        <div class="col-sm-3">
-          <p><b>Start Time</b></p>
-        </div>
-        <div class="col-sm-9">
-          ${result.timeStart}
-        </div>
-      </div>
-    </div>
-
-    <div class="col-md-12">
-      <div class="row">
-        <div class="col-sm-3">
-          <p><b>RunId</b></p>
-        </div>
-        <div class="col-sm-9">
-          ${result.runId}
+          <c:out value="${result.responseTime}" />
         </div>
       </div>
     </div>
@@ -229,7 +222,7 @@
         </div>
         <div class="table-responsive">
           <div class="col-sm-9">
-            <textarea readonly class="form-control" id="t3" name="text" rows="1">${result.message}</textarea>
+            <textarea readonly class="form-control" id="t3" name="text" rows="1"><c:out value="${result.message}" /></textarea>
           </div>
         </div>
       </div>
@@ -254,9 +247,9 @@
                 <tbody>
                 <c:forEach items="${result.getDbValidationHistories()}" var="result">
                   <tr>
-                    <td><textarea readonly class="form-control" rows="1" name="text">${result.sqlQuery}</textarea></td>
-                    <td class="td-left">${result.expectedValue}</td>
-                    <td class="td-left">${result.actualValue}</td>
+                    <td><textarea readonly class="form-control" rows="1" name="text"><c:out value="${result.sqlQuery}" /></textarea></td>
+                    <td class="td-left"><c:out value="${result.expectedValue}" /></td>
+                    <td class="td-left"><c:out value="${result.actualValue}" /></td>
                   </tr>
                 </c:forEach>
                 </tbody>

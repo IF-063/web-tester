@@ -66,17 +66,17 @@
             <c:forEach items="${list}" var="result"  varStatus="status">
               <tr class="dataRow">
                   <td class="td-centered"><input id="${result.id}" type="checkbox" name="operateSelect" /></td>
-                  <td class="td-centered">${result.requestCollection.getId()}</td>
-                  <td>${result.requestCollection.getName()}</td>
-                  <td>${result.requestCollection.getDescription()}</td>
-                  <td class="td-centered">${result.runId}</td>
+                  <td class="td-centered"><c:out value="${result.requestCollection.id}" /></td>
+                  <td><c:out value="${result.requestCollection.name}" /></td>
+                  <td><c:out value="${result.requestCollection.description}" /></td>
+                  <td class="td-centered"><c:out value="${result.runId}" /></td>
                   <td>
                     <c:forEach items="${result.labels}" var="label">
                       <span class="label label-info" style='margin:2px;padding:4px'/>${label.name}</span>
                     </c:forEach>
                   </td>
-                  <td class="td-centered">${result.buildVersion.name}</td>
-                  <td class="td-centered">${result.timeStart}</td>
+                  <td class="td-centered"><c:out value="${result.buildVersion.name}" /></td>
+                  <td class="td-centered"><c:out value="${result.timeStart}" /></td>
                   <td class="td-centered">${(result.status==true)?'pass':'fail'}</td>
                   <td class="td-centered"><a href=<c:url value="/results/collections/${result.requestCollection.getId()}?runId=${result.runId}" />>request results</a></td>
                   <td class="td-centered">

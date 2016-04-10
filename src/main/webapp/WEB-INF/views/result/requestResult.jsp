@@ -66,13 +66,13 @@
             <c:forEach items="${list}" var="result" varStatus="status">
               <tr class="dataRow">
                 <td class="td-centered"><input id="${result.id}" type="checkbox" name="operateSelect" /></td>
-                <td>${result.requestName}</td>
-                <td>${result.requestDescription}</td>
-                <td>${result.application.getName()}</td>
-                <td>${result.service.getName()}</td>
+                <td><c:out value="${result.requestName}" /></td>
+                <td><c:out value="${result.requestDescription}" /></td>
+                <td><c:out value="${result.application.name}" /></td>
+                <td><c:out value="${result.service.name}" /></td>
                 <td class="td-centered">${result.timeStart}</td>
                 <td class="td-centered">${(result.status==true)?'pass':'fail'}</td>
-                <td>${result.message}</td>
+                <td><c:out value="${result.message}" /></td>
                 <td class="td-centered"><a href=<c:url value="/results/requests/${result.id}" />>details</a></td>
                 <td class="td-centered">
                   <a class="removeInstance cursorPointer fa fa-trash fa-lg"

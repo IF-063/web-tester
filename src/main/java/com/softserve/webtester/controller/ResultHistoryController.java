@@ -83,7 +83,6 @@ public class ResultHistoryController {
      * @param arr array of resultHistories identifiers should be deleted
      */
     @RequestMapping(method = RequestMethod.DELETE, consumes = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteRequests(@RequestBody int[] arr) {
 
         resultHistoryService.deleteSelectedResults(arr);
