@@ -18,7 +18,7 @@ import com.softserve.webtester.model.Service;
 /**
  * ServiceMapper is MyBatis mapper interface for {@link Service} CRUD
  * operations.
- * 
+ *
  * @author Roman Zolotar
  * @version 1.3
  */
@@ -40,7 +40,7 @@ public interface ServiceMapper {
      * @throws DataAccessException when there is no access to the DB
      */
     @Select(LOAD_ALL)
-    @Results(value = { @Result(property = "id", column = "ID"), 
+    @Results(value = { @Result(property = "id", column = "ID"),
             @Result(property = "name", column = "NAME"),
             @Result(property = "description", column = "DESCRIPTION"),
             @Result(property = "sla", column = "SLA"),
@@ -53,7 +53,7 @@ public interface ServiceMapper {
      * @throws DataAccessException when there is no access to the DB
      */
     @Select(LOAD_ALL_WITHOUT_DELETED)
-    @Results(value = { @Result(property = "id", column = "ID"), 
+    @Results(value = { @Result(property = "id", column = "ID"),
             @Result(property = "name", column = "NAME"),
             @Result(property = "description", column = "DESCRIPTION"),
             @Result(property = "sla", column = "SLA"),
@@ -67,7 +67,7 @@ public interface ServiceMapper {
      * @throws DataAccessException when there is no access to the DB
      */
     @Select(LOAD)
-    @Results(value = { @Result(property = "id", column = "ID"), 
+    @Results(value = { @Result(property = "id", column = "ID"),
             @Result(property = "name", column = "NAME"),
             @Result(property = "description", column = "DESCRIPTION"),
             @Result(property = "sla", column = "SLA"),
@@ -80,6 +80,15 @@ public interface ServiceMapper {
      * @return name of Service instance
      * @throws DataAccessException when there is no access to the DB
      */
+    @Select(LOADNAME)
+    String loadServiceName(int id);
+
+    /**
+     +     * Loads name of {@link Service} instance from DB by it's identifier. Used in Results/Graphic.
+     +     * @param id of Service instance which stored in the DB
+     +     * @return name of Service instance
+     +     * @throws DataAccessException when there is no access to the DB
+     +     */
     @Select(LOADNAME)
     String loadServiceName(int id);
 

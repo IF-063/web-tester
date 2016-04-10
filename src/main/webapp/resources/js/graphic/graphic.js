@@ -51,7 +51,7 @@ $(function() {
             return f.value + 'ms';
         },
         datasetFill : false,
-        scaleBeginAtZero : false,
+        scaleBeginAtZero : true,
         scaleGridLineColor : "rgba(0,0,0,.05)",
         scaleGridLineWidth : 1,
         barShowStroke : true

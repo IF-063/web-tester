@@ -105,7 +105,7 @@ public class ResultHistoryCollectionController {
 
         model.addAttribute(APPLICATIONS, metaDataService.applicationLoadAll());
         model.addAttribute(SERVICES, metaDataService.serviceLoadAll());
-        model.addAttribute(LIST,resultHistoryService.loadAllRequestsByCollectionId(resultFilterDTO, id, runId));
+        model.addAttribute(LIST, resultHistoryService.loadAllRequestsByCollectionId(resultFilterDTO, id, runId));
         return "requestResult";
     }
 }

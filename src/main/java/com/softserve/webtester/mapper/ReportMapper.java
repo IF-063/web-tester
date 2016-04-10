@@ -37,13 +37,13 @@ public interface ReportMapper {
             "<foreach collection='buildVersionId' item='item' index='index' open='(' separator=',' close=')'>",
             " #{item} </foreach>", "GROUP BY buildVersionId </script>" })
     @Results({
-            @Result(property = "serviceName", column = "serviceId", 
+            @Result(property = "serviceName", column = "serviceId",
                     one = @One(select = "com.softserve.webtester.mapper.ServiceMapper.loadServiceName") ),
             @Result(property = "responseTime", column = "responseTime", jdbcType = JdbcType.INTEGER),
-            @Result(property = "buildVersionName", column = "buildVersionId", 
+            @Result(property = "buildVersionName", column = "buildVersionId",
                     one = @One(select = "com.softserve.webtester.mapper.BuildVersionMapper.loadBuildVersionName") ) })
     List<ReportDataDTO> loadAvg(@Param(value = "serviceId") int serviceId,
-            @Param(value = "buildVersionId") int[] buildVersionId);
+                                @Param(value = "buildVersionId") int[] buildVersionId);
 
     /**
      * Loads report data with maximum response time for each build version testing run of {@link RequestCollection} 
@@ -62,10 +62,10 @@ public interface ReportMapper {
             @Result(property = "serviceName", column = "serviceId",
                     one = @One(select = "com.softserve.webtester.mapper.ServiceMapper.loadServiceName") ),
             @Result(property = "responseTime", column = "responseTime", jdbcType = JdbcType.INTEGER),
-            @Result(property = "buildVersionName", column = "buildVersionId", 
+            @Result(property = "buildVersionName", column = "buildVersionId",
                     one = @One(select = "com.softserve.webtester.mapper.BuildVersionMapper.loadBuildVersionName") ) })
     List<ReportDataDTO> loadMax(@Param(value = "serviceId") int serviceId,
-            @Param(value = "buildVersionId") int[] buildVersionId);
+                                @Param(value = "buildVersionId") int[] buildVersionId);
 
     /**
      * Loads average response time of all testing runs {@link RequestCollection} for the service from database by it`s identifier.

@@ -30,7 +30,7 @@ import com.softserve.webtester.model.ResultHistory;
 @Transactional
 public class ResultHistoryService {
 
-    private static final Logger LOGGER = Logger.getLogger(RequestService.class);
+    private static final Logger LOGGER = Logger.getLogger(ResultHistoryService.class);
 
     @Autowired
     private ResultHistoryMapper resultHistoryMapper;
@@ -194,10 +194,10 @@ public class ResultHistoryService {
      * @return the number of rows affected by the statement
      * @throws DataAccessException
      */
-    public int delete(int id) {
+    public int deleteByResultHistoryId(int id) {
 
         try {
-            return resultHistoryMapper.detele(id);
+            return resultHistoryMapper.deleteByResultHistoryId(id);
         } catch (DataAccessException e) {
             LOGGER.error("Unable to delete resultHistory instance with requestId: " + id, e);
             throw e;

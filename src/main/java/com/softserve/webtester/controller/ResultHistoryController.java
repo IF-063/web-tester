@@ -74,7 +74,7 @@ public class ResultHistoryController {
     @RequestMapping("/remove/{id}")
     public String removeResult(@PathVariable int id){
 
-        resultHistoryService.delete(id);
+        resultHistoryService.deleteByResultHistoryId(id);
         return "redirect:/results/requests";
     }
 

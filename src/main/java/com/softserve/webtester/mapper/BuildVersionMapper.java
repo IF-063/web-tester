@@ -48,7 +48,7 @@ public interface BuildVersionMapper {
             @Result(property = "description", column = "description", jdbcType = JdbcType.VARCHAR)
     })
     BuildVersion loadBuildVersionById(int id);
-    
+
     /**
      * Loads all {@link BuildVersion} instances from the database which aren't marked as "deleted".
      *
@@ -101,4 +101,13 @@ public interface BuildVersionMapper {
      */
     @Select("SELECT IF(count(*) > 0, false, true) FROM BuildVersion WHERE name = #{name} AND id != #{exclusionId}")
     boolean isBuildVersionNameFree(@Param("name") String name, @Param("exclusionId") int exclusionId);
+
+    /**
+     * Loads BuildVersion name from database by its identifier
+     * @param id
+     * @return BuildVersion name
+     * @throws DataAccessException
+     */
+    @Select("SELECT name FROM BuildVersion WHERE id = #{id} AND deleted = 0")
+    String loadBuildVersionName(int id);
 }

@@ -102,9 +102,11 @@ public interface ResultHistoryMapper {
     @Select({"<script>SELECT DISTINCT id, status, applicationId, serviceId, requestName, message," +
             " requestDescription, timeStart FROM ResultHistory WHERE id > 0",
             "<if test='status!=null and status!=\"\"'> AND status =#{status}</if>",
+
             "<if test='applications!=null and applications.length>0'> AND applicationId IN",
             "<foreach collection='applications' item='item' index='index' open='(' separator=',' close=')'>",
             "#{item}</foreach></if>",
+
             "<if test='services!=null and services.length>0'> AND serviceId IN",
             "<foreach collection='services' item='item' index='index' open='(' separator=',' close=')'>",
             "#{item}</foreach></if>",
@@ -277,7 +279,7 @@ public interface ResultHistoryMapper {
      * @throws DataAccessException
      */
     @Delete("DELETE FROM ResultHistory WHERE id = #{id}")
-    int detele(int id);
+    int deleteByResultHistoryId(int id);
 
     /**
      * Deleting {@link ResultHistory} instance by its identifier from DB
