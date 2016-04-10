@@ -22,9 +22,8 @@ import com.softserve.webtester.model.Variable;
 import com.softserve.webtester.model.VariableDataType;
 
 /**
- * BuildHttpRequestService class allows create http requests based on Request
- * and Environment
- *
+ * BuildHttpRequestService class allows create http requests based on {@link Request}
+ * and {@link Environment} instances
  */
 @Service
 public class BuildHttpRequestService {
@@ -33,10 +32,11 @@ public class BuildHttpRequestService {
     private RequestExecuteSupportService requestExecuteSupportService;
 
     /**
-     * Create instance PreparedRequestDTO which contains instance of HttpRequest
-     * and list of generated Variable
+     * Create instance PreparedRequestDTO which contains instance of HttpRequest,
+     * list of generated {@link Variable} instances and prepared request body
      * 
-     * @param request
+     * @param request {@link Request} instance for preparing to execute
+     * @param environment {@link Environment} instance for preparing to execute request
      * @throws Exception
      */
     public PreparedRequestDTO getHttpRequest(Request request, Environment environment) throws Exception {
@@ -52,11 +52,13 @@ public class BuildHttpRequestService {
                 httpRequest.setHeader(header.getName(), header.getValue());
             }
         }
+        
         List<Variable> variableList = null;
         if (!CollectionUtils.isEmpty(request.getVariables())) {
             variableList = getListVarables(request, environment);
             preparedRequestDTO.setVariableList(variableList);
         }
+        
         if (!StringUtils.isEmpty(request.getRequestBody())) {
             String preparedRequestBody = request.getRequestBody();
             if (!CollectionUtils.isEmpty(variableList)) {

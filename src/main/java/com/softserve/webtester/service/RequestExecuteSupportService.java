@@ -29,6 +29,10 @@ import com.google.gson.JsonSyntaxException;
 import com.softserve.webtester.model.Environment;
 import com.softserve.webtester.model.Variable;
 
+/**
+ * RequestExecuteSupportService class handles common support methods for {@link RequestService},
+ * {@link BuildHttpRequestService} and {@link ParseAndWriteService}
+ */
 @Service
 public class RequestExecuteSupportService {
 

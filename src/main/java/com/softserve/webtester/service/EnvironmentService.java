@@ -30,12 +30,13 @@ import com.softserve.webtester.model.Environment;
  *
  */
 @Service
-@Transactional
 public class EnvironmentService {
 
     private static final Logger LOGGER = Logger.getLogger(EnvironmentService.class);
 
     private static final String CHECK_SQL = "SELECT 1";
+
+    //Override default configuration parameters for static factory class DataSources
     private static final String MAX_POOL_SIZE_STRING = "maxPoolSize";
     private static final int MAX_POOL_SIZE_VALUE = 20;
     private static final String ACQUIRE_RETRY_ATTEMPTS_STRING = "acquireRetryAttempts";
@@ -44,6 +45,10 @@ public class EnvironmentService {
     private static final boolean TEST_CONNECTION_ON_CHECKIN_VALUE = true;
     private static final String PREFERRED_TEST_QUERY_STRING = "preferredTestQuery";
 
+    /**
+     * Handle connection pools to available DBs. Key is {@link Environment} instance which used for
+     * creating connection pool
+     */
     private Map<Environment, DataSource> connectionPools = new HashMap<Environment, DataSource>();
 
     @Value("${environment.timemultiplier.default}")
@@ -61,7 +66,10 @@ public class EnvironmentService {
     }
 
     /**
-     * @see EnvironmentMapper#load(int) method
+     * Selects {@link Environment} entity from database
+     * 
+     * @param id identifier of Environment instance
+     * @return Environment instance
      * @throws DataAccessException
      */
     public Environment load(int id) {
@@ -77,7 +85,9 @@ public class EnvironmentService {
     }
 
     /**
-     * @see EnvironmentMapper#loadAll() method
+     * Selects all {@link Environment} entities not marked as "deleted" from database
+     * 
+     * @return List of Environment instances
      * @throws DataAccessException
      */
     public List<Environment> loadAll() {
@@ -90,7 +100,10 @@ public class EnvironmentService {
     }
 
     /**
-     * @see EnvironmentMapper#save(Environment environment) method
+     * Saves {@link Environment} instance to database
+     * 
+     * @param Environment instance should be stored
+     * @return number of rows affected by the statement
      * @throws DataAccessException
      */
     public int save(Environment environment) {
@@ -104,7 +117,10 @@ public class EnvironmentService {
     }
 
     /**
-     * @see EnvironmentMapper#update(Environment environment) method
+     * Updates {@link Environment} instance in the database
+     * 
+     * @param Environment instance should be updated
+     * @return the number of rows affected by the statement
      * @throws DataAccessException
      */
     public int update(Environment environment) {
@@ -118,7 +134,10 @@ public class EnvironmentService {
     }
 
     /**
-     * @see EnvironmentMapper#delete(Environment environment) method
+     * Deletes {@link Environment} instance from database
+     * 
+     * @param Environment instance should be deleted
+     * @return the number of rows affected by the statement
      * @throws DataAccessException
      */
     public int delete(Environment environment) {
@@ -132,7 +151,10 @@ public class EnvironmentService {
     }
 
     /**
-     * @see EnvironmentMapper#isNameFree(Environment environment) method
+     * Checks the unique of {@link Environment} property "name"
+     * 
+     * @param Environment instance should be checked
+     * @return count of entities with the same property "name"
      * @throws DataAccessException
      */
     public int isNameFree(Environment environment) {
@@ -168,7 +190,8 @@ public class EnvironmentService {
     }
     
     /**
-     * Initializes connection pool to available DB's
+     * Initializes connection pool to all available DBs at start application which are handled
+     * in {@link connectionPools}
      */
     @PostConstruct
     public void initConnectionPools() {
@@ -192,6 +215,7 @@ public class EnvironmentService {
         });
         thread.start();
     }
+    
     /**
      * Initializes connection pool to DB using {@link Environment} instance
      * @throws Exception
@@ -210,6 +234,8 @@ public class EnvironmentService {
 
     /**
      * Checks established connection to DB based on {@link Environment} parameters
+     * 
+     * @param environment which connection should be checked
      * @throws Exception
      */
     public String checkConnection(Environment environment) throws Exception {

@@ -9,6 +9,7 @@ import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.SelectProvider;
 import org.apache.ibatis.annotations.UpdateProvider;
 import org.apache.ibatis.type.JdbcType;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Repository;
 
 import com.softserve.webtester.model.Environment;
@@ -16,30 +17,31 @@ import com.softserve.webtester.model.EnvironmentDbTypeHandler;
 
 /**
  * 
- * MyBatisMapper provides database CRUD operations for Environment object
+ * MyBatisMapper provides database CRUD operations for {@link Environment} object
  *
  */
 @Repository
 public interface EnvironmentMapper {
 
     /**
-     * Saves Environment instance to database. Uses insertSql method from
-     * {@link EnvironmentSqlProvider}
+     * Saves {@link Environment} instance to database. Uses insertSql method
+     * from {@link EnvironmentSqlProvider}
      * 
-     * @param Environment environment
+     * @param Environment instance should be stored
      * @return number of rows affected by the statement
-     * @see com.softserve.webtester.mapper.EnvironmentSqlProvider.insertSql
+     * @throws DataAccessException
      */
     @InsertProvider(type = EnvironmentSqlProvider.class, method = "insertSql")
     @Options(useGeneratedKeys = true, keyProperty = "id")
     int save(Environment environment);
 
     /**
-     * Selects Environment entity from database. Uses selectSql method from
-     * {@link EnvironmentSqlProvider}
+     * Selects {@link Environment} entity from database. Uses selectSql method
+     * from {@link EnvironmentSqlProvider}
      * 
      * @param id identifier of Environment instance
      * @return Environment instance
+     * @throws DataAccessException
      */
     @SelectProvider(type = EnvironmentSqlProvider.class, method = "selectSql")
     @Results({ @Result(id = true, property = "id", column = "id", jdbcType = JdbcType.INTEGER),
@@ -56,10 +58,11 @@ public interface EnvironmentMapper {
     Environment load(int id);
 
     /**
-     * Selects all Environment entities from database. Uses selectAllSql method
-     * from {@link EnvironmentSqlProvider}
+     * Selects all {@link Environment} entities not marked as "deleted" from
+     * database. Uses selectAllSql method from {@link EnvironmentSqlProvider}
      * 
      * @return List of Environment instances
+     * @throws DataAccessException
      */
     @SelectProvider(type = EnvironmentSqlProvider.class, method = "selectAllSql")
     @Results({ @Result(id = true, property = "id", column = "id", jdbcType = JdbcType.INTEGER),
@@ -76,30 +79,33 @@ public interface EnvironmentMapper {
     List<Environment> loadAll();
 
     /**
-     * Updates Environment instance in the database. Uses updateSql method from
-     * {@link EnvironmentSqlProvider}
+     * Updates {@link Environment} instance in the database. Uses updateSql
+     * method from {@link EnvironmentSqlProvider}
      * 
-     * @param Environment environment
+     * @param Environment instance should be updated
      * @return number of rows affected by the statement
+     * @throws DataAccessException
      */
     @UpdateProvider(type = EnvironmentSqlProvider.class, method = "updateSql")
     int update(Environment environment);
 
     /**
-     * Deletes Environment instance from database. Uses deleteSql method from
-     * {@link EnvironmentSqlProvider}
+     * Deletes {@link Environment} instance from database. Uses deleteSql method
+     * from {@link EnvironmentSqlProvider}
      * 
-     * @param Environment environment
+     * @param Environment instance should be deleted
      * @return number of rows affected by the statement
+     * @throws DataAccessException
      */
     @UpdateProvider(type = EnvironmentSqlProvider.class, method = "deleteSql")
     int delete(Environment environment);
 
     /**
-     * Checks the unique of environment's name.
-     * @param name property of Environment instance
-     * @param id identifier of Environment instance
-     * @return
+     * Checks the unique of {@link Environment} property "name"
+     * 
+     * @param Environment instance should be checked
+     * @return count of entities with the same property "name"
+     * @throws DataAccessException
      */
     @SelectProvider(type = EnvironmentSqlProvider.class, method = "isNameFree")
     int isNameFree(Environment environment);

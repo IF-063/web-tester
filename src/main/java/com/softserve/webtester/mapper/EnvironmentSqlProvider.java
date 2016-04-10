@@ -3,18 +3,18 @@ package com.softserve.webtester.mapper;
 import org.apache.ibatis.jdbc.SQL;
 
 /**
- * Provides Database SQL queries for CRUD operations for Environment object
+ * Provides Database SQL queries for CRUD operations for {@link Environment} object
  *
  */
 public class EnvironmentSqlProvider {
 
     /**
-     * Database table which stores Environment entity
+     * Database table which stores {@link Environment} entity
      */
     private static final String TABLE_NAME = "Environment";
 
     /**
-     * @return SQL insert query for saving Environment instance to database
+     * @return SQL insert query for saving {@link Environment} instance to database
      */
     public String insertSql() {
         return new SQL() {
@@ -29,7 +29,7 @@ public class EnvironmentSqlProvider {
     }
 
     /**
-     * @return SQL query for selecting Environment entity, which has not been
+     * @return SQL query for selecting {@link Environment} entity, which has not been
      *         marked as "deleted"
      */
     public String selectSql() {
@@ -45,7 +45,7 @@ public class EnvironmentSqlProvider {
     }
 
     /**
-     * @return SQL query for selecting all Environment entities, which have not
+     * @return SQL query for selecting all {@link Environment} entities, which have not
      *         been marked as "deleted"
      */
     public String selectAllSql() {
@@ -60,7 +60,7 @@ public class EnvironmentSqlProvider {
     }
 
     /**
-     * @return SQL query for updating entity in database
+     * @return SQL query for updating {@link Environment} entity in database
      */
     public String updateSql() {
         return new SQL() {
@@ -77,7 +77,7 @@ public class EnvironmentSqlProvider {
     }
 
     /**
-     * @return SQL query for marking as "deleted" entity from database
+     * @return SQL query for marking as "deleted" {@link Environment} entity in database
      */
     public String deleteSql() {
         return new SQL() {
@@ -90,7 +90,7 @@ public class EnvironmentSqlProvider {
     }
 
     /**
-     * @return SQL query for checking the unique of environment's name
+     * @return SQL query for checking the unique of {@link Environment} property "name"
      */
     public String isNameFree() {
         return new SQL() {

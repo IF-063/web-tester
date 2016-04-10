@@ -7,7 +7,7 @@ import com.softserve.webtester.model.Request;
 
 /**
  * Data transfer object class for transferring results of one request run. Also it contains Request instance
- * which represents request entity from DB and  RequestDTO with prepared for running HttpRequestBase and variables list.
+ * which represents request entity from DB and PreparedRequestDTO with prepared for running HttpRequestBase and variables list.
  * In case when we run collections with BuildVersion, list responses includes five ResponseDTO objects, else - only one.
  *
  * @author Anton Mykytiuk

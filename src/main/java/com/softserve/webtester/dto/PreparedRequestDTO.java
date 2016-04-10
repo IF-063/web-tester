@@ -7,6 +7,10 @@ import org.apache.http.client.methods.HttpRequestBase;
 
 import com.softserve.webtester.model.Variable;
 
+/**
+ * Data transfer object class for transferring prepared for executing HttpRequestBase, 
+ * if exist generated variables list and prepared request body
+ */
 public class PreparedRequestDTO implements Serializable {
 
     private static final long serialVersionUID = -105517229236219065L;

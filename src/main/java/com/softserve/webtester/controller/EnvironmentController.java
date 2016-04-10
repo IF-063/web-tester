@@ -21,7 +21,11 @@ import com.softserve.webtester.model.Environment;
 import com.softserve.webtester.model.EnvironmentDbType;
 import com.softserve.webtester.service.EnvironmentService;
 import com.softserve.webtester.validator.EnvironmentValidator;
-// TODO VZ: JavaDoc
+
+/**
+ * Handles and retrieves {@link Environment} pages depending on the URI template. A user must be log-in first he can access
+ * this page.
+ */
 @Controller
 @RequestMapping("/configuration/environments")
 public class EnvironmentController {
@@ -42,6 +46,12 @@ public class EnvironmentController {
         binder.addValidators(environmentValidator);
     }
 
+    /**
+     * Retrieves page with all existing environments
+     * 
+     * @param model {@link Model} object
+     * @return name of view
+     */
     @RequestMapping(method = RequestMethod.GET)
     public String getEnvironmentsPage(Model model) {
         List<Environment> environments = environmentService.loadAll();
@@ -49,6 +59,12 @@ public class EnvironmentController {
         return "environment/environmentList";
     }
 
+    /**
+     * Retrieves page for creating new environment with empty environment instance
+     * 
+     * @param model {@link Model} object
+     * @return name of view
+     */
     @RequestMapping(value = "/create", method = RequestMethod.GET)
     public String getEnvironmentCreatePage(Model model) {
 
@@ -60,6 +76,14 @@ public class EnvironmentController {
         return "environment/environmentCreateOrUpdate";
     }
 
+    /**
+     * Handles creating new environment
+     * 
+     * @param {@link Environment} instance should be saved
+     * @param result {@link BindingResult} validation handle object
+     * @param model {@link Model} object
+     * @return if success, redirects to environments main page, in case of validation errors returns to creating page
+     */
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     public String createEnvironment(@Validated @ModelAttribute Environment environment, BindingResult result, Model model) {
         if (result.hasErrors()) {
@@ -71,6 +95,13 @@ public class EnvironmentController {
         return "redirect:/configuration/environments";
     }
 
+    /**
+     * Retrieves environment modifying page
+     * 
+     * @param id identifier of editing {@link Environment} instance
+     * @param model {@link Model} object
+     * @return name of view
+     */
     @RequestMapping(value = "modify/{id}", method = RequestMethod.GET)
     public String getEnvironmentUpdatePage(@PathVariable int id, Model model) {
         model.addAttribute(PAGE_TASK, "Update");
@@ -81,6 +112,15 @@ public class EnvironmentController {
         return "environment/environmentCreateOrUpdate";
     }
 
+    /**
+     * Handles environment updating.
+     * 
+     * @param id identifier of Environment should be updated
+     * @param environment {@link Environment} instance should be updated
+     * @param result {@link BindingResult} instance
+     * @param model {@link Model} object
+     * @return if success, redirects to environments main page; in case of validation errors returns to modifying page
+     */
     @RequestMapping(value = "modify/{id}", method = RequestMethod.POST)
     public String updateEnvironment(@PathVariable int id, @Validated @ModelAttribute Environment environment, BindingResult result, Model model) {
         if (result.hasErrors()) {
@@ -92,12 +132,25 @@ public class EnvironmentController {
         return "redirect:/configuration/environments";
     }
 
+    /**
+     * Handles environment deleting
+     * 
+     * @param id identifier of {@link Environment} should be deleted
+     * @return redirects to environments main page
+     */
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.POST)
     public String deleteEnvironment(Environment environment) {
         environmentService.delete(environment);
         return "redirect:/configuration/environments";
     }
 
+    /**
+     * Checks established connection to DB
+     * 
+     * @param id identifier of {@link Environment} which connection should be checked
+     * @param model {@link Model} object
+     * @return {@link ResponseEntity} with information message and status
+     */
     @RequestMapping(value = "/check/{id}", method = RequestMethod.POST)
     public ResponseEntity<String> checkEnvironment(@PathVariable int id, Model model) {
         String message = StringUtils.EMPTY;
