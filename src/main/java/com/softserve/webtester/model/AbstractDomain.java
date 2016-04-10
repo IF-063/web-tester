@@ -10,7 +10,7 @@ import org.hibernate.validator.constraints.NotBlank;
 
 /**
  * The AbstractDomain abstract class represents {@code AbstractDomain} entity from which inherited
- * classes like Aplication, Service, BuildVersion.
+ * classes like Application, Service, BuildVersion.
  *
  * @author Anton Mykytiuk
  */

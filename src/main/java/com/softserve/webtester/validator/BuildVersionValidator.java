@@ -11,9 +11,8 @@ import com.softserve.webtester.model.BuildVersion;
 import com.softserve.webtester.service.MetaDataService;
 
 /**
- * Implementation of {@link Validator} interface for additional checking
- * {@link BuildVersion} instance. Checks the unique of build version's parameter
- * name and if name, description fields are empty
+ * Implementation of {@link Validator} interface for additional checking {@link BuildVersion} instance. Checks
+ * the unique of build version's parameter name.
  *
  * @author Anton Mykytiuk
  */
@@ -25,12 +24,23 @@ public class BuildVersionValidator implements Validator {
     @Autowired
     private MetaDataService metaDataService;
 
+    /**
+     * Compare incoming class with BuildVersion class if they are equals.
+     *
+     * @param clazz compared with BuildVersion class.
+     * @return true, when compared classes are equals.
+     */
     @Override
     public boolean supports(Class clazz) {
         return BuildVersion.class.equals(clazz);
     }
 
-    // TODO AM: add java doc
+    /**
+     * Checks if BuildVersion object with this name is already exist in the DB.
+     *
+     * @param object that checked for validity.
+     * @param errors appeared when buildVersion with this name already exist.
+     */
     @Override
     public void validate(Object object, Errors errors) {
 

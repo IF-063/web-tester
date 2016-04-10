@@ -32,7 +32,7 @@ public interface LabelMapper {
      *
      * @param label instance of class Label to store in the DB
      * @return number of rows affected by the statement
-     * @throws DataAccessException when there is no access to the DB
+     * @throws DataAccessException appear when there is no access to the DB
      */
     @Insert("INSERT INTO Label (name) VALUES (#{name})")
     @Options(useGeneratedKeys = true, keyProperty = "id")
@@ -43,7 +43,7 @@ public interface LabelMapper {
      *
      * @param id identifier of specific Label instance which stored in the DB
      * @return Label instance
-     * @throws DataAccessException when there is no access to the DB
+     * @throws DataAccessException appear when there is no access to the DB
      */
     @Select("SELECT id, name FROM Label WHERE id = #{id}")
     @Results(value = {
@@ -56,7 +56,7 @@ public interface LabelMapper {
      * Loads all {@link Label} instances from the database.
      *
      * @return List of Label instances
-     * @throws DataAccessException when there is no access to the DB
+     * @throws DataAccessException appear when there is no access to the DB
      */
     @Select("SELECT * from Label")
     @Results(value = {
@@ -70,7 +70,7 @@ public interface LabelMapper {
      *
      * @param label instance should be updated
      * @return id of label instance which was updated
-     * @throws DataAccessException when there is no access to the DB
+     * @throws DataAccessException appear when there is no access to the DB
      */
     @Update("UPDATE Label SET name = #{name} WHERE id = #{id}")
     int updateLabel(Label label);
@@ -81,7 +81,7 @@ public interface LabelMapper {
      *
      * @param id of label instance should be deleted
      * @return number of rows affected by the statement
-     * @throws DataAccessException when there is no access to the DB
+     * @throws DataAccessException appear when there is no access to the DB
      */
     @Delete("DELETE FROM Label WHERE id = #{id}")
     int deleteLabel(int id);
@@ -102,7 +102,7 @@ public interface LabelMapper {
      * 
      * @param request {@link Request} instance, whose dbValidations should be saved
      * @return number of rows affected by the statement
-     * @throws DataAccessException when there is no access to the DB
+     * @throws DataAccessException appear when there is no access to the DB
      */
     @Insert("<script>INSERT INTO Request_Label(requestId, labelId) VALUES "
 	    + "<foreach collection='labels' item='label' separator=','> "
@@ -115,7 +115,7 @@ public interface LabelMapper {
      *
      * @param resultHistory {@link ResultHistory} instance should be saved
      * @return number of rows affected by the statement
-     * @throws DataAccessException when there is no access to the DB
+     * @throws DataAccessException appear when there is no access to the DB
      */
     @Insert("<script>INSERT INTO ResultHistory_Label(resultHistoryId, labelId) VALUES "
             + "<foreach collection='labels' item='label' separator=','> "
@@ -128,7 +128,7 @@ public interface LabelMapper {
      * 
      * @param requestCollection {@link RequestCollection} instance should be saved
      * @return number of rows affected by the statement
-     * @throws DataAccessException when there is no access to the DB
+     * @throws DataAccessException appear when there is no access to the DB
      */
     @Insert("<script>INSERT INTO RequestCollection_Label(requestCollectionId, labelId) VALUES "
 	    + "<foreach collection='labels' item='label' separator=','> "
@@ -140,7 +140,7 @@ public interface LabelMapper {
      * 
      * @param id identifier of {@link Request} instance, whose labels should be loaded
      * @return List of Label instances
-     * @throws DataAccessException when there is no access to the DB
+     * @throws DataAccessException appear when there is no access to the DB
      */
     @Select("SELECT l.id, l.name FROM Label l INNER JOIN Request_Label rl ON rl.labelId = l.id "
     	    + "WHERE rl.requestId = #{id}")
@@ -160,7 +160,7 @@ public interface LabelMapper {
      * 
      * @param id identifier of {@link RequestCollection} instance, whose labels should be loaded
      * @return List of Label instances
-     * @throws DataAccessException when there is no access to the DB
+     * @throws DataAccessException appear when there is no access to the DB
      */
     @Select("SELECT l.id, l.name FROM Label l INNER JOIN RequestCollection_Label rcl ON rcl.labelId = l.id "
     	    + "WHERE rcl.requestCollectionId = #{id}")
@@ -175,7 +175,7 @@ public interface LabelMapper {
      * 
      * @param id identifier of {@link Request} instance, whose labels should be deleted
      * @return number of rows affected by the statement
-     * @throws DataAccessException when there is no access to the DB
+     * @throws DataAccessException appear when there is no access to the DB
      */
     @Delete("DELETE FROM Request_Label WHERE requestId = #{id}")
     int deleteByRequestId(int id);
@@ -186,7 +186,7 @@ public interface LabelMapper {
      * 
      * @param id identifier of {@link RequestCollection} instance, whose labels should be deleted
      * @return number of rows affected by the statement
-     * @throws DataAccessException when there is no access to the DB
+     * @throws DataAccessException appear when there is no access to the DB
      */
     @Delete("DELETE FROM RequestCollection_Label WHERE requestCollectionId = #{id}")
     int deleteByRequestCollectionId(int id);

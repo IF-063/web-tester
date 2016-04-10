@@ -21,10 +21,16 @@ import com.softserve.webtester.validator.BuildVersionValidator;
 /**
  * Handles and retrieves {@link BuildVersion} pages depending on the URI template. A user must be log-in
  * first he can access this page.
+ *
+ * @author Anton Mykytiuk
  */
 @Controller
 @RequestMapping(value = "/configuration/buildVersions")
 public class BuildVersionsController {
+
+    private static final String BUILD_VERSIONS_ATTRIBUTE_NAME = "buildVersions";
+    private static final String BUILD_VERSION_ATTRIBUTE_NAME = "buildVersion";
+    private static final String PAGE_TASK_ATTRIBUTE_NAME = "pageTask";
 
     @Autowired
     private MetaDataService metaDataService;
@@ -46,7 +52,7 @@ public class BuildVersionsController {
     @RequestMapping(method = RequestMethod.GET)
     public String getBuildVersionsPage(Model model) {
         List<BuildVersion> buildVersions = metaDataService.loadAllBuildVersions();
-        model.addAttribute("buildVersions", buildVersions); //TODO AM: move to constants
+        model.addAttribute(BUILD_VERSIONS_ATTRIBUTE_NAME, buildVersions);
         return "buildVersion/buildVersions";
     }
 
@@ -58,9 +64,9 @@ public class BuildVersionsController {
      */
     @RequestMapping(value = "/create", method = RequestMethod.GET)
     public String getCreatePage(Model model) {
-        model.addAttribute("pageTask", "Create");
+        model.addAttribute(PAGE_TASK_ATTRIBUTE_NAME, "Create");
         BuildVersion buildVersion = new BuildVersion();
-        model.addAttribute("buildVersion", buildVersion);
+        model.addAttribute(BUILD_VERSION_ATTRIBUTE_NAME, buildVersion);
         return "buildVersion/createOrModify";
     }
 
@@ -89,9 +95,9 @@ public class BuildVersionsController {
      */
     @RequestMapping(value = "/modify/{id}", method = RequestMethod.GET)
     public String modifyBuildVersion(@PathVariable int id, Model model) {
-        model.addAttribute("pageTask", "Modify");
+        model.addAttribute(PAGE_TASK_ATTRIBUTE_NAME, "Modify");
         BuildVersion buildVersion = metaDataService.loadBuildVersionById(id);
-        model.addAttribute("buildVersion", buildVersion);
+        model.addAttribute(BUILD_VERSION_ATTRIBUTE_NAME, buildVersion);
         return "buildVersion/createOrModify";
     }
 

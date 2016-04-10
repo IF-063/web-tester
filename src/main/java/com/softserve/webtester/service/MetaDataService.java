@@ -2,6 +2,7 @@ package com.softserve.webtester.service;
 
 import java.util.List;
 
+import com.softserve.webtester.exception.ResourceNotFoundException;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -24,7 +25,6 @@ import com.softserve.webtester.model.Service;
  * transaction with the database and log4j for logging.
  * 
  * @author Roman Zolotar, Anton Mykytiuk
- * @version 1.2
  */
 
 @org.springframework.stereotype.Service
@@ -288,13 +288,12 @@ public class MetaDataService {
     // BUILD_VERSIONS
 
     /**
-     * Saves {@link BuildVersion} instance to database
+     * Saves {@link BuildVersion} instance to database.
      * 
-     * @param buildVersion
-     * @return id of saved BuildVersion
-     * @throws DuplicateKeyException
-     *             if the buildVersion with the same name exists in the database
-     * @throws DataAccessException
+     * @param buildVersion instance for saving in DB.
+     * @return id of saved BuildVersion.
+     * @throws DuplicateKeyException if the buildVersion with the same name exists in the database.
+     * @throws DataAccessException  appear when there is no access to the DB.
      */
     @Transactional
     public int saveBuildVersion(BuildVersion buildVersion) {
@@ -310,16 +309,20 @@ public class MetaDataService {
     }
 
     /**
-     * Loads {@link BuildVersion} instance from database
-     * 
-     * @param id
-     * @return {@link BuildVersion} instance
-     * @throws DataAccessException
+     * Loads {@link BuildVersion} instance from database.
+     *
+     * @param id identifier of Build Version stored in the DB.
+     * @return {@link BuildVersion} instance.
+     * @throws DataAccessException appear when there is no access to the DB.
+     * @throws ResourceNotFoundException appear when there is no buildVersion with this id in the DB.
      */
     @Transactional
     public BuildVersion loadBuildVersionById(int id) {
         try {
-            return buildVersionMapper.loadBuildVersionById(id);
+            BuildVersion buildVersion = buildVersionMapper.loadBuildVersionById(id);
+            if (buildVersion == null)
+                throw new ResourceNotFoundException("Build Version not found, id: " + id);
+            return buildVersion;
         } catch (DataAccessException e) {
             LOGGER.error("Unable to load BuildVersion instance, buildVersion id: " + id, e);
             throw e;
@@ -327,11 +330,10 @@ public class MetaDataService {
     }
 
     /**
-     * Loads all stored {@link BuildVersion} instances with their main
-     * information.
+     * Loads all stored {@link BuildVersion} instances with their main information.
      * 
-     * @return Set of {@link BuildVersion} instances
-     * @throws DataAccessException
+     * @return Set of {@link BuildVersion} instances.
+     * @throws DataAccessException appear when there is no access to the DB.
      */
     @Transactional
     public List<BuildVersion> loadAllBuildVersions() {
@@ -346,13 +348,11 @@ public class MetaDataService {
     /**
      * Updates {@link BuildVersion} instance should be updated in the database.
      * 
-     * @param buildVersion
-     * @return the number of rows affected by the statement
-     * @throws DuplicateKeyException
-     *             if the buildVersion with the same name exists in the
-     *             database.
-     * @throws DataAccessException
-     */
+     * @param buildVersion instance that must be updated.
+     * @return the number of rows affected by the statement.
+     * @throws DuplicateKeyException if the buildVersion with the same name exists in the database.
+     * @throws DataAccessException appear when there is no access to the DB.
+     **/
     @Transactional
     public int updateBuildVersion(BuildVersion buildVersion) {
         try {
@@ -368,10 +368,10 @@ public class MetaDataService {
 
     /**
      * Deletes {@link BuildVersion} instance from the database.
-     * 
-     * @param id
-     * @return the number of rows affected by the statement
-     * @throws DataAccessException
+     *
+     * @param id identifier of Build Version stored in the DB.
+     * @return the number of rows affected by the statement.
+     * @throws DataAccessException appear when there is no access to the DB.
      */
     @Transactional
     public int deleteBuildVersion(int id) {
@@ -386,12 +386,10 @@ public class MetaDataService {
     /**
      * Checks the unique of build version's name.
      *
-     * @param name
-     *            name of {@link BuildVersion} should be checked
-     * @param exclusionId
-     *            id of {@link BuildVersion} should be excluded
-     * @return true, if name is unique
-     * @throws DataAccessException
+     * @param name of {@link BuildVersion} should be checked.
+     * @param exclusionId id of {@link BuildVersion} should be excluded.
+     * @return true, if name is unique.
+     * @throws DataAccessException appear when there is no access to the DB.
      */
     @Transactional
     public boolean isBuildVersionNameFree(String name, int exclusionId) {
@@ -406,13 +404,12 @@ public class MetaDataService {
     // LABELS
 
     /**
-     * Saves {@link Label} instance to database
+     * Saves {@link Label} instance to database.
      * 
-     * @param label
-     * @return id of saved Label
-     * @throws DuplicateKeyException
-     *             if the Label with the same name exists in the database
-     * @throws DataAccessException
+     * @param label instance should be saved in the DB.
+     * @return id of saved Label.
+     * @throws DuplicateKeyException if the Label with the same name exists in the database.
+     * @throws DataAccessException appear when there is no access to the DB.
      */
     @Transactional
     public int saveLabel(Label label) {
@@ -428,16 +425,19 @@ public class MetaDataService {
     }
 
     /**
-     * Loads {@link Label} instance from database
+     * Loads {@link Label} instance from database.
      * 
-     * @param id
-     * @return {@link Label} instance
-     * @throws DataAccessException
+     * @param id identifier of Label stored in the DB.
+     * @return {@link Label} instance.
+     * @throws DataAccessException appear when there is no access to the DB.
      */
     @Transactional
     public Label loadLabelById(int id) {
         try {
-            return labelMapper.loadLabelById(id);
+            Label label = labelMapper.loadLabelById(id);
+            if (label == null)
+                throw new ResourceNotFoundException("Label not found, id: " + id);
+            return label;
         } catch (DataAccessException e) {
             LOGGER.error("Unable to load Label instance, label id: " + id, e);
             throw e;
@@ -447,8 +447,8 @@ public class MetaDataService {
     /**
      * Loads all stored {@link Label} instances with their main information.
      * 
-     * @return Set of {@link Label} instances
-     * @throws DataAccessException
+     * @return Set of {@link Label} instances.
+     * @throws DataAccessException appear when there is no access to the DB.
      */
     @Transactional
     public List<Label> loadAllLabels() {
@@ -463,12 +463,10 @@ public class MetaDataService {
     /**
      * Updates {@link Label} instance should be updated in the database.
      *
-     * @param label
-     * @return the number of rows affected by the statement
-     * @throws DuplicateKeyException
-     *             if the label with the same name exists in the
-     *             database.
-     * @throws DataAccessException
+     * @param label instance that must be updated.
+     * @return the number of rows affected by the statement.
+     * @throws DuplicateKeyException if the label with the same name exists in the database.
+     * @throws DataAccessException appear when there is no access to the DB.
      */
     @Transactional
     public int updateLabel(Label label) {
@@ -486,9 +484,9 @@ public class MetaDataService {
     /**
      * Deletes {@link Label} instance from the database.
      * 
-     * @param id
-     * @return the number of rows affected by the statement
-     * @throws DataAccessException
+     * @param id identifier of Label stored in the DB.
+     * @return the number of rows affected by the statement.
+     * @throws DataAccessException appear when there is no access to the DB.
      */
     @Transactional
     public int deleteLabel(int id) {
@@ -503,12 +501,10 @@ public class MetaDataService {
     /**
      * Checks the unique of label's name.
      *
-     * @param name
-     *            name of {@link Label} should be checked
-     * @param exclusionId
-     *            id of {@link Label} should be excluded
+     * @param name of {@link Label} should be checked.
+     * @param exclusionId id of {@link Label} should be excluded.
      * @return true, if name is unique
-     * @throws DataAccessException
+     * @throws DataAccessException appear when there is no access to the DB.
      */
     @Transactional
     public boolean isLabelNameFree(String name, int exclusionId) {

@@ -13,7 +13,7 @@ import com.softserve.webtester.dto.ResultsDTO;
 import com.softserve.webtester.model.Environment;
 
 /**
- * Service that responsible for executing requests. Has two methods with different signature, in one way it receives
+ * Service, that responsible for executing requests. Has two methods with different signature, in one way it receives
  * array request's id for running request or requests list, in another - array collection's id and build version's id
  * for running collections or collections list. Also they receive environment id for getting environment entity from DB.
  *
@@ -21,8 +21,6 @@ import com.softserve.webtester.model.Environment;
  */
 @Service
 public class RunService {
-
-    private static final Logger LOGGER = Logger.getLogger(RunService.class);
 
     @Autowired
     private ResultHistoryService resultHistoryService;

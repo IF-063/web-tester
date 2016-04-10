@@ -16,10 +16,16 @@ import java.util.List;
 /**
  * Handles and retrieves {@link Label} pages depending on the URI template. A user must be log-in
  * first he can access this page.
+ *
+ * @author Anton Mykytiuk
  */
 @Controller
 @RequestMapping(value = "/configuration/labels")
 public class LabelsController {
+
+    private static final String LABELS_ATTRIBUTE_NAME = "labels";
+    private static final String LABEL_ATTRIBUTE_NAME = "label";
+    private static final String PAGE_TASK_ATTRIBUTE_NAME = "pageTask";
 
     @Autowired
     private MetaDataService metaDataService;
@@ -41,7 +47,7 @@ public class LabelsController {
     @RequestMapping(method = RequestMethod.GET)
     public String getLabelsPage(Model model) {
         List<Label> labels = metaDataService.loadAllLabels();
-        model.addAttribute("labels", labels);
+        model.addAttribute(LABELS_ATTRIBUTE_NAME, labels);
         return "label/labels";
     }
 
@@ -53,9 +59,9 @@ public class LabelsController {
      */
     @RequestMapping(value = "/create", method = RequestMethod.GET)
     public String getCreatePage(Model model) {
-        model.addAttribute("pageTask", "Create");
+        model.addAttribute(PAGE_TASK_ATTRIBUTE_NAME, "Create");
         Label label = new Label();
-        model.addAttribute("label", label);
+        model.addAttribute(LABEL_ATTRIBUTE_NAME, label);
         return "label/createOrModify";
     }
 
@@ -84,9 +90,9 @@ public class LabelsController {
      */
     @RequestMapping(value = "/modify/{id}", method = RequestMethod.GET)
     public String modifyLabel(@PathVariable int id, Model model) {
-        model.addAttribute("pageTask", "Modify");
+        model.addAttribute(PAGE_TASK_ATTRIBUTE_NAME, "Modify");
         Label label = metaDataService.loadLabelById(id);
-        model.addAttribute("label", label);
+        model.addAttribute(LABEL_ATTRIBUTE_NAME, label);
         return "label/createOrModify";
     }
 

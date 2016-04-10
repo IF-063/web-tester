@@ -87,22 +87,29 @@ public class ParseAndWriteService {
         int buildVersionId = resultsDTO.getBuildVersionId();
 
         if (buildVersionId != 0) {
-            int count = 0;
-            int timeSum = 0;
+            int validResponsesCount = 0;
+            int timeResponsesSum = 0;
             for (ResponseDTO responseDTOListElement : responseDTOList) {
-                if (responseDTOListElement.getStatusCode() == SUCCESS_CODE
-                        && true /*
-                                 * TODO AM: check if actual response is equal to
-                                 * expected + other validation
-                                 */) {
-                    timeSum += responseDTOListElement.getResponseTime();
-                    count++;
+
+                // check if request run was successful
+                int statusCode = responseDTOListElement.getStatusCode();
+                boolean checkStatusCode = (statusCode >= 200)&&(statusCode < 400);
+
+                // check if response body equals to expected one
+                String responseBody = requestExecuteSupportService.format(responseDTOListElement.getResponseBody());
+                boolean checkResponseBodyInstance = responseBody.equals(request.getRequestBody());
+
+                if (checkStatusCode && checkResponseBodyInstance) {
+                    timeResponsesSum += responseDTOListElement.getResponseTime();
+                    validResponsesCount++;
                     resultHistory.setStatusLine(responseDTOListElement.getStatusLine());
-                    resultHistory.setActualResponse(
-                            requestExecuteSupportService.format(responseDTOListElement.getResponseBody()));
+                    resultHistory.setActualResponse(responseBody);
                 }
-                resultHistory.setResponseTime(timeSum / count);
-                statusIndicator = (count == 5); // TODO RZ: move to
+
+                // calculating average response time for request with buildVersion run
+                resultHistory.setResponseTime(timeResponsesSum/validResponsesCount);
+
+                statusIndicator = (validResponsesCount == 5); // TODO RZ: move to
                                                 // constants use from
                                                 // property file, which
                                                 // Anton should extract

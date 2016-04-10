@@ -29,7 +29,7 @@ public interface BuildVersionMapper {
      *
      * @param buildVersion instance of class BuildVersion to store in the DB
      * @return number of rows affected by the statement
-     * @throws DataAccessException when there is no access to the DB
+     * @throws DataAccessException appear when there is no access to the DB
      */
     @Insert("INSERT INTO BuildVersion (name, description) VALUES (#{name}, #{description})")
     @Options(useGeneratedKeys = true, keyProperty = "id")
@@ -40,7 +40,7 @@ public interface BuildVersionMapper {
      *
      * @param id identifier of specific BuildVersion instance which stored in the DB
      * @return BuildVersion instance
-     * @throws DataAccessException when there is no access to the DB
+     * @throws DataAccessException appear when there is no access to the DB
      */
     @Select("SELECT id, name, description FROM BuildVersion WHERE id = #{id} AND deleted = 0")
     @Results({ @Result(property = "id", column = "id", jdbcType = JdbcType.INTEGER),
@@ -52,8 +52,8 @@ public interface BuildVersionMapper {
     /**
      * Loads all {@link BuildVersion} instances from the database which aren't marked as "deleted".
      *
-     * @return Set of BuildVersion instaces
-     * @throws DataAccessException when there is no access to the DB
+     * @return Set of BuildVersion instances
+     * @throws DataAccessException appear when there is no access to the DB
      */
     @Select("SELECT id, name, description from BuildVersion WHERE deleted = 0")
     @Results({ @Result(property = "id", column = "id", jdbcType = JdbcType.INTEGER),
@@ -66,8 +66,8 @@ public interface BuildVersionMapper {
      * Updates {@link BuildVersion} instance in the database.
      *
      * @param buildVersion instance should be updated
-     * @return id of buildVersion instance which was updated
-     * @throws DataAccessException when there is no access to the DB
+     * @return id of buildVersion instance should be updated
+     * @throws DataAccessException appear when there is no access to the DB
      */
     @Update("UPDATE BuildVersion SET name = #{name}, description = #{description}, " +
             "deleted = #{deleted} WHERE id = #{id}")
@@ -76,18 +76,18 @@ public interface BuildVersionMapper {
     /**
      * Deletes (Soft Delete) {@link BuildVersion} instance from the database by id.
      *
-     * @param id of label instance should be deleted
+     * @param id of buildVersion instance should be deleted
      * @return number of rows affected by the statement
-     * @throws DataAccessException when there is no access to the DB
+     * @throws DataAccessException appear when there is no access to the DB
      */
     @Update("UPDATE BuildVersion SET deleted = 1 WHERE id = #{id}")
     int deleteBuildVersion(int id);
 
     /**
      * Deletes {@link BuildVersion} instance from the database by id. This method will not be used
-     * @param id of label instance should be deleted
+     * @param id of buildVersion instance should be deleted
      * @return number of rows affected by the statement
-     * @throws DataAccessException when there is no access to the DB
+     * @throws DataAccessException appear when there is no access to the DB
      */
     @Delete("DELETE FROM BuildVersion WHERE id = #{id}")
     int hardDeleteBuildVersion(int id);
