@@ -1,10 +1,10 @@
 package com.softserve.webtester.service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
-
+import com.softserve.webtester.dto.ReportDataDTO;
+import com.softserve.webtester.dto.ReportFilterDTO;
+import com.softserve.webtester.dto.StatisticDataDTO;
+import com.softserve.webtester.dto.StatisticFilterDTO;
+import com.softserve.webtester.mapper.ReportMapper;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,11 +12,10 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.softserve.webtester.dto.ReportDataDTO;
-import com.softserve.webtester.dto.ReportFilterDTO;
-import com.softserve.webtester.dto.StatisticDataDTO;
-import com.softserve.webtester.dto.StatisticFilterDTO;
-import com.softserve.webtester.mapper.ReportMapper;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 /**
  * ReportService class implements generating of data for statistic and graphic reports The service uses Spring
@@ -27,6 +26,15 @@ import com.softserve.webtester.mapper.ReportMapper;
 public class ReportService {
 
     private static final Logger LOGGER = Logger.getLogger(ReportService.class);
+
+
+    public ReportMapper getReportMapper() {
+        return reportMapper;
+    }
+
+    public void setReportMapper(ReportMapper reportMapper) {
+        this.reportMapper = reportMapper;
+    }
 
     @Autowired
     private ReportMapper reportMapper;
@@ -58,7 +66,7 @@ public class ReportService {
      * Invoke this method to get list of the DTO objects with average response time for each build version of the 
      * service from the database
      */
-    private List<ReportDataDTO> loadWithAvarageResponseTime(int serviceId, int[] buildVersionIds) {
+    public List<ReportDataDTO> loadWithAvarageResponseTime(int serviceId, int[] buildVersionIds) {
         String buildVersionIdsjoin = StringUtils.join(buildVersionIds, ",");
         try {
             return reportMapper.loadAvg(serviceId, buildVersionIds);
@@ -73,7 +81,7 @@ public class ReportService {
      * Invoke this method to get list of the DTO objects with maximum response time for each build version of the 
      * service from the database
      */
-    private List<ReportDataDTO> loadWithMaxResponseTime(int serviceId, int[] buildVersionIds) {
+    public List<ReportDataDTO> loadWithMaxResponseTime(int serviceId, int[] buildVersionIds) {
         String buildVersionIdsjoin = StringUtils.join(buildVersionIds, ",");
         try {
             return reportMapper.loadMax(serviceId, buildVersionIds);
