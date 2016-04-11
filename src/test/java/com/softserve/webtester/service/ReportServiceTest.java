@@ -1,8 +1,7 @@
-package webtester.service;
+package com.softserve.webtester.service;
 
 import com.softserve.webtester.dto.ReportDataDTO;
 import com.softserve.webtester.mapper.ReportMapper;
-import com.softserve.webtester.service.ReportService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -44,5 +43,6 @@ public class ReportServiceTest {
 
         verify(reportMapper, times(1)).loadAvg(serviceId,buildVersionIds);
         verify(reportMapper, times(0)).loadMax(serviceId,buildVersionIds);
+
     }
 }
