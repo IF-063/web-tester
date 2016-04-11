@@ -27,14 +27,6 @@ public class ReportService {
 
     private static final Logger LOGGER = Logger.getLogger(ReportService.class);
 
-
-    public ReportMapper getReportMapper() {
-        return reportMapper;
-    }
-    public void setReportMapper(ReportMapper reportMapper) {
-        this.reportMapper = reportMapper;
-    }
-
     @Autowired
     private ReportMapper reportMapper;
 
@@ -65,7 +57,7 @@ public class ReportService {
      * Invoke this method to get list of the DTO objects with average response time for each build version of the 
      * service from the database
      */
-    public List<ReportDataDTO> loadWithAvarageResponseTime(int serviceId, int[] buildVersionIds) {
+    private List<ReportDataDTO> loadWithAvarageResponseTime(int serviceId, int[] buildVersionIds) {
         String buildVersionIdsjoin = StringUtils.join(buildVersionIds, ",");
         try {
             return reportMapper.loadAvg(serviceId, buildVersionIds);
@@ -80,7 +72,7 @@ public class ReportService {
      * Invoke this method to get list of the DTO objects with maximum response time for each build version of the 
      * service from the database
      */
-    public List<ReportDataDTO> loadWithMaxResponseTime(int serviceId, int[] buildVersionIds) {
+    private List<ReportDataDTO> loadWithMaxResponseTime(int serviceId, int[] buildVersionIds) {
         String buildVersionIdsjoin = StringUtils.join(buildVersionIds, ",");
         try {
             return reportMapper.loadMax(serviceId, buildVersionIds);

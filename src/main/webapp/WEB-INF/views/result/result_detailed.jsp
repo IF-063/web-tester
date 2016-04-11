@@ -153,7 +153,6 @@
       </div>
     </div>
 
-
     <c:if test="${!(result.request.getRequestMethod() == 'GET')}">
       <div class="col-md-12">
         <div class="row">
@@ -162,7 +161,7 @@
           </div>
           <div class="table-responsive">
             <div class="col-sm-9">
-              <textarea readonly class="form-control" id="t1" rows="2" name="text"><c:out value="${result.requestBody}" /></textarea>
+              <c:out value="${result.requestBody}" />
             </div>
           </div>
         </div>
@@ -176,7 +175,7 @@
         </div>
         <div class="table-responsive">
           <div class="col-sm-9">
-            <textarea readonly class="form-control" id="t2" rows="1" name="text"><c:out value="${result.statusLine}" /></textarea>
+            <c:out value="${result.statusLine}" />
           </div>
         </div>
       </div>
@@ -222,7 +221,7 @@
         </div>
         <div class="table-responsive">
           <div class="col-sm-9">
-            <textarea readonly class="form-control" id="t3" name="text" rows="1"><c:out value="${result.message}" /></textarea>
+            <c:out value="${result.message}" />
           </div>
         </div>
       </div>
