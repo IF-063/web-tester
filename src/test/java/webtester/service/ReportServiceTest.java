@@ -8,10 +8,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -25,15 +23,10 @@ public class ReportServiceTest {
     ReportMapper reportMapper;
 
     @Before
-    public void init (){reportService.setReportMapper(reportMapper);}
+    public void init (){
+        reportService.setReportMapper(reportMapper);
+    }
 
-    /*public List<ReportDataDTO> loadWithAvarageResponseTime(int serviceId, int[] buildVersionIds) {
-        try {
-            return reportMapper.loadAvg(serviceId, buildVersionIds);
-        } catch (DataAccessException e) {
-            throw e;
-        }
-    }*/
     @Test
     public void loadWithAvarageResponseTimeTest() {
 
