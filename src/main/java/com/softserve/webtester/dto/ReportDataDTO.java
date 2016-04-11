@@ -11,6 +11,12 @@ public class ReportDataDTO implements Serializable {
     private int responseTime;
     private String buildVersionName;
 
+    public ReportDataDTO(String serviceName, int responseTime, String buildVersionName) {
+        this.serviceName = serviceName;
+        this.responseTime = responseTime;
+        this.buildVersionName = buildVersionName;
+    }
+
     public String getServiceName() {
         return serviceName;
     }

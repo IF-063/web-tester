@@ -31,7 +31,6 @@ public class ReportService {
     public ReportMapper getReportMapper() {
         return reportMapper;
     }
-
     public void setReportMapper(ReportMapper reportMapper) {
         this.reportMapper = reportMapper;
     }
