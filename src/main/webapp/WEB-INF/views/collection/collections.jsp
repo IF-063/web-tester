@@ -67,8 +67,8 @@
                 <tr class="dataRow">
                   <td class="td-centered"><input id="${requestCollection.id}" class="cursorPointer" type="checkbox" 
                    name="operateSelect"></td>
-                  <td><a href=<c:url value="/tests/collections/${requestCollection.id}"/>> 
-                   ${requestCollection.name} </a>
+                  <td><a href=<c:url value="/tests/collections/modify/${requestCollection.id}"/>> 
+                   ${requestCollection.name}</a>
                   </td>
                   <td>
                     <c:out value="${requestCollection.description}"></c:out>

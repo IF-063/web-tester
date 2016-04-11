@@ -74,7 +74,7 @@ $(function() {
   function deleteRequestCollections(input) {
     $.ajax({
       type: 'DELETE',
-      url: '/web-tester/tests/collections',
+      url: '/web-tester/tests/collections/delete',
       contentType: 'application/json',
       data: JSON.stringify(input),
       success: function(data, textStatus, jqXHR) {

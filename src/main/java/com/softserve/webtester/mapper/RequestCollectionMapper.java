@@ -81,16 +81,7 @@ public interface RequestCollectionMapper {
      * @throws DataAccessException
      */
     @Update("UPDATE RequestCollection SET name = #{name}, description = #{description} WHERE id = #{id}")
-    int update(RequestCollection requestCollection);
-
-    /**
-     * Deletes {@link RequestCollection} instance from the database.
-     * @param id identifier of RequestCollection instance should be deleted
-     * @return number of rows affected by the statement
-     * @throws DataAccessException
-     */
-    @Delete("DELETE FROM RequestCollection WHERE id = #{id}")
-    int detele(int id);    
+    int update(RequestCollection requestCollection);    
 
     /**
      * Deletes {@link RequestCollection} instance from the database.

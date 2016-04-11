@@ -1,7 +1,6 @@
 package com.softserve.webtester.service;
 
 import java.util.List;
-
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,8 +8,8 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import com.softserve.webtester.dto.RequestCollectionFilterDTO;
+import com.softserve.webtester.exception.ResourceNotFoundException;
 import com.softserve.webtester.mapper.LabelMapper;
 import com.softserve.webtester.mapper.RequestCollectionMapper;
 import com.softserve.webtester.mapper.RequestMapper;
@@ -26,18 +25,18 @@ import com.softserve.webtester.model.RequestCollection;
  */
 @Service
 public class RequestCollectionService {
-
+    
     private static final Logger LOGGER = Logger.getLogger(RequestCollectionService.class);
-
+    
     @Autowired
     private RequestCollectionMapper requestCollectionMapper;
-
+    
     @Autowired
     private RequestMapper requestMapper;
-
+    
     @Autowired
     private LabelMapper labelMapper;
-
+    
     /**
      * Saves {@link RequestCollection} instance to the database.
      * 
@@ -82,11 +81,15 @@ public class RequestCollectionService {
      * 
      * @param id identifier of RequestCollection instance
      * @return {@link RequestCollection} instance
-     * @throws DataAccessException
+     * @throws DataAccessException, ResourceNotFoundException
      */
     public RequestCollection load(int id) {
         try {
-            return requestCollectionMapper.load(id);
+            RequestCollection requestCollection = requestCollectionMapper.load(id);
+            if(requestCollection == null){
+                throw new ResourceNotFoundException("RequestCollection not found, id: " + id);
+            }
+            return requestCollection;
         } catch (DataAccessException e) {
             LOGGER.error("Unable to load RequestCollection, RequestCollection id:" + id, e);
             throw e;
@@ -113,23 +116,6 @@ public class RequestCollectionService {
             return id;
         } catch (DataAccessException e) {
             LOGGER.error("Unable to update RequestCollection id:" + requestCollection.getId(), e);
-            throw e;
-        }
-    }
-
-    /**
-     * Deletes {@link RequestCollection} instance from the database.
-     * 
-     * @param id identifier of requestCollection to delete
-     * @return the number of rows affected by the statement
-     * @throws DataAccessException
-     */
-    @Transactional
-    public int delete(int id) {
-        try {
-            return requestCollectionMapper.detele(id);
-        } catch (DataAccessException e) {
-            LOGGER.error("Unable to delete RequestCollection id:" + id, e);
             throw e;
         }
     }

@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
-
 import com.softserve.webtester.dto.RequestCollectionFilterDTO;
 import com.softserve.webtester.model.BuildVersion;
 import com.softserve.webtester.model.Environment;
@@ -43,8 +42,8 @@ public class RequestCollectionController {
     private static final String LABEL = "labels";
     private static final String REQUESTS = "requests";
     private static final String COLLECTION = "requestCollection";
-    private static final String BUILDVERSION = "buildVersions";
-    private static final String COLLECTIONLIST = "collectionList";
+    private static final String BUILD_VERSION = "buildVersions";
+    private static final String COLLECTION_LIST = "collectionList";
     private static final String ENVIRONMENTS = "environments";
 
     @Autowired
@@ -79,10 +78,11 @@ public class RequestCollectionController {
      * @return 'collections' view and founded requestCollections
      */
     @RequestMapping(method = RequestMethod.GET)
-    public String getAllRequestCollection(@ModelAttribute RequestCollectionFilterDTO requestCollectionFilterDTO, Model model) {
+    public String getAllRequestCollection(@ModelAttribute RequestCollectionFilterDTO requestCollectionFilterDTO, 
+            Model model) {
         model.addAttribute(LABEL, metaDataService.loadAllLabels());
-        model.addAttribute(BUILDVERSION, metaDataService.loadAllBuildVersions());
-        model.addAttribute(COLLECTIONLIST, requestCollectionService.loadAll(requestCollectionFilterDTO));
+        model.addAttribute(BUILD_VERSION, metaDataService.loadAllBuildVersions());
+        model.addAttribute(COLLECTION_LIST, requestCollectionService.loadAll(requestCollectionFilterDTO));
         model.addAttribute(ENVIRONMENTS, environmentService.loadAll());
         return "collection/collections";
     }
@@ -128,7 +128,7 @@ public class RequestCollectionController {
      * @param model container for {@link RequestCollection}, {@link Request} and {@link Label} instances
      * @return 'collectionCreateEdit' view
      */ 
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET) // TODO YL: add modify to URL
+    @RequestMapping(value = "/modify/{id}", method = RequestMethod.GET)
     public String getRequestCollection(@PathVariable int id, Model model) {
         model.addAttribute(LABEL, metaDataService.loadAllLabels());
         model.addAttribute(REQUESTS, requestService.loadAll());
@@ -145,7 +145,7 @@ public class RequestCollectionController {
      * @param model container for {@link RequestCollection}, {@link Request} and {@link Label} instances
      * @return if success, redirects to requestCollections main page;
      */
-    @RequestMapping(value = "/{id}", method = RequestMethod.POST) // TODO YL: add modify to URL
+    @RequestMapping(value = "/modify/{id}", method = RequestMethod.POST)
     public String EditRequestCollection(@PathVariable int id,
             @Validated @ModelAttribute RequestCollection requestCollection, BindingResult result, Model model) {
         if (result.hasErrors()) {
@@ -158,22 +158,11 @@ public class RequestCollectionController {
     }
 
     /**
-     * Handles requestCollection deleting. If success, returns 204 (NO_CONTENT) HTTP status.
-     * 
-     * @param id identifier of {@link RequestCollection} should be updated
-     */
-    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE, consumes = MediaType.APPLICATION_JSON_VALUE) // TODO YL: add delete to URL
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void delete(@PathVariable int id) {
-        requestCollectionService.delete(id);
-    }
-
-    /**
      * Handles deleting requestCollections. If success, returns 204 (NO_CONTENT) HTTP status.
      * 
      * @param requestColelctionIdArray array of requests identifiers should be deleted
      */
-    @RequestMapping(method = RequestMethod.DELETE, consumes = MediaType.APPLICATION_JSON_VALUE) // TODO YL: add delete to URL
+    @RequestMapping(value = "/delete", method = RequestMethod.DELETE, consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void detele(@RequestBody int[] requestCollectionIdArray) {
         requestCollectionService.delete(requestCollectionIdArray);

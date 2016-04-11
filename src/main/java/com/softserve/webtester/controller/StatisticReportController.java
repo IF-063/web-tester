@@ -41,10 +41,10 @@ public class StatisticReportController {
 
     private static final String SERVICE_NAME = "serviceName";
     private static final String BUILD_VERSIONS = "buildVersions";
-    private static final String STATISTICBUILDVERSIONS = "statisticsBuildVersions";
+    private static final String STATISTIC_BUILDVERSIONS = "statisticsBuildVersions";
     private static final String STATISTICS = "statistics";
     private static final String DATAFORMAT = "YYYY-MM-DD HH:mm:ss";
-    private static final String RESPONSETIMETYPE = "responseTimeType";
+    private static final String RESPONSE_TIME_TYPE = "responseTimeType";
 
     @Autowired
     private MetaDataService metaDataService;
@@ -70,13 +70,13 @@ public class StatisticReportController {
         List<BuildVersion> buildVersions = metaDataService.loadAllBuildVersions();
         statisticFilterDTO.setBuildVersions(buildVersions);
         model.addAttribute(BUILD_VERSIONS, buildVersions);
-        model.addAttribute(RESPONSETIMETYPE, ResponseTimeType.values());
+        model.addAttribute(RESPONSE_TIME_TYPE, ResponseTimeType.values());
         if (result.hasErrors()) {
             return "statistic/statistics";
         }
 
         if (ArrayUtils.isNotEmpty(statisticFilterDTO.getServiceId())) {
-            model.addAttribute(STATISTICBUILDVERSIONS, reportService.loadBuildVersionsName(statisticFilterDTO));
+            model.addAttribute(STATISTIC_BUILDVERSIONS, reportService.loadBuildVersionsName(statisticFilterDTO));
             model.addAttribute(STATISTICS, reportService.loadStatisticReportData(statisticFilterDTO));
         }
         return "statistic/statistics";
@@ -86,11 +86,12 @@ public class StatisticReportController {
      * Handles generating excel statistic report.
      * 
      * @param statisticFilterDTO DTO object using for filtering statistic data
-     * @return if success, downloads the statistic report excel file;
+     * @return if success, downloads the statistic report excel file
+     * @throws RuntimeException
      */
-    // TODO YL: please rename method
+    
     @RequestMapping(value = "/xls", method = RequestMethod.GET)
-    public void xlsP(HttpServletResponse response, @ModelAttribute StatisticFilterDTO statisticFilterDTO) {
+    public void xlsStatisticReportExporter(HttpServletResponse response, @ModelAttribute StatisticFilterDTO statisticFilterDTO) {
         if (ArrayUtils.isNotEmpty(statisticFilterDTO.getServiceId())
                 && ArrayUtils.isNotEmpty(statisticFilterDTO.getBuildVersionId())) {
             List<BuildVersion> buildVersions = metaDataService.loadAllBuildVersions();
@@ -106,7 +107,7 @@ public class StatisticReportController {
                 FileCopyUtils.copy(data, outputStream);
             } catch (NullPointerException | IOException e) {
                 LOGGER.error("Unable to write data to response output stream", e);
-                // TODO YL: throw some exception
+                throw new RuntimeException();
             }
         }
     }
