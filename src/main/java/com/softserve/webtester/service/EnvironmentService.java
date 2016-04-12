@@ -34,8 +34,6 @@ public class EnvironmentService {
 
     private static final Logger LOGGER = Logger.getLogger(EnvironmentService.class);
 
-    private static final String CHECK_SQL = "SELECT 1";
-
     //Override default configuration parameters for static factory class DataSources
     private static final String MAX_POOL_SIZE_STRING = "maxPoolSize";
     private static final int MAX_POOL_SIZE_VALUE = 20;
@@ -182,7 +180,7 @@ public class EnvironmentService {
         overrides.put(MAX_POOL_SIZE_STRING, MAX_POOL_SIZE_VALUE);
         overrides.put(ACQUIRE_RETRY_ATTEMPTS_STRING, ACQUIRE_RETRY_ATTEMPTS_VALUE);
         overrides.put(TEST_CONNECTION_ON_CHECKIN_STRING, TEST_CONNECTION_ON_CHECKIN_VALUE);
-        overrides.put(PREFERRED_TEST_QUERY_STRING, CHECK_SQL);
+        overrides.put(PREFERRED_TEST_QUERY_STRING, environment.getDbType().getCheckSql());
 
         DataSource ds_pooled = DataSources.pooledDataSource(ds_unpooled, overrides);
 
@@ -252,7 +250,7 @@ public class EnvironmentService {
 
         try (Connection connection = getConnectionPools().get(environment).getConnection()) {
             statement = connection.createStatement();
-            ResultSet rs = statement.executeQuery(CHECK_SQL);
+            ResultSet rs = statement.executeQuery(environment.getDbType().getCheckSql());
             while (rs.next()) {
                 result = rs.getString(1);
             }

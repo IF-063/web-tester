@@ -8,6 +8,8 @@ import static org.mockito.Mockito.when;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.sql.DataSource;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
@@ -21,7 +23,7 @@ import com.softserve.webtester.model.Environment;
 public class EnvironmentServiceTest {
 
     private Environment environment;
-    
+
     @Mock
     private EnvironmentMapper environmentMapper;
 
@@ -36,57 +38,69 @@ public class EnvironmentServiceTest {
     @Test
     public void testValidLoad() {
         int validEnvironmentId = 10;
-        environment = new Environment();
-        environment.setName("valid Name");
-        when(environmentMapper.load(validEnvironmentId)).thenReturn(environment);
+        when(environmentMapper.load(validEnvironmentId)).thenReturn(EnvironmentInstanceTestProvider.getEnvironment("valid Name"));
         assertEquals("valid Name", environmentService.load(validEnvironmentId).getName());
     }
-    
-    @Test(expected=ResourceNotFoundException.class)
+
+    @Test(expected = ResourceNotFoundException.class)
     public void testInValidLoad() {
         int inValidEnvironmentId = 1000;
-        environment = null;
         when(environmentMapper.load(inValidEnvironmentId)).thenReturn(environment);
-        when(environmentService.load(inValidEnvironmentId));
+        environmentService.load(inValidEnvironmentId);
+    }
+
+    @Test(expected = NullPointerException.class)
+    public void testNullPointerExceptionLoad() {
+        Integer inValidEnvironmentId = null;
+        environmentService.load(inValidEnvironmentId);
     }
 
     @Test
     public void testLoadAll() {
         List<Environment> listEnvironmetns = new ArrayList<Environment>();
-        environment = new Environment();
-        environment.setName("First");
-        listEnvironmetns.add(environment);
-        environment.setName("Second");
-        listEnvironmetns.add(environment);
-        
+        listEnvironmetns.add(EnvironmentInstanceTestProvider.getEnvironment("First"));
+        listEnvironmetns.add(EnvironmentInstanceTestProvider.getEnvironment("Second"));
+
         when(environmentMapper.loadAll()).thenReturn(listEnvironmetns);
         assertTrue(environmentService.loadAll().size() == 2);
-        
+
     }
 
     @Test
-    public void testSave() {
-        fail("Not yet implemented"); // TODO
+    public void testValidSave() {
+        assertEquals(20, environmentService.save(EnvironmentInstanceTestProvider.getEnvironment(20)));
+    }
+
+    @Test(expected = NullPointerException.class)
+    public void testNullPointerExceptionSave() {
+        environmentService.save(environment);
     }
 
     @Test
-    public void testUpdate() {
-        fail("Not yet implemented"); // TODO
+    public void testValidUpdate() {
+        assertEquals(20, environmentService.update(EnvironmentInstanceTestProvider.getEnvironment(20)));
+    }
+
+    @Test(expected = NullPointerException.class)
+    public void testNullPointerExceptionUpdate() {
+        environmentService.update(environment);
     }
 
     @Test
-    public void testDelete() {
-        fail("Not yet implemented"); // TODO
+    public void testValidDelete() {
+        assertEquals(20, environmentService.delete(EnvironmentInstanceTestProvider.getEnvironment(20)));
+    }
+
+    @Test(expected = NullPointerException.class)
+    public void testNullPointerExceptionDelete() {
+        environmentService.delete(environment);
     }
 
     @Test
-    public void testIsNameFree() {
-        fail("Not yet implemented"); // TODO
-    }
-
-    @Test
-    public void testGetPooledDataSource() {
-        fail("Not yet implemented"); // TODO
+    public void testValidIsNameFree() {
+        environment = EnvironmentInstanceTestProvider.getEnvironment("free Name");
+        when(environmentMapper.isNameFree(environment)).thenReturn(2);
+        assertEquals(2, environmentService.isNameFree(environment));
     }
 
     @Test
