@@ -32,7 +32,7 @@ public interface RequestCollectionMapper {
      */
     @Insert("INSERT INTO RequestCollection (name, description) VALUES (#{name}, #{description})")
     @Options(useGeneratedKeys = true, keyProperty = "id")
-    int save(RequestCollection requestCollection);
+    void save(RequestCollection requestCollection);
 
     /**
      * Loads all {@link RequestCollection} instances from the database.
@@ -81,7 +81,7 @@ public interface RequestCollectionMapper {
      * @throws DataAccessException
      */
     @Update("UPDATE RequestCollection SET name = #{name}, description = #{description} WHERE id = #{id}")
-    int update(RequestCollection requestCollection);    
+    void update(RequestCollection requestCollection);    
 
     /**
      * Deletes {@link RequestCollection} instance from the database.

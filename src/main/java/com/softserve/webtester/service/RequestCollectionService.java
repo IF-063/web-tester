@@ -46,13 +46,12 @@ public class RequestCollectionService {
      * @throws DataAccessException
      */
     @Transactional
-    public int save(RequestCollection requestCollection) {
+    public void save(RequestCollection requestCollection) {
         try {
             requestCollectionMapper.save(requestCollection);
             saveRequestsToCollection(requestCollection);
             saveLabelsToCollection(requestCollection);
-            return requestCollection.getId();
-        } catch (DataAccessException e) {
+            } catch (DataAccessException e) {
             LOGGER.error("Unable to save RequestCollection instance" + requestCollection.getId(), e);
             throw e;
         }
@@ -67,9 +66,9 @@ public class RequestCollectionService {
      */
     @Transactional
     public List<RequestCollection> loadAll(RequestCollectionFilterDTO requestCollectionFilterDTO) {
-        String requestCollectionNameFilter = requestCollectionFilterDTO.getRequestCollectionNameFilter();
         try {
-            return requestCollectionMapper.loadAll(requestCollectionNameFilter, requestCollectionFilterDTO.getLabelFilter());
+            return requestCollectionMapper.loadAll(requestCollectionFilterDTO.getRequestCollectionNameFilter(),
+                    requestCollectionFilterDTO.getLabelFilter());
         } catch (DataAccessException e) {
             LOGGER.error("Unable to load RequestCollections", e);
             throw e;
@@ -105,7 +104,7 @@ public class RequestCollectionService {
      * @throws DataAccessException
      */
     @Transactional
-    public int update(RequestCollection requestCollection) {
+    public void update(RequestCollection requestCollection) {
         try {
             requestCollectionMapper.update(requestCollection);
             int id = requestCollection.getId();
@@ -113,7 +112,6 @@ public class RequestCollectionService {
             labelMapper.deleteByRequestCollectionId(id);
             saveRequestsToCollection(requestCollection);
             saveLabelsToCollection(requestCollection);
-            return id;
         } catch (DataAccessException e) {
             LOGGER.error("Unable to update RequestCollection id:" + requestCollection.getId(), e);
             throw e;
