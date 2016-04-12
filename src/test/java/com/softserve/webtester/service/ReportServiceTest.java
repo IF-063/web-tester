@@ -21,7 +21,7 @@ import static org.mockito.Mockito.when;
 import static org.mockito.internal.verification.VerificationModeFactory.times;
 
 /**
- *  Unit testing of ReportService class with mock objects
+ *  Unit testing of ReportService class with mock object
  */
 @RunWith(MockitoJUnitRunner.class)
 public class ReportServiceTest {
@@ -38,7 +38,7 @@ public class ReportServiceTest {
     }
 
     /**
-     * Using a mock ReportMapper object for testing loadWithAvarageResponseTimeTest() method that consists of
+     * Using a mock ReportMapper object for testing loadWithAvarageResponseTime method that consists of
      * setting expectations on the mock object with assertEquals statement and
      * doing the verification of the method calls made to a mock object with verify statement
      */
@@ -59,7 +59,7 @@ public class ReportServiceTest {
     }
 
     /**
-     * Using a mock ReportMapper object for testing loadWithAvarageResponseTimeTest() method that consists of
+     * Using a mock ReportMapper object for testing loadWithMaxResponseTime method that consists of
      * setting expectations on the mock object with assertEquals statement and
      * doing the verification of the method calls made to a mock object with verify statement
      */

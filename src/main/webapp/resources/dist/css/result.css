@@ -2,11 +2,6 @@
     height: auto;
 }
 
-#label{
-    margin: 4px;
-    padding: 4px;
-}
-
 textarea{
     resize: vertical;
 }

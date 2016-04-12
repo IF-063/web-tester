@@ -42,6 +42,7 @@ public class GraphicReportController {
      */
     @RequestMapping(method = RequestMethod.GET)
     public String getGraphic(@ModelAttribute ReportFilterDTO reportFilterDTO, Model model) {
+
         model.addAttribute(SERVICE_NAME, metaDataService.serviceLoadAll());
         model.addAttribute(BUILD_VERSIONS, metaDataService.loadAllBuildVersions());
         model.addAttribute(RESPONSE_TIME_TYPE, ResponseTimeType.values());

@@ -71,9 +71,9 @@
                   <td><c:out value="${result.requestCollection.description}" /></td>
                   <td class="td-centered"><c:out value="${result.runId}" /></td>
                   <td>
-                    <c:forEach items="${result.labels}" var="label">
-                      <span class="label label-info" style='margin:2px;padding:4px'/>${label.name}</span>
-                    </c:forEach>
+                      <c:forEach items="${result.requestCollection.getLabels()}" var="label">
+                          <span class="label label-info"/>${label.name}</span>
+                      </c:forEach>
                   </td>
                   <td class="td-centered"><c:out value="${result.buildVersion.name}" /></td>
                   <td class="td-centered"><c:out value="${result.timeStart}" /></td>

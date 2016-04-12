@@ -5,7 +5,7 @@ import com.softserve.webtester.model.ResponseTimeType;
 import java.io.Serializable;
 
 /**
- * DTO class is used for filtering {@link ResultHistory} for graphic building
+ * DTO class is used for filtering {@link ResultHistory} instances for graphic building
  * @author Viktor Somka
  */
 public class ReportFilterDTO implements Serializable {
@@ -15,6 +15,9 @@ public class ReportFilterDTO implements Serializable {
     private int serviceId;
     private int [] buildVersionId;
     private ResponseTimeType responseTimeFilterMarker;
+
+    public ReportFilterDTO() {
+    }
 
     public ReportFilterDTO(int serviceId, int[] buildVersionId, ResponseTimeType responseTimeFilterMarker) {
         this.serviceId = serviceId;

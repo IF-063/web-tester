@@ -84,7 +84,7 @@
         </div>
         <div class="col-sm-9">
           <c:forEach items="${result.getLabels()}" var="result">
-            <span class='label label-info' id='label'/>${result.name}</span>
+            <span class='label label-info'/>${result.name}</span>
           </c:forEach>
         </div>
       </div>

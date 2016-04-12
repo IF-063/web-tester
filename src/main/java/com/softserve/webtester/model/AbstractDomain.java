@@ -1,12 +1,12 @@
 package com.softserve.webtester.model;
 
-import javax.validation.constraints.Size;
-
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import org.hibernate.validator.constraints.NotBlank;
+
+import javax.validation.constraints.Size;
 
 /**
  * The AbstractDomain abstract class represents {@code AbstractDomain} entity from which inherited
@@ -29,6 +29,15 @@ public class AbstractDomain {
 
     protected boolean deleted;
 
+    public AbstractDomain(int id, String name, String description, boolean deleted) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.deleted = deleted;
+    }
+
+    public AbstractDomain() {
+    }
 
     public int getId() {
         return id;

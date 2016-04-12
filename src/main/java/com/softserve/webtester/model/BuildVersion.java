@@ -13,4 +13,10 @@ public class BuildVersion extends AbstractDomain implements Serializable {
 
     private static final long serialVersionUID = 5450435696043755309L;
 
+    public BuildVersion(int id, String name, String description, boolean deleted) {
+        super(id, name, description, deleted);
+    }
+
+    public BuildVersion() {
+    }
 }

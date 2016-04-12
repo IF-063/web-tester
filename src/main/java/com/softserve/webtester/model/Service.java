@@ -1,10 +1,9 @@
 package com.softserve.webtester.model;
 
-import java.io.Serializable;
-
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 
 /**
  * The Service class represents {@code Service} entity stored in the database.
@@ -21,6 +20,14 @@ public class Service extends AbstractDomain implements Serializable {
     @Digits(fraction = 0, integer = 6)
     @Min(1)
     private Integer sla;
+
+    public Service(int id, String name, String description, boolean deleted, Integer sla) {
+        super(id, name, description, deleted);
+        this.sla = sla;
+    }
+
+    public Service() {
+    }
 
     public Integer getSla() {
         return sla;

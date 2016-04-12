@@ -2,7 +2,10 @@ package com.softserve.webtester.dto;
 
 import java.io.Serializable;
 
-// TODO VS: add JavaDoc
+/**
+ * DTO class is used for filtering {@link ResultHistory} instances for graphic building
+ * @author Viktor Somka
+ */
 public class ReportDataDTO implements Serializable {
 
     private static final long serialVersionUID = -4660040607869903349L;
@@ -10,6 +13,9 @@ public class ReportDataDTO implements Serializable {
     private String serviceName;
     private int responseTime;
     private String buildVersionName;
+
+    public ReportDataDTO() {
+    }
 
     public ReportDataDTO(String serviceName, int responseTime, String buildVersionName) {
         this.serviceName = serviceName;
