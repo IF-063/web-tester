@@ -49,6 +49,13 @@ public class RequestExecuteService {
     // response timeout for configure HttpClient
     int defaultTimeoutInMillis = defaultTimeout*1000;
 
+    // HttpClient configuration for handling response timeout
+    RequestConfig config = RequestConfig.custom()
+            .setConnectTimeout(defaultTimeoutInMillis)
+            .setConnectionRequestTimeout(defaultTimeoutInMillis)
+            .setSocketTimeout(defaultTimeoutInMillis)
+            .build();
+
     /**
      * This method responsible for running request, requests' list or one collection.
      *
@@ -114,13 +121,6 @@ public class RequestExecuteService {
      * @return ResponseDTO, object, which consists of response time and response
      */
     private ResponseDTO executeOneRequest(HttpRequestBase requestBase) {
-
-        // HttpClient configuration for handling response timeout
-        RequestConfig config = RequestConfig.custom()
-                .setConnectTimeout(defaultTimeoutInMillis)
-                .setConnectionRequestTimeout(defaultTimeoutInMillis)
-                .setSocketTimeout(defaultTimeoutInMillis)
-                .build();
 
         // Create auto closeable httpClient - base for executing request.
         try (CloseableHttpClient httpClient = HttpClientBuilder.create().setDefaultRequestConfig(config).build()) {

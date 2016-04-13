@@ -89,8 +89,9 @@ public class ParseAndWriteService {
         int buildVersionId = resultsDTO.getBuildVersionId();
 
         if (buildVersionId != 0) {
-            int validResponsesCount = 0;
+            int responsesCount = 0;
             int timeResponsesSum = 0;
+            boolean bodyCheck = true;
             for (ResponseDTO responseDTOListElement : responseDTOList) {
 
                 // check if request run was successful
@@ -99,25 +100,33 @@ public class ParseAndWriteService {
 
                 // check if response body equals to expected one
                 String responseBody = requestExecuteSupportService.format(responseDTOListElement.getResponseBody());
-                boolean checkResponseBodyInstance = responseBody.equals(request.getRequestBody());
+                boolean checkResponseBodyInstance = responseBody.equals(requestExecuteSupportService
+                        .format(request.getRequestBody()));
 
-                if (checkStatusCode && checkResponseBodyInstance) {
+                if (checkStatusCode) {
                     timeResponsesSum += responseDTOListElement.getResponseTime();
-                    validResponsesCount++;
-                    resultHistory.setStatusLine(responseDTOListElement.getStatusLine());
-                    resultHistory.setActualResponse(responseBody);
+                    responsesCount++;
+                    if (!checkResponseBodyInstance) {
+                        bodyCheck = false;
+                    }
                 }
 
-                // calculating average response time for request with
-                // buildVersion run
-                resultHistory.setResponseTime(timeResponsesSum / validResponsesCount);
 
-                statusIndicator = (validResponsesCount == 5); // TODO RZ: move
-                                                              // to
-                // constants use from
-                // property file, which
-                // Anton should extract
+                resultHistory.setStatusLine(responseDTOListElement.getStatusLine());
+                resultHistory.setActualResponse(responseBody);
+
             }
+
+            // calculating average response time for request with buildVersion run
+            if (responsesCount != 0) {
+                resultHistory.setResponseTime(timeResponsesSum / responsesCount);
+            } else {
+                resultHistory.setResponseTime(0);
+            }
+
+
+            statusIndicator = ((responsesCount == 5) && (bodyCheck)); // TODO RZ: move to constants use from property file,
+                                                          // which Anton should extract
         } else {
             ResponseDTO responseDTO = responseDTOList.get(0);
             resultHistory.setResponseTime(responseDTO.getResponseTime());
