@@ -4,6 +4,7 @@ import java.io.StringReader;
 import java.io.StringWriter;
 import java.sql.Connection;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
 
@@ -37,6 +38,8 @@ import com.softserve.webtester.model.Variable;
 public class RequestExecuteSupportService {
 
     private static final Logger LOGGER = Logger.getLogger(RequestExecuteSupportService.class);
+    
+    final static int NUMBER_OF_COLUMN = 1;
 
     @Autowired
     private VelocityEngine velocityEngine;
@@ -49,16 +52,16 @@ public class RequestExecuteSupportService {
      * @param environment on which need to execute query and query
      * @return string value
      */
-    public String getExecutedQueryValue(Environment environment, String sqlQuery) throws Exception {
+    public String getExecutedQueryValue(Environment environment, String sqlQuery) throws SQLException {
         String result = null;
         if (isSelectQuery(sqlQuery)) {
             try (Connection  dbCon = environmentService.getConnectionPools().get(environment).getConnection()) {
                 Statement statement = dbCon.createStatement();
                 ResultSet results = statement.executeQuery(sqlQuery);
                 while (results.next()) {
-                    result = results.getString(1);
+                    result = results.getString(NUMBER_OF_COLUMN);
                 }
-            } catch (Exception e) {
+            } catch (SQLException e) {
                 LOGGER.error("Could not execute query: " + sqlQuery, e);
                 throw e;
             }

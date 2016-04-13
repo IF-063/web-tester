@@ -17,7 +17,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.mchange.v2.c3p0.DataSources;
 import com.softserve.webtester.exception.ResourceNotFoundException;
@@ -168,7 +167,7 @@ public class EnvironmentService {
      * Provides creating pooled {@link DataSource} instance using {@link Environment} instance
      * @throws Exception
      */
-    public DataSource getPooledDataSource(Environment environment) throws Exception {
+    private DataSource getPooledDataSource(Environment environment) throws Exception {
         String jdbcDriver = environment.getDbType().getDbDriver();
         String connectionUrl = String.format(environment.getDbType().getConnectionPattern(), environment.getDbUrl(),
                 environment.getDbPort(), environment.getDbName(), environment.getDbUsername(),
@@ -218,7 +217,7 @@ public class EnvironmentService {
      * Initializes connection pool to DB using {@link Environment} instance
      * @throws Exception
      */
-    public void initConnectionPool(Environment environment) throws Exception {
+    private void initConnectionPool(Environment environment) throws Exception {
         try {
             DataSource dataSource = getPooledDataSource(environment);
             if (dataSource.getConnection().isValid(0)) {

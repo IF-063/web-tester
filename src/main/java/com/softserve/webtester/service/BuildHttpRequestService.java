@@ -4,6 +4,8 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.StringUtils;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.HttpEntityEnclosingRequestBase;
 import org.apache.http.client.methods.HttpRequestBase;
@@ -11,8 +13,6 @@ import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.entity.StringEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.CollectionUtils;
-import org.springframework.util.StringUtils;
 
 import com.softserve.webtester.dto.PreparedRequestDTO;
 import com.softserve.webtester.model.Environment;
@@ -54,12 +54,12 @@ public class BuildHttpRequestService {
         }
         
         List<Variable> variableList = null;
-        if (!CollectionUtils.isEmpty(request.getVariables())) {
+        if (CollectionUtils.isNotEmpty(request.getVariables())) {
             variableList = getListVarables(request, environment);
             preparedRequestDTO.setVariableList(variableList);
         }
         
-        if (!StringUtils.isEmpty(request.getRequestBody())) {
+        if (StringUtils.isNotEmpty(request.getRequestBody())) {
             String preparedRequestBody = request.getRequestBody();
             if (!CollectionUtils.isEmpty(variableList)) {
                 preparedRequestBody = requestExecuteSupportService.getEvaluatedString(request.getRequestBody(),

@@ -109,11 +109,6 @@ public class EnvironmentServiceTest {
     }
 
     @Test
-    public void testInitConnectionPool() {
-        fail("Not yet implemented"); // TODO
-    }
-
-    @Test
     public void testCheckConnection() {
         fail("Not yet implemented"); // TODO
     }
