@@ -101,7 +101,7 @@ public class ParseAndWriteService {
                 // check if response body equals to expected one
                 String responseBody = requestExecuteSupportService.format(responseDTOListElement.getResponseBody());
                 boolean checkResponseBodyInstance = responseBody.equals(requestExecuteSupportService
-                        .format(request.getRequestBody()));
+                        .format(request.getExpectedResponse()));
 
                 if (checkStatusCode) {
                     timeResponsesSum += responseDTOListElement.getResponseTime();
