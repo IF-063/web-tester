@@ -10,6 +10,8 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.softserve.webtester.dto.CollectionResultDTO;
 import com.softserve.webtester.dto.PreparedRequestDTO;
 import com.softserve.webtester.dto.RequestResultDTO;
@@ -111,7 +113,6 @@ public class ParseAndWriteService {
                     }
                 }
 
-
                 resultHistory.setStatusLine(responseDTOListElement.getStatusLine());
                 resultHistory.setActualResponse(responseBody);
 
@@ -123,7 +124,6 @@ public class ParseAndWriteService {
             } else {
                 resultHistory.setResponseTime(0);
             }
-
 
             statusIndicator = ((responsesCount == 5) && (bodyCheck)); // TODO RZ: move to constants use from property file,
                                                           // which Anton should extract
@@ -155,7 +155,7 @@ public class ParseAndWriteService {
 
         try {
             if (request.getExpectedResponse().contains("STUB")) {
-                request.setExpectedResponse(request.getExpectedResponse().replace("STUB_VALUE", "TEST_OK"));
+                request.setExpectedResponse(request.getExpectedResponse().replace("STUB_VALUE", getActualIdFromResponseBody(resultHistory)));
             }
             if (CollectionUtils.isNotEmpty(preparedRequestDTO.getVariableList())) {
                 resultHistory.setExpectedResponse(requestExecuteSupportService.getEvaluatedString(
@@ -202,7 +202,6 @@ public class ParseAndWriteService {
         environmentHistory.setEnvironment(environment);
         LOGGER.info("ENVIRONMENT " + environmentHistory);
         resultHistoryService.saveEnvironmentHistory(environmentHistory);
-
     }
 
     public void savingHeaderHistory(Request request, HeaderHistory headerHistory, ResultHistory resultHistory) {
@@ -303,17 +302,24 @@ public class ParseAndWriteService {
             message.append("Response time exceeded timeout value; ");
         }
 
-        /*
-         * if
-         * (dbValidationHistory.getExpectedValue().equals(dbValidationHistory.
-         * getActualValue())) { message =
-         * "At least one db validation expected value is not equal to the actual one"
-         * ; }
-         */
-
         if (StringUtils.isBlank(message)) {
             message.append("OK");
         }
         return message;
+    }
+    
+    public String getActualIdFromResponseBody(ResultHistory resultHistory) {
+
+        String input = resultHistory.getActualResponse();
+        String actualId = null;
+        if (((resultHistory.getActualResponse()) != null)) {
+            JsonParser parser = new JsonParser();
+            JsonObject mainObject = parser.parse(input).getAsJsonObject();
+            actualId = mainObject.get("id").getAsString();
+            LOGGER.info("ACTUAL_ID " + actualId);
+        }
+
+        return actualId;
+
     }
 }
