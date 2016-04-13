@@ -2,6 +2,8 @@ package com.softserve.webtester.service;
 
 import java.sql.Timestamp;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -150,7 +152,8 @@ public class ParseAndWriteService {
             resultHistory.setRequestBody(null);
             LOGGER.info("!!RESULT_HISTORY!! " + resultHistory.getExpectedResponse());
         } else {
-            resultHistory.setRequestBody(preparedRequestDTO.getPreparedRequestBody());
+            resultHistory.setRequestBody(requestExecuteSupportService.format(preparedRequestDTO.getPreparedRequestBody()));
+            LOGGER.info("!!REQUEST_BODY!! " + resultHistory.getRequestBody());
         }
 
         try {
@@ -312,11 +315,25 @@ public class ParseAndWriteService {
 
         String input = resultHistory.getActualResponse();
         String actualId = null;
-        if (((resultHistory.getActualResponse()) != null)) {
+        if (((resultHistory.getActualResponse()) != null) && !(resultHistory.getActualResponse().startsWith("<"))) {
             JsonParser parser = new JsonParser();
             JsonObject mainObject = parser.parse(input).getAsJsonObject();
             actualId = mainObject.get("id").getAsString();
             LOGGER.info("ACTUAL_ID " + actualId);
+        }
+        if (((resultHistory.getActualResponse()) != null) && (resultHistory.getActualResponse().startsWith("<"))){
+            //String id = null;
+            Pattern p = Pattern.compile("<id>\\d+</id>");
+            Matcher m = p.matcher(resultHistory.getActualResponse());
+            while(m.find()){
+                Pattern pp = Pattern.compile("\\d+");
+                Matcher mm = pp.matcher(m.group());
+                while(mm.find()){
+                    actualId = mm.group();
+                    LOGGER.info("ACTUAL_ID " + actualId);
+                }   
+            }
+
         }
 
         return actualId;
