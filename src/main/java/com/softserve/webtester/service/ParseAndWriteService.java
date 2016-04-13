@@ -27,6 +27,7 @@ import com.softserve.webtester.model.Request;
 import com.softserve.webtester.model.RequestCollection;
 import com.softserve.webtester.model.RequestMethod;
 import com.softserve.webtester.model.ResultHistory;
+import com.softserve.webtester.model.Variable;
 
 // TODO RZ: JavaDoc
 @Service
@@ -49,6 +50,7 @@ public class ParseAndWriteService {
     private static String VELOCITY_LOG = ""; // TODO RZ: fill Sth
 
     public int parseAndWrite(ResultsDTO resultsDTO) {
+        LOGGER.info("!!RESULTS!! " + resultsDTO);
 
         int runId = resultsDTO.getRunId();
 
@@ -93,7 +95,7 @@ public class ParseAndWriteService {
 
                 // check if request run was successful
                 int statusCode = responseDTOListElement.getStatusCode();
-                boolean checkStatusCode = (statusCode >= 200)&&(statusCode < 400);
+                boolean checkStatusCode = (statusCode >= 200) && (statusCode < 400);
 
                 // check if response body equals to expected one
                 String responseBody = requestExecuteSupportService.format(responseDTOListElement.getResponseBody());
@@ -106,13 +108,15 @@ public class ParseAndWriteService {
                     resultHistory.setActualResponse(responseBody);
                 }
 
-                // calculating average response time for request with buildVersion run
-                resultHistory.setResponseTime(timeResponsesSum/validResponsesCount);
+                // calculating average response time for request with
+                // buildVersion run
+                resultHistory.setResponseTime(timeResponsesSum / validResponsesCount);
 
-                statusIndicator = (validResponsesCount == 5); // TODO RZ: move to
-                                                // constants use from
-                                                // property file, which
-                                                // Anton should extract
+                statusIndicator = (validResponsesCount == 5); // TODO RZ: move
+                                                              // to
+                // constants use from
+                // property file, which
+                // Anton should extract
             }
         } else {
             ResponseDTO responseDTO = responseDTOList.get(0);
@@ -131,24 +135,32 @@ public class ParseAndWriteService {
         resultHistory.setResponseType(request.getResponseType().getTextValue());
         resultHistory.setTimeStart(new Timestamp(System.currentTimeMillis()));
         resultHistory.setExpectedResponseTime(request.getTimeout());
-
+        LOGGER.info("!!RESULT_HISTORY_URL!! " + resultHistory.getUrl());
         if ((preparedRequestDTO.getHttpRequest().getMethod().equals("GET"))
                 ^ (preparedRequestDTO.getHttpRequest().getMethod().equals("DELETE"))) {
             resultHistory.setRequestBody(null);
+            LOGGER.info("!!RESULT_HISTORY!! " + resultHistory.getExpectedResponse());
         } else {
             resultHistory.setRequestBody(preparedRequestDTO.getPreparedRequestBody());
         }
 
         try {
-            resultHistory.setExpectedResponse(requestExecuteSupportService.getEvaluatedString(
-                    request.getExpectedResponse(), preparedRequestDTO.getVariableList(), VELOCITY_LOG));
+            if (request.getExpectedResponse().contains("STUB")) {
+                request.setExpectedResponse(request.getExpectedResponse().replace("STUB_VALUE", "TEST_OK"));
+            }
+            if (CollectionUtils.isNotEmpty(preparedRequestDTO.getVariableList())) {
+                resultHistory.setExpectedResponse(requestExecuteSupportService.getEvaluatedString(
+                        request.getExpectedResponse(), preparedRequestDTO.getVariableList(), VELOCITY_LOG));
+            } else
+                resultHistory.setExpectedResponse(request.getExpectedResponse());
 
+            LOGGER.info("!!RESULT_RESPONSE!! " + resultHistory.getExpectedResponse());
         } catch (ParseException e1) {
             LOGGER.info(e1);
         }
 
         resultHistory.setRunId(resultsDTO.getRunId());
-
+        LOGGER.info("!!RESULT_HISTORY_RunId!! " + resultHistory.getRunId());
         if (collectionId != 0) {
             RequestCollection reqColl = requestCollectionService.load(collectionId);
             resultHistory.setRequestCollection(reqColl);
@@ -163,7 +175,8 @@ public class ParseAndWriteService {
         resultHistory.setStatus(statusIndicator && isValidResponse(validationMessages));
         resultHistory.setMessage(validationMessages.toString());
         resultHistoryService.save(resultHistory);
-        savingDbValidation(request, environment, resultHistory, dbValidationHistory);
+        LOGGER.info("!!RESULT_HISTORY!! " + resultHistory);
+        savingDbValidation(request, environment, resultHistory, dbValidationHistory, preparedRequestDTO);
     }
 
     public void savingEnvironmentHistory(EnvironmentHistory environmentHistory, ResultHistory resultHistory,
@@ -208,23 +221,35 @@ public class ParseAndWriteService {
     }
 
     public void savingDbValidation(Request request, Environment environment, ResultHistory resultHistory,
-            DbValidationHistory dbValidationHistory) {
+            DbValidationHistory dbValidationHistory, PreparedRequestDTO preparedRequestDTO) {
 
         if (CollectionUtils.isNotEmpty(request.getDbValidations())) {
             List<DbValidation> dbValidations = (request.getDbValidations());
             for (DbValidation dbValidation : dbValidations) {
-                dbValidationHistory.setSqlQuery(dbValidation.getSqlQuery());
+                String dbValidationSQLQuery = dbValidation.getSqlQuery();
+                List<Variable> varibleList = preparedRequestDTO.getVariableList();
+                if (CollectionUtils.isNotEmpty(preparedRequestDTO.getVariableList())) {
+                    dbValidationSQLQuery = requestExecuteSupportService.getEvaluatedString(dbValidationSQLQuery,
+                            varibleList, VELOCITY_LOG);
+                    LOGGER.info("!!!QUERY!!! " + dbValidationSQLQuery);
+                } else {
+                    dbValidationSQLQuery = dbValidation.getSqlQuery();
+                    LOGGER.info("!!!DB_QUERY!!!   " + dbValidation.getSqlQuery());
+                }
+                dbValidationHistory.setSqlQuery(dbValidationSQLQuery);
                 dbValidationHistory.setExpectedValue(dbValidation.getExpectedValue());
                 try {
-                    dbValidationHistory.setActualValue(requestExecuteSupportService.getExecutedQueryValue(environment,
-                            dbValidation.getSqlQuery()));
+                    if(dbValidationSQLQuery != null){
+                    dbValidationHistory.setActualValue(
+                            requestExecuteSupportService.getExecutedQueryValue(environment, dbValidationSQLQuery));
+                    LOGGER.info("DB_VALIDATION_ACTUAL   " + dbValidationHistory.getActualValue());
+                    }
                 } catch (Exception e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
                     // TODO RZ: set NULL and message to the validation
                     // messages
                 }
-
                 LOGGER.info("DB_VALIDATION   " + dbValidationHistory);
                 dbValidationHistory.setResultHistory(resultHistory);
                 if (CollectionUtils.isNotEmpty(request.getDbValidations())) {
