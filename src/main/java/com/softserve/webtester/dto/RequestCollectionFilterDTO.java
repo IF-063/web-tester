@@ -30,6 +30,5 @@ public class RequestCollectionFilterDTO implements Serializable {
 
     public void setLabelFilter(int[] labelFilter) {
         this.labelFilter = labelFilter;
-    }
-
+    } 
 }
