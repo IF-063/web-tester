@@ -7,7 +7,6 @@ import java.util.regex.Pattern;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.http.ParseException;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -33,7 +32,14 @@ import com.softserve.webtester.model.RequestMethod;
 import com.softserve.webtester.model.ResultHistory;
 import com.softserve.webtester.model.Variable;
 
-// TODO RZ: JavaDoc
+/**
+ * ParseAndWriteService class provides handling and saving {@link Request},
+ * {@link RequestCollection} and {@link BuildVersion} results.
+ * 
+ * @author Roman Zolotar
+ * @version 1.0
+ */
+
 @Service
 public class ParseAndWriteService {
 
@@ -52,9 +58,20 @@ public class ParseAndWriteService {
     private MetaDataService metaDataService;
 
     private static String VELOCITY_LOG = ""; // TODO RZ: fill Sth
+    final static int REQUEST_RUN_COUNT = 5;
+    final static int SUCCESS_CODE = 200;
+    final static int FAIL_CODE = 200;
+
+    /**
+     * This method provides saving into DB {@link Request} results and
+     * {@link RequestCollection} results if exists.
+     * 
+     * @param {@link
+     *            ResultsDTO}
+     * @return runId
+     */
 
     public int parseAndWrite(ResultsDTO resultsDTO) {
-        LOGGER.info("!!RESULTS!! " + resultsDTO);
 
         int runId = resultsDTO.getRunId();
 
@@ -83,12 +100,25 @@ public class ParseAndWriteService {
         return runId;
     }
 
+    /**
+     * This method provides forming {@link ResultHistory} object and saving it
+     * into DB. Also it handles {@link DuildVersion} run results.
+     * 
+     * @param {@link Request}
+     * @param {@link ResultHistory}
+     * @param {@link DbValidationHistory}
+     * @param {@link ResultsDTO}
+     * @param responseDTOList
+     * @param collectionId
+     * @param preparedRequestDTO
+     */
+
     public void savingResultHistory(Request request, ResultHistory resultHistory, PreparedRequestDTO preparedRequestDTO,
             ResultsDTO resultsDTO, List<ResponseDTO> responseDTOList, int collectionId,
             DbValidationHistory dbValidationHistory) {
 
         Environment environment = resultsDTO.getEnvironment();
-        final int SUCCESS_CODE = 200;
+        
         boolean statusIndicator = false;
         int buildVersionId = resultsDTO.getBuildVersionId();
 
@@ -100,12 +130,12 @@ public class ParseAndWriteService {
 
                 // check if request run was successful
                 int statusCode = responseDTOListElement.getStatusCode();
-                boolean checkStatusCode = (statusCode >= 200) && (statusCode < 400);
+                boolean checkStatusCode = (statusCode >= SUCCESS_CODE) && (statusCode < FAIL_CODE);
 
                 // check if response body equals to expected one
                 String responseBody = requestExecuteSupportService.format(responseDTOListElement.getResponseBody());
-                boolean checkResponseBodyInstance = responseBody.equals(requestExecuteSupportService
-                        .format(request.getExpectedResponse()));
+                boolean checkResponseBodyInstance = responseBody
+                        .equals(requestExecuteSupportService.format(request.getExpectedResponse()));
 
                 if (checkStatusCode) {
                     timeResponsesSum += responseDTOListElement.getResponseTime();
@@ -120,15 +150,15 @@ public class ParseAndWriteService {
 
             }
 
-            // calculating average response time for request with buildVersion run
+            // calculating average response time for request with buildVersion
+            // run
             if (responsesCount != 0) {
                 resultHistory.setResponseTime(timeResponsesSum / responsesCount);
             } else {
                 resultHistory.setResponseTime(0);
             }
 
-            statusIndicator = ((responsesCount == 5) && (bodyCheck)); // TODO RZ: move to constants use from property file,
-                                                          // which Anton should extract
+            statusIndicator = ((responsesCount == REQUEST_RUN_COUNT) && (bodyCheck));
         } else {
             ResponseDTO responseDTO = responseDTOList.get(0);
             resultHistory.setResponseTime(responseDTO.getResponseTime());
@@ -146,19 +176,20 @@ public class ParseAndWriteService {
         resultHistory.setResponseType(request.getResponseType().getTextValue());
         resultHistory.setTimeStart(new Timestamp(System.currentTimeMillis()));
         resultHistory.setExpectedResponseTime(request.getTimeout());
-        LOGGER.info("!!RESULT_HISTORY_URL!! " + resultHistory.getUrl());
+
         if ((preparedRequestDTO.getHttpRequest().getMethod().equals("GET"))
                 ^ (preparedRequestDTO.getHttpRequest().getMethod().equals("DELETE"))) {
             resultHistory.setRequestBody(null);
-            LOGGER.info("!!RESULT_HISTORY!! " + resultHistory.getExpectedResponse());
+
         } else {
-            resultHistory.setRequestBody(requestExecuteSupportService.format(preparedRequestDTO.getPreparedRequestBody()));
-            LOGGER.info("!!REQUEST_BODY!! " + resultHistory.getRequestBody());
+            resultHistory
+                    .setRequestBody(requestExecuteSupportService.format(preparedRequestDTO.getPreparedRequestBody()));
         }
 
         try {
             if (request.getExpectedResponse().contains("STUB")) {
-                request.setExpectedResponse(request.getExpectedResponse().replace("STUB_VALUE", getActualIdFromResponseBody(resultHistory)));
+                request.setExpectedResponse(request.getExpectedResponse().replace("STUB_VALUE",
+                        getActualIdFromResponseBody(resultHistory)));
             }
             if (CollectionUtils.isNotEmpty(preparedRequestDTO.getVariableList())) {
                 resultHistory.setExpectedResponse(requestExecuteSupportService.getEvaluatedString(
@@ -166,13 +197,12 @@ public class ParseAndWriteService {
             } else
                 resultHistory.setExpectedResponse(request.getExpectedResponse());
 
-            LOGGER.info("!!RESULT_RESPONSE!! " + resultHistory.getExpectedResponse());
-        } catch (ParseException e1) {
-            LOGGER.info(e1);
+        } catch (Exception e) {
+            LOGGER.error("Unable to add variebles to expected response:");
         }
 
         resultHistory.setRunId(resultsDTO.getRunId());
-        LOGGER.info("!!RESULT_HISTORY_RunId!! " + resultHistory.getRunId());
+
         if (collectionId != 0) {
             RequestCollection reqColl = requestCollectionService.load(collectionId);
             resultHistory.setRequestCollection(reqColl);
@@ -191,6 +221,15 @@ public class ParseAndWriteService {
         savingDbValidation(request, environment, resultHistory, dbValidationHistory, preparedRequestDTO);
     }
 
+    /**
+     * This method provides forming {@link EnvironmentHistory} object and saving
+     * it into DB.
+     * 
+     * @param {@link EnvironmentHistory}
+     * @param {@link ResultHistory}
+     * @param {@link ResultsDTO}
+     */
+
     public void savingEnvironmentHistory(EnvironmentHistory environmentHistory, ResultHistory resultHistory,
             ResultsDTO resultsDTO) {
 
@@ -203,9 +242,18 @@ public class ParseAndWriteService {
         environmentHistory.setDbURL(environment.getDbUrl());
         environmentHistory.setName(environment.getName());
         environmentHistory.setEnvironment(environment);
-        LOGGER.info("ENVIRONMENT " + environmentHistory);
+        LOGGER.info("!!ENVIRONMENT_HISTORY!! " + environmentHistory);
         resultHistoryService.saveEnvironmentHistory(environmentHistory);
     }
+
+    /**
+     * This method provides forming {@link HeaderHistory} object (if
+     * {@link Header} exists) and saving it into DB.
+     * 
+     * @param {@link Request}
+     * @param {@link HeaderHistory}
+     * @param {@link ResultHistory}
+     */
 
     public void savingHeaderHistory(Request request, HeaderHistory headerHistory, ResultHistory resultHistory) {
 
@@ -221,6 +269,14 @@ public class ParseAndWriteService {
         }
     }
 
+    /**
+     * This method provides forming {@link Label} object (if exists), passes it
+     * to {@link ResultHistory} and saving it into DB.
+     * 
+     * @param {@link Request}
+     * @param {@link ResultHistory}
+     */
+
     public void savingLabelHistory(Request request, ResultHistory resultHistory) {
 
         List<Label> labels = (request.getLabels());
@@ -231,6 +287,19 @@ public class ParseAndWriteService {
         }
     }
 
+    /**
+     * This method provides forming {@link DbValidationHistory} object if
+     * {@link DbValidation} exists and saving it into DB. Also it handles
+     * executing query for DbValidation and adds {@link Variable} to
+     * DbValidation
+     * 
+     * @param {@link Request}
+     * @param {@link Environment}
+     * @param {@link ResultHistory}
+     * @param {@link dbValidationHistory}
+     * @param preparedRequestDTO
+     */
+
     public void savingDbValidation(Request request, Environment environment, ResultHistory resultHistory,
             DbValidationHistory dbValidationHistory, PreparedRequestDTO preparedRequestDTO) {
 
@@ -239,28 +308,28 @@ public class ParseAndWriteService {
             for (DbValidation dbValidation : dbValidations) {
                 String dbValidationSQLQuery = dbValidation.getSqlQuery();
                 List<Variable> varibleList = preparedRequestDTO.getVariableList();
+
                 if (CollectionUtils.isNotEmpty(preparedRequestDTO.getVariableList())) {
                     dbValidationSQLQuery = requestExecuteSupportService.getEvaluatedString(dbValidationSQLQuery,
                             varibleList, VELOCITY_LOG);
-                    LOGGER.info("!!!QUERY!!! " + dbValidationSQLQuery);
                 } else {
                     dbValidationSQLQuery = dbValidation.getSqlQuery();
-                    LOGGER.info("!!!DB_QUERY!!!   " + dbValidation.getSqlQuery());
                 }
+
                 dbValidationHistory.setSqlQuery(dbValidationSQLQuery);
                 dbValidationHistory.setExpectedValue(dbValidation.getExpectedValue());
                 try {
-                    if(dbValidationSQLQuery != null){
-                    dbValidationHistory.setActualValue(
-                            requestExecuteSupportService.getExecutedQueryValue(environment, dbValidationSQLQuery));
-                    LOGGER.info("DB_VALIDATION_ACTUAL   " + dbValidationHistory.getActualValue());
+                    if (dbValidationSQLQuery != null) {
+                        dbValidationHistory.setActualValue(
+                                requestExecuteSupportService.getExecutedQueryValue(environment, dbValidationSQLQuery));
                     }
                 } catch (Exception e) {
-                    // TODO Auto-generated catch block
+                    LOGGER.error("Unable to execute SQL Query:  " + dbValidationSQLQuery);
                     e.printStackTrace();
                     // TODO RZ: set NULL and message to the validation
                     // messages
                 }
+
                 LOGGER.info("DB_VALIDATION   " + dbValidationHistory);
                 dbValidationHistory.setResultHistory(resultHistory);
                 if (CollectionUtils.isNotEmpty(request.getDbValidations())) {
@@ -276,6 +345,17 @@ public class ParseAndWriteService {
 
         return validationMessages.toString().equals("OK");
     }
+
+    /**
+     * This method generates error(s) messages if error exists and appends it to
+     * StringBuilder-object. Also it detects type of expected response.
+     * 
+     * @param {@link ResultHistory}
+     * @param {@link Request}
+     * @param {@link dbValidationHistory}
+     * @param preparedRequestDTO
+     * @return message object
+     */
 
     public StringBuilder getValidationMessages(ResultHistory resultHistory, Request request,
             PreparedRequestDTO preparedRequestDTO, DbValidationHistory dbValidationHistory) {
@@ -310,7 +390,16 @@ public class ParseAndWriteService {
         }
         return message;
     }
-    
+
+    /**
+     * This method provides detecting response type and changes "stub value"
+     * instead "id" in expected response on actual "id" from actual response 
+     * corresponding to response type
+     * 
+     * @param {@link ResultHistory}
+     * @return actualId
+     */
+
     public String getActualIdFromResponseBody(ResultHistory resultHistory) {
 
         String input = resultHistory.getActualResponse();
@@ -319,23 +408,21 @@ public class ParseAndWriteService {
             JsonParser parser = new JsonParser();
             JsonObject mainObject = parser.parse(input).getAsJsonObject();
             actualId = mainObject.get("id").getAsString();
-            LOGGER.info("ACTUAL_ID " + actualId);
         }
-        if (((resultHistory.getActualResponse()) != null) && (resultHistory.getActualResponse().startsWith("<"))){
-            //String id = null;
+        if (((resultHistory.getActualResponse()) != null) && (resultHistory.getActualResponse().startsWith("<"))) {
+            // String id = null;
             Pattern p = Pattern.compile("<id>\\d+</id>");
             Matcher m = p.matcher(resultHistory.getActualResponse());
-            while(m.find()){
+            while (m.find()) {
                 Pattern pp = Pattern.compile("\\d+");
                 Matcher mm = pp.matcher(m.group());
-                while(mm.find()){
+                while (mm.find()) {
                     actualId = mm.group();
-                    LOGGER.info("ACTUAL_ID " + actualId);
-                }   
+                }
             }
 
         }
-
+        LOGGER.info("ACTUAL_ID " + actualId);
         return actualId;
 
     }
