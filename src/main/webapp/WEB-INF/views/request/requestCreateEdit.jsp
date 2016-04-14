@@ -224,7 +224,7 @@
                             </td>
                             <td id=".length">
                               <form:input path="variables[${status.index}].length" 
-                                class="form-control enableIfRandom" placeholder="Length" cssErrorClass="error" />
+                                class="form-control enableIfRandom" placeholder="Length" cssErrorClass="error form-control enableIfRandom" />
                               <form:errors path="variables[${status.index}].length" 
                                 cssClass="help-block with-errors" />
                             </td>
