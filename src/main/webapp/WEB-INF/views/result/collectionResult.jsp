@@ -27,13 +27,6 @@
                                multiple="multiple" data-placeholder="labels..." itemLabel="name" itemValue="id" />
               </div>
 
-              <div class="col-md-2" id="f3">
-                  <form:select path="statusFilter" class="form-control select2-multiple" cssErrorClass="error" >
-                      <form:option value="1">status pass</form:option>
-                      <form:option value="0">status fail</form:option>
-                  </form:select>
-              </div>
-
               <div class="col-md-4">
                   <div>
                       <a href="<c:url value="/results/collections/" />" class="btn btn-default">Reset</a>
@@ -71,17 +64,17 @@
                   <td><c:out value="${result.requestCollection.description}" /></td>
                   <td class="td-centered"><c:out value="${result.runId}" /></td>
                   <td>
-                      <c:forEach items="${result.requestCollection.getLabels()}" var="label">
+                      <c:forEach items="${result.requestCollection.labels}" var="label">
                           <span class="label label-info"/>${label.name}</span>
                       </c:forEach>
                   </td>
                   <td class="td-centered"><c:out value="${result.buildVersion.name}" /></td>
                   <td class="td-centered"><c:out value="${result.timeStart}" /></td>
                   <td class="td-centered">${(result.status==true)?'pass':'fail'}</td>
-                  <td class="td-centered"><a href=<c:url value="/results/collections/${result.requestCollection.getId()}?runId=${result.runId}" />>request results</a></td>
+                  <td class="td-centered"><a href=<c:url value="/results/collections/${result.requestCollection.id}?runId=${result.runId}" />>request results</a></td>
                   <td class="td-centered">
                     <a class="removeInstance cursorPointer fa fa-trash fa-lg"
-                       href="<c:url value="/results/collections/remove/${result.requestCollection.getId()}" />" ></a>
+                       href="<c:url value="/results/collections/remove/${result.requestCollection.id}" />" ></a>
                   </td>
               </tr>
             </c:forEach>

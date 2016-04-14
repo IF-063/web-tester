@@ -83,7 +83,7 @@
           <p><b>Labels</b></p>
         </div>
         <div class="col-sm-9">
-          <c:forEach items="${result.getLabels()}" var="result">
+          <c:forEach items="${result.labels}" var="result">
             <span class='label label-info'/>${result.name}</span>
           </c:forEach>
         </div>
@@ -139,7 +139,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                <c:forEach items="${result.getHeaderHistories()}" var="result">
+                <c:forEach items="${result.headerHistories}" var="result">
                   <tr>
                     <td class="td-left"><c:out value="${result.name}" /></td>
                     <td class="td-left"><c:out value="${result.value}" /></td>
@@ -153,7 +153,7 @@
       </div>
     </div>
 
-    <c:if test="${!(result.request.getRequestMethod() == 'GET')}">
+    <c:if test="${!(result.request.requestMethod == 'GET')}">
       <div class="col-md-12">
         <div class="row">
           <div class="col-sm-3">
@@ -244,7 +244,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                <c:forEach items="${result.getDbValidationHistories()}" var="result">
+                <c:forEach items="${result.dbValidationHistories}" var="result">
                   <tr>
                     <td><textarea readonly class="form-control" rows="1" name="text"><c:out value="${result.sqlQuery}" /></textarea></td>
                     <td class="td-left"><c:out value="${result.expectedValue}" /></td>

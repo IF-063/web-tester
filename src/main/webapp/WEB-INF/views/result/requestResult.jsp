@@ -28,9 +28,9 @@
             </div>
 
             <div class="col-md-2">
-              <form:select path="statusFilter" class="form-control select2-multiple" cssErrorClass="error" >
-                <form:option value="1">status pass</form:option>
-                <form:option value="0">status fail</form:option>
+              <form:select path="statusFilter" class="form-control" cssErrorClass="error" >
+                <form:option value="true">status pass</form:option>
+                <form:option value="false">status fail</form:option>
               </form:select> 
             </div>
 
