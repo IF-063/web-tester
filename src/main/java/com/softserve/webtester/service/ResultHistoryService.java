@@ -1,7 +1,9 @@
 package com.softserve.webtester.service;
 
-import java.util.List;
-
+import com.softserve.webtester.dto.ResultCollectionFilterDTO;
+import com.softserve.webtester.dto.ResultFilterDTO;
+import com.softserve.webtester.mapper.*;
+import com.softserve.webtester.model.*;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,18 +11,7 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.softserve.webtester.dto.ResultCollectionFilterDTO;
-import com.softserve.webtester.dto.ResultFilterDTO;
-import com.softserve.webtester.mapper.DbValidationHistoryMapper;
-import com.softserve.webtester.mapper.EnvironmentHistoryMapper;
-import com.softserve.webtester.mapper.HeaderHistoryMapper;
-import com.softserve.webtester.mapper.LabelMapper;
-import com.softserve.webtester.mapper.ResultHistoryMapper;
-import com.softserve.webtester.model.DbValidationHistory;
-import com.softserve.webtester.model.EnvironmentHistory;
-import com.softserve.webtester.model.HeaderHistory;
-import com.softserve.webtester.model.Label;
-import com.softserve.webtester.model.ResultHistory;
+import java.util.List;
 
 /**
  * ResultHistoryService class implements CRUD operation on {@link ResultHistory} instance in DB
@@ -295,7 +286,7 @@ public class ResultHistoryService {
      * @return id of saved headerHistory instance
      * @throws DataAccessException
      */
-    // TODO RZ: rework
+
     public void saveHeaderHistory(HeaderHistory headerHistory) {
 
         try {

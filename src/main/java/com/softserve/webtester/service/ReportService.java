@@ -39,9 +39,11 @@ public class ReportService {
      */
     @Transactional
     public List<ReportDataDTO> loadReportData(ReportFilterDTO reportFilterDTO) {
+
         List<ReportDataDTO> list = null;
         int serviceId = reportFilterDTO.getServiceId();
         int[] buildVersionIds = reportFilterDTO.getBuildVersionId();
+
         switch (reportFilterDTO.getResponseTimeFilterMarker()) {
         case AVERAGE:
             list = loadWithAvarageResponseTime(serviceId, buildVersionIds);
@@ -58,7 +60,9 @@ public class ReportService {
      * service from the database
      */
     private List<ReportDataDTO> loadWithAvarageResponseTime(int serviceId, int[] buildVersionIds) {
+
         String buildVersionIdsjoin = StringUtils.join(buildVersionIds, ",");
+
         try {
             return reportMapper.loadAvg(serviceId, buildVersionIds);
         } catch (DataAccessException e) {
@@ -73,7 +77,9 @@ public class ReportService {
      * service from the database
      */
     private List<ReportDataDTO> loadWithMaxResponseTime(int serviceId, int[] buildVersionIds) {
+
         String buildVersionIdsjoin = StringUtils.join(buildVersionIds, ",");
+
         try {
             return reportMapper.loadMax(serviceId, buildVersionIds);
         } catch (DataAccessException e) {

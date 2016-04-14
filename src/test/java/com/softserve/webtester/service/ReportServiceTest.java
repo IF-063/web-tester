@@ -26,6 +26,9 @@ import static org.mockito.internal.verification.VerificationModeFactory.times;
 @RunWith(MockitoJUnitRunner.class)
 public class ReportServiceTest {
 
+    private static final int ONCE = 1;
+    private static final int NEVER = 0;
+
     @Mock
     ReportMapper reportMapper;
 
@@ -37,76 +40,44 @@ public class ReportServiceTest {
         MockitoAnnotations.initMocks(this);
     }
 
+    List<ReportDataDTO> expectedReportDataDTO = new ArrayList<>();
+
     /**
-     * Using a mock ReportMapper object for testing loadWithAvarageResponseTime method that consists of
-     * setting expectations on the mock object with assertEquals statement and
+     * Using a mock ReportMapper object for testing loadWithAvarageResponseTime/loadWithMaxResponseTime methods
+     * that consists of setting expectations on the mock object with assertEquals statement and
      * doing the verification of the method calls made to a mock object with verify statement
      */
     @Test
     public void loadWithAvarageResponseTimeTest() {
 
-        int serviceId = 2;
-        int[] buildVersionIds = {1, 4};
-        List<ReportDataDTO> expectedReportDataDTO = new ArrayList<>();
-        expectedReportDataDTO.add(new ReportDataDTO("s2", 60, "v1.0"));
-        expectedReportDataDTO.add(new ReportDataDTO("s2", 80, "v1.1"));
-
-        when(reportMapper.loadAvg(serviceId, buildVersionIds)).thenReturn(expectedReportDataDTO);
-        assertEquals(expectedReportDataDTO, reportMapper.loadAvg(serviceId, buildVersionIds));
-
-        verify(reportMapper, times(1)).loadAvg(serviceId, buildVersionIds);
-        verify(reportMapper, times(0)).loadMax(serviceId, buildVersionIds);
+        when(reportMapper.loadAvg(0, null)).thenReturn(expectedReportDataDTO);
+        assertEquals(expectedReportDataDTO, reportMapper.loadAvg(0, null));
+        verify(reportMapper, times(ONCE)).loadAvg(0, null);
+        verify(reportMapper, times(NEVER)).loadMax(0, null);
     }
 
-    /**
-     * Using a mock ReportMapper object for testing loadWithMaxResponseTime method that consists of
-     * setting expectations on the mock object with assertEquals statement and
-     * doing the verification of the method calls made to a mock object with verify statement
-     */
     @Test
     public void loadWithMaxResponseTimeTest() {
 
-        int serviceId = 2;
-        int[] buildVersionIds = {1, 4};
-        List<ReportDataDTO> expectedReportDataDTO = new ArrayList<>();
-        expectedReportDataDTO.add(new ReportDataDTO("s2", 70, "v1.0"));
-        expectedReportDataDTO.add(new ReportDataDTO("s2", 90, "v1.1"));
-
-        when(reportMapper.loadMax(serviceId, buildVersionIds)).thenReturn(expectedReportDataDTO);
-        assertEquals(expectedReportDataDTO, reportMapper.loadMax(serviceId, buildVersionIds));
-        verify(reportMapper, times(1)).loadMax(serviceId, buildVersionIds);
-        verify(reportMapper, times(0)).loadAvg(serviceId, buildVersionIds);
+        when(reportMapper.loadMax(0, null)).thenReturn(expectedReportDataDTO);
+        assertEquals(expectedReportDataDTO, reportMapper.loadMax(0, null));
+        verify(reportMapper, times(ONCE)).loadMax(0, null);
+        verify(reportMapper, times(NEVER)).loadAvg(0, null);
     }
 
     @Test
-    public void loadReportDataAvgTest() {
+    public void loadReportDataTest() {
 
-        int serviceId = 2;
-        int[] buildVersionIds = {1, 4};
-        ResponseTimeType responseTimeFilterMarker = ResponseTimeType.AVERAGE;
-        ReportFilterDTO reportFilterDTO = new ReportFilterDTO(serviceId, buildVersionIds, responseTimeFilterMarker);
+        List<ReportDataDTO> expectedReportDataDTOMax = new ArrayList<>();
+        expectedReportDataDTOMax.add(new ReportDataDTO("s2", 60, "v1.0"));
+        expectedReportDataDTOMax.add(new ReportDataDTO("s2", 80, "v1.1"));
 
-        List<ReportDataDTO> expectedReportDataDTO = new ArrayList<>();
-        expectedReportDataDTO.add(new ReportDataDTO("s2", 60, "v1.0"));
-        expectedReportDataDTO.add(new ReportDataDTO("s2", 80, "v1.1"));
-
+        ReportFilterDTO reportFilterDTO = new ReportFilterDTO(0, null, ResponseTimeType.AVERAGE);
         when(reportService.loadReportData(reportFilterDTO)).thenReturn(expectedReportDataDTO);
         assertEquals(expectedReportDataDTO, reportService.loadReportData(reportFilterDTO));
-    }
 
-    @Test
-    public void loadReportDataTestMaxTest() {
-
-        int serviceId = 2;
-        int[] buildVersionIds = {1, 4};
-        ResponseTimeType responseTimeFilterMarker = ResponseTimeType.MAX;
-        ReportFilterDTO reportFilterDTO = new ReportFilterDTO(serviceId, buildVersionIds, responseTimeFilterMarker);
-
-        List<ReportDataDTO> expectedReportDataDTO = new ArrayList<>();
-        expectedReportDataDTO.add(new ReportDataDTO("s2", 70, "v1.0"));
-        expectedReportDataDTO.add(new ReportDataDTO("s2", 90, "v1.1"));
-
-        when(reportService.loadReportData(reportFilterDTO)).thenReturn(expectedReportDataDTO);
-        assertEquals(expectedReportDataDTO, reportService.loadReportData(reportFilterDTO));
+        ReportFilterDTO reportFilterDTOMax = new ReportFilterDTO(0, null, ResponseTimeType.MAX);
+        when(reportService.loadReportData(reportFilterDTOMax)).thenReturn(expectedReportDataDTOMax);
+        assertEquals(expectedReportDataDTOMax, reportService.loadReportData(reportFilterDTOMax));
     }
 }
