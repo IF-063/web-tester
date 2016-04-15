@@ -148,7 +148,7 @@ $(function() {
         window.location.replace(contextPath + '/results/collections/run/' + data);
       },
       error: function(jqXHR) {
-        alert(0);
+        alert('Smth wrong... code: ' + jqXHR.status);
       },
     });
   }

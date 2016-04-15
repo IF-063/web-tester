@@ -56,7 +56,6 @@ public class ResultHistoryService {
                 resultHistoryMapper.saveRequest(resultHistory);
             }
             int id = resultHistory.getId();
-            LOGGER.info("ResultHistory saved successfully, resultHistory details = " + resultHistory);
             return id;
         } catch (DataAccessException e) {
             LOGGER.error("Unable to save resultHistory instance ", e);

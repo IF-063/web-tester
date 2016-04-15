@@ -7,7 +7,7 @@ package com.softserve.webtester.model;
  */
 public enum ResponseType {
 
-    XML("XML"), JSON("JSON"), PLAINTEXT("text/plain"), UNDEFINED("undefined");
+    XML("XML"), JSON("JSON");
 
     private String textValue;
 

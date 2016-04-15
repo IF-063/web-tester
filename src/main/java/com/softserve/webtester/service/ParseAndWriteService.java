@@ -57,10 +57,10 @@ public class ParseAndWriteService {
     @Autowired
     private MetaDataService metaDataService;
 
-    private static String VELOCITY_LOG = ""; // TODO RZ: fill Sth
+    private static String VELOCITY_LOG = "";
     final static int REQUEST_RUN_COUNT = 5;
     final static int SUCCESS_CODE = 200;
-    final static int FAIL_CODE = 200;
+    final static int FAIL_CODE = 400;
 
     /**
      * This method provides saving into DB {@link Request} results and
@@ -133,7 +133,7 @@ public class ParseAndWriteService {
                 boolean checkStatusCode = (statusCode >= SUCCESS_CODE) && (statusCode < FAIL_CODE);
 
                 // check if response body equals to expected one
-                String responseBody = (responseDTOListElement.getResponseBody());
+                String responseBody = (requestExecuteSupportService.format(responseDTOListElement.getResponseBody()));
                 boolean checkResponseBodyInstance = responseBody
                         .equals(request.getExpectedResponse());
 
@@ -221,7 +221,6 @@ public class ParseAndWriteService {
         resultHistory.setStatus(statusIndicator && isValidResponse(validationMessages));
         resultHistory.setMessage(validationMessages.toString());
         resultHistoryService.save(resultHistory);
-        LOGGER.info("!!RESULT_HISTORY!! " + resultHistory);
         savingDbValidation(request, environment, resultHistory, dbValidationHistory, preparedRequestDTO);
     }
 
@@ -246,7 +245,6 @@ public class ParseAndWriteService {
         environmentHistory.setDbURL(environment.getDbUrl());
         environmentHistory.setName(environment.getName());
         environmentHistory.setEnvironment(environment);
-        LOGGER.info("!!ENVIRONMENT_HISTORY!! " + environmentHistory);
         resultHistoryService.saveEnvironmentHistory(environmentHistory);
     }
 
@@ -267,7 +265,6 @@ public class ParseAndWriteService {
                 headerHistory.setName(header.getName());
                 headerHistory.setValue(header.getValue());
                 headerHistory.setResultHistory(resultHistory);
-                LOGGER.info("HEADER_HISTORY " + headerHistory);
                 resultHistoryService.saveHeaderHistory(headerHistory);
             }
         }
@@ -285,7 +282,6 @@ public class ParseAndWriteService {
 
         List<Label> labels = (request.getLabels());
         resultHistory.setLabels(labels);
-        LOGGER.info("LABELS " + resultHistory.getLabels());
         if (resultHistory.getLabels() != null) {
             resultHistoryService.saveResultHistoryComponents(resultHistory);
         }
@@ -327,7 +323,6 @@ public class ParseAndWriteService {
                         dbValidationHistory.setActualValue(
                                 requestExecuteSupportService.getExecutedQueryValue(environment, dbValidationSQLQuery));
                         if(!(dbValidationHistory.getActualValue().equals(dbValidationHistory.getExpectedValue()))){
-                            LOGGER.info("DB_VALIDATION_FAILS:  " + dbValidationHistory.getActualValue() + dbValidationHistory.getExpectedValue());
                         }
                     }
                 } catch (Exception e) {
@@ -337,7 +332,6 @@ public class ParseAndWriteService {
                     // messages
                 }
 
-                LOGGER.info("DB_VALIDATION   " + dbValidationHistory);
                 dbValidationHistory.setResultHistory(resultHistory);
                 if (CollectionUtils.isNotEmpty(request.getDbValidations())) {
                     dbValidationHistory.setResultHistory(resultHistory);
@@ -386,7 +380,6 @@ public class ParseAndWriteService {
             message.append("Unsupported request method; ");
         }
         if (!type.equalsIgnoreCase(request.getResponseType().getTextValue())) {
-            LOGGER.info("TYPE " + request.getResponseType().getTextValue());
             message.append("Wrong content type; ");
         }
         /*if(!(dbValidationHistory.getActualValue().equals(dbValidationHistory.getExpectedValue()))){
@@ -437,7 +430,6 @@ public class ParseAndWriteService {
             }
 
         }
-        LOGGER.info("ACTUAL_ID " + actualId);
         return actualId;
 
     }
