@@ -133,9 +133,9 @@ public class ParseAndWriteService {
                 boolean checkStatusCode = (statusCode >= SUCCESS_CODE) && (statusCode < FAIL_CODE);
 
                 // check if response body equals to expected one
-                String responseBody = requestExecuteSupportService.format(responseDTOListElement.getResponseBody());
+                String responseBody = (responseDTOListElement.getResponseBody());
                 boolean checkResponseBodyInstance = responseBody
-                        .equals(requestExecuteSupportService.format(request.getExpectedResponse()));
+                        .equals(request.getExpectedResponse());
 
                 if (checkStatusCode) {
                     timeResponsesSum += responseDTOListElement.getResponseTime();
@@ -146,7 +146,7 @@ public class ParseAndWriteService {
                 }
 
                 resultHistory.setStatusLine(responseDTOListElement.getStatusLine());
-                resultHistory.setActualResponse(responseBody);
+                resultHistory.setActualResponse(requestExecuteSupportService.format(responseBody));
 
             }
 
@@ -183,22 +183,26 @@ public class ParseAndWriteService {
 
         } else {
             resultHistory
-                    .setRequestBody(requestExecuteSupportService.format(preparedRequestDTO.getPreparedRequestBody()));
+                    .setRequestBody(preparedRequestDTO.getPreparedRequestBody());
         }
 
         try {
             if (request.getExpectedResponse().contains("STUB")) {
-                request.setExpectedResponse(request.getExpectedResponse().replace("STUB_VALUE",
-                        getActualIdFromResponseBody(resultHistory)));
+                if (StringUtils.isNotEmpty(resultHistory.getActualResponse())) {
+                    request.setExpectedResponse(request.getExpectedResponse().replace("STUB_VALUE",
+                            getActualIdFromResponseBody(resultHistory)));
+                }
             }
             if (CollectionUtils.isNotEmpty(preparedRequestDTO.getVariableList())) {
-                resultHistory.setExpectedResponse(requestExecuteSupportService.getEvaluatedString(
-                        request.getExpectedResponse(), preparedRequestDTO.getVariableList(), VELOCITY_LOG));
+                String expectedResponse = requestExecuteSupportService.getEvaluatedString(
+                        request.getExpectedResponse(), preparedRequestDTO.getVariableList(), VELOCITY_LOG);
+                
+                resultHistory.setExpectedResponse(expectedResponse);
             } else
                 resultHistory.setExpectedResponse(request.getExpectedResponse());
 
         } catch (Exception e) {
-            LOGGER.error("Unable to add variebles to expected response:");
+            LOGGER.error("Unable to add variebles to expected response:", e);
         }
 
         resultHistory.setRunId(resultsDTO.getRunId());
@@ -213,7 +217,7 @@ public class ParseAndWriteService {
         }
 
         StringBuilder validationMessages = getValidationMessages(resultHistory, request, preparedRequestDTO,
-                dbValidationHistory);
+                dbValidationHistory, responseDTOList);
         resultHistory.setStatus(statusIndicator && isValidResponse(validationMessages));
         resultHistory.setMessage(validationMessages.toString());
         resultHistoryService.save(resultHistory);
@@ -319,9 +323,12 @@ public class ParseAndWriteService {
                 dbValidationHistory.setSqlQuery(dbValidationSQLQuery);
                 dbValidationHistory.setExpectedValue(dbValidation.getExpectedValue());
                 try {
-                    if (dbValidationSQLQuery != null) {
+                    if ((StringUtils.isNotEmpty(dbValidationSQLQuery))) {
                         dbValidationHistory.setActualValue(
                                 requestExecuteSupportService.getExecutedQueryValue(environment, dbValidationSQLQuery));
+                        if(!(dbValidationHistory.getActualValue().equals(dbValidationHistory.getExpectedValue()))){
+                            LOGGER.info("DB_VALIDATION_FAILS:  " + dbValidationHistory.getActualValue() + dbValidationHistory.getExpectedValue());
+                        }
                     }
                 } catch (Exception e) {
                     LOGGER.error("Unable to execute SQL Query:  " + dbValidationSQLQuery);
@@ -358,7 +365,9 @@ public class ParseAndWriteService {
      */
 
     public StringBuilder getValidationMessages(ResultHistory resultHistory, Request request,
-            PreparedRequestDTO preparedRequestDTO, DbValidationHistory dbValidationHistory) {
+            PreparedRequestDTO preparedRequestDTO, DbValidationHistory dbValidationHistory, List<ResponseDTO> responseDTOList) {
+        
+        ResponseDTO responseDTO = responseDTOList.get(0);
 
         StringBuilder message = new StringBuilder();
         String type = null;
@@ -369,6 +378,9 @@ public class ParseAndWriteService {
                 || resultHistory.getExpectedResponse().startsWith(("{"))) {
             type = "JSON";
         }
+        if (responseDTO.getStatusCode() == 404){
+            message.append("Invalid URL; ");
+        }
 
         if (preparedRequestDTO.getHttpRequest().getMethod().equals(RequestMethod.DELETE.name())) {
             message.append("Unsupported request method; ");
@@ -377,6 +389,9 @@ public class ParseAndWriteService {
             LOGGER.info("TYPE " + request.getResponseType().getTextValue());
             message.append("Wrong content type; ");
         }
+        /*if(!(dbValidationHistory.getActualValue().equals(dbValidationHistory.getExpectedValue()))){
+            message.append("At least one db validation expected value is not equal to the actual one; ");
+        }*/
         if (!resultHistory.getExpectedResponse().equalsIgnoreCase(resultHistory.getActualResponse())
                 && (RequestMethod.GET.name().equalsIgnoreCase("GET"))) {
             message.append("Actual response does not match the expected one; ");
