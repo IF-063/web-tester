@@ -75,7 +75,7 @@
   </div>
 </div>
 
-<div id="data" style="display: none;">
+<div id="data" class="hidden">
   <c:forEach var="row" items="${graphicData}">
     <span class="x">${row.buildVersionName}</span>
     <span class="y">${row.responseTime}</span>

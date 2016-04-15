@@ -47,7 +47,7 @@ public class ResultHistoryService {
     public int save(ResultHistory resultHistory) {
 
         try {
-            // TODO all: use only one method and one query with conditions
+
             if (resultHistory.getBuildVersion() != null) {
                 resultHistoryMapper.save(resultHistory);
             } else if (resultHistory.getRequestCollection() != null) {
